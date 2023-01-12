@@ -50,3 +50,4 @@ export { default as SignOut } from "./icon-24-sign out.svg";
 export { default as SendNote } from "./send note.svg";
 export { default as ListMoreCategory } from "./list more categorey.svg";
 export { default as Stationery } from "./Stationery.svg";
+export { default as PDF } from "./pfd.svg";

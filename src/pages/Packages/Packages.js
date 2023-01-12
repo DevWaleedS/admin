@@ -3,10 +3,12 @@ import Button from "../../UI/Button/Button";
 import { AiOutlinePlus } from "react-icons/ai";
 import PackagesTypes from "../../components/PackagesPageComp/PackagesTypes/PackagesTypes";
 import AddNewPackagePlan from "../../components/PackagesPageComp/AddNewPackagePlan/AddNewPackagePlan";
+import PackageTemplate from "../../components/PackagesPageComp/PackageTemplate/PackageTemplate";
 
 const Packages = () => {
   const [openNewPackage, setOpenNewPackage] = useState(false);
   const [editPackageDetails, setEditPackageDetails] = useState(null);
+  const [chooseTemplate,setChooseTemplate] = useState(false);
   return (
     <div className={`p-4 relative`} style={{ backgroundColor: "#fafafa" }}>
       <div className="flex justify-end ">
@@ -28,6 +30,7 @@ const Packages = () => {
             setOpenNewPackage(false);
           }}
           editPackageDetails={editPackageDetails}
+          setChooseTemplate ={setChooseTemplate}
         ></AddNewPackagePlan>
       )}
       <PackagesTypes
@@ -36,6 +39,13 @@ const Packages = () => {
           setEditPackageDetails(row);
         }}
       ></PackagesTypes>
+       {chooseTemplate && (
+        <PackageTemplate 
+          cancel={() => {
+          setChooseTemplate(false);
+          }}
+        />
+      )}
     </div>
   );
 };

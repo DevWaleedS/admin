@@ -5,8 +5,24 @@
     gap: 1rem;
     right: 0;
     width: 450px;
+    height: 290px;
     top: 45px;
     background-color: #fff;
+    overflow-y:auto;
     padding: 1rem;
     border-radius: 5px; 
+}
+.EmailMenu::-webkit-scrollbar {
+    width: 5px;
+}
+.EmailMenu::-webkit-scrollbar-track {
+    background: #fafafa;
+}
+.EmailMenu::-webkit-scrollbar-thumb {
+    background: #02466a;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+.EmailMenu::-webkit-scrollbar-thumb:hover {
+    background: #0478b7;
 }
