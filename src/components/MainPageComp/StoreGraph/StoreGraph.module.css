@@ -1,0 +1,5 @@
+/* @import "rsuite/dist/rsuite.css"; */
+.data_picker .rdrMonthAndYearWrapper
+{
+    display: none;
+}

@@ -1,0 +1,13 @@
+.pro{
+    background-color: #0099FB;
+    padding:3rem 1rem !important;
+}
+.pro h2{
+    color: #fff;
+}
+.pro svg , .pro path{
+    color: #fff;
+}
+.normal{
+    height: fit-content;
+}

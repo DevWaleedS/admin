@@ -1,0 +1,12 @@
+.EmailMenu{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    right: 0;
+    width: 450px;
+    top: 45px;
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 5px; 
+}

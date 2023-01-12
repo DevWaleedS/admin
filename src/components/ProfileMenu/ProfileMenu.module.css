@@ -1,0 +1,14 @@
+.user{
+    transition: 0.25s;
+    padding: 0.25rem 1rem;
+    border-radius: 2px;
+    height: 100%;
+}
+.user:hover{
+    background-color: rgba(29, 187, 190, 0.4);
+}
+.background{
+    width: 180px;
+    background-color: #A4A1FB;
+    padding: 10px;
+}

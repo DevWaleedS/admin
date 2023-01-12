@@ -1,0 +1,9 @@
+.content::-webkit-scrollbar {
+    display: none;
+  }
+  
+
+.back_drop{
+  opacity: 0.5;
+  animation: backDropAnim 0.5s ease-in-out;
+}

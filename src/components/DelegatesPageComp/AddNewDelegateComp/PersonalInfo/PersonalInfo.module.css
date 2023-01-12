@@ -1,0 +1,4 @@
+.password_inputs input::placeholder{
+    font-size: 2rem;
+    color: #ADB5B9;
+}

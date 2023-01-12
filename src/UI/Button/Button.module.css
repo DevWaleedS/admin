@@ -1,0 +1,43 @@
+.outline{
+    border: 1px solid #1DBBBE;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    min-width: 120px;
+}.outline h2{
+    color: #1DBBBE;
+}
+.normal
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    background-color: #1DBBBE;
+    outline: none;
+    min-width: 120px;
+}
+.normal h2{
+    color: #fff;
+}
+.white{
+    filter: brightness(5000);
+}
+.black{
+    filter: brightness(0);
+}
+.bTow{
+    filter: invert();
+}
+.btn:disabled{
+    cursor:not-allowed;
+    background-color: #666 !important;
+}

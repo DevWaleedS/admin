@@ -1,0 +1,12 @@
+.content{
+  background-color: #F6F6F6;
+}
+.content::-webkit-scrollbar {
+    display: none;
+  }
+  
+
+
+.back_drop{
+  opacity: 0.5;
+}

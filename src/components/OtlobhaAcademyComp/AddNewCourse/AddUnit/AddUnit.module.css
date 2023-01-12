@@ -1,0 +1,14 @@
+.content::-webkit-scrollbar {
+    display: none;
+  }
+  
+.container{
+}
+
+.back_drop{
+  opacity: 0.5;
+}
+
+.file_select::-webkit-file-upload-button {
+    display: none;
+  }

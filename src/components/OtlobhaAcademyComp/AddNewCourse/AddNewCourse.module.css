@@ -1,0 +1,11 @@
+.arrow_con
+{
+    height: 1.5rem;
+    width: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: rgba(2, 70, 106, 0.4);
+    cursor: pointer;
+}

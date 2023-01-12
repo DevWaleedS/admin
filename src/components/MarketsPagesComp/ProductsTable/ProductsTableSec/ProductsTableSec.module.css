@@ -1,0 +1,5 @@
+.activity_menu :global(.MuiMenu-paper){
+    background-color: #EFF9FF;
+    border-radius: 5px;
+    box-shadow: none;
+}

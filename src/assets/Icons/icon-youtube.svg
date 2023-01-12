@@ -1,0 +1,7 @@
+<svg id="icon-youtube" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <rect id="Rectangle_7335" data-name="Rectangle 7335" width="24" height="24" fill="rgba(255,255,255,0)"/>
+  <g id="Group_1339" data-name="Group 1339" transform="translate(2 2)">
+    <path id="Path_995" data-name="Path 995" d="M10,20h0A10,10,0,0,1,0,10H0A10,10,0,0,1,10,0h0A10,10,0,0,1,20,10h0A10,10,0,0,1,10,20Z" fill="red"/>
+    <path id="Path_996" data-name="Path 996" d="M181,267.462a1.665,1.665,0,0,0-1.174-1.182,48.2,48.2,0,0,0-10.376,0,1.665,1.665,0,0,0-1.174,1.182,18.7,18.7,0,0,0,0,6.436,1.665,1.665,0,0,0,1.174,1.182,48.2,48.2,0,0,0,10.376,0A1.665,1.665,0,0,0,181,273.9a18.831,18.831,0,0,0,0-6.436Zm-7.722,5.192v-3.948l3.47,1.974Z" transform="translate(-164.64 -260.68)" fill="#fff"/>
+  </g>
+</svg>
