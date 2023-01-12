@@ -2,13 +2,12 @@ import React from "react";
 import styles from "./Navbar.module.css";
 import {
   HomeIcon,
-  Notifications,
-  Email,
   SearchIcon,
-  
 } from "../../assets/Icons/index";
-import { MdKeyboardArrowDown } from "react-icons/md";
 import { Link } from "react-router-dom";
+import ProfileMenu from "../ProfileMenu/ProfileMenu";
+import NotificationsMenu from "../NotificationsMenu/NotificationsMenu";
+import EmailMenu from "../EmailMenu/EmailMenu";
 
 const Navbar = () => {
   return (
@@ -19,16 +18,10 @@ const Navbar = () => {
           <h1 className="text-slate-50 font-medium text-base">الموقع</h1>
         </Link>
         <div className={`flex items-center gap-10 px-8 `}>
-          <div
-            className={`flex items-center gap-2 cursor-pointer ${styles.user}`}
-            style={{ color: "#1DBBBE" }}
-          >
-            <MdKeyboardArrowDown className="text-2xl" />
-            <h2 style={{ color: "#fff" }}>محمد عبد الرحمن</h2>
-          </div>
+          <ProfileMenu />
           <div className="flex gap-4">
-            <img className="h-6 cursor-pointer" src={Notifications} alt="" />
-            <img className="h-6 cursor-pointer" src={Email} alt="" />
+            <NotificationsMenu/>
+            <EmailMenu />
           </div>
         </div>
       </div>

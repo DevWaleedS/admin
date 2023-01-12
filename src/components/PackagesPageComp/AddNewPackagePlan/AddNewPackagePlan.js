@@ -18,6 +18,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { FormControl } from "@mui/material";
 import OutlinedInput from "@mui/material/OutlinedInput";
+import {Template} from '../../../assets/Icons/index';
 
 const packagesOptions = [
   "100 منتج",
@@ -39,7 +40,7 @@ const MenuProps = {
   },
 };
 
-const AddNewPackagePlan = ({ cancel, editPackageDetails }) => {
+const AddNewPackagePlan = ({ cancel, setChooseTemplate ,editPackageDetails }) => {
   const contextStore = useContext(Context);
   const { setEndActionTitle } = contextStore;
   const [packageOption, setPackageOption] = useState("");
@@ -59,7 +60,7 @@ const AddNewPackagePlan = ({ cancel, editPackageDetails }) => {
   };
   return (
     <div
-      className="absolute pl-36 top-0 right-0  z-10  w-full h-full"
+      className="absolute pl-36 pr-4 top-0 right-0  z-10  w-full h-full"
       style={{ backgroundColor: "#fafafa" }}
     >
       <div className="flex justify-between items-center mb-2">
@@ -89,86 +90,17 @@ const AddNewPackagePlan = ({ cancel, editPackageDetails }) => {
         </h2>
         <label htmlFor="">
           <input
-            className="text-center p-2 outline-none rounded-lg placeholder:text-gray-800"
-            style={{ backgroundColor: "#D3D3D3" }}
+            className="font-medium text-center p-2 outline-none rounded-lg placeholder:text-gray-800"
+            style={{ backgroundColor: "#D3D3D3", color: '#02466A' }}
             placeholder="0212"
             type="text"
           />
         </label>
-        <div className="mt-6 p-8 shadow-lg" style={{ backgroundColor: "#fff" }}>
-          <h2 style={{ color: "#0099FB" }} className="font-medium mb-3">
-            <AiFillStar
-              style={{
-                display: "inline-block",
-                marginLeft: "1rem",
-                color: "red",
-              }}
-            ></AiFillStar>
-            البيانات الأساسية
-          </h2>
-          <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={10}>
-              <Grid item xs={6}>
-                <Paper className="flex items-center shadow-none">
-                  <h2 className="w-40">اسم الباقة</h2>
-                  <label className="flex-1" htmlFor="">
-                    <input
-                      className=" w-full p-2 outline-none rounded-lg placeholder:text-gray-800"
-                      style={{ backgroundColor: "#EFF9FF" }}
-                      placeholder="أدخل حروف انجليزية وأرقام"
-                      type="text"
-                    />
-                  </label>
-                </Paper>
-              </Grid>
-              <Grid item xs={6}>
-                <Paper className="flex items-center shadow-none">
-                  <h2 className="w-40">الخصم</h2>
-                  <label className="flex-1" htmlFor="">
-                    <input
-                      className=" w-full p-2 outline-none rounded-lg placeholder:text-gray-800"
-                      style={{ backgroundColor: "#EFF9FF" }}
-                      placeholder="أدخل مبلغ الخصم"
-                      type="number"
-                    />
-                  </label>
-                </Paper>
-              </Grid>
-              <Grid item xs={6}>
-                <Paper className="flex items-center shadow-none">
-                  <h2 className="w-40">المبلغ الشهري</h2>
-                  <label className="flex-1" htmlFor="">
-                    <input
-                      className=" w-full p-2 outline-none rounded-lg placeholder:text-gray-800"
-                      style={{ backgroundColor: "#EFF9FF" }}
-                      placeholder="50 ر.س"
-                      type="number"
-                    />
-                  </label>
-                </Paper>
-              </Grid>
-              <Grid item xs={6}>
-                <Paper className="flex items-center shadow-none">
-                  <h2 className="w-40">المبلغ السنوي</h2>
-                  <label className="flex-1" htmlFor="">
-                    <input
-                      className=" w-full p-2 outline-none rounded-lg placeholder:text-gray-800"
-                      style={{ backgroundColor: "#EFF9FF" }}
-                      placeholder="500 ر.س"
-                      type="number"
-                    />
-                  </label>
-                </Paper>
-              </Grid>
-            </Grid>
-          </Box>
-        </div>
         {editPackageDetails && (
-          <div className="my-3 p-5" style={{ backgroundColor: "#EBEBEB" }}>
+          <div className="my-6 p-5 rounded-lg" style={{ backgroundColor: "#EBEBEB" }}>
             <h3 className="mb-3" style={{ color: "#67747B", fontSize: "20px" }}>
               الخطة الحالية
             </h3>
-            <div className="">
               {editPackageDetails.map((bool, idx) => {
                 if (bool) {
                   return (
@@ -196,10 +128,120 @@ const AddNewPackagePlan = ({ cancel, editPackageDetails }) => {
                   );
                 }
               })}
-            </div>
           </div>
         )}
-        <div className="mt-6 p-8 shadow-lg" style={{ backgroundColor: "#fff" }}>
+        {
+          editPackageDetails ? 
+          (
+          <div className="bg-white mt-6 p-8 pb-20 rounded-lg" style={{ boxShadow: '0px 3px 6px #1DBBBE0F' }}>
+              <h2 style={{ color: "#0099FB" }} className="text-lg font-medium mb-3">
+                 اضافة محتوى جديد للخطة
+              </h2>
+              <FormControl sx={{ width: "100%" }}>
+                <Select
+                  multiple
+                  displayEmpty
+                  value={optionName}
+                  onChange={handleChange}
+                  input={<OutlinedInput />}
+                  sx={{
+                    backgroundColor: "#EFF9FF",
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#92D9FF !important",
+                    },
+                  }}
+                  renderValue={(selected) => {
+                    if (selected.length === 0) {
+                      return "اختر وصف الباقة";
+                    }
+
+                    return selected.map((item) => {
+                      return (
+                        <div
+                          className="py-1 px-3 text-slate-50 rounded-lg font-light"
+                          style={{
+                            backgroundColor: "#0099FB",
+                            marginRight: "5px",
+                            display: "inline",
+                          }}
+                        >
+                          {item}
+                        </div>
+                      );
+                    });
+                  }}
+                  MenuProps={MenuProps}
+                  inputProps={{ "aria-label": "Without label" }}
+                >
+                  {packagesOptions.map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+          </div>
+          )
+          :
+          (
+            <div className="bg-white mt-6 p-8 pb-20 rounded-lg" style={{ boxShadow: '0px 3px 6px #1DBBBE0F' }}>
+            <h2 style={{ color: "#0099FB" }} className="text-lg font-medium mb-3">
+              <AiFillStar
+                style={{
+                  display: "inline-block",
+                  marginLeft: "1rem",
+                  color: "red",
+                }}
+              ></AiFillStar>
+              خطة الباقة
+            </h2>
+            <FormControl sx={{ width: "100%" }}>
+              <Select
+                multiple
+                displayEmpty
+                value={optionName}
+                onChange={handleChange}
+                input={<OutlinedInput />}
+                sx={{
+                  backgroundColor: "#EFF9FF",
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#92D9FF !important",
+                  },
+                }}
+                renderValue={(selected) => {
+                  if (selected.length === 0) {
+                    return "اختر وصف الباقة";
+                  }
+  
+                  return selected.map((item) => {
+                    return (
+                      <div
+                        className="py-1 px-3 text-slate-50 rounded-lg font-light"
+                        style={{
+                          backgroundColor: "#0099FB",
+                          marginRight: "5px",
+                          display: "inline",
+                        }}
+                      >
+                        {item}
+                      </div>
+                    );
+                  });
+                }}
+                MenuProps={MenuProps}
+                inputProps={{ "aria-label": "Without label" }}
+              >
+                {packagesOptions.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </div>
+          )
+        }
+        <div className="bg-white mt-6 p-8 rounded-lg" style={{ boxShadow: '0px 3px 6px #1DBBBE0F' }}>
           <h2 style={{ color: "#0099FB" }} className="font-medium mb-3">
             <AiFillStar
               style={{
@@ -208,52 +250,87 @@ const AddNewPackagePlan = ({ cancel, editPackageDetails }) => {
                 color: "red",
               }}
             ></AiFillStar>
-            خطة الباقة
+            البيانات الأساسية
           </h2>
-          <FormControl sx={{ width: "100%" }}>
-            <Select
-              multiple
-              displayEmpty
-              value={optionName}
-              onChange={handleChange}
-              input={<OutlinedInput />}
-              sx={{
-                backgroundColor: "#EFF9FF",
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#92D9FF !important",
-                },
-              }}
-              renderValue={(selected) => {
-                if (selected.length === 0) {
-                  return "اختر وصف الباقة";
-                }
-
-                return selected.map((item) => {
-                  return (
-                    <div
-                      className="py-1 px-3 text-slate-50 rounded-lg font-light"
-                      style={{
-                        backgroundColor: "#0099FB",
-                        marginRight: "5px",
-                        display: "inline",
-                      }}
-                    >
-                      {item}
-                    </div>
-                  );
-                });
-              }}
-              MenuProps={MenuProps}
-              inputProps={{ "aria-label": "Without label" }}
-            >
-              {packagesOptions.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          <Box sx={{ flexGrow: 1 }}>
+            <Grid container spacing={4}>
+              <Grid item xs={6} container rowSpacing={4}>
+                <Grid item xs={12}>
+                  <Box className="flex flex-row items-center">
+                    <label style={{ color: '#011723' }} className="w-60 font-medium whitespace-nowrap" htmlFor="name">اسم الباقة</label>
+                    <input
+                      id="name"
+                      className=" w-full px-4 py-3 outline-none rounded-lg"
+                      style={{ backgroundColor: "#EFF9FF", '&::placeholder': '#A7A7A7' }}
+                      placeholder="أدخل اسم الباقة"
+                      type="text"
+                    />
+                  </Box>
+                </Grid>
+                <Grid item xs={12}>
+                  <Box className="flex flex-row items-center">
+                    <label style={{ color: '#011723' }} className="w-60 font-medium whitespace-nowrap" htmlFor="month">المبلغ الشهري</label>
+                    <input
+                      id="month"
+                      className=" w-full px-4 py-3 outline-none rounded-lg"
+                      style={{ backgroundColor: "#EFF9FF", '&::placeholder': '#A7A7A7' }}
+                      placeholder="350 ر.س"
+                      type="text"
+                    />
+                  </Box>
+                </Grid>
+                <Grid item xs={12}>
+                  <Box className="flex flex-row items-center">
+                    <label style={{ color: '#011723' }} className="w-60 font-medium whitespace-nowrap" htmlFor="month">الخصم</label>
+                    <input
+                      id="month"
+                      className=" w-full px-4 py-3 outline-none rounded-lg"
+                      style={{ backgroundColor: "#EFF9FF", '&::placeholder': '#A7A7A7' }}
+                      placeholder="أدخل مبلغ الخصم"
+                      type="text"
+                    />
+                  </Box>
+                  <div className="flex flex-row items-center mt-3">
+                    <div className="w-40"></div>
+                    <span style={{ color: '#D3D3D3' }} className="text-sm">ادخال نسبة الخصم في حال الشراء سنوياً مثال 30%</span>
+                  </div>
+                </Grid>
+              </Grid>
+              <Grid item xs={6} container>
+                <Grid item xs={12}>
+                  <Box className="flex flex-row items-center">
+                    <label style={{ color: '#011723' }} className="w-60 font-medium whitespace-nowrap" htmlFor="name">المبلغ السنوي</label>
+                    <input
+                      id="name"
+                      className=" w-full px-4 py-3 outline-none rounded-lg"
+                      style={{ backgroundColor: "#EFF9FF", '&::placeholder': '#A7A7A7' }}
+                      placeholder="2500 ر.س"
+                      type="text"
+                    />
+                  </Box>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Box>
         </div>
+      </div>
+      <div className="w-full mt-5 flex flex-row gap-6 pb-16">
+            <AiFillStar
+              style={{
+                color: "red",
+              }}
+            ></AiFillStar>
+          <Button
+            className={"w-full rounded-lg py-4 ml-10"}
+            style={{ backgroundColor: "#FFFFFF",border: '1px solid #02466A' }}
+            svg={<img src={Template} alt="template-icon" />}
+            type={"outline"}
+            onClick={() => {
+              setChooseTemplate(true);
+            }}
+          >
+              <h2 style={{ color:'#02466A' }} className="font-medium">اختر قوالب الباقة</h2>
+          </Button>
       </div>
     </div>
   );

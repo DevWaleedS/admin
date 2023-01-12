@@ -281,7 +281,7 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable({ openTraderAlert }) {
+export default function EnhancedTable({ openTraderAlert,openVerificationData,openEidtVerificationData }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
@@ -437,7 +437,7 @@ export default function EnhancedTable({ openTraderAlert }) {
                             }}
                           />
                           <img className="cursor-pointer" src={SendNote} alt="send-note-icon" onClick={() => {openTraderAlert(row);}}/>
-                          <img className="cursor-pointer" src={EditButton} alt="edit-icon"/>
+                          <img className="cursor-pointer" src={EditButton} alt="edit-icon" onClick={() => {openEidtVerificationData(row);}}/>
                         </div>
                       </TableCell>
                       <TableCell align="right">
@@ -480,7 +480,7 @@ export default function EnhancedTable({ openTraderAlert }) {
                         </div>
                       </TableCell>
                       <TableCell align="right">
-                        <h2 className="inline font-medium">{row.store}</h2>
+                        <h2 className="inline font-medium cursor-pointer" >{row.store}</h2>
                       </TableCell>
                       <TableCell align="right">
                         {(index + 1).toLocaleString("en-US", {
