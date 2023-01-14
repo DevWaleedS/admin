@@ -22,8 +22,7 @@ const SouqOtlobha = () => {
 						}}
 						type={'outline'}
 						img={Filter}
-						className={'rounded '}
-						fontSize={'font-light'}
+						className={'rounded w-[140px] h-[56px] text-lg'}
 					>
 						فرز
 					</Button>
@@ -35,8 +34,7 @@ const SouqOtlobha = () => {
 						type={'normal'}
 						img={Product}
 						color={'bTow'}
-						className={'rounded '}
-						fontSize={'font-light'}
+						className={'rounded w-[180px] h-[56px] text-base font-normal'}
 					>
 						إضافة منتج جديد
 					</Button>
