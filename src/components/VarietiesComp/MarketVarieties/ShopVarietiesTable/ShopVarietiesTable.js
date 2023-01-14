@@ -292,7 +292,7 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable() {
+export default function EnhancedTable({ editSection }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
@@ -425,7 +425,14 @@ export default function EnhancedTable() {
                     >
                       <TableCell component="th" id={labelId} scope="row">
                         <div className="flex items-center gap-2">
-                          <EditIcon width={"18px"}></EditIcon>
+                          <EditIcon
+                              className={"cursor-pointer"}
+                              onClick={() => {
+                                editSection(row);
+                              }}
+                              width={"18px"}
+                          >
+                          </EditIcon>
                           <BsTrash
                             onClick={() => {
                               const findIndex = data.findIndex(

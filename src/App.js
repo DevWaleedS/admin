@@ -35,12 +35,16 @@ import {
   MarketsVarieties,
   OrdersPage,
   SupportPage,
+  ShippingCompaniesPage,
+  PaymentGatewaysPage,
   PrimarySettings,
   CountriesPages,
   CitiesPage,
   CurrencyPage,
   EmailSettingPage,
   SocialMediaLinksPage,
+  RegistrationCasesPage,
+  NotificationsPage
 } from "./pages/index";
 function App() {
   const contextStore = useContext(Context);
@@ -105,6 +109,12 @@ function App() {
             {/* الدعم الفنى */}
             <Route path="/الدعم_الفنى" element={<SupportPage />} />
 
+            {/* شركات_الشحن */}
+            <Route path="/شركات_الشحن" element={<ShippingCompaniesPage />} />
+
+            {/* بوابات_الدفع */}
+            <Route path="/بوابات_الدفع" element={<PaymentGatewaysPage />} />
+
             {/* الإعدادات */}
             <Route path="/الاعدادت_الأساسية" element={<PrimarySettings />} />
             <Route path="/الدول" element={<CountriesPages />} />
@@ -114,6 +124,14 @@ function App() {
             <Route
               path="/التواصل_الاجتماعى"
               element={<SocialMediaLinksPage />}
+            />
+            <Route
+              path="/حالات_التسجيل"
+              element={<RegistrationCasesPage />}
+            />
+            <Route
+              path="/الاشعارات"
+              element={<NotificationsPage />}
             />
           </Routes>
         </div>

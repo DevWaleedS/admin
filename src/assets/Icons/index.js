@@ -51,3 +51,6 @@ export { default as SendNote } from "./send note.svg";
 export { default as ListMoreCategory } from "./list more categorey.svg";
 export { default as Stationery } from "./Stationery.svg";
 export { default as PDF } from "./pfd.svg";
+export { default as Shipping } from "./shipping.svg";
+export { default as CommunicationSendOutlined } from "./ico - 24 - communication - send_outlined.svg";
+export { default as  ShowStoreRequest} from "./Show store order-notifications.svg";
