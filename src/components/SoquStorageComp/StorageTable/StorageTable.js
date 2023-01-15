@@ -1,52 +1,46 @@
-import * as React from "react";
-import PropTypes from "prop-types";
-import { alpha } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import TableSortLabel from "@mui/material/TableSortLabel";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
-import Checkbox from "@mui/material/Checkbox";
-import IconButton from "@mui/material/IconButton";
-import Fade from "@mui/material/Fade";
-import Zoom from "@mui/material/Zoom";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import { ReactComponent as SortIcon } from "../../../assets/Icons/icon-24-sort.svg";
-import { ReactComponent as CheckedSquare } from "../../../assets/Icons/icon-24-square checkmark.svg";
+import * as React from 'react';
+import PropTypes from 'prop-types';
+import { alpha } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+import TableSortLabel from '@mui/material/TableSortLabel';
+import Toolbar from '@mui/material/Toolbar';
 
-import {
-  MdOutlineKeyboardArrowDown,
-  MdOutlineArrowBackIosNew,
-  MdOutlineArrowForwardIos,
-} from "react-icons/md";
-import { visuallyHidden } from "@mui/utils";
-import { BsTrash } from "react-icons/bs";
-import { Gift, CarImg, CameraImg, ShoesImg } from "../../../assets/Icons/index";
-import { ReactComponent as EditIcon } from "../../../assets/Icons/editt 2.svg";
-import { ReactComponent as AddIcon } from "../../../assets/Icons/icon-24-action-add.svg";
-import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
-import { styled } from "@mui/material/styles";
+import Paper from '@mui/material/Paper';
+import Checkbox from '@mui/material/Checkbox';
+import IconButton from '@mui/material/IconButton';
 
-import { MdOutlineAddBox } from "react-icons/md";
+import Zoom from '@mui/material/Zoom';
 
-const BootstrapTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} arrow classes={{ popper: className }} />
-))(({ theme }) => ({
-  [`& .${tooltipClasses.arrow}`]: {
-    color: "#3AE374",
-  },
-  [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: "#3AE374",
-  },
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import { ReactComponent as SortIcon } from '../../../assets/Icons/icon-24-sort.svg';
+import { ReactComponent as CheckedSquare } from '../../../assets/Icons/icon-24-square checkmark.svg';
+
+import { MdOutlineKeyboardArrowDown, MdOutlineArrowBackIosNew, MdOutlineArrowForwardIos } from 'react-icons/md';
+
+import { Gift, CarImg, CameraImg, ShoesImg } from '../../../assets/Icons/index';
+import { ReactComponent as EditIcon } from '../../../assets/Icons/editt 2.svg';
+import { ReactComponent as AddIcon } from '../../../assets/Icons/icon-24-action-add.svg';
+import { ReactComponent as TrashICon } from '../../../assets/Icons/icon-24-delete.svg';
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+import { styled } from '@mui/material/styles';
+
+import { MdOutlineAddBox } from 'react-icons/md';
+
+const BootstrapTooltip = styled(({ className, ...props }) => <Tooltip {...props} arrow classes={{ popper: className }} />)(({ theme }) => ({
+	[`& .${tooltipClasses.arrow}`]: {
+		color: '#3AE374',
+	},
+	[`& .${tooltipClasses.tooltip}`]: {
+		backgroundColor: '#3AE374',
+	},
 }));
 
 function createData(name, activity, quantity, price, sku, icon) {
@@ -61,48 +55,46 @@ function createData(name, activity, quantity, price, sku, icon) {
 }
 
 const rows = [
-  createData("سماعة هيدفون أصلي", "الكترونيات", 200, 28, 151, CarImg),
-  createData("عطر خليجي فخم", "عطور", 340, 45, 48, CameraImg),
-  createData("سيارة تحكم ريموت", "هدايا وألعاب", 180, 55, 47, ShoesImg),
-  createData("منتج1", "الكترونيات", 454, 28, 151, CarImg),
-  createData("منتج2", "عطور", 54, 45, 48, CameraImg),
-  createData("منتج3", "هدايا وألعاب", 452, 55, 47, ShoesImg),
-  createData("منتج47", "الكترونيات", 462, 28, 151, CarImg),
-  createData("منتج5", "عطور", 264, 45, 48, CameraImg),
-  createData("منتج6", "هدايا وألعاب", 426, 55, 47, ShoesImg),
-  createData("منتج17", "الكترونيات", 426, 28, 151, CarImg),
-  createData("منتج16", "عطور", 426, 45, 48, CameraImg),
-  createData("منتج159", "هدايا وألعاب", 246, 55, 47, ShoesImg),
+	createData('سماعة هيدفون أصلي', 'الكترونيات', 200, 28, 151, CarImg),
+	createData('عطر خليجي فخم', 'عطور', 340, 45, 48, CameraImg),
+	createData('سيارة تحكم ريموت', 'هدايا وألعاب', 180, 55, 47, ShoesImg),
+	createData('منتج1', 'الكترونيات', 454, 28, 151, CarImg),
+	createData('منتج2', 'عطور', 54, 45, 48, CameraImg),
+	createData('منتج3', 'هدايا وألعاب', 452, 55, 47, ShoesImg),
+	createData('منتج47', 'الكترونيات', 462, 28, 151, CarImg),
+	createData('منتج5', 'عطور', 264, 45, 48, CameraImg),
+	createData('منتج6', 'هدايا وألعاب', 426, 55, 47, ShoesImg),
+	createData('منتج17', 'الكترونيات', 426, 28, 151, CarImg),
+	createData('منتج16', 'عطور', 426, 45, 48, CameraImg),
+	createData('منتج159', 'هدايا وألعاب', 246, 55, 47, ShoesImg),
 ];
 
 function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
+	if (b[orderBy] < a[orderBy]) {
+		return -1;
+	}
+	if (b[orderBy] > a[orderBy]) {
+		return 1;
+	}
+	return 0;
 }
 
 function getComparator(order, orderBy) {
-  return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
+	return order === 'desc' ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
 // This method is created for cross-browser compatibility, if you don't
 // need to support IE11, you can use Array.prototype.sort() directly
 function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
+	const stabilizedThis = array.map((el, index) => [el, index]);
+	stabilizedThis.sort((a, b) => {
+		const order = comparator(a[0], b[0]);
+		if (order !== 0) {
+			return order;
+		}
+		return a[1] - b[1];
+	});
+	return stabilizedThis.map((el) => el[0]);
 }
 
 const headCells = [
@@ -155,132 +147,119 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-  const { order, orderBy, onRequestSort } = props;
-  const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
+	const { order, orderBy, onRequestSort } = props;
+	const createSortHandler = (property) => (event) => {
+		onRequestSort(event, property);
+	};
 
-  return (
-    <TableHead sx={{ backgroundColor: "rgba(209,243,221)" }}>
-      <TableRow>
-        {headCells.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            align={headCell.numeric ? "right" : "center"}
-            padding={headCell.disablePadding ? "none" : "normal"}
-            sortDirection={orderBy === headCell.id ? order : false}
-            sx={{
-              width: headCell.width ? headCell.width : "auto",
-              fontSize: "1rem",
-              color: "#02466A",
-            }}
-          >
-            {headCell.sort && (
-              <TableSortLabel
-                IconComponent={() => {
-                  return <SortIcon />;
-                }}
-                active={orderBy === headCell.id}
-                direction={orderBy === headCell.id ? order : "asc"}
-                onClick={createSortHandler(headCell.id)}
-              >
-                {headCell.label}
-                {!orderBy === headCell.id ? (
-                  <Box component="span">
-                    {order === "desc"
-                      ? "sorted descending"
-                      : "sorted ascending"}
-                  </Box>
-                ) : null}
-              </TableSortLabel>
-            )}
-            {!headCell.sort && headCell.label}
-          </TableCell>
-        ))}
-        <TableCell padding={"none"}></TableCell>
-      </TableRow>
-    </TableHead>
-  );
+	return (
+		<TableHead sx={{ backgroundColor: 'rgba(209,243,221)' }}>
+			<TableRow>
+				{headCells.map((headCell) => (
+					<TableCell
+						key={headCell.id}
+						align={headCell.numeric ? 'right' : 'center'}
+						padding={headCell.disablePadding ? 'none' : 'normal'}
+						sortDirection={orderBy === headCell.id ? order : false}
+						sx={{
+							width: headCell.width ? headCell.width : 'auto',
+							fontSize: '1rem',
+							color: '#02466A',
+						}}
+					>
+						{headCell.sort && (
+							<TableSortLabel
+								IconComponent={() => {
+									return <SortIcon />;
+								}}
+								active={orderBy === headCell.id}
+								direction={orderBy === headCell.id ? order : 'asc'}
+								onClick={createSortHandler(headCell.id)}
+							>
+								{headCell.label}
+								{!orderBy === headCell.id ? <Box component='span'>{order === 'desc' ? 'sorted descending' : 'sorted ascending'}</Box> : null}
+							</TableSortLabel>
+						)}
+						{!headCell.sort && headCell.label}
+					</TableCell>
+				))}
+				<TableCell padding={'none'}></TableCell>
+			</TableRow>
+		</TableHead>
+	);
 }
 
 EnhancedTableHead.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(["asc", "desc"]).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
+	numSelected: PropTypes.number.isRequired,
+	onRequestSort: PropTypes.func.isRequired,
+	onSelectAllClick: PropTypes.func.isRequired,
+	order: PropTypes.oneOf(['asc', 'desc']).isRequired,
+	orderBy: PropTypes.string.isRequired,
+	rowCount: PropTypes.number.isRequired,
 };
 
 function EnhancedTableToolbar(props) {
-  const { numSelected, onClick, rowCount, onSelectAllClick } = props;
+	const { numSelected, onClick, rowCount, onSelectAllClick } = props;
 
-  return (
-    <Toolbar
-      sx={{
-        pl: { sm: 2 },
-        pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
-          bgcolor: (theme) =>
-            alpha(
-              theme.palette.primary.main,
-              theme.palette.action.activatedOpacity
-            ),
-        }),
-        display: "flex",
-        gap: "2rem",
-        justifyContent: "flex-end",
-      }}
-    >
-      <div className="flex gap-2 items-center">
-        {numSelected > 0 && (
-          <Tooltip onClick={onClick} title="Delete">
-            <div
-              className="fcc gap-2 px-4 rounded-full"
-              style={{ width: "114px", backgroundColor: "#FF38381A" }}
-            >
-              <h2 className={"font-medium"} style={{ color: "#FF3838" }}>
-                حذف
-              </h2>
-              <IconButton>
-                <BsTrash
-                  style={{
-                    cursor: "pointer",
-                    color: "red",
-                    fontSize: "1rem",
-                  }}
-                ></BsTrash>
-              </IconButton>
-            </div>
-          </Tooltip>
-        )}
-      </div>
+	return (
+		<Toolbar
+			sx={{
+				pl: { sm: 2 },
+				pr: { xs: 1, sm: 1 },
+				...(numSelected > 0 && {
+					bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
+				}),
+				display: 'flex',
+				gap: '2rem',
+				justifyContent: 'flex-end',
+			}}
+		>
+			<div className='flex gap-2 items-center'>
+				{numSelected > 0 && (
+					<Tooltip onClick={onClick} title='Delete'>
+						<div className='fcc gap-2 px-4 rounded-full' style={{ width: '114px', backgroundColor: '#FF38381A' }}>
+							<h2 className={'font-medium'} style={{ color: '#FF3838' }}>
+								حذف
+							</h2>
+							<IconButton>
+								<TrashICon
+									style={{
+										cursor: 'pointer',
+										color: 'red',
+										fontSize: '1rem',
+									}}
+								></TrashICon>
+							</IconButton>
+						</div>
+					</Tooltip>
+				)}
+			</div>
 
-      <div className="flex items-center">
-        <h2 className="font-medium">تحديد الكل</h2>
-        <Checkbox
-          checkedIcon={<CheckedSquare />}
-          sx={{
-            pr: "0",
-            color: "#011723",
-            "& .MuiSvgIcon-root": {
-              color: "#011723",
-            },
-          }}
-          indeterminate={numSelected > 0 && numSelected < rowCount}
-          checked={rowCount > 0 && numSelected === rowCount}
-          onChange={onSelectAllClick}
-          inputProps={{
-            "aria-label": "select all desserts",
-          }}
-        />
-      </div>
-    </Toolbar>
-  );
+			<div className='flex items-center'>
+				<h2 className='font-medium'>تحديد الكل</h2>
+				<Checkbox
+					checkedIcon={<CheckedSquare />}
+					sx={{
+						pr: '0',
+						color: '#011723',
+						'& .MuiSvgIcon-root': {
+							color: '#011723',
+						},
+					}}
+					indeterminate={numSelected > 0 && numSelected < rowCount}
+					checked={rowCount > 0 && numSelected === rowCount}
+					onChange={onSelectAllClick}
+					inputProps={{
+						'aria-label': 'select all desserts',
+					}}
+				/>
+			</div>
+		</Toolbar>
+	);
 }
 
 EnhancedTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired,
+	numSelected: PropTypes.number.isRequired,
 };
 
 export default function EnhancedTable({editProduct}) {

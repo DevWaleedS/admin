@@ -1,7 +1,5 @@
 import React, { useState, useContext } from "react";
-import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import { AiFillStar } from "react-icons/ai";
 import { MdClear } from "react-icons/md";
@@ -13,9 +11,6 @@ import Context from "../../../store/context";
 import styles from "./AddNewPackagePlan.module.css";
 import MenuItem from "@mui/material/MenuItem";
 import { GoArrowRight } from "react-icons/go";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import { FormControl } from "@mui/material";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import {Template} from '../../../assets/Icons/index';

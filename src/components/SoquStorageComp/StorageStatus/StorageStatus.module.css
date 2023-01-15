@@ -1,0 +1,7 @@
+.productIcon svg path {
+	stroke: #13a4a7;
+}
+.productIcon svg rect {
+  fill: transparent;
+	stroke: #13a4a7;
+}

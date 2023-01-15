@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
+import Switch from '@mui/material/Switch';
 
 import { Currency } from '../../../assets/Icons/index';
 import { ReactComponent as StaticsIcon } from '../../../assets/Icons/icon-24-static.svg';
@@ -8,11 +9,11 @@ import { ReactComponent as TrashICon } from '../../../assets/Icons/icon-24-delet
 import { ReactComponent as CheckedSquare } from '../../../assets/Icons/icon-24-square checkmark.svg';
 import { ReactComponent as SwitchIcon } from '../../../assets/Icons/icon-38-switch.svg';
 import { ReactComponent as MoreIcon } from '../../../assets/Icons/icon-24- more_vertical.svg';
+import { ReactComponent as StarIcon } from '../../../assets/Icons/stare.svg';
 
 import IconButton from '@mui/material/IconButton';
 
 import Button from '../../../UI/Button/Button';
-import { MdKeyboardArrowDown } from 'react-icons/md';
 import ProductDetails from './ProductDetails/ProductDetails';
 import { Button as MenuButton } from '@mui/material';
 import Menu from '@mui/material/Menu';
@@ -25,6 +26,18 @@ const ItemCategory = (props) => {
 	const [menuButton, setMenuButton] = useState(null);
 	const open = Boolean(menuButton);
 
+	//
+	const [moreMenu, setMoreMenu] = useState(null);
+	const openMoreMenu = Boolean(moreMenu);
+
+	//
+	const [showSpecial, setShowSpecial] = useState(false);
+
+	const onChangeHandler = (event) => {
+		setShowSpecial(!showSpecial);
+	};
+
+	// functions for menu
 	const handleClick = (event) => {
 		setMenuButton(event.currentTarget);
 	};
@@ -33,13 +46,25 @@ const ItemCategory = (props) => {
 		setMenuButton(null);
 	};
 
+	//
+	const handleOpenMoreMun = (event) => {
+		setMoreMenu(event.currentTarget);
+	};
+	const handleCloseMoreMun = () => {
+		setMoreMenu(null);
+	};
+
 	const { title, id, img, price, inStore, checkedList, handleCheckboxClick, category, section, handleProductDetails } = props;
 	const item = props.item;
 
 	return (
 		<li className='mb-6  flex justify-between' style={{ backgroundColor: '#fff', padding: '1rem 0.5rem' }}>
 			<div className='flex'>
-				<Checkbox checkedIcon={<CheckedSquare />} sx={{ display: 'inline', padding: '0' }} className='ml-4' item={id} value={id} checked={checkedList.includes(id)} onChange={handleCheckboxClick} />
+				<div className='flex flex-col gap-8 px-3 items-center'>
+					<Checkbox checkedIcon={<CheckedSquare />} sx={{ display: 'inline', padding: '0' }} className='' item={id} value={id} checked={checkedList.includes(id)} onChange={handleCheckboxClick} />
+					<StarIcon className={`${showSpecial ? 'opacity-0' : 'opacity-100'}`} />
+				</div>
+
 				<div className=' '>
 					<img className='h-36 w-36 object-cover' src={img} alt='' />
 				</div>
@@ -81,12 +106,12 @@ const ItemCategory = (props) => {
 						{section}
 					</div>
 					<div className='flex justify-center items-center'>
-						<MoreIcon onClick={handleClick} className='cursor-pointer' />
+						<MoreIcon onClick={handleOpenMoreMun} className='cursor-pointer' />
 						<Menu
 							id='basic-menu'
-							anchorEl={menuButton}
-							open={open}
-							onClose={handleClose}
+							anchorEl={moreMenu}
+							open={openMoreMenu}
+							onClose={handleCloseMoreMun}
 							MenuListProps={{
 								'aria-labelledby': 'basic-button',
 							}}
@@ -97,8 +122,8 @@ const ItemCategory = (props) => {
 								},
 							}}
 						>
-							<MenuItem onClick={handleClose}>اكسسوارات</MenuItem>
-							<MenuItem onClick={handleClose}> هيدفون</MenuItem>
+							<MenuItem onClick={handleCloseMoreMun}>اكسسوارات</MenuItem>
+							<MenuItem onClick={handleCloseMoreMun}> هيدفون</MenuItem>
 						</Menu>
 					</div>
 				</div>
@@ -181,14 +206,49 @@ const ItemCategory = (props) => {
 								<StaticsIcon></StaticsIcon>
 								احصائيات المنتج
 							</MenuItem>
-							<MenuItem
-								onClick={() => {
-									handleClose();
-									handleProductDetails(item);
-								}}
-							>
-								<StaticsIcon></StaticsIcon>
-								منتج مميز
+							<MenuItem>
+								<div className=' w-11 m-[-10px]'>
+									<Switch
+										checked={showSpecial}
+										onChange={onChangeHandler}
+										sx={{
+											width: '100%',
+											'& .MuiSwitch-track': {
+												width: 22,
+												height: 12,
+												opacity: 1,
+												backgroundColor: 'rgba(0,0,0,.25)',
+												boxSizing: 'border-box',
+											},
+											'& .MuiSwitch-thumb': {
+												boxShadow: 'none',
+												width: 8,
+												height: 8,
+												borderRadius: 4,
+												transform: 'translate(5px,6px)',
+											},
+											'&:hover': {
+												'& .MuiSwitch-thumb': {
+													boxShadow: 'none',
+												},
+											},
+
+											'& .MuiSwitch-switchBase': {
+												padding: 1,
+												'&.Mui-checked': {
+													transform: 'translateX(9px)',
+													color: '#fff',
+													'& + .MuiSwitch-track': {
+														opacity: 1,
+														backgroundColor: '#3AE374',
+													},
+												},
+											},
+										}}
+									/>
+								</div>
+
+								<div className='flex-1 mr-[-6px]'> منتج مميز</div>
 							</MenuItem>
 							<MenuItem onClick={handleClose}>
 								<TrashICon></TrashICon>
@@ -212,7 +272,7 @@ const ProductsTable = ({ editProduct }) => {
 	const [itemsChecked, setItemsChecked] = useState(false);
 	const [showProductDetails, setShowProductDetails] = useState(false);
 	const [productDetails, setProductDetails] = useState(null);
-	console.log(checkedList, itemsChecked);
+	
 
 	useEffect(() => {
 		const initialCategories = [
@@ -288,7 +348,7 @@ const ProductsTable = ({ editProduct }) => {
 
 	const selectItem = (e) => {
 		const { checked } = e.target;
-		console.log(e.target.checked);
+	
 		const collection = [];
 
 		if (checked) {
@@ -358,7 +418,7 @@ const ProductsTable = ({ editProduct }) => {
 			</header>
 			<ul className=''>
 				{categories.map((category) => {
-					console.log({ ...category });
+					
 					return (
 						<ItemCategory
 							{...category}

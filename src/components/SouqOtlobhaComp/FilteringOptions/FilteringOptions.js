@@ -1,5 +1,5 @@
 import * as React from 'react';
-import InputLabel from '@mui/material/InputLabel';
+
 import MenuItem from '@mui/material/MenuItem';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import ListItemText from '@mui/material/ListItemText';
@@ -42,10 +42,7 @@ const FilteringOptions = ({ showFilteringOptions, hideFilteringOptions }) => {
 	};
 
 	return (
-		<div
-			className={`flex absolute top-0 w-full gap-10 pb-2 pt-4 pr-2  rounded-lg otlobha_filtering_sec duration-300 ${showFilteringOptions ? 'opacity-100' : 'opacity-0'}`}
-			style={{ backgroundColor: '#EDEDEF' }}
-		>
+		<div className={` absolute top-0 w-full gap-10 pb-2 pt-4 pr-2  rounded-lg otlobha_filtering_sec duration-300 ${showFilteringOptions ? 'flex' : 'hidden'}`} style={{ backgroundColor: '#EDEDEF' }}>
 			<FormControl sx={{ minWidth: 120, flex: '1' }}>
 				<h2 className='font-semibold mb-2'>التصنيف الأساسى</h2>
 
@@ -75,6 +72,7 @@ const FilteringOptions = ({ showFilteringOptions, hideFilteringOptions }) => {
 					{category.map((item) => {
 						return (
 							<MenuItem
+								key={item}
 								className='souq_storge_category_filter_items'
 								sx={{
 									backgroundColor: 'rgba(211, 211, 211, 1)',

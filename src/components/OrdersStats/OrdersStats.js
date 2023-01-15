@@ -1,7 +1,7 @@
 import React from 'react';
 
 // import icons and images
-import { ReactComponent as NewIcon } from '../../assets/Icons/icon-24-dashboard.svg';
+import { ReactComponent as NewIcon } from '../../assets/Icons/new.svg';
 import { ReactComponent as BestSeller } from '../../assets/Icons/best-seller.svg';
 import { ReactComponent as NotActivated } from '../../assets/Icons/Not-activated.svg';
 import { ReactComponent as RunOut } from '../../assets/Icons/Package.svg';
