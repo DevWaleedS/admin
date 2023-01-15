@@ -1,10 +1,16 @@
-import React from "react";
+import React,{useState} from "react";
 import PageNavigate from "../../../components/PageNavigate/PageNavigate";
 import StorageStatus from "../../../components/SoquStorageComp/StorageStatus/StorageStatus";
 import StorageFilter from "../../../components/SoquStorageComp/StorageFilter/StorageFilter";
 import StorageTable from "../../../components/SoquStorageComp/StorageTable/StorageTable";
+import Button from "../../../UI/Button/Button";
+import { AiOutlinePlus } from "react-icons/ai";
+import NewProduct from '../../../components/SoquStorageComp/NewProduct/NewProduct';
 
 const Storage = () => {
+  const [showNewProductInfo, setShowNewProductInfo] = useState(false);
+	const [editProduct, setEditProduct] = useState(null);
+
   return (
     <div className={`px-4 pt-8`} style={{ backgroundColor: "#fafafa" }}>
       <div
@@ -13,14 +19,40 @@ const Storage = () => {
       >
         هذه الواجهة خاصة بإدارة المخزون الخاص بسوق اطلبها
       </div>
-      <div className="mt-6">
+      <div className="flex items-center justify-between mt-6 pl-36">
         <PageNavigate currentPage={"المخزون"} parentPage={"السوق"} />
+        <Button
+          className={"flex justify-center items-center"}
+          style={{ backgroundColor:'#B6BE34' }}
+          type={"normal"}
+          svg={<AiOutlinePlus color="#fff" />}
+          color={"white"}
+          onClick={() => {
+            setShowNewProductInfo(true);
+            setEditProduct(false);
+          }}
+        >
+            إضافة منتج  
+        </Button>
       </div>
+      {showNewProductInfo && (
+				<NewProduct
+					cancel={() => {
+						setShowNewProductInfo(false);
+					}}
+					editProduct={editProduct}
+				/>
+			)}
       <div className={"pl-36"}>
         <StorageStatus />
         <StorageFilter />
         <div dir="ltr">
-          <StorageTable />
+          <StorageTable 
+              editProduct={(item) => {
+                setEditProduct(item);
+                setShowNewProductInfo(true);
+              }}
+          />
         </div>
       </div>
     </div>

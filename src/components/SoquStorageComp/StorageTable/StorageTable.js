@@ -49,11 +49,11 @@ const BootstrapTooltip = styled(({ className, ...props }) => (
   },
 }));
 
-function createData(name, activity, amount, price, sku, icon) {
+function createData(name, activity, quantity, price, sku, icon) {
   return {
     name,
     activity,
-    amount,
+    quantity,
     price,
     sku,
     icon,
@@ -121,7 +121,7 @@ const headCells = [
     sort: false,
   },
   {
-    id: "amount",
+    id: "quantity",
     numeric: true,
     disablePadding: false,
     label: "الكمية",
@@ -283,7 +283,7 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable() {
+export default function EnhancedTable({editProduct}) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
@@ -424,7 +424,14 @@ export default function EnhancedTable() {
                               fontSize: "1rem",
                             }}
                           ></BsTrash>
-                          <EditIcon width={"18px"}></EditIcon>
+                          <EditIcon
+                              className="cursor-pointer"
+                              onClick={()=>{
+                                editProduct(row);
+                              }}
+                              width={"18px"}
+                          >
+                          </EditIcon>
 
                           <BootstrapTooltip
                             // style={{ backgroundColor: "#3AE374" }}
@@ -453,7 +460,7 @@ export default function EnhancedTable() {
                       </TableCell>
                       <TableCell align="right">
                         <div>
-                          <h2 className="font-medium">{row.amount}</h2>
+                          <h2 className="font-medium">{row.quantity}</h2>
                         </div>
                       </TableCell>
 
