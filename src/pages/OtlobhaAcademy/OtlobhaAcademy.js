@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import PageNavigate from "../../components/PageNavigate/PageNavigate";
 import OtlobhaAcademyComp from "../../components/OtlobhaAcademyComp/OtlobhaAcademyComp";
 import AddNewCourse from "../../components/OtlobhaAcademyComp/AddNewCourse/AddNewCourse";
-import AddNewVideo from "../../components/OtlobhaAcademyComp/AddNewVideo/AddNewVideo";
-
+import AddNewLesson from "../../components/OtlobhaAcademyComp/AddNewLesson/AddNewLesson";
 import Button from "../../UI/Button/Button";
-import { SlArrowUpCircle } from "react-icons/sl";
+import { ReactComponent as ActionAdd } from "../../assets/Icons/icon-24-action-add.svg";
+
 
 const OtlobhaAcademy = () => {
-  const [newVideoWindow, setNewVideoWindow] = useState(false);
+  const [newLessonWindow, setNewLessonWindow] = useState(false);
   const [newCourseWindow, setNewCourseWindow] = useState(false);
+  const [ selectedTab,setSelectTab ] = useState();
 
   return (
     <div
@@ -19,30 +20,38 @@ const OtlobhaAcademy = () => {
       <div className="flex items-center justify-between">
         <PageNavigate currentPage={"أكاديمية أطلبها"} />
         <div className="flex gap-2">
-          <Button
-            className={"flex justify-center items-center"}
-            type={"outline"}
-            style={{ borderColor: "#02466A" }}
-            textStyle={{ color: "#02466A" }}
-            svg={<SlArrowUpCircle fill="#02466A" />}
-            onClick={() => {
-              setNewCourseWindow(true);
-            }}
-          >
-            إضافة كورس
-          </Button>
-          <Button
-            className={"flex justify-center items-center"}
-            type={"normal"}
-            svg={<SlArrowUpCircle fill="#fff" />}
-            style={{ backgroundColor: "#02466A" }}
-            color={"white"}
-            onClick={() => {
-              setNewVideoWindow(true);
-            }}
-          >
-            إضافة فيديو
-          </Button>
+          {
+            selectedTab === 1 ? 
+            (
+              <Button
+                  className={"flex justify-center items-center"}
+                  type={"outline"}
+                  style={{ borderColor: "#02466A" }}
+                  textStyle={{ color: "#02466A" }}
+                  svg={<ActionAdd fill="#02466A" />}
+                  onClick={() => {
+                    setNewCourseWindow(true);
+                  }}
+              >
+                   اضافة دورة
+              </Button>
+            ) : 
+            (
+              <Button
+                  className={"flex justify-center items-center"}
+                  type={"outline"}
+                  style={{ borderColor: "#02466A" }}
+                  textStyle={{ color: "#02466A" }}
+                  svg={<ActionAdd fill="#02466A" />}
+                  onClick={() => {
+                    setNewLessonWindow(true);
+                  }}
+              >
+                  اضافة درس
+              </Button>
+            )
+          }
+          
         </div>
       </div>
       {newCourseWindow && (
@@ -52,15 +61,15 @@ const OtlobhaAcademy = () => {
           }}
         ></AddNewCourse>
       )}
-      {newVideoWindow && (
-        <AddNewVideo
+      {newLessonWindow && (
+        <AddNewLesson
           cancel={() => {
-            setNewVideoWindow(false);
+            setNewLessonWindow(false);
           }}
-        ></AddNewVideo>
+        ></AddNewLesson>
       )}
       <div className="mt-16">
-        <OtlobhaAcademyComp></OtlobhaAcademyComp>
+        <OtlobhaAcademyComp setSelectTab={setSelectTab}></OtlobhaAcademyComp>
       </div>
     </div>
   );

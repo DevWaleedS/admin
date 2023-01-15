@@ -30,6 +30,8 @@ import { ReactComponent as DolarIcon } from "../../assets/Icons/dolar icon.svg";
 import { ReactComponent as CityIcon } from "../../assets/Icons/icon-24-city.svg";
 import { ReactComponent as EmailIcon } from "../../assets/Icons/icon-24- email.svg";
 import { ReactComponent as ReportIcon } from "../../assets/Icons/icon-24-report.svg";
+import { ReactComponent as Shipping } from "../../assets/Icons/shipping.svg";
+import { ReactComponent as PaymentGateway } from "../../assets/Icons/Payment gateway.svg";
 
 const StyledTreeItemRoot = styled(TreeItem)(({ theme }) => ({
   color: theme.palette.text.secondary,
@@ -605,15 +607,39 @@ const SideBar = () => {
             }
           ></StyledTreeItem>
         </Link>
+        <Link className="single_link" to={"/شركات_الشحن"}>
+          <StyledTreeItem
+            nodeId="29"
+            labelText="شركات الشحن"
+            onClick={handleExpanding("")}
+            svg={
+              <Shipping
+                style={{ marginLeft: 5, height: "1.2rem", zIndex: "10" }}
+              />
+            }
+          ></StyledTreeItem>
+        </Link>
+        <Link className="single_link" to={"/بوابات_الدفع"}>
+          <StyledTreeItem
+            nodeId="30"
+            labelText="بوابات الدفع"
+            onClick={handleExpanding("")}
+            svg={
+              <PaymentGateway
+                style={{ marginLeft: 5, height: "1.2rem", zIndex: "10" }}
+              />
+            }
+          ></StyledTreeItem>
+        </Link>
         <StyledTreeItem
           sx={{
             "& .MuiCollapse-root": {
               transitionDuration: "3s ",
             },
           }}
-          nodeId="29"
+          nodeId="31"
           labelText="الإعدادات"
-          onClick={handleExpanding("29")}
+          onClick={handleExpanding("31")}
           svg={
             <Setting
               style={{ marginLeft: 5, height: "1.2rem", zIndex: "10" }}
@@ -627,7 +653,7 @@ const SideBar = () => {
                   style={{ marginLeft: 5, height: "1.2rem", zIndex: "10" }}
                 />
               }
-              nodeId="30"
+              nodeId="32"
               labelText="الاعدادات الأساسية"
             />
           </Link>
@@ -638,7 +664,7 @@ const SideBar = () => {
                   style={{ marginLeft: 5, height: "1.2rem", zIndex: "10" }}
                 />
               }
-              nodeId="31"
+              nodeId="36"
               labelText="الدول"
             />
           </Link>
@@ -649,7 +675,7 @@ const SideBar = () => {
                   style={{ marginLeft: 5, height: "1.2rem", zIndex: "10" }}
                 />
               }
-              nodeId="32"
+              nodeId="37"
               labelText="المدن"
             />
           </Link>
@@ -695,6 +721,28 @@ const SideBar = () => {
               }
               nodeId="43"
               labelText="التواصل الإجتماعى"
+            />
+          </Link>
+          <Link to={"/حالات_التسجيل"}>
+            <StyledTreeItem
+              svg={
+                <GiPlainCircle
+                  style={{ marginLeft: 5, height: "1.2rem", zIndex: "10" }}
+                />
+              }
+              nodeId="44"
+              labelText="حالات التسجيل"
+            />
+          </Link>
+          <Link to={"/الاشعارات"}>
+            <StyledTreeItem
+              svg={
+                <GiPlainCircle
+                  style={{ marginLeft: 5, height: "1.2rem", zIndex: "10" }}
+                />
+              }
+              nodeId="45"
+              labelText="الاشعارات"
             />
           </Link>
         </StyledTreeItem>
