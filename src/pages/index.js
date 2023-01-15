@@ -41,6 +41,12 @@ export { default as MarketsVarieties } from "./Varieties/MarketsVarieties/Market
 export { default as OrdersPage } from "./OrdersPage/OrdersPage";
 // الدعم الفنى
 export { default as SupportPage } from "./SupportPage/SupportPage";
+// شركات الشحن
+export { default as ShippingCompaniesPage } from "./ShippingCompaniesPage/ShippingCompaniesPage";
+
+//  بوابات الدفع
+export { default as PaymentGatewaysPage } from "./PaymentGatewaysPage/PaymentGatewaysPage";
+
 // Setting
 export { default as PrimarySettings } from "./SettingPages/PrimarySettings/PrimarySettings";
 export { default as CountriesPages } from "./SettingPages/Countries/CountriesPages";
@@ -48,3 +54,5 @@ export { default as CitiesPage } from "./SettingPages/CitiesPage/CitiesPage";
 export { default as CurrencyPage } from "./SettingPages/CurrencyPage/CurrencyPage";
 export { default as EmailSettingPage } from "./SettingPages/EmailSettingPage/EmailSettingPage";
 export { default as SocialMediaLinksPage } from "./SettingPages/SocialMediaLinksPage/SocialMediaLinksPage";
+export { default as RegistrationCasesPage } from "./SettingPages/RegistrationCasesPage/RegistrationCasesPage";
+export { default as NotificationsPage } from "./SettingPages/NotificationsPage/NotificationsPage";

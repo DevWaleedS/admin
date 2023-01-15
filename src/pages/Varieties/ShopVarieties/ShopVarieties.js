@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PageNavigate from "../../../components/PageNavigate/PageNavigate";
 import FilteringOptions from "../../../components/VarietiesComp/ShopVarieties/FilteringOptions/FilteringOptions";
 import AddVariety from "../../../components/VarietiesComp/ShopVarieties/AddVariety/AddVariety";
-import AddSection from "../../../components/VarietiesComp/ShopVarieties/AddSection/AddSection";
+import AddSubVariety from "../../../components/VarietiesComp/ShopVarieties/AddSubVariety/AddSubVariety";
 
 import ShopVarietiesTable from "../../../components/VarietiesComp/ShopVarieties/ShopVarietiesTable/ShopVarietiesTable";
 
@@ -11,8 +11,8 @@ import { AiOutlinePlus } from "react-icons/ai";
 
 const ShopVarieties = () => {
   const [showAddVarietyPage, setShowAddVarietyPage] = useState(false);
-  const [showAddSectionPage, setShowAddSectionPage] = useState(false);
-  const [editSection, setEditSection] = useState(null);
+  const [editVariety, setEditVariety] = useState(null);
+  const [showAddSubVariety,setShowAddSubVariety] =useState(false);
 
   return (
     <div className={`px-4 pt-8 mt-5`} style={{ backgroundColor: "#F6F6F6" }}>
@@ -38,18 +38,6 @@ const ShopVarieties = () => {
             >
               اضف تصنيف
             </Button>
-            <Button
-              className={"flex justify-center items-center"}
-              type={"normal"}
-              svg={<AiOutlinePlus color="#fff" />}
-              color={"white"}
-              style={{ backgroundColor: "#B6BE34" }}
-              onClick={() => {
-                setShowAddSectionPage(true);
-              }}
-            >
-              اضف قسم
-            </Button>
           </div>
         </div>
         <FilteringOptions></FilteringOptions>
@@ -59,20 +47,22 @@ const ShopVarieties = () => {
             cancel={() => {
               setShowAddVarietyPage(false);
             }}
-            data={editSection}
+            data={editVariety}
+            setShowAddSubVariety={setShowAddSubVariety}
           ></AddVariety>
         )}
-        {showAddSectionPage && (
-          <AddSection
-            cancel={() => {
-              setShowAddSectionPage(false);
-            }}
-          ></AddSection>
-        )}
+        {
+          showAddSubVariety &&
+          <AddSubVariety 
+              cancel={() => {
+                setShowAddSubVariety(false);
+              }}
+          />
+        }
         <div dir="ltr" className={"mt-10"}>
           <ShopVarietiesTable
             editSection={(item) => {
-              setEditSection(item);
+              setEditVariety(item);
               setShowAddVarietyPage(true);
             }}
           ></ShopVarietiesTable>

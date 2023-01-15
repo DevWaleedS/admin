@@ -1,8 +1,9 @@
 .content::-webkit-scrollbar {
     display: none;
-  }
-  
-
+}
 .back_drop{
   opacity: 0.5;
+}
+.variety_number::placeholder{
+  color: #0099FB;
 }
