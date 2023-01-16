@@ -7,7 +7,7 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
+
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Toolbar from '@mui/material/Toolbar';
@@ -22,12 +22,9 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { ReactComponent as SortIcon } from '../../../assets/Icons/icon-24-sort.svg';
 import { ReactComponent as CheckedSquare } from '../../../assets/Icons/icon-24-square checkmark.svg';
-
-import { MdOutlineKeyboardArrowDown, MdOutlineArrowBackIosNew, MdOutlineArrowForwardIos } from 'react-icons/md';
-
+import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import { Gift, CarImg, CameraImg, ShoesImg } from '../../../assets/Icons/index';
 import { ReactComponent as EditIcon } from '../../../assets/Icons/editt 2.svg';
-import { ReactComponent as AddIcon } from '../../../assets/Icons/icon-24-action-add.svg';
 import { ReactComponent as TrashICon } from '../../../assets/Icons/icon-24-delete.svg';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
@@ -388,7 +385,7 @@ export default function EnhancedTable({editProduct}) {
                     >
                       <TableCell component="th" id={labelId} scope="row">
                         <div className="flex items-center gap-2">
-                          <BsTrash
+                          <TrashICon
                             onClick={() => {
                               const findIndex = data.findIndex(
                                 (item) => item.name === row.name
@@ -402,7 +399,7 @@ export default function EnhancedTable({editProduct}) {
                               color: "red",
                               fontSize: "1rem",
                             }}
-                          ></BsTrash>
+                          ></TrashICon>
                           <EditIcon
                               className="cursor-pointer"
                               onClick={()=>{
