@@ -44,7 +44,7 @@ const PackageTemplate = ({ cancel }) => {
                   style={{ width:'250px', height:'250px',backgroundColor:'#ECFEFF',border:'1px solid #B4EDEE' }}
             >
                 <div className="w-full flex-1 flex flex-col items-center justify-center">
-                    <h6 style={{ color:'#011723' }} className="font-medium">{item.name}</h6>
+                    <h6 style={{ color:'#011723',fontSize:'18px' }} className="font-medium">{item.name}</h6>
                 </div>
                 <div style={{ height:'45px',backgroundColor:'#FF38380A' }} className="w-full flex flex-col items-center justify-center">
                     <input 

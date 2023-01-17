@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import PageNavigate from "../../../components/PageNavigate/PageNavigate";
-import PersonalInfo from "../../../components/DelegatesPageComp/AddNewDelegateComp/PersonalInfo/PersonalInfo";
+import TabsComp from "../../../components/DelegatesPageComp/AddNewDelegateComp/TabsComp/TabsComp";
 import CopyRights from "../../../components/DelegatesPageComp/AddNewDelegateComp/CopyRights/CopyRights";
-
-import SocialMediaInfo from "../../../components/DelegatesPageComp/AddNewDelegateComp/SocialMediaInfo/SocialMediaInfo";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -13,22 +11,22 @@ const DelegatesTablePage = () => {
   const [valid, setValid] = useState(false);
   return (
     <div
-      className={`mt-5 px-4 pt-4 pl-36`}
+      className={`px-5 py-10`}
       style={{ backgroundColor: "#F7F7F7" }}
     >
-      <div className="mt-6 flex justify-between items-center">
+      <div className="flex justify-between items-center">
         <PageNavigate
           nestedPage={true}
-          parentPage={"عرض المناديب"}
+          parentPage={"عرض المندوبين"}
           currentPage={"اضافة مندوب جديد"}
         />
       </div>
-      <PersonalInfo></PersonalInfo>
-      <SocialMediaInfo></SocialMediaInfo>
+      <TabsComp></TabsComp>
       <CopyRights></CopyRights>
       <FormGroup>
         <FormControlLabel
           sx={{
+            mt: '40px',
             py: 1,
             mr: 0,
             "& .MuiTypography-root": {
@@ -50,7 +48,7 @@ const DelegatesTablePage = () => {
       </FormGroup>
       <Button
         disabled={!valid}
-        className={"mt-6 py-4"}
+        className={"mt-[26px] py-4"}
         type={"normal"}
         style={{ width: "100%" }}
       >

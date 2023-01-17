@@ -1,11 +1,10 @@
-import React, { useState } from "react";
-// import PagesPageTable from "../../components/PagesPageComp/PagesPageTable/PagesPageTable";
-// import Filtering from "../../components/PagesPageComp/Filtering/Filtering";
+import React, { useState,useContext } from "react";
 import {
   CommunicationSendOutlined,
   Delete,
   ShowStoreRequest,
 } from "../../../assets/Icons/index";
+import { NotificationContext } from "../../../store/NotificationProvider";
 
 const cases = [
   { id: 1, name: 'استفسار حول دعم السيرفر',store_name:'متجر أمازون',time:'اليوم 08:20 ص', type: 'enquiry' },
@@ -20,6 +19,9 @@ const cases = [
 
 const NotificationsPage = () => {
   const [data, setData] = useState([]);
+  const NotificationStore = useContext(NotificationContext);
+  const { setNotificationTitle } = NotificationStore;
+
   return (
     <div className={`relative h-full py-10 pl-36 pr-24`} style={{ backgroundColor: "#F7F7F7" }}>
       <h3 style={{ fontSize: '24px', color: '#011723' }} className="font-bold">الاشعارات</h3>
@@ -51,13 +53,13 @@ const NotificationsPage = () => {
                       </div>
                   </div>
               </div>
-              <div className="flex flex-row items-center gap-7">
+              <div className="flex flex-row items-center gap-[26px]">
                   {
                     box.type==='enquiry'?
                      (<img className="cursor-pointer" src={CommunicationSendOutlined} alt="communication-send-outlined-icon" />) :
                      (<img className="cursor-pointer" src={ShowStoreRequest} alt="show-store-request-icon" />)
                   }
-                  <img className="cursor-pointer" src={Delete} alt="delete-icon" />
+                  <img className="cursor-pointer" src={Delete} alt="delete-icon" onClick={()=>setNotificationTitle("سيتم حذف جميع الاشعارات التي قمت بتحديدها")} />
               </div>
             </div>
           ))}

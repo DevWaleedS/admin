@@ -27,7 +27,7 @@ const RegistrationCasesPage = () => {
             <div 
                 key={index} 
                 style={{ width: '280px', height: '120px', boxShadow: '3px 3px 6px #0000000A', backgroundColor: box.active ? '#DDF9E7' : '#E6E6E6' }} 
-                className="flex flex-col items-center justify-center gap-2 p-8 rounded-lg">
+                className="flex flex-col items-center justify-center gap-[18px] p-8 rounded-lg">
               <h2 style={{ fontSize: '20px', color: '#011723' }} className="font-medium whitespace-nowrap">{box.name}</h2>
               <Switch
                 onChange={() => {
@@ -39,12 +39,29 @@ const RegistrationCasesPage = () => {
                   setData(arr);
                 }}
                 sx={{
+                  width: '32px',
+                  height: '20px',
+                  padding: 0,
+                  borderRadius:'12px',
+                  "& .MuiSwitch-thumb": {
+                    width: '12px',
+                    height: '12px',
+                  },
+                  "& .MuiSwitch-switchBase": {
+                    padding: '5px',
+                    top: '-1px',
+                    left: '0'
+                  },
+                  "& .MuiSwitch-switchBase.Mui-checked": {
+                    left: '-10px',
+                  },
                   "& .Mui-checked .MuiSwitch-thumb": {
-                    backgroundColor: "#3AE374",
+                    backgroundColor: "#FFFFFF",
                   },
                   "&.MuiSwitch-root .Mui-checked+.MuiSwitch-track":
                   {
                     backgroundColor: "#3AE374",
+                    opacity: 1,
                   },
                 }}
                 checked={box.active}

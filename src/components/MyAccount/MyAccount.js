@@ -1,4 +1,4 @@
-import React, { useState,useContext } from "react";
+import React, { useState, useContext } from "react";
 import Button from "../../UI/Button/Button";
 import styles from "./MyAccount.module.css";
 import { HiOutlineMail } from "react-icons/hi";
@@ -7,7 +7,7 @@ import Select from "@mui/material/Select";
 import Person from "../../assets/Icons/Image Person.png";
 import MenuItem from "@mui/material/MenuItem";
 import ImageUploading from "react-images-uploading";
-import { IoIosArrowDown } from "react-icons/io";
+import { ReactComponent as Arrow } from "../../assets/Icons/icon-24-chevron_down.svg";
 import {
   UploadOutlined
 } from "../../assets/Icons/index";
@@ -32,7 +32,7 @@ const BackDrop = ({ onClick }) => {
 
 //
 
-const MyAccount = ({ cancel, user,setUser,edit,setEditUser }) => {
+const MyAccount = ({ cancel, user, setUser, edit, setEditUser }) => {
   const contextStore = useContext(Context);
   const { setEndActionTitle } = contextStore;
   const [images, setImages] = useState([]);
@@ -54,43 +54,43 @@ const MyAccount = ({ cancel, user,setUser,edit,setEditUser }) => {
       >
         <div className="flex h-full flex-col justify-between">
           <div
-            className="p-8"
+            className="py-[48px] pr-[70px]"
             style={{
               height: "135px",
-              backgroundColor: "rgba(235, 235, 235, 1)",
+              backgroundColor: "#EBEBEB",
             }}
           >
             {edit ? (
-                <>
-                    <h2 className="font-semibold text-2xl  mb-3">
-                      تعديل بيانات حسابي
-                    </h2>
-                    <div className="flex">
-                        <h2 className="font-semibold ml-4"> حسابي الادمن </h2>
-
-                        <h3 className="font-medium" style={{ color: "#67747B" }}>
-                          /
-                          تعديل بيانات الحساب
-                        </h3>
-                    </div>
-                </>
-            ):( 
-                <h2 className="font-semibold text-2xl  mb-3">
-                  حسابي الادمن
+              <>
+                <h2 style={{ fontSize: '24px', color: '#011723' }} className="font-bold">
+                  تعديل بيانات حسابي
                 </h2>
+                <div className="flex flex-row mt-[10px]">
+                  <h2 style={{ fontSize: '18px', color: '#011723' }} className="font-semibold ml-4"> حسابي الادمن </h2>
+
+                  <h3 className="font-medium" style={{ fontSize: '18px', color: "#7C7C7C" }}>
+                    /
+                    تعديل بيانات الحساب
+                  </h3>
+                </div>
+              </>
+            ) : (
+              <h2 style={{ fontSize: '24px', color: '#011723' }} className="font-bold">
+                حسابي الادمن
+              </h2>
             )}
           </div>
           <div
-            className={`flex-1 px-20 overflow-y-scroll py-12  ${styles.content}`}
+            className={`flex-1 px-[90px] bg-[#F6F6F6] overflow-y-scroll py-[48px]  ${styles.content}`}
           >
             <div className="flex justify-between">
-              <div className="flex gap-4 ">
+              <div className="flex flex-row gap-5">
                 <div className="h-44 w-44">
                   <img className="h-full w-full" src={Person} alt="profile-img" />
                 </div>
-                <div>
-                  <h2 className="text-2xl font-medium mb-4">{user.name}</h2>
-                  <h2 className="text-lg mb-4 flex gap-2 items-center">
+                <div className="flex flex-col gap-[8px]">
+                  <h2 style={{ fontSize: '20px', color: '#011723' }} className="font-medium">{user.name}</h2>
+                  <h2 className="flex flex-row gap-[18px] items-center" style={{ fontSize: '18px', color: '#67747B' }}>
                     <HiOutlineMail
                       style={{
                         cursor: "pointer",
@@ -100,7 +100,7 @@ const MyAccount = ({ cancel, user,setUser,edit,setEditUser }) => {
                     ></HiOutlineMail>
                     {user.email}
                   </h2>
-                  <h2 className="text-lg mb-4 flex gap-2 items-center">
+                  <h2 className="flex flex-row gap-[18px] items-center" style={{ fontSize: '18px', color: '#67747B' }}>
                     <IoIosCall
                       style={{
                         cursor: "pointer",
@@ -112,32 +112,31 @@ const MyAccount = ({ cancel, user,setUser,edit,setEditUser }) => {
                   </h2>
                 </div>
               </div>
-              <div>
-                <Button
-                  style={{
-                    width: "278px",
-                    backgroundColor: edit ? '#02466A' :'#5EBFF2',
-                  }}
-                  type={"normal"}
-                  className={"cursor-auto"}
-                >
-                  {user.role}
-                </Button>
-              </div>
+              <Button
+                style={{
+                  fontSize: '20px',
+                  color: "#EFF9FF",
+                  width: "278px",
+                  height: "60px",
+                  backgroundColor: edit ? '#02466A' : '#5EBFF2',
+                }}
+                type={"normal"}
+                className="cursor-auto font-bold"
+              >
+                {user.role}
+              </Button>
             </div>
             {edit && (
-              <div className="flex mt-12 gap-48">
-                <div className="flex-1 ">
-                  <div className="mt-6  ">
-                    <h2 className="font-medium mb-2">الدور الوظيفى</h2>
+              <div className="flex mt-[52px] gap-48">
+                <div className="flex-1 flex flex-col gap-5">
+                  <div className="flex flex-col gap-2">
                     <Select
+                      className={styles.select}
                       value={packageOption}
                       onChange={handleCategory}
                       displayEmpty
                       inputProps={{ "aria-label": "Without label" }}
-                      IconComponent={() => {
-                        return <IoIosArrowDown size={"1rem"} />;
-                      }}
+                      IconComponent={(props) => (<Arrow fill="#242424" {...props} />)}
                       renderValue={(selected) => {
                         if (packageOption === "") {
                           return <h2>اختر نوع الدور الوظيفي</h2>;
@@ -150,6 +149,7 @@ const MyAccount = ({ cancel, user,setUser,edit,setEditUser }) => {
                         border: "none",
                         pl: "1rem",
                         backgroundColor: "#EBEBEB",
+                        borderRadius: '8px',
                         "& .MuiOutlinedInput-notchedOutline": {
                           border: "none",
                         },
@@ -172,42 +172,38 @@ const MyAccount = ({ cancel, user,setUser,edit,setEditUser }) => {
                       })}
                     </Select>
                   </div>
-                  <div className="mt-6  ">
-                    <h2 className="font-medium mb-2">اسم المتسخدم</h2>
-                    <label className="w-full" htmlFor="">
-                      <input
-                        className="w-full outline-none p-4 rounded-lg"
-                        style={{
-                          border: "1px solid #ccc",
-                          backgroundColor: "#EBEBEB",
-                          color: '#011723',
-                        }}
-                        type="text"
-                        placeholder="ادخل حروف فقط"
-                        value={user.name}
-                        onChange={(e)=>setUser({ ...user,name:e.target.value })}
-                      />
-                    </label>
+                  <div className="flex flex-col gap-2">
+                    <label style={{ fontSize: '18px', color: '#011723' }}>اسم المتسخدم</label>
+                    <input
+                      className="w-full outline-none p-4 rounded-lg"
+                      style={{
+                        border: "none",
+                        backgroundColor: "#EBEBEB",
+                        color: '#011723',
+                      }}
+                      type="text"
+                      placeholder="ادخل حروف فقط"
+                      value={user.name}
+                      onChange={(e) => setUser({ ...user, name: e.target.value })}
+                    />
                   </div>
-                  <div className="mt-6  ">
-                    <h2 className="font-medium mb-2">البريد الالكترونى</h2>
-                    <label className="w-full" htmlFor="">
-                      <input
-                        className="w-full outline-none p-4 rounded-lg"
-                        style={{
-                          border: "1px solid #ccc",
-                          backgroundColor: "#EBEBEB",
-                          color: '#011723',
-                        }}
-                        type="email"
-                        placeholder="sample@sa.com"
-                        value={user.email}
-                        onChange={(e)=>setUser({ ...user,email:e.target.value })}
-                      />
-                    </label>
+                  <div className="flex flex-col gap-2">
+                    <label style={{ fontSize: '18px', color: '#011723' }}>البريد الالكتروني</label>
+                    <input
+                      className="w-full outline-none p-4 rounded-lg"
+                      style={{
+                        border: "none",
+                        backgroundColor: "#EBEBEB",
+                        color: '#011723',
+                      }}
+                      type="email"
+                      placeholder="sample@sa.com"
+                      value={user.email}
+                      onChange={(e) => setUser({ ...user, email: e.target.value })}
+                    />
                   </div>
-                  <div className="mt-6  ">
-                    <h2 className="font-medium mb-2">الصورة الشخصية</h2>
+                  <div className="flex flex-col gap-2">
+                    <label style={{ fontSize: '18px', color: '#011723' }}>الصورة الشخصية</label>
                     <ImageUploading
                       value={images}
                       onChange={onChangeImage}
@@ -216,20 +212,16 @@ const MyAccount = ({ cancel, user,setUser,edit,setEditUser }) => {
                       acceptType={["jpg", "png", "jpeg"]}
                     >
                       {({
-                        imageList,
                         onImageUpload,
-                        onImageRemoveAll,
-                        onImageUpdate,
-                        onImageRemove,
-                        isDragging,
                         dragProps,
                       }) => (
                         // write your building UI
                         <div
-                          className="upload__image-wrapper relative h-14 flex items-center overflow-hidden"
+                          className="upload__image-wrapper relative h-14 flex items-center overflow-hidden rounded-lg"
                           style={{
-                            border: "1px solid #ccc",
+                            border: "none",
                             backgroundColor: "#EBEBEB",
+                            color: '#011723',
                           }}
                           // onClick={() => {
                           //   onImageUpload();
@@ -245,7 +237,7 @@ const MyAccount = ({ cancel, user,setUser,edit,setEditUser }) => {
                               onImageUpload();
                             }}
                           >
-                            {images[0]?.file?.name || "أدخل الصورة الشخصية"}
+                            {images[0]?.file?.name || ""}
                           </h2>
                           <div
                             className="flex h-full items-center justify-center"
@@ -261,57 +253,51 @@ const MyAccount = ({ cancel, user,setUser,edit,setEditUser }) => {
                     </ImageUploading>
                   </div>
                 </div>
-                <div className="flex-1 ">
-                <div className="mt-6  ">
-                    <h2 className="font-medium mb-2">رقم الجوال</h2>
-                    <label className="w-full" htmlFor="">
-                      <input
-                        className="w-full outline-none p-4 rounded-lg"
-                        style={{
-                          border: "1px solid #ccc",
-                          backgroundColor: "#EBEBEB",
-                          color: '#011723',
-                        }}
-                        type="text"
-                        placeholder="96651548315"
-                        value={user.phone}
-                        onChange={(e)=>setUser({ ...user,phone:e.target.value })}
-                      />
-                    </label>
+                <div className="flex-1 flex flex-col gap-5">
+                  <div className="flex flex-col gap-2">
+                    <label style={{ fontSize: '18px', color: '#011723' }}>رقم الجوال</label>
+                    <input
+                      className="w-full outline-none p-4 rounded-lg"
+                      style={{
+                        border: "none",
+                        backgroundColor: "#EBEBEB",
+                        color: '#011723',
+                      }}
+                      type="text"
+                      placeholder="96651548315"
+                      value={user.phone}
+                      onChange={(e) => setUser({ ...user, phone: e.target.value })}
+                    />
                   </div>
-                  <div className="mt-6  ">
-                    <h2 className="font-medium mb-2">كلمة المرور</h2>
-                    <label className="w-full" htmlFor="">
-                      <input
-                        className="w-full outline-none p-4 rounded-lg"
-                        style={{
-                          border: "1px solid #ccc",
-                          backgroundColor: "#EBEBEB",
-                          color: '#011723',
-                        }}
-                        type="password"
-                        placeholder="*******************"
-                        value={user.password}
-                        onChange={(e)=>setUser({ ...user,password:e.target.value })}
-                      />
-                    </label>
+                  <div className="flex flex-col gap-2">
+                    <label style={{ fontSize: '18px', color: '#011723' }}>كلمة المرور</label>
+                    <input
+                      className="w-full outline-none p-4 rounded-lg"
+                      style={{
+                        border: "none",
+                        backgroundColor: "#EBEBEB",
+                        color: '#011723',
+                      }}
+                      type="password"
+                      placeholder="*******************"
+                      value={user.password}
+                      onChange={(e) => setUser({ ...user, password: e.target.value })}
+                    />
                   </div>
-                  <div className="mt-6  ">
-                    <h2 className="font-medium mb-2">تأكيد كلمة المرور</h2>
-                    <label className="w-full" htmlFor="">
-                      <input
-                        className="w-full outline-none p-4 rounded-lg"
-                        style={{
-                          border: "1px solid #ccc",
-                          backgroundColor: "#EBEBEB",
-                          color: '#011723',
-                        }}
-                        type="password"
-                        placeholder="*******************"
-                        value={user.confirmPassword}
-                        onChange={(e)=>setUser({ ...user,confirmPassword:e.target.value })}
-                      />
-                    </label>
+                  <div className="flex flex-col gap-2">
+                    <label style={{ fontSize: '18px', color: '#011723' }}>تأكيد كلمة المرور</label>
+                    <input
+                      className="w-full outline-none p-4 rounded-lg"
+                      style={{
+                        border: "none",
+                        backgroundColor: "#EBEBEB",
+                        color: '#011723',
+                      }}
+                      type="password"
+                      placeholder="*******************"
+                      value={user.confirmPassword}
+                      onChange={(e) => setUser({ ...user, confirmPassword: e.target.value })}
+                    />
                   </div>
                 </div>
               </div>
@@ -321,29 +307,33 @@ const MyAccount = ({ cancel, user,setUser,edit,setEditUser }) => {
             className="p-8 flex justify-center gap-4"
             style={{
               height: "135px",
-              backgroundColor: "rgba(235, 235, 235, 1)",
+              backgroundColor: "#EBEBEB",
             }}
           >
             {!edit && (
-              <div className="flex flex-row gap-4">
+              <div className="flex flex-row gap-5">
                 <Button
                   style={{
-                    backgroundColor:'#02466A',
+                    width: "128px",
+                    height: "56px",
+                    backgroundColor: '#02466A',
                     borderColor: `#02466A`,
                   }}
-                  textStyle={{ color: "#EFF9FF" }}
-                  className={"h-14 w-44 font-medium"}
+                  textStyle={{ color: "#EFF9FF", fontSize: '24px' }}
+                  className="font-medium"
                   type={"normal"}
                   onClick={setEditUser}
                 >
-                تعديل
+                  تعديل
                 </Button>
                 <Button
                   style={{
+                    width: "128px",
+                    height: "56px",
                     borderColor: `#02466A`,
                   }}
-                  textStyle={{ color: "#02466A" }}
-                  className={"h-14 w-44 font-medium"}
+                  textStyle={{ color: "#02466A", fontSize: '24px' }}
+                  className="font-medium"
                   type={"outline"}
                   onClick={cancel}
                 >
@@ -354,16 +344,18 @@ const MyAccount = ({ cancel, user,setUser,edit,setEditUser }) => {
             {edit && (
               <Button
                 style={{
-                  borderColor: `#02466A`,
+                  width: '182px',
+                  height: '56px',
+                  border: '1px solid #02466A',
+                  borderRadius:'8px'
                 }}
-                textStyle={{ color: "#02466A" }}
-                className={"h-14 w-44 font-medium"}
+                textStyle={{ color: "#02466A", fontSize: '24px' }}
                 type={"outline"}
-                onClick={ ()=>{
+                onClick={() => {
                   cancel();
                   setEndActionTitle("تم تعديل بيانات الآدمن بنجاح");
                   setEditUser(false);
-                  }
+                }
                 }
               >
                 حفظ وإغلاق

@@ -13,7 +13,7 @@ const Packages = () => {
     <div className={`p-4 relative`} style={{ backgroundColor: "#fafafa" }}>
       <div className="flex justify-end ">
         <Button
-          style={{ backgroundColor: "#B6BE34" }}
+          style={{ width:'265px',height: '56px',backgroundColor: '#B6BE34' }}
           svg={<AiOutlinePlus color="#fff" />}
           type={"normal"}
           onClick={() => {

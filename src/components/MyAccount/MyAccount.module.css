@@ -7,3 +7,13 @@
   opacity: 0.5;
   animation: backDropAnim 0.5s ease-in-out;
 }
+
+.select :global(.MuiSelect-icon) {
+  top: 15px;
+  left: 7px;
+  right: unset;
+}
+
+.select :global(.MuiSelect-icon path) {
+  fill: #242424;
+}

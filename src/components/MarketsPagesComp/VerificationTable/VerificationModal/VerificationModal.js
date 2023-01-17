@@ -18,15 +18,15 @@ const VerificationModal = ({ cancel, title, type }) => {
       <div
         className="absolute flex flex-col top-28 translate-x-2/4  right-2/4 z-20 rounded-lg overflow-hidden"
       >
-        <div className="flex-1 flex flex-col px-20 pt-12 pb-20 gap-4 bg-white">
+        <div className="flex-1 flex flex-col p-[140px] gap-4 bg-white">
           <div className="flex flex-col items-center gap-4">
             <h6
-            style={{ color: type=== 'edit' ? '#FF9F1A' : type === 'accepted' ? '#3AE374' : '#FF3838' }}
-              className="text-lg font-semibold"
+            style={{ fontSize:'24px',color: type=== 'edit' ? '#FF9F1A' : type === 'accepted' ? '#3AE374' : '#FF3838' }}
+              className="font-medium"
             >
               {title}
             </h6>
-            <p style={{ color: '#011723' }} className="text-lg font-semibold">
+            <p style={{ fontSize:'24px',color: '#011723' }} className="font-medium">
               عبر البريد الالكتروني الذي قام بالتسجيل من خلاله
             </p>
           </div>

@@ -31,9 +31,11 @@ const ShopVarieties = () => {
               type={"normal"}
               svg={<AiOutlinePlus color="#fff" />}
               color={"white"}
-              style={{ backgroundColor: "#B6BE34" }}
+              style={{ backgroundColor: "#B6BE34",width:'200px',height:'57px' }}
+              textStyle={{ color: "#EFF9FF",fontSize:'21px' }}
               onClick={() => {
                 setShowAddVarietyPage(true);
+                setEditVariety(null);
               }}
             >
               اضف تصنيف

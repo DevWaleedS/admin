@@ -26,8 +26,8 @@ const OtlobhaAcademy = () => {
               <Button
                   className={"flex justify-center items-center"}
                   type={"outline"}
-                  style={{ borderColor: "#02466A" }}
-                  textStyle={{ color: "#02466A" }}
+                  style={{ width:'180px',height:'56px',borderColor: "#02466A" }}
+                  textStyle={{ color: "#02466A",fontSize:'20px' }}
                   svg={<ActionAdd fill="#02466A" />}
                   onClick={() => {
                     setNewCourseWindow(true);
@@ -40,8 +40,8 @@ const OtlobhaAcademy = () => {
               <Button
                   className={"flex justify-center items-center"}
                   type={"outline"}
-                  style={{ borderColor: "#02466A" }}
-                  textStyle={{ color: "#02466A" }}
+                  style={{ width:'180px',height:'56px',borderColor: "#02466A" }}
+                  textStyle={{ color: "#02466A",fontSize:'20px' }}
                   svg={<ActionAdd fill="#02466A" />}
                   onClick={() => {
                     setNewLessonWindow(true);
