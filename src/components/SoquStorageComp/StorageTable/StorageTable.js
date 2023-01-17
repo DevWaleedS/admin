@@ -409,7 +409,7 @@ export default function EnhancedTable({editProduct}) {
                     >
                       <TableCell component="th" id={labelId} scope="row">
                         <div className="flex items-center gap-2">
-                          <BsTrash
+                          <TrashICon
                             onClick={() => {
                               const findIndex = data.findIndex(
                                 (item) => item.name === row.name
@@ -423,7 +423,7 @@ export default function EnhancedTable({editProduct}) {
                               color: "red",
                               fontSize: "1rem",
                             }}
-                          ></BsTrash>
+                          ></TrashICon>
                           <EditIcon
                               className="cursor-pointer"
                               onClick={()=>{

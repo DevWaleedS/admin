@@ -1,14 +1,13 @@
 import React from 'react';
 import Button from '../../../UI/Button/Button';
-// import styles from "./StorageFilter.module.css";
-import { ReactComponent as Search } from '../../../assets/Icons/icon_24_search.svg';
+
 import { ReactComponent as Filter } from '../../../assets/Icons/icon-24-filter.svg';
 import { AiOutlineSearch } from 'react-icons/ai';
 import Menu from '@mui/material/Menu';
 
 import MenuItem from '@mui/material/MenuItem';
 
-import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
+
 
 const category = ['الكترونيات', 'ألعاب وهدايا', 'مستلزمات طبية', 'مواد غذائية'];
 

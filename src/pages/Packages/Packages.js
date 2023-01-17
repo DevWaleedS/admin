@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import Button from "../../UI/Button/Button";
-import { AiOutlinePlus } from "react-icons/ai";
-import PackagesTypes from "../../components/PackagesPageComp/PackagesTypes/PackagesTypes";
-import AddNewPackagePlan from "../../components/PackagesPageComp/AddNewPackagePlan/AddNewPackagePlan";
-import PackageTemplate from "../../components/PackagesPageComp/PackageTemplate/PackageTemplate";
+import React, { useState } from 'react';
+import Button from '../../UI/Button/Button';
+import { AiOutlinePlus } from 'react-icons/ai';
+import PackagesTypes from '../../components/PackagesPageComp/PackagesTypes/PackagesTypes';
+import AddNewPackagePlan from '../../components/PackagesPageComp/AddNewPackagePlan/AddNewPackagePlan';
+import PackageTemplate from '../../components/PackagesPageComp/PackageTemplate/PackageTemplate';
 
 const Packages = () => {
   const [openNewPackage, setOpenNewPackage] = useState(false);

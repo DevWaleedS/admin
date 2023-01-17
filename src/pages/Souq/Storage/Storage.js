@@ -1,16 +1,15 @@
-import React,{useState} from "react";
-import PageNavigate from "../../../components/PageNavigate/PageNavigate";
-import StorageStatus from "../../../components/SoquStorageComp/StorageStatus/StorageStatus";
-import StorageFilter from "../../../components/SoquStorageComp/StorageFilter/StorageFilter";
-import StorageTable from "../../../components/SoquStorageComp/StorageTable/StorageTable";
-import Button from "../../../UI/Button/Button";
-import { AiOutlinePlus } from "react-icons/ai";
+import React, { useState } from 'react';
+import PageNavigate from '../../../components/PageNavigate/PageNavigate';
+import StorageStatus from '../../../components/SoquStorageComp/StorageStatus/StorageStatus';
+import StorageFilter from '../../../components/SoquStorageComp/StorageFilter/StorageFilter';
+import StorageTable from '../../../components/SoquStorageComp/StorageTable/StorageTable';
+import Button from '../../../UI/Button/Button';
+import { AiOutlinePlus } from 'react-icons/ai';
 import NewProduct from '../../../components/SoquStorageComp/NewProduct/NewProduct';
 
 const Storage = () => {
-  const [showNewProductInfo, setShowNewProductInfo] = useState(false);
+	const [showNewProductInfo, setShowNewProductInfo] = useState(false);
 	const [editProduct, setEditProduct] = useState(null);
-
   return (
     <div className={`px-4 pt-8`} style={{ backgroundColor: "#fafafa" }}>
       <div

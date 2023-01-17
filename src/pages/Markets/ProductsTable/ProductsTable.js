@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-// import styles from "./ProductsTable.module.css";
+
 import PageNavigate from "../../../components/PageNavigate/PageNavigate";
 import ProductsTableSec from "../../../components/MarketsPagesComp/ProductsTable/ProductsTableSec/ProductsTableSec";
 import TraderAlert from "../../../components/MarketsPagesComp/ProductsTable/TraderAlert/TraderAlert";
-// import { ReactComponent as Call } from "../../../assets/Icons/icon-24- call.svg";
+
 
 const ProductsTable = () => {
   const [traderAlert, setTraderAlert] = useState(false);

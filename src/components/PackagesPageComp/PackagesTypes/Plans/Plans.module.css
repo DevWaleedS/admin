@@ -5,9 +5,7 @@
 .pro h2{
     color: #fff;
 }
-.pro svg , .pro path{
-    color: #fff;
-}
+
 .normal{
     height: fit-content;
 }
