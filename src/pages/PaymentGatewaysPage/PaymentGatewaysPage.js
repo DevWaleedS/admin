@@ -53,12 +53,29 @@ const PaymentGatewaysPage = () => {
                   setData(arr);
                 }}
                 sx={{
+                  width: '32px',
+                  height: '20px',
+                  padding: 0,
+                  borderRadius:'12px',
+                  "& .MuiSwitch-thumb": {
+                    width: '12px',
+                    height: '12px',
+                  },
+                  "& .MuiSwitch-switchBase": {
+                    padding: '5px',
+                    top: '-1px',
+                    left: '0'
+                  },
+                  "& .MuiSwitch-switchBase.Mui-checked": {
+                    left: '-10px',
+                  },
                   "& .Mui-checked .MuiSwitch-thumb": {
-                    backgroundColor: "#3AE374",
+                    backgroundColor: "#FFFFFF",
                   },
                   "&.MuiSwitch-root .Mui-checked+.MuiSwitch-track":
                   {
                     backgroundColor: "#3AE374",
+                    opacity: 1,
                   },
                 }}
                 checked={payment.active}

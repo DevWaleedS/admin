@@ -473,7 +473,7 @@ export default function EnhancedTable({ setUser }) {
                           onClick={handleOptionsClick}
                         >
                           <BsThreeDotsVertical
-                            onClick={() => {}}
+                            onClick={() => { }}
                             style={{
                               cursor: "pointer",
                               color: "rgba(0, 0, 0, 1)",
@@ -484,7 +484,7 @@ export default function EnhancedTable({ setUser }) {
                         <Menu
                           id="basic-menu"
                           anchorEl={anchorEl}
-                          open={userMenuOpenedId == index}
+                          open={userMenuOpenedId === index}
                           onClose={handleClose}
                           MenuListProps={{
                             "aria-labelledby": "basic-button",
@@ -507,10 +507,10 @@ export default function EnhancedTable({ setUser }) {
                             التفاصيل
                           </MenuItem>
                           <MenuItem
-                          // onClick={() => {
-                          //   setDataRow(row);
-                          //   handleClose();
-                          // }}
+                            onClick={() => {
+                              setUser(row);
+                              handleClose();
+                            }}
                           >
                             <FaRegEdit
                               style={{
@@ -552,9 +552,9 @@ export default function EnhancedTable({ setUser }) {
                                 backgroundColor: "#3AE374",
                               },
                               "&.MuiSwitch-root .Mui-checked+.MuiSwitch-track":
-                                {
-                                  backgroundColor: "#3AE374",
-                                },
+                              {
+                                backgroundColor: "#3AE374",
+                              },
                             }}
                             checked={row.opened}
                           />

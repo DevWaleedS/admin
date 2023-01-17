@@ -1,4 +1,4 @@
-import * as React from "react";
+import React,{useContext} from "react";
 import styles from "./VerificationTableSec.module.css";
 import PropTypes from "prop-types";
 import { alpha } from "@mui/material/styles";
@@ -33,6 +33,7 @@ import {
   ListMoreCategory,
   Stationery
 } from "../../../../assets/Icons/index";
+import { NotificationContext } from "../../../../store/NotificationProvider";
 
 const newRequest = { title: "طلب جديد", class: "#1DBBBE66" };
 const inProgress = { title: "جاري التوثيق", class: "#FFDD0066" };
@@ -292,6 +293,8 @@ export default function EnhancedTable({ openTraderAlert,openVerificationData,ope
   const [activityAnchorEl, setActivityAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const activityOpen = Boolean(activityAnchorEl);
+  const NotificationStore = useContext(NotificationContext);
+  const { setNotificationTitle } = NotificationStore;
 
   const rowsPerPagesCount = [10, 20, 30, 50, 100];
   const handleRowsClick = (event) => {
@@ -423,6 +426,7 @@ export default function EnhancedTable({ openTraderAlert,openVerificationData,ope
                         <div className="flex items-center gap-2">
                           <img src={Delete} alt="delete-icon" 
                             onClick={() => {
+                              setNotificationTitle("سيتم حذف جميع التواثيق التي قمت بتحديدها");
                               const findIndex = data.findIndex(
                                 (item) => item.id === row.id
                               );
@@ -441,7 +445,7 @@ export default function EnhancedTable({ openTraderAlert,openVerificationData,ope
                         </div>
                       </TableCell>
                       <TableCell align="right">
-                          <h2 style={{ color:'#4D4F5C' }}>
+                          <h2 style={{ color:'#4D4F5C',fontSize:'18px' }}>
                             {row.date}
                           </h2>
                       </TableCell>
@@ -453,7 +457,7 @@ export default function EnhancedTable({ openTraderAlert,openVerificationData,ope
                             marginLeft: "auto",
                           }}
                         >
-                          <h2>{row.opened.title}</h2>
+                          <h2 style={{ color: '#4D4F5C',fontSize:'16px' }}>{row.opened.title}</h2>
                         </div>
                       </TableCell>
                       <TableCell align="right">
@@ -474,15 +478,15 @@ export default function EnhancedTable({ openTraderAlert,openVerificationData,ope
                               </MenuItem>
                               ))}
                           </Menu>
-                          <h2 className="inline font-medium whitespace-nowrap">{row.activity}</h2>
+                          <h2 style={{ color: '#4D4F5C',fontSize:'16px' }} className="inline whitespace-nowrap">{row.activity}</h2>
                           {row.activity === 'مستلزمات طبية' ? (<img src={Clinic} alt="clinic-icon" />) : (<img src={Gift} alt="gift-icon" />)}
                           
                         </div>
                       </TableCell>
                       <TableCell align="right">
-                        <h2 className="inline font-medium cursor-pointer" >{row.store}</h2>
+                        <h2 style={{ color: '#4D4F5C',fontSize:'18px' }} >{row.store}</h2>
                       </TableCell>
-                      <TableCell align="right">
+                      <TableCell align="right" style={{ color: '#4D4F5C',fontSize:'18px' }}>
                         {(index + 1).toLocaleString("en-US", {
                           minimumIntegerDigits: 2,
                           useGrouping: false,

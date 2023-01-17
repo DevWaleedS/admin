@@ -8,7 +8,7 @@ const ShippingCompaniesPage = () => {
   const [api, setApi] = useState('');
   return (
     <div
-      className="relative h-full py-12 pl-36 pr-24"
+      className="relative h-full py-[52px] pl-[238px] pr-[98px]"
       style={{ backgroundColor: "#F7F7F7" }}
     >
       <h3 style={{ fontSize: '24px', color: '#011723' }} className="font-bold">شركات الشحن</h3>
@@ -26,12 +26,29 @@ const ShippingCompaniesPage = () => {
                   setData(arr);
                 }}
                 sx={{
+                  width: '32px',
+                  height: '20px',
+                  padding: 0,
+                  borderRadius:'12px',
+                  "& .MuiSwitch-thumb": {
+                    width: '12px',
+                    height: '12px',
+                  },
+                  "& .MuiSwitch-switchBase": {
+                    padding: '5px',
+                    top: '-1px',
+                    left: '0'
+                  },
+                  "& .MuiSwitch-switchBase.Mui-checked": {
+                    left: '-10px',
+                  },
                   "& .Mui-checked .MuiSwitch-thumb": {
-                    backgroundColor: "#3AE374",
+                    backgroundColor: "#FFFFFF",
                   },
                   "&.MuiSwitch-root .Mui-checked+.MuiSwitch-track":
                   {
                     backgroundColor: "#3AE374",
+                    opacity: 1,
                   },
                 }}
                 checked={company.active}

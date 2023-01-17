@@ -9,3 +9,25 @@
     background-color: rgba(2, 70, 106, 0.4);
     cursor: pointer;
 }
+.date_input :global(.react-datepicker-wrapper input){
+    font-size: 18px;
+}
+.date_input :global(.react-datepicker-wrapper input::placeholder){
+    color: #011723;
+}
+.disabled_date_input :global(.react-datepicker-wrapper input){
+    font-size: 18px;
+}
+.disabled_date_input :global(.react-datepicker-wrapper input::placeholder){
+    color: #A7A7A7;
+}
+.disabled_date_input :global(#icon-date path){
+    fill: #A7A7A7;
+}
+.icon{
+    width: 24px;
+    height: 24px;
+}
+.icon path{
+    fill: #1DBBBE;
+}

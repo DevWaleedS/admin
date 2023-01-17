@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import FilteringOptions from "../../../components/MarketingPageComp/CouponsPageComp/FilteringOptions/FilteringOptions";
-
 import AddNewCoupon from "../../../components/MarketingPageComp/CouponsPageComp/AddNewCoupon/AddNewCoupon";
 import TableComp from "../../../components/MarketingPageComp/CouponsPageComp/TableComp/TableComp";
-
 import Button from "../../../UI/Button/Button";
-import { AiOutlinePlus, AiOutlineSearch } from "react-icons/ai";
+import { AiOutlinePlus } from "react-icons/ai";
 
 const CouponsPage = () => {
   const [showAddNewCoupon, setShowAddNewCoupon] = useState(false);
@@ -13,14 +11,14 @@ const CouponsPage = () => {
   console.log(couponDetails);
 
   return (
-    <div className="relative pl-36 pr-8">
-      <div className="flex justify-end">
-        <div className="flex gap-4">
+    <div style={{ backgroundColor:'#FAFAFA' }} className="relative pt-[50px] pl-[134px] pr-[56px]">
+      <div className="flex flex-row items-center justify-between gap-4">
+        <h3 style={{ fontSize:'22px',color:'#011723' }} className="font-bold">جدول الكوبونات</h3>
           <Button
             type={"normal"}
-            style={{ backgroundColor: "#B6BE34" }}
-            textStyle={{ color: "#fff" }}
-            className={"px-4"}
+            style={{ width:'216px',height:'56px', backgroundColor: "#B6BE34" }}
+            textStyle={{ color: "#EFF9FF",fontSize:'20px' }}
+            className={"font-medium px-4"}
             svg={<AiOutlinePlus fill="#fff" />}
             onClick={() => {
               setShowAddNewCoupon(true);
@@ -29,9 +27,7 @@ const CouponsPage = () => {
           >
             اضافة خصم
           </Button>
-        </div>
       </div>
-      <h3 className="text-2xl font-semibold">جدول الكوبونات</h3>
       <FilteringOptions></FilteringOptions>
       {showAddNewCoupon && (
         <AddNewCoupon

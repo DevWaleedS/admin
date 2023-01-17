@@ -59,55 +59,57 @@ const VerificationData = ({ cancel, verificationInfo, editVerificationData, setV
           style={{ backgroundColor: editVerificationData ? "#FF9F1A" : "#1DBBBE" }}
         >
           {editVerificationData ?
-            (<h2 className="text-slate-50 text-xl text-center flex-1">تعديل طلب توثيق متجر</h2>) :
-            (<h2 className="text-slate-50 text-xl text-center flex-1">بيانات طلب توثيق متجر</h2>)
+            (<h2 style={{ color: '#ECFEFF',fontSize:'22px' }} className="font-medium text-center flex-1">تعديل طلب توثيق متجر</h2>) :
+            (<h2 style={{ color: '#ECFEFF',fontSize:'22px' }} className="font-medium text-center flex-1">بيانات طلب توثيق متجر</h2>)
           }
           <IoMdCloseCircleOutline
+            width="20px"
+            height="20px"
             size={"1.25rem"}
             color={"#fff"}
             className={"cursor-pointer"}
             onClick={cancel}
           ></IoMdCloseCircleOutline>
         </div>
-        <div className="flex-1 flex flex-col px-20 py-12 gap-4 bg-white">
-          <div className="flex flex-col gap-4">
-            <label className="text-lg font-medium" htmlFor="activity_store">نشاط المتجر</label>
+        <div className="flex-1 flex flex-col px-[98px] py-[48px] gap-[24px] bg-white">
+          <div className="flex flex-col gap-[10px]">
+            <label style={{ color: '#011723',fontSize:'20px' }} htmlFor="activity_store">نشاط المتجر</label>
             <input
               id="activity_store"
-              className="p-4 rounded-md outline-none"
-              style={{ backgroundColor: '#FAFAFA', color: '#67747B' }}
+              className="py-[14px] px-[24px] rounded-md outline-none"
+              style={{ backgroundColor: '#FAFAFA', color: '#67747B',fontSize:'20px' }}
               type="text"
               placeholder="ملابس"
               value={data.store_activity}
               onChange={(e) => setData({ ...data, store_activity: e.target.value })}
             />
           </div>
-          <div className="flex flex-col gap-4">
-            <label className="text-lg font-medium" htmlFor="owner">المالك</label>
+          <div className="flex flex-col gap-[10px]">
+            <label style={{ color: '#011723',fontSize:'20px' }} htmlFor="owner">المالك</label>
             <input
               id="owner"
-              className="p-4 rounded-md outline-none"
-              style={{ backgroundColor: '#FAFAFA', color: '#67747B' }}
+              className="py-[14px] px-[24px] rounded-md outline-none"
+              style={{ backgroundColor: '#FAFAFA', color: '#67747B',fontSize:'20px' }}
               type="text"
               placeholder="خالد محمد"
               value={data.store_owner}
               onChange={(e) => setData({ ...data, store_owner: e.target.value })}
             />
           </div>
-          <div className="flex flex-col gap-4">
-            <label className="text-lg font-medium" htmlFor="store_name">اسم المتجر</label>
+          <div className="flex flex-col gap-[10px]">
+            <label style={{ color: '#011723',fontSize:'20px' }} htmlFor="store_name">اسم المتجر</label>
             <input
               id="store_name"
-              className="p-4 rounded-md outline-none"
-              style={{ backgroundColor: '#FAFAFA', color: '#67747B' }}
+              className="py-[14px] px-[24px] rounded-md outline-none"
+              style={{ backgroundColor: '#FAFAFA', color: '#67747B',fontSize:'20px' }}
               type="text"
               placeholder="أمازون"
               value={data.store_name}
               onChange={(e) => setData({ ...data, store_name: e.target.value })}
             />
           </div>
-          <div className="flex flex-col gap-4">
-            <label>وثيقة العمل الحر/ السجل التجاري</label>
+          <div className="flex flex-col gap-[10px]">
+            <label style={{ color: '#011723',fontSize:'20px' }}>وثيقة العمل الحر/ السجل التجاري</label>
             <ImageUploading
               value={images}
               onChange={onChangeLogoImage}
@@ -133,22 +135,22 @@ const VerificationData = ({ cancel, verificationInfo, editVerificationData, setV
                       }}
                     >
                       <div className="flex flex-row items-center gap-2">
-                          <h2 style={{ color: '#67747B' }} className="text-base font-medium">السجل التجاري</h2>
+                          <h2 style={{ color: '#67747B',fontSize:'20px' }}>السجل التجاري</h2>
                           <img src={PDF} alt="pdf-icon" />
                       </div>
-                      <h2 style={{ color: '#0099FB' }} className="text-base font-medium">تحميل السجل التجاري</h2>
+                      <h2 style={{ color: '#0099FB',fontSize:'16px' }}>تحميل السجل التجاري</h2>
                     </div>
                   </div>
                 </div>
               )}
             </ImageUploading>
           </div>
-          <div className="flex flex-col gap-4">
-            <label className="text-lg font-medium" htmlFor="link">رابط منصة معروف</label>
+          <div className="flex flex-col gap-[10px]">
+            <label style={{ color: '#011723',fontSize:'20px' }} htmlFor="link">رابط منصة معروف</label>
             <input
               id="link"
-              className="p-4 rounded-md outline-none"
-              style={{ backgroundColor: '#FAFAFA', color: '#0099FB' }}
+              className="py-[14px] px-[24px] rounded-md outline-none"
+              style={{ backgroundColor: '#FAFAFA', color: '#0099FB',fontSize:'20px' }}
               type="text"
               placeholder="https://maroof.amazon.sa/"
               value={data.maroof_link}
@@ -166,9 +168,10 @@ const VerificationData = ({ cancel, verificationInfo, editVerificationData, setV
                 }}
                 type={"normal"}
                 style={{ backgroundColor: '#1DBBBE', color: '#F7FCFF' }}
-                className={"text-center w-full py-4 rounded-none"}
+                textStyle={{ color: "#F7FCFF", fontSize: '18px' }}
+                className={"text-center w-full py-4 rounded-none font-medium"}
               >
-                <h2 style={{ color:'#F7FCFF' }} className="font-medium">تعديل الطلب</h2>
+                تعديل الطلب
               </Button>
               <Button
                 onClick={() => {
@@ -176,9 +179,10 @@ const VerificationData = ({ cancel, verificationInfo, editVerificationData, setV
                 }}
                 type={"outline"}
                 style={{ backgroundColor: '#FFFFFF', border: '1px solid #011723' }}
-                className={"text-center w-full py-4 rounded-none"}
+                textStyle={{ color: "#011723", fontSize: '18px' }}
+                className={"text-center w-full py-4 rounded-none font-medium"}
               >
-                <h2 style={{ color:'#011723' }} className="font-medium">الغاء التعديل</h2>
+                الغاء التعديل
               </Button>
             </div>
           )
@@ -192,9 +196,10 @@ const VerificationData = ({ cancel, verificationInfo, editVerificationData, setV
                 }}
                 type={"normal"}
                 style={{ backgroundColor: '#1DBBBE' }}
-                className={"text-center w-full py-4 rounded-none"}
+                textStyle={{ color: "#F7FCFF", fontSize: '18px' }}
+                className={"text-center w-full py-4 rounded-none font-medium"}
               >
-                <h2 style={{ color:'#F7FCFF' }} className="font-medium">قبول التوثيق</h2>
+                قبول التوثيق
               </Button>
               <Button
                 onClick={() => {
@@ -202,10 +207,11 @@ const VerificationData = ({ cancel, verificationInfo, editVerificationData, setV
                   cancel();
                 }}
                 type={"outline"}
+                textStyle={{ color: "#011723", fontSize: '18px' }}
                 style={{ backgroundColor: '#FFFFFF', border: '1px solid #011723' }}
-                className={"text-center w-full py-4 rounded-none"}
+                className={"text-center w-full py-4 rounded-none font-medium"}
               >
-                <h2 style={{ color:'#011723' }} className="font-medium">رفض التوثيق</h2>
+                رفض التوثيق
               </Button>
             </div>
           )}

@@ -72,6 +72,26 @@ h2
 .MuiPopover-root ul:has(.souq_storge_section_filter_items){
   padding: 0;
 }
+.MuiPopover-paper:has(.multiple_select){
+  border-radius: 0;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+.MuiPopover-root ul:has(.multiple_select){
+  background-color: #67747B33;
+}
+.multiple_select:hover{
+  background-color: #b4edee !important;
+}
+.multiple_select.Mui-selected{
+  background-color: #1DBBBE !important;
+}
+.multiple_select.Mui-selected .Mui-checked{
+  color: #fff;
+}
+/* .MuiMenuItem-root:hover{
+  background-color: #02466A !important;
+} */
 .otlobha_filtering_sec .MuiPaper-root{
   display: none !important;
 }

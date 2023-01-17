@@ -6,3 +6,23 @@
 .back_drop{
   opacity: 0.5;
 }
+.icon{
+  margin-left: 1.2rem;
+}
+.icon path{
+  fill: #02466A;
+}
+.password{
+  cursor: pointer;
+}
+.password path{
+  fill: #7C7C7C;
+}
+.select :global(.MuiSelect-icon){
+  top: 15px;
+  left: 7px;
+  right: unset;
+}
+.select :global(.MuiSelect-icon path){
+  fill: #242424;
+}

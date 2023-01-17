@@ -16,3 +16,29 @@
     border-radius: 50%;
     background-color: #02466A1A;
 }
+.icons{
+  width: 24px;
+  height: 24px;
+}
+.icons path{
+  fill: #1DBBBE;
+}
+.editor{
+  width: 752px;
+  background: #FFFFFF;
+  box-shadow: 0px 3px 6px #0000000F;
+  border-radius: 8px;
+}
+.editor :global(.demo-wrapper){
+  padding: 0;
+  padding-bottom: 20px;
+  border-radius: 8px;
+}
+.editor :global(.demo-wrapper .rdw-editor-toolbar){
+  padding: 20px;
+  border: 1px solid #67747B33;
+  border-radius: 8px;
+}
+.editor :global(.demo-wrapper .rdw-editor-main){
+  padding: 0 20px;
+}
