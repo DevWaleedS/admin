@@ -12,7 +12,7 @@ const PagesPage = () => {
   return (
     <div className={`px-4 pt-8 mt-5`} style={{ backgroundColor: "#fafafa" }}>
       <div
-        className="p-3 rounded font-medium"
+        className="p-3 rounded font-normal text-base"
         style={{ color: "#EFF9FF", backgroundColor: "#237EAE" }}
       >
         هذه الواجهة خاصة بإعدادات الصفحة الرئيسية للموقع الإلكتروني
@@ -21,9 +21,9 @@ const PagesPage = () => {
         <div className="mt-6 flex items-center justify-between">
           <PageNavigate currentPage={"الصفحات"} />
           <Button
-            className={"flex justify-center items-center h-15 w-[183px]"}
+            className={"flex justify-center items-center h-14 w-[183px] text-lg"}
             type={"normal"}
-            svg={<AiOutlinePlus color="#fff" />}
+            svg={<AiOutlinePlus color="#fff" className='w-5 h-5'/>}
             color={"white"}
             onClick={() => {
               setShowAddNewPage(true);

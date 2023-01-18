@@ -426,184 +426,190 @@ export default function EnhancedTable({ openTraderAlert }) {
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
-                    <TableRow
-                      hover
-                      //   onClick={(event) => handleClick(event, row.name)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.id}
-                      selected={isItemSelected}
-                    >
-                      <TableCell component="th" id={labelId} scope="row">
-                        <div className="flex items-center gap-2">
-                          <img src={Delete} alt="delete-icon"
-                            onClick={() => {
-                              setNotificationTitle("سيتم حذف جميع المنتجات التي قمت بتحديدها");
-                                const findIndex = data.findIndex(
-                                  (item) => item.id === row.id
-                                );
-                                const arr = [...data];
-                                arr.splice(findIndex, 1);
-                                setData(arr);
-                              }}
-                            style={{
-                              cursor: "pointer",
-                              color: "red",
-                              fontSize: "1rem",
-                            }}
-                          />
-                          <Switch
-                            onChange={() => {
-                              const findIndex = data.findIndex(
-                                (item) => item.id === row.id
-                              );
-                              const arr = [...data];
-                              arr[findIndex].opened = !arr[findIndex].opened;
-                              setData(arr);
-                            }}
-                            sx={{
-                              width: '50px',
-                              "& .MuiSwitch-thumb": {
-                                width: '10px',
-                                height: '10px',
-                              },
-                              "& .MuiSwitch-switchBase": {
-                                padding: '5px',
-                                top: '9px',
-                                left: '10px'
-                              },
-                              "& .MuiSwitch-switchBase.Mui-checked": {
-                                left: '0px',
-                              },
-                              "& .Mui-checked .MuiSwitch-thumb": {
-                                backgroundColor: "#FFFFFF",
-                              },
-                              "&.MuiSwitch-root .Mui-checked+.MuiSwitch-track":
-                              {
-                                backgroundColor: "#3AE374",
-                                opacity: 1,
-                              },
-                            }}
-                            checked={row.opened}
-                          />
-                          <img className="cursor-pointer" src={SendNote} alt="send-note-icon" onClick={() => { openTraderAlert(row); }} />
-                        </div>
-                      </TableCell>
-                      <TableCell align="right">
-                        <h2 style={{ color: '#4D4F5C',fontSize:'18px' }}>
-                          {row.date}
-                        </h2>
-                      </TableCell>
-                      <TableCell align="right">
-                        <div
-                          className="flex flex-row items-center gap-1 py-1 px-3 w-16 h-6 rounded-md"
-                        >
-                          <h2 style={{ fontSize:'16px',color:row.special ? "#3AE374" : "#ADB5B9" }} className="min-w-[50px] whitespace-nowrap">{row.special ? "مميز" : "غير مميز"}</h2>
-                          <Switch
-                            onChange={() => {
-                              const findIndex = data.findIndex(
-                                (item) => item.id === row.id
-                              );
-                              const arr = [...data];
-                              arr[findIndex].special = !arr[findIndex].special;
-                              setData(arr);
-                            }}
-                            className=""
-                            sx={{
-                              width: '50px',
-                              "& .MuiSwitch-thumb": {
-                                width: '10px',
-                                height: '10px',
-                              },
-                              "& .MuiSwitch-switchBase": {
-                                padding: '5px',
-                                top: '9px',
-                                left: '10px'
-                              },
-                              "& .MuiSwitch-switchBase.Mui-checked": {
-                                left: '0px',
-                              },
-                              "& .Mui-checked .MuiSwitch-thumb": {
-                                backgroundColor: "#FFFFFF",
-                              },
-                              "&.MuiSwitch-root .Mui-checked+.MuiSwitch-track":
-                              {
-                                backgroundColor: "#3AE374",
-                                opacity: 1,
-                              },
-                            }}
-                            checked={row.special}
-                          />
-                        </div>
-                      </TableCell>
-                      <TableCell align="right">
-                        <div className="flex flex-row items-center justify-end gap-3">
-                          <img className="cursor-pointer" src={ListMoreCategory} alt="list-more-category" onClick={activityHandleClick} />
-                          <Menu
-                            className={styles.activity_menu}
-                            anchorEl={activityAnchorEl}
-                            open={activityOpen}
-                            onClose={activityHandleClose}
-                          >
-                            {[1, 2, 3].map((_item, index) => (
-                              <MenuItem key={index} className="flex flex-row items-center justify-center gap-2" style={{ color: '#4D4F5C' }} onClick={activityHandleClose}>
-                                <div
-                                  className="flex flex-row items-center justify-center"
-                                  style={{ width: '30px', height: '30px', borderRadius: '50%', backgroundColor: '#8D8AD333' }}><img src={Stationery} alt="stationery-icon" /></div>
-                                قرطاسية
-                              </MenuItem>
-                            ))}
-                          </Menu>
-                          <h2 style={{ color: '#4D4F5C',fontSize:'16px' }} className="inline whitespace-nowrap">{row.activity}</h2>
-                        </div>
-                      </TableCell>
-                      <TableCell align="center">
-                        <div
-                          className="w-20 h-full py-1 rounded-xl"
-                          style={{
-                            backgroundColor: row.opened
-                              ? "rgba(58, 227, 116, 0.4)"
-                              : "#D3D3D3",
-                            marginLeft: "auto",
-                          }}
-                        >
-                          <h2 style={{ color: row.opened ? '#011723' : '#67747B' ,fontSize:'16px' }}>{row.opened ? "نشط" : "غير نشط"}</h2>
-                        </div>
-                      </TableCell>
-                      <TableCell align="right">
-                        <h2 style={{ color: '#4D4F5C',fontSize:'16px' }}>{row.store}</h2>
-                      </TableCell>
-                      <TableCell align="right">
-                        <h2 style={{ color: '#4D4F5C',fontSize:'16px' }}>{row.product}</h2>
-                      </TableCell>
-                      <TableCell align="right">
-                        <h2 style={{ color: '#4D4F5C',fontSize:'18px' }}>{row.number}</h2>
-                      </TableCell>
-                      <TableCell align="right" style={{ color: '#4D4F5C',fontSize:'18px' }}>
-                        {(index + 1).toLocaleString("en-US", {
-                          minimumIntegerDigits: 2,
-                          useGrouping: false,
-                        })}
-                      </TableCell>
-                      <TableCell padding="none" align={"right"}>
-                        <Checkbox
-                          checkedIcon={<CheckedSquare />}
-                          sx={{
-                            color: "#1DBBBE",
-                            "& .MuiSvgIcon-root": {
-                              color: "#ADB5B9",
-                            },
-                          }}
-                          checked={isItemSelected}
-                          onClick={(event) => handleClick(event, row.id)}
-                          inputProps={{
-                            "aria-labelledby": labelId,
-                          }}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  );
+																			<TableRow
+																				hover
+																				//   onClick={(event) => handleClick(event, row.name)}
+																				role='checkbox'
+																				aria-checked={isItemSelected}
+																				tabIndex={-1}
+																				key={row.id}
+																				selected={isItemSelected}
+																			>
+																				<TableCell component='th' id={labelId} scope='row'>
+																					<div className='flex items-center gap-2'>
+																						<img
+																							src={Delete}
+																							alt='delete-icon'
+																							onClick={() => {
+																								setNotificationTitle('سيتم حذف جميع المنتجات التي قمت بتحديدها');
+																								const findIndex = data.findIndex((item) => item.id === row.id);
+																								const arr = [...data];
+																								arr.splice(findIndex, 1);
+																								setData(arr);
+																							}}
+																							style={{
+																								cursor: 'pointer',
+																								color: 'red',
+																								fontSize: '1rem',
+																							}}
+																						/>
+																						<Switch
+																							onChange={() => {
+																								const findIndex = data.findIndex((item) => item.id === row.id);
+																								const arr = [...data];
+																								arr[findIndex].opened = !arr[findIndex].opened;
+																								setData(arr);
+																							}}
+																							sx={{
+																								width: '50px',
+
+																								'& .MuiSwitch-thumb': {
+																									width: '11px',
+																									height: '11px',
+																								},
+																								'& .MuiSwitch-switchBase': {
+																									padding: '6px',
+																									top: '9px',
+																									left: '9px',
+																								},
+																								'& .MuiSwitch-switchBase.Mui-checked': {
+																									left: '-1px',
+																								},
+																								'& .Mui-checked .MuiSwitch-thumb': {
+																									backgroundColor: '#FFFFFF',
+																								},
+																								'& .MuiSwitch-track': {
+																									height: '16px',
+																									borderRadius: '20px',
+																								},
+																								'&.MuiSwitch-root .Mui-checked+.MuiSwitch-track': {
+																									backgroundColor: '#3AE374',
+
+																									opacity: 1,
+																								},
+																							}}
+																							checked={row.opened}
+																						/>
+																						<img
+																							className='cursor-pointer'
+																							src={SendNote}
+																							alt='send-note-icon'
+																							onClick={() => {
+																								openTraderAlert(row);
+																							}}
+																						/>
+																					</div>
+																				</TableCell>
+																				<TableCell align='right'>
+																					<h2 style={{ color: '#4D4F5C', fontSize: '18px' }}>{row.date}</h2>
+																				</TableCell>
+																				<TableCell align='right'>
+																					<div className='flex flex-row items-center gap-1 py-1 px-3 w-16 h-6 rounded-md'>
+																						<h2 style={{ fontSize: '16px', color: row.special ? '#3AE374' : '#ADB5B9' }} className='min-w-[50px] whitespace-nowrap'>
+																							{row.special ? 'مميز' : 'غير مميز'}
+																						</h2>
+																						<Switch
+																							onChange={() => {
+																								const findIndex = data.findIndex((item) => item.id === row.id);
+																								const arr = [...data];
+																								arr[findIndex].special = !arr[findIndex].special;
+																								setData(arr);
+																							}}
+																							className=''
+																							sx={{
+																								width: '50px',
+
+																								'& .MuiSwitch-thumb': {
+																									width: '11px',
+																									height: '11px',
+																								},
+																								'& .MuiSwitch-switchBase': {
+																									padding: '6px',
+																									top: '9px',
+																									left: '9px',
+																								},
+																								'& .MuiSwitch-switchBase.Mui-checked': {
+																									left: '-1px',
+																								},
+																								'& .Mui-checked .MuiSwitch-thumb': {
+																									backgroundColor: '#FFFFFF',
+																								},
+																								'& .MuiSwitch-track': {
+																									height: '16px',
+																									borderRadius: '20px',
+																								},
+																								'&.MuiSwitch-root .Mui-checked+.MuiSwitch-track': {
+																									backgroundColor: '#3AE374',
+
+																									opacity: 1,
+																								},
+																							}}
+																							checked={row.special}
+																						/>
+																					</div>
+																				</TableCell>
+																				<TableCell align='right'>
+																					<div className='flex flex-row items-center justify-end gap-3'>
+																						<img className='cursor-pointer' src={ListMoreCategory} alt='list-more-category' onClick={activityHandleClick} />
+																						<Menu className={styles.activity_menu} anchorEl={activityAnchorEl} open={activityOpen} onClose={activityHandleClose}>
+																							{[1, 2, 3].map((_item, index) => (
+																								<MenuItem key={index} className='flex flex-row items-center justify-center gap-2' style={{ color: '#4D4F5C' }} onClick={activityHandleClose}>
+																									<div className='flex flex-row items-center justify-center' style={{ width: '30px', height: '30px', borderRadius: '50%', backgroundColor: '#8D8AD333' }}>
+																										<img src={Stationery} alt='stationery-icon' />
+																									</div>
+																									قرطاسية
+																								</MenuItem>
+																							))}
+																						</Menu>
+																						<h2 style={{ color: '#4D4F5C', fontSize: '16px' }} className='inline whitespace-nowrap'>
+																							{row.activity}
+																						</h2>
+																					</div>
+																				</TableCell>
+																				<TableCell align='center'>
+																					<div
+																						className='w-20 h-full py-1 rounded-xl'
+																						style={{
+																							backgroundColor: row.opened ? 'rgba(58, 227, 116, 0.4)' : '#D3D3D3',
+																							marginLeft: 'auto',
+																						}}
+																					>
+																						<h2 style={{ color: row.opened ? '#011723' : '#67747B', fontSize: '16px' }}>{row.opened ? 'نشط' : 'غير نشط'}</h2>
+																					</div>
+																				</TableCell>
+																				<TableCell align='right'>
+																					<h2 style={{ color: '#4D4F5C', fontSize: '16px' }}>{row.store}</h2>
+																				</TableCell>
+																				<TableCell align='right'>
+																					<h2 style={{ color: '#4D4F5C', fontSize: '16px' }}>{row.product}</h2>
+																				</TableCell>
+																				<TableCell align='right'>
+																					<h2 style={{ color: '#4D4F5C', fontSize: '18px' }}>{row.number}</h2>
+																				</TableCell>
+																				<TableCell align='right' style={{ color: '#4D4F5C', fontSize: '18px' }}>
+																					{(index + 1).toLocaleString('en-US', {
+																						minimumIntegerDigits: 2,
+																						useGrouping: false,
+																					})}
+																				</TableCell>
+																				<TableCell padding='none' align={'right'}>
+																					<Checkbox
+																						checkedIcon={<CheckedSquare />}
+																						sx={{
+																							color: '#1DBBBE',
+																							'& .MuiSvgIcon-root': {
+																								color: '#ADB5B9',
+																							},
+																						}}
+																						checked={isItemSelected}
+																						onClick={(event) => handleClick(event, row.id)}
+																						inputProps={{
+																							'aria-labelledby': labelId,
+																						}}
+																					/>
+																				</TableCell>
+																			</TableRow>
+																		);
                 })}
               {emptyRows > 0 && (
                 <TableRow
