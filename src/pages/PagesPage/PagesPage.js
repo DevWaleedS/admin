@@ -21,7 +21,7 @@ const PagesPage = () => {
         <div className="mt-6 flex items-center justify-between">
           <PageNavigate currentPage={"الصفحات"} />
           <Button
-            className={"flex justify-center items-center"}
+            className={"flex justify-center items-center h-15 w-[183px]"}
             type={"normal"}
             svg={<AiOutlinePlus color="#fff" />}
             color={"white"}
