@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useState, useContext } from "react";
+import React, {useContext } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ActionCompleteComp from "./components/ActionCompleteComp/ActionCompleteComp";
 import { Navbar, SideBar } from "./components/index";
@@ -21,7 +21,6 @@ import {
   ServicesPage,
   OtlobhaAcademy,
   TemplatePage,
-  CommentsPage,
   SliderPage,
   PartitionsPage,
   PagesPage,
@@ -83,7 +82,7 @@ function App() {
             <Route path="/أكاديمية_اطلبها" element={<OtlobhaAcademy />} />
             {/* القالب */}
             <Route path="/القالب" element={<TemplatePage />} />
-            <Route path="/التعليقات" element={<CommentsPage />} />
+        
             <Route path="/السلايدر" element={<SliderPage />} />
             <Route path="/التقسيم" element={<PartitionsPage />} />
 
