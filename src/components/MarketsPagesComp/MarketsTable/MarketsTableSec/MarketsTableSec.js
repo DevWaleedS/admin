@@ -1,4 +1,4 @@
-import * as React from "react";
+import React,{useContext} from "react";
 import PropTypes from "prop-types";
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -7,32 +7,28 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
-import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
 import Switch from "@mui/material/Switch";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
-import { BsTrash } from "react-icons/bs";
 import { Gift } from "../../../../assets/Icons/index";
 import { BsStarFill, BsStarHalf } from "react-icons/bs";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { ReactComponent as CheckedSquare } from "../../../../assets/Icons/icon-24-square checkmark.svg";
 import { ReactComponent as SwitchIcon } from "../../../../assets/Icons/icon-38-switch.svg";
-
+import { ReactComponent as BsTrash } from "../../../../assets/Icons/icon-24-delete.svg";
 import {
   MdOutlineKeyboardArrowDown,
   MdOutlineArrowBackIosNew,
   MdOutlineArrowForwardIos,
 } from "react-icons/md";
 import { ReactComponent as SortIcon } from "../../../../assets/Icons/icon-24-sort.svg";
+import { NotificationContext } from "../../../../store/NotificationProvider";
+
 function createData(name, activity, opened, daysLeft, rate) {
   return {
     name,
@@ -286,6 +282,8 @@ export default function EnhancedTable() {
   const [data, setData] = React.useState(rows);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const NotificationStore = useContext(NotificationContext);
+  const { setNotificationTitle } = NotificationStore;
 
   const rowsPerPagesCount = [10, 20, 30, 50, 100];
   const handleRowsClick = (event) => {
@@ -408,6 +406,7 @@ export default function EnhancedTable() {
                         <div className="flex items-center gap-2">
                           <BsTrash
                             onClick={() => {
+                              setNotificationTitle("سيتم حذف جميع المتاجر التي قمت بتحديدها");
                               const findIndex = data.findIndex(
                                 (item) => item.name === row.name
                               );

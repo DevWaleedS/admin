@@ -2,16 +2,16 @@ import React from "react";
 
 const CopyRights = () => {
   return (
-    <div>
+    <div className="mt-5">
       <h2
-        className="text-3xl mb-6 mt-10 font-medium"
-        style={{ color: "rgba(1, 23, 35, 1)" }}
+        className="font-medium"
+        style={{ fontSize:'20px', color: "#011723" }}
       >
         الشروط والاحكام
       </h2>
       <div
-        className="overflow-scroll hide_scrollbar bg-slate-50 py-2"
-        style={{ height: "175px" }}
+        className="bg-white overflow-scroll hide_scrollbar mt-[10px] p-4"
+        style={{ height: "175px",boxShadow:'0px 3px 6px #0000000F' }}
       >
         <p>
           ذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا

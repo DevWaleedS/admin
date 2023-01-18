@@ -1,4 +1,4 @@
-import * as React from "react";
+import React,{useContext} from "react";
 import styles from "./ProductsTableSec.module.css";
 import PropTypes from "prop-types";
 import { alpha } from "@mui/material/styles";
@@ -31,8 +31,9 @@ import {
   ListMoreCategory,
   Stationery
 } from "../../../../assets/Icons/index";
+import { NotificationContext } from "../../../../store/NotificationProvider";
 
-function createData(id,number,product,store,opened,activity,special,date) {
+function createData(id, number, product, store, opened, activity, special, date) {
   return {
     id,
     number,
@@ -46,22 +47,22 @@ function createData(id,number,product,store,opened,activity,special,date) {
 }
 
 const rows = [
-  createData(1,"0851","كاميرا سوني","أمازون",true,"مستلزمات طبية",true,"21/12/2022"),
-  createData(2,"564","خاتم","نون",false,"اكسسوارات",false,"13/9/2022",true),
-  createData(3,"0851","كاميرا سوني","أمازون",true,"مستلزمات طبية",false,"21/12/2022"),
-  createData(4,"0851","كاميرا سوني","أمازون",true,"مستلزمات طبية",true,"21/12/2022"),
-  createData(5,"564","خاتم","نون",true,"اكسسوارات",false,"13/9/2022"),
-  createData(6,"564","خاتم","نون",false,"اكسسوارات",false,"13/9/2022"),
-  createData(7,"564","خاتم","نون",false,"اكسسوارات",false,"13/9/2022"),
-  createData(8,"564","خاتم","نون",false,"اكسسوارات",true,"13/9/2022"),
-  createData(9,"0851","كاميرا سوني","أمازون",true,"مستلزمات طبية",false,"21/12/2022"),
-  createData(10,"564","خاتم","نون",true,"اكسسوارات",true,"13/9/2022"),
-  createData(11,"0851","كاميرا سوني","أمازون",true,"مستلزمات طبية",true,"21/12/2022"),
-  createData(12,"564","خاتم","نون",false,"اكسسوارات",false,"13/9/2022"),
-  createData(13,"0851","كاميرا سوني","أمازون",false,"مستلزمات طبية",true,"21/12/2022"),
-  createData(14,"0851","كاميرا سوني","أمازون",true,"مستلزمات طبية",true,"21/12/2022"),
-  createData(15,"564","خاتم","نون",true,"اكسسوارات",false,"13/9/2022"),
-  createData(16,"564","خاتم","نون",false,"اكسسوارات",false,"13/9/2022"),
+  createData(1, "0851", "كاميرا سوني", "أمازون", true, "مستلزمات طبية", true, "21/12/2022"),
+  createData(2, "564", "خاتم", "نون", false, "اكسسوارات", false, "13/9/2022", true),
+  createData(3, "0851", "كاميرا سوني", "أمازون", true, "مستلزمات طبية", false, "21/12/2022"),
+  createData(4, "0851", "كاميرا سوني", "أمازون", true, "مستلزمات طبية", true, "21/12/2022"),
+  createData(5, "564", "خاتم", "نون", true, "اكسسوارات", false, "13/9/2022"),
+  createData(6, "564", "خاتم", "نون", false, "اكسسوارات", false, "13/9/2022"),
+  createData(7, "564", "خاتم", "نون", false, "اكسسوارات", false, "13/9/2022"),
+  createData(8, "564", "خاتم", "نون", false, "اكسسوارات", true, "13/9/2022"),
+  createData(9, "0851", "كاميرا سوني", "أمازون", true, "مستلزمات طبية", false, "21/12/2022"),
+  createData(10, "564", "خاتم", "نون", true, "اكسسوارات", true, "13/9/2022"),
+  createData(11, "0851", "كاميرا سوني", "أمازون", true, "مستلزمات طبية", true, "21/12/2022"),
+  createData(12, "564", "خاتم", "نون", false, "اكسسوارات", false, "13/9/2022"),
+  createData(13, "0851", "كاميرا سوني", "أمازون", false, "مستلزمات طبية", true, "21/12/2022"),
+  createData(14, "0851", "كاميرا سوني", "أمازون", true, "مستلزمات طبية", true, "21/12/2022"),
+  createData(15, "564", "خاتم", "نون", true, "اكسسوارات", false, "13/9/2022"),
+  createData(16, "564", "خاتم", "نون", false, "اكسسوارات", false, "13/9/2022"),
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -305,6 +306,8 @@ export default function EnhancedTable({ openTraderAlert }) {
   const [activityAnchorEl, setActivityAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const activityOpen = Boolean(activityAnchorEl);
+  const NotificationStore = useContext(NotificationContext);
+  const { setNotificationTitle } = NotificationStore;
 
   const rowsPerPagesCount = [10, 20, 30, 50, 100];
   const handleRowsClick = (event) => {
@@ -392,7 +395,7 @@ export default function EnhancedTable({ openTraderAlert }) {
   };
   return (
     <Box sx={{ width: "100%" }}>
-      <Paper sx={{ backgroundColor:'transparent',width: "100%", mb: 2,boxShadow:'0 0' }}>
+      <Paper sx={{ backgroundColor: 'transparent', width: "100%", mb: 2, boxShadow: '0 0' }}>
         <EnhancedTableToolbar
           onClick={deleteItems}
           numSelected={selected.length}
@@ -401,7 +404,7 @@ export default function EnhancedTable({ openTraderAlert }) {
         />
         <TableContainer>
           <Table
-            sx={{ minWidth: 750,backgroundColor:'#ffffff',marginBottom:'3rem' }}
+            sx={{ minWidth: 750, backgroundColor: '#ffffff', marginBottom: '3rem' }}
             aria-labelledby="tableTitle"
             size={"medium"}
           >
@@ -434,15 +437,16 @@ export default function EnhancedTable({ openTraderAlert }) {
                     >
                       <TableCell component="th" id={labelId} scope="row">
                         <div className="flex items-center gap-2">
-                          <img src={Delete} alt="delete-icon" 
+                          <img src={Delete} alt="delete-icon"
                             onClick={() => {
-                              const findIndex = data.findIndex(
-                                (item) => item.id === row.id
-                              );
-                              const arr = [...data];
-                              arr.splice(findIndex, 1);
-                              setData(arr);
-                            }}
+                              setNotificationTitle("سيتم حذف جميع المنتجات التي قمت بتحديدها");
+                                const findIndex = data.findIndex(
+                                  (item) => item.id === row.id
+                                );
+                                const arr = [...data];
+                                arr.splice(findIndex, 1);
+                                setData(arr);
+                              }}
                             style={{
                               cursor: "pointer",
                               color: "red",
@@ -458,32 +462,45 @@ export default function EnhancedTable({ openTraderAlert }) {
                               arr[findIndex].opened = !arr[findIndex].opened;
                               setData(arr);
                             }}
-                            className=""
                             sx={{
+                              width: '50px',
+                              "& .MuiSwitch-thumb": {
+                                width: '10px',
+                                height: '10px',
+                              },
+                              "& .MuiSwitch-switchBase": {
+                                padding: '5px',
+                                top: '9px',
+                                left: '10px'
+                              },
+                              "& .MuiSwitch-switchBase.Mui-checked": {
+                                left: '0px',
+                              },
                               "& .Mui-checked .MuiSwitch-thumb": {
-                                backgroundColor: "#3AE374",
+                                backgroundColor: "#FFFFFF",
                               },
                               "&.MuiSwitch-root .Mui-checked+.MuiSwitch-track":
-                                {
-                                  backgroundColor: "#3AE374",
-                                },
+                              {
+                                backgroundColor: "#3AE374",
+                                opacity: 1,
+                              },
                             }}
                             checked={row.opened}
                           />
-                          <img className="cursor-pointer" src={SendNote} alt="send-note-icon" onClick={() => {openTraderAlert(row);}}/>
+                          <img className="cursor-pointer" src={SendNote} alt="send-note-icon" onClick={() => { openTraderAlert(row); }} />
                         </div>
                       </TableCell>
                       <TableCell align="right">
-                          <h2 style={{ color:'#4D4F5C' }}>
-                            {row.date}
-                          </h2>
+                        <h2 style={{ color: '#4D4F5C',fontSize:'18px' }}>
+                          {row.date}
+                        </h2>
                       </TableCell>
                       <TableCell align="right">
                         <div
                           className="flex flex-row items-center gap-1 py-1 px-3 w-16 h-6 rounded-md"
                         >
-                        <h2 className="whitespace-nowrap">{row.special ? "مميز" : "غير مميز"}</h2>
-                        <Switch
+                          <h2 style={{ fontSize:'16px',color:row.special ? "#3AE374" : "#ADB5B9" }} className="min-w-[50px] whitespace-nowrap">{row.special ? "مميز" : "غير مميز"}</h2>
+                          <Switch
                             onChange={() => {
                               const findIndex = data.findIndex(
                                 (item) => item.id === row.id
@@ -494,13 +511,27 @@ export default function EnhancedTable({ openTraderAlert }) {
                             }}
                             className=""
                             sx={{
+                              width: '50px',
+                              "& .MuiSwitch-thumb": {
+                                width: '10px',
+                                height: '10px',
+                              },
+                              "& .MuiSwitch-switchBase": {
+                                padding: '5px',
+                                top: '9px',
+                                left: '10px'
+                              },
+                              "& .MuiSwitch-switchBase.Mui-checked": {
+                                left: '0px',
+                              },
                               "& .Mui-checked .MuiSwitch-thumb": {
-                                backgroundColor: "#3AE374",
+                                backgroundColor: "#FFFFFF",
                               },
                               "&.MuiSwitch-root .Mui-checked+.MuiSwitch-track":
-                                {
-                                  backgroundColor: "#3AE374",
-                                },
+                              {
+                                backgroundColor: "#3AE374",
+                                opacity: 1,
+                              },
                             }}
                             checked={row.special}
                           />
@@ -508,23 +539,23 @@ export default function EnhancedTable({ openTraderAlert }) {
                       </TableCell>
                       <TableCell align="right">
                         <div className="flex flex-row items-center justify-end gap-3">
-                          <img className="cursor-pointer" src={ListMoreCategory} alt="list-more-category" onClick={activityHandleClick}/>
+                          <img className="cursor-pointer" src={ListMoreCategory} alt="list-more-category" onClick={activityHandleClick} />
                           <Menu
-                              className={styles.activity_menu}
-                              anchorEl={activityAnchorEl}
-                              open={activityOpen}
-                              onClose={activityHandleClose}
+                            className={styles.activity_menu}
+                            anchorEl={activityAnchorEl}
+                            open={activityOpen}
+                            onClose={activityHandleClose}
                           >
-                              {[1,2,3].map((_item,index)=>(
-                                <MenuItem key={index} className="flex flex-row items-center justify-center gap-2" style={{ color:'#4D4F5C' }} onClick={activityHandleClose}>
-                                  <div
-                                    className="flex flex-row items-center justify-center"
-                                    style={{ width:'30px',height:'30px',borderRadius:'50%',backgroundColor:'#8D8AD333' }}><img src={Stationery} alt="stationery-icon" /></div>
-                                    قرطاسية
+                            {[1, 2, 3].map((_item, index) => (
+                              <MenuItem key={index} className="flex flex-row items-center justify-center gap-2" style={{ color: '#4D4F5C' }} onClick={activityHandleClose}>
+                                <div
+                                  className="flex flex-row items-center justify-center"
+                                  style={{ width: '30px', height: '30px', borderRadius: '50%', backgroundColor: '#8D8AD333' }}><img src={Stationery} alt="stationery-icon" /></div>
+                                قرطاسية
                               </MenuItem>
-                              ))}
+                            ))}
                           </Menu>
-                          <h2 className="inline font-medium whitespace-nowrap">{row.activity}</h2>
+                          <h2 style={{ color: '#4D4F5C',fontSize:'16px' }} className="inline whitespace-nowrap">{row.activity}</h2>
                         </div>
                       </TableCell>
                       <TableCell align="center">
@@ -537,19 +568,19 @@ export default function EnhancedTable({ openTraderAlert }) {
                             marginLeft: "auto",
                           }}
                         >
-                          <h2>{row.opened ? "نشط" : "غير نشط"}</h2>
+                          <h2 style={{ color: row.opened ? '#011723' : '#67747B' ,fontSize:'16px' }}>{row.opened ? "نشط" : "غير نشط"}</h2>
                         </div>
                       </TableCell>
                       <TableCell align="right">
-                        <h2 className="inline font-medium">{row.store}</h2>
+                        <h2 style={{ color: '#4D4F5C',fontSize:'16px' }}>{row.store}</h2>
                       </TableCell>
                       <TableCell align="right">
-                        <h2 className="inline font-medium">{row.product}</h2>
+                        <h2 style={{ color: '#4D4F5C',fontSize:'16px' }}>{row.product}</h2>
                       </TableCell>
                       <TableCell align="right">
-                        <h2 className="inline font-medium">{row.number}</h2>
+                        <h2 style={{ color: '#4D4F5C',fontSize:'18px' }}>{row.number}</h2>
                       </TableCell>
-                      <TableCell align="right">
+                      <TableCell align="right" style={{ color: '#4D4F5C',fontSize:'18px' }}>
                         {(index + 1).toLocaleString("en-US", {
                           minimumIntegerDigits: 2,
                           useGrouping: false,

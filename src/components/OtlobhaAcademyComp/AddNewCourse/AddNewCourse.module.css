@@ -9,3 +9,22 @@
     background-color: rgba(2, 70, 106, 0.4);
     cursor: pointer;
 }
+.editor :global(.demo-wrapper) {
+    padding: 0;
+    padding-bottom: 20px;
+    border-radius: 8px;
+}
+
+.editor :global(.rdw-editor-toolbar) {
+    padding: 16px;
+    margin-bottom: 0;
+}
+
+.editor :global(.rdw-editor-main) {
+    padding: 0 20px;
+    background-color: #F4F5F7;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border: 1px solid #67747B33;
+    
+}

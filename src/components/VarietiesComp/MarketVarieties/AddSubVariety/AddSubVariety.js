@@ -24,7 +24,7 @@ const AddSubVariety = ({ cancel }) => {
             className="h-16 w-full flex items-center justify-between py-4 px-4 trader_alert"
             style={{ backgroundColor:'#02466A' }}
           >
-              <h2 style={{ color:'#ECFEFF',fontSize:'22px' }} className="text-center flex-1">اضف تصنيف فرعي</h2>
+              <h2 style={{ color:'#ECFEFF',fontSize:'22px' }} className="font-medium text-center flex-1">اضف تصنيف فرعي</h2>
               <IoMdCloseCircleOutline
                 size={"1.25rem"}
                 color={"#fff"}
@@ -58,7 +58,8 @@ const AddSubVariety = ({ cancel }) => {
                   }}
                   type={"normal"}
                   className={"text-center w-full rounded-lg"}
-                  style={{ backgroundColor:'#02466A', }}
+                  style={{ backgroundColor:'#02466A',width:'227px',height:'56px' }}
+                  textStyle={{ color: "#EFF9FF", fontSize: '22px' }}
                 >
                   تأكيد 
                 </Button>
@@ -68,7 +69,8 @@ const AddSubVariety = ({ cancel }) => {
                   }}
                   type={"outline"}
                   className={"text-center w-full rounded-lg"}
-                  style={{ backgroundColor:'#02466A00',border:'1px solid #02466A', }}
+                  style={{ backgroundColor:'#02466A00',border:'1px solid #02466A',width:'227px',height:'56px' }}
+                  textStyle={{ color: "#02466A", fontSize: '22px' }}
                 >
                    الغاء  
                 </Button>

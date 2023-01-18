@@ -10,29 +10,32 @@ import NewProduct from '../../../components/SoquStorageComp/NewProduct/NewProduc
 const Storage = () => {
 	const [showNewProductInfo, setShowNewProductInfo] = useState(false);
 	const [editProduct, setEditProduct] = useState(null);
-
-	return (
-		<div className={`px-4 pt-8`} style={{ backgroundColor: '#fafafa' }}>
-			<div className='p-4 font-medium' style={{ color: '#237EAE', backgroundColor: '#C0E9FF' }}>
-				هذه الواجهة خاصة بإدارة المخزون الخاص بسوق اطلبها
-			</div>
-			<div className='flex items-center justify-between my-6 pl-20'>
-				<PageNavigate currentPage={'المخزون'} parentPage={'السوق'} />
-				<Button
-					className={'flex justify-center items-center w-[180px] h-[48px]'}
-					style={{ backgroundColor: '#B6BE34' }}
-					type={'normal'}
-					svg={<AiOutlinePlus color='#fff' />}
-					color={'white'}
-					onClick={() => {
-						setShowNewProductInfo(true);
-						setEditProduct(false);
-					}}
-				>
-					إضافة منتج
-				</Button>
-			</div>
-			{showNewProductInfo && (
+  return (
+    <div className={`px-4 pt-8`} style={{ backgroundColor: "#fafafa" }}>
+      <div
+        className="p-4 font-medium"
+        style={{ color: "#237EAE", backgroundColor: "#C0E9FF" }}
+      >
+        هذه الواجهة خاصة بإدارة المخزون الخاص بسوق اطلبها
+      </div>
+      <div className="flex items-center justify-between mt-6 mb-[18px] pl-[124px]">
+        <PageNavigate currentPage={"المخزون"} parentPage={"السوق"} />
+        <Button
+          className={"flex justify-center items-center"}
+          style={{ backgroundColor:'#B6BE34',width:'180px',height:'48px' }}
+          textStyle={{ color: "#FFFFFF",fontSize:'18px' }}
+          type={"normal"}
+          svg={<AiOutlinePlus color="#fff" />}
+          color={"white"}
+          onClick={() => {
+            setShowNewProductInfo(true);
+            setEditProduct(false);
+          }}
+        >
+            إضافة منتج  
+        </Button>
+      </div>
+      {showNewProductInfo && (
 				<NewProduct
 					cancel={() => {
 						setShowNewProductInfo(false);
@@ -40,20 +43,20 @@ const Storage = () => {
 					editProduct={editProduct}
 				/>
 			)}
-			<div className={'pl-20'}>
-				<StorageStatus />
-				<StorageFilter />
-				<div dir='ltr'>
-					<StorageTable
-						editProduct={(item) => {
-							setEditProduct(item);
-							setShowNewProductInfo(true);
-						}}
-					/>
-				</div>
-			</div>
-		</div>
-	);
+      <div className={"pl-[124px]"}>
+        <StorageStatus />
+        <StorageFilter />
+        <div dir="ltr">
+          <StorageTable 
+              editProduct={(item) => {
+                setEditProduct(item);
+                setShowNewProductInfo(true);
+              }}
+          />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Storage;
