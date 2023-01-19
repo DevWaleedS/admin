@@ -1,6 +1,9 @@
 import React from "react";
 import { BsPlayCircle } from "react-icons/bs";
-import { BsTrash } from "react-icons/bs";
+import { ReactComponent as BsTrash } from "../../../assets/Icons/icon-24-delete.svg";
+import { ReactComponent as Copy } from "../../../assets/Icons/copy icon.svg";
+import { ReactComponent as Edit } from "../../../assets/Icons/editt 2.svg";
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const courses = [
   {
@@ -37,7 +40,7 @@ const TrainingCourses = () => {
           const image = require("../../../assets/images/drop_shipping_img.png");
           console.log(`"${course.img}"`);
           return (
-            <div key={index} className="flex justify-between shadow-lg  mb-4">
+            <div key={index} className="flex flex-row items-center justify-between shadow-lg  mb-4">
               <div className="flex gap-4">
                 <div className="w-40 h-40 relative cursor-pointer">
                   <img
@@ -63,8 +66,11 @@ const TrainingCourses = () => {
                   <h2 className=" text-lg">{course.numberOfVideos} فيديو</h2>
                 </div>
               </div>
-              <div className="flex pl-6 pb-2 items-end">
-                <BsTrash color="red" size={"1.2rem"}></BsTrash>
+              <div className="flex flex-row items-center justify-center gap-5 pl-6">
+                <Copy ></Copy>
+                <Edit ></Edit>
+                <VisibilityIcon style={{ color:'#1DBBBE' }}></VisibilityIcon>
+                <BsTrash ></BsTrash>
               </div>
             </div>
           );

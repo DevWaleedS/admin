@@ -7,12 +7,15 @@ import Select from "@mui/material/Select";
 import Button from "../../../UI/Button/Button";
 import Context from "../../../store/context";
 import { ReactComponent as Arrow } from "../../../assets/Icons/icon-24-chevron_down.svg";
+// import { ReactComponent as Clear } from "../../../assets/Icons/icon-24-actioins-clear.svg";
 import styles from "./AddNewPackagePlan.module.css";
 import MenuItem from "@mui/material/MenuItem";
 import { GoArrowRight } from "react-icons/go";
 import { FormControl } from "@mui/material";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import {Template} from '../../../assets/Icons/index';
+import { Template } from '../../../assets/Icons/index';
+import ListItemText from '@mui/material/ListItemText';
+import Checkbox from '@mui/material/Checkbox';
 
 const packagesOptions = [
   "100 منتج",
@@ -34,7 +37,7 @@ const MenuProps = {
   },
 };
 
-const AddNewPackagePlan = ({ cancel, setChooseTemplate ,editPackageDetails }) => {
+const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) => {
   const contextStore = useContext(Context);
   const { setEndActionTitle } = contextStore;
   const [packageOption, setPackageOption] = useState("");
@@ -62,10 +65,10 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate ,editPackageDetails }) =>
           <div onClick={cancel} className={` ${styles.arrow_con}`}>
             <GoArrowRight style={{ color: "#02466A", fontSize: "1.2rem" }} />
           </div>
-          <h2 style={{ fontSize:'18px',color: '#011723' }}>الباقات والأسعار</h2>
+          <h2 style={{ fontSize: '18px', color: '#011723' }}>الباقات والأسعار</h2>
         </div>
         <Button
-          style={{ width:'180px',height:'56px', fontSize:'22px',color: '#011723',whiteSpace:'nowrap', }}
+          style={{ width: '180px', height: '56px', fontSize: '22px', color: '#011723', whiteSpace: 'nowrap', }}
           onClick={() => {
             setEndActionTitle(
               editPackageDetails
@@ -80,174 +83,189 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate ,editPackageDetails }) =>
         </Button>
       </div>
       <div className="flex flex-col gap-[10px]">
-        <h2 style={{ fontSize:'16px',color: '#1DBBBE' }}>
+        <h2 style={{ fontSize: '16px', color: '#1DBBBE' }}>
           رقم الباقة
         </h2>
-          <input
-            className="font-medium text-center py-[12px] px-2 outline-none rounded-lg placeholder:text-[#02466A]"
-            style={{ width:'180px',height:'56px', backgroundColor: "#D3D3D3", color: '#02466A',fontSize:'24px' }}
-            placeholder="0212"
-            type="text"
-          />
+        <input
+          className="font-medium text-center py-[12px] px-2 outline-none rounded-lg placeholder:text-[#02466A]"
+          style={{ width: '180px', height: '56px', backgroundColor: "#D3D3D3", color: '#02466A', fontSize: '24px' }}
+          placeholder="0212"
+          type="text"
+        />
         {editPackageDetails && (
           <div className="mt-[20px] p-4 rounded-lg" style={{ backgroundColor: "#EBEBEB" }}>
             <h3 className="mb-3 font-medium" style={{ color: "#67747B", fontSize: "20px" }}>
               الخطة الحالية
             </h3>
-              {editPackageDetails.map((bool, idx) => {
-                if (bool) {
-                  return (
-                    <div
+            {editPackageDetails.map((bool, idx) => {
+              if (bool) {
+                return (
+                  <div
+                    style={{
+                      backgroundColor: "#0BF1D1",
+                      marginLeft: "14px",
+                      display: "inline-flex",
+                    }}
+                    className="gap-4 items-center py-1 px-3 mb-4 rounded-lg"
+                  >
+                    <h2
+                      className=" "
                       style={{
-                        backgroundColor: "#0BF1D1",
-                        marginLeft: "14px",
-                        display: "inline-flex",
+                        color: "#011723",
                       }}
-                      className="gap-4 items-center py-1 px-3 mb-4 rounded-lg"
                     >
-                      <h2
-                        className=" "
-                        style={{
-                          color: "#011723",
-                        }}
-                      >
-                        {packagesOptions[idx]}
-                      </h2>
-                      <MdClear
-                        className="cursor-pointer"
-                        fill="#011723"
-                      ></MdClear>
-                    </div>
-                  );
-                }
-              })}
+                      {packagesOptions[idx]}
+                    </h2>
+                    <MdClear
+                      className="cursor-pointer"
+                      fill="#011723"
+                    ></MdClear>
+                  </div>
+                );
+              }
+            })}
           </div>
         )}
         {
-          editPackageDetails ? 
-          (
-          <div className="bg-white mt-6 p-8 pb-20 rounded-lg" style={{ boxShadow: '0px 3px 6px #1DBBBE0F' }}>
-              <h2 style={{ color: "#0099FB" }} className="text-lg font-medium mb-3">
-                 اضافة محتوى جديد للخطة
-              </h2>
-              <FormControl sx={{ width: "100%" }}>
-                <Select
-                  multiple
-                  displayEmpty
-                  value={optionName}
-                  onChange={handleChange}
-                  input={<OutlinedInput />}
-                  sx={{
-                    backgroundColor: "#EFF9FF",
-                    "& .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "#92D9FF !important",
-                    },
-                  }}
-                  renderValue={(selected) => {
-                    if (selected.length === 0) {
-                      return "اختر وصف الباقة";
-                    }
+          editPackageDetails ?
+            (
+              <div className="bg-white mt-6 p-8 pb-20 rounded-lg" style={{ boxShadow: '0px 3px 6px #1DBBBE0F' }}>
+                <h2 style={{ color: "#0099FB" }} className="text-lg font-medium mb-3">
+                  اضافة محتوى جديد للخطة
+                </h2>
+                <FormControl sx={{ width: "100%" }}>
+                  <Select
+                    multiple
+                    displayEmpty
+                    value={optionName}
+                    onChange={handleChange}
+                    input={<OutlinedInput />}
+                    sx={{
+                      backgroundColor: "#EFF9FF",
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#92D9FF !important",
+                      },
+                    }}
+                    renderValue={(selected) => {
+                      if (selected.length === 0) {
+                        return "اختر وصف الباقة";
+                      }
 
-                    return selected.map((item) => {
-                      return (
-                        <div
-                          className="py-1 px-3 text-slate-50 rounded-lg font-light"
-                          style={{
-                            backgroundColor: "#0099FB",
-                            marginRight: "5px",
-                            display: "inline",
-                          }}
-                        >
-                          {item}
-                        </div>
-                      );
-                    });
-                  }}
-                  MenuProps={MenuProps}
-                  inputProps={{ "aria-label": "Without label" }}
-                >
-                  {packagesOptions.map((option) => (
-                    <MenuItem key={option} value={option}>
-                      {option}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-          </div>
-          )
-          :
-          (
-            <div className="flex flex-col gap-[28px] bg-white mt-[28px] pr-[10px] pl-[30px] pt-[20px] pb-20 rounded-lg" style={{ boxShadow: '0px 3px 6px #1DBBBE0F' }}>
-            <h2 style={{ color: "#0099FB",fontSize:'20px' }} className="font-medium">
-              <AiFillStar
-                style={{
-                  display: "inline-block",
-                  marginLeft: "1rem",
-                  color: "red",
-                }}
-              ></AiFillStar>
-              خطة الباقة
-            </h2>
-            <FormControl sx={{ width: "100%" }}>
-              <Select
-                className={styles.select}
-                multiple
-                displayEmpty
-                value={optionName}
-                onChange={handleChange}
-                IconComponent={(props) => (<Arrow fill="#242424" {...props} />)}
-                input={<OutlinedInput />}
-                sx={{
-                  backgroundColor: "#EFF9FF",
-                  "& .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "#92D9FF !important",
-                  },
-                }}
-                renderValue={(selected) => {
-                  if (selected.length === 0) {
-                    return "اختر وصف الباقة";
-                  }
-  
-                  return selected.map((item) => {
-                    return (
-                      <div
-                        className="py-1 px-3 text-slate-50 rounded-lg font-light"
-                        style={{
-                          backgroundColor: "#0099FB",
-                          marginRight: "5px",
-                          display: "inline",
+                      return selected.map((item) => {
+                        return (
+                          <div
+                            className="py-1 px-3 text-slate-50 rounded-lg font-light"
+                            style={{
+                              backgroundColor: "#0099FB",
+                              marginRight: "5px",
+                              display: "inline",
+                            }}
+                          >
+                            {item}
+                          </div>
+                        );
+                      });
+                    }}
+                    MenuProps={MenuProps}
+                    inputProps={{ "aria-label": "Without label" }}
+                  >
+                    {packagesOptions.map((option) => (
+                      <MenuItem 
+                        key={option} 
+                        value={option} 
+                        className="souq_storge_category_filter_items"
+                        sx={{
+                          padding: 0,
+                          backgroundColor: "#FAFAFA",
+                          height: "56px",
+                          "&:hover": {
+                            backgroundColor: '#5EBFF2'
+                          },
                         }}
                       >
-                        {item}
-                      </div>
-                    );
-                  });
-                }}
-                MenuProps={MenuProps}
-                inputProps={{ "aria-label": "Without label" }}
-              >
-                {packagesOptions.map((option) => (
-                  <MenuItem className="souq_storge_category_filter_items" 
-                  key={option} 
-                  value={option}
-                  sx={{
-                    backgroundColor: "#FAFAFA",
-                    height: "3rem",
-                    "&:hover": {
-                      backgroundColor:'#92D9FF'
-                    },
-                  }}
+                        <Checkbox checked={optionName.indexOf(option) > -1} />
+                        <ListItemText primary={option} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+            )
+            :
+            (
+              <div className="flex flex-col gap-[28px] bg-white mt-[28px] pr-[10px] pl-[30px] pt-[20px] pb-20 rounded-lg" style={{ boxShadow: '0px 3px 6px #1DBBBE0F' }}>
+                <h2 style={{ color: "#0099FB", fontSize: '20px' }} className="font-medium">
+                  <AiFillStar
+                    style={{
+                      display: "inline-block",
+                      marginLeft: "1rem",
+                      color: "red",
+                    }}
+                  ></AiFillStar>
+                  خطة الباقة
+                </h2>
+                <FormControl sx={{ width: "100%" }}>
+                  <Select
+                    className={styles.select}
+                    multiple
+                    displayEmpty
+                    value={optionName}
+                    onChange={handleChange}
+                    IconComponent={(props) => (<Arrow fill="#242424" {...props} />)}
+                    input={<OutlinedInput />}
+                    sx={{
+                      backgroundColor: "#EFF9FF",
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "#92D9FF !important",
+                      },
+                    }}
+                    renderValue={(selected) => {
+                      if (selected.length === 0) {
+                        return "اختر وصف الباقة";
+                      }
+
+                      return selected.map((item) => {
+                        return (
+                          <div
+                            className="py-1 px-3 text-slate-50 rounded-lg font-light"
+                            style={{
+                              backgroundColor: "#0099FB",
+                              marginRight: "5px",
+                              display: "inline",
+                            }}
+                          >
+                            {item}
+                          </div>
+                        );
+                      });
+                    }}
+                    MenuProps={MenuProps}
+                    inputProps={{ "aria-label": "Without label" }}
                   >
-                    {option}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </div>
-          )
+                    {packagesOptions.map((option) => (
+                      <MenuItem className="souq_storge_category_filter_items"
+                        key={option}
+                        value={option}
+                        sx={{
+                          padding: 0,
+                          backgroundColor: "#FAFAFA",
+                          height: "56px",
+                          "&:hover": {
+                            backgroundColor: '#5EBFF2'
+                          },
+                        }}
+                      >
+                        <Checkbox checked={optionName.indexOf(option) > -1} />
+                        <ListItemText primary={option} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+            )
         }
         <div className="flex flex-col gap-[28px] bg-white mt-6 p-8 rounded-lg" style={{ boxShadow: '0px 3px 6px #1DBBBE0F' }}>
-          <h2 style={{ color: "#0099FB",fontSize:'20px' }} className="font-medium">
+          <h2 style={{ color: "#0099FB", fontSize: '20px' }} className="font-medium">
             <AiFillStar
               style={{
                 display: "inline-block",
@@ -262,7 +280,7 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate ,editPackageDetails }) =>
               <Grid item xs={6} container rowSpacing={4}>
                 <Grid item xs={12}>
                   <Box className="flex flex-row items-center">
-                    <label style={{ color: '#011723',fontSize:'18px' }} className="w-60 whitespace-nowrap" htmlFor="name">اسم الباقة</label>
+                    <label style={{ color: '#011723', fontSize: '18px' }} className="w-60 whitespace-nowrap" htmlFor="name">اسم الباقة</label>
                     <input
                       id="name"
                       className=" w-full px-4 py-3 outline-none rounded-lg"
@@ -274,7 +292,7 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate ,editPackageDetails }) =>
                 </Grid>
                 <Grid item xs={12}>
                   <Box className="flex flex-row items-center">
-                    <label style={{ color: '#011723',fontSize:'18px' }} className="w-60 whitespace-nowrap" htmlFor="month">المبلغ الشهري</label>
+                    <label style={{ color: '#011723', fontSize: '18px' }} className="w-60 whitespace-nowrap" htmlFor="month">المبلغ الشهري</label>
                     <input
                       id="month"
                       className=" w-full px-4 py-3 outline-none rounded-lg"
@@ -286,7 +304,7 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate ,editPackageDetails }) =>
                 </Grid>
                 <Grid item xs={12}>
                   <Box className="flex flex-row items-center">
-                    <label style={{ color: '#011723',fontSize:'18px' }} className="w-60 whitespace-nowrap" htmlFor="month">الخصم</label>
+                    <label style={{ color: '#011723', fontSize: '18px' }} className="w-60 whitespace-nowrap" htmlFor="month">الخصم</label>
                     <input
                       id="month"
                       className=" w-full px-4 py-3 outline-none rounded-lg"
@@ -304,7 +322,7 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate ,editPackageDetails }) =>
               <Grid item xs={6} container>
                 <Grid item xs={12}>
                   <Box className="flex flex-row items-center">
-                    <label style={{ color: '#011723',fontSize:'18px' }} className="w-60 whitespace-nowrap" htmlFor="name">المبلغ السنوي</label>
+                    <label style={{ color: '#011723', fontSize: '18px' }} className="w-60 whitespace-nowrap" htmlFor="name">المبلغ السنوي</label>
                     <input
                       id="name"
                       className=" w-full px-4 py-3 outline-none rounded-lg"
@@ -320,22 +338,22 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate ,editPackageDetails }) =>
         </div>
       </div>
       <div className="w-full mt-5 flex flex-row gap-6 pb-16">
-            <AiFillStar
-              style={{
-                color: "red",
-              }}
-            ></AiFillStar>
-          <Button
-            className={"w-full rounded-lg py-4 ml-10"}
-            style={{ width:'960px',height:'56px',backgroundColor: "#FFFFFF",border: '1px solid #02466A' }}
-            svg={<img src={Template} alt="template-icon" />}
-            type={"outline"}
-            onClick={() => {
-              setChooseTemplate(true);
-            }}
-          >
-              <h2 style={{ color:'#02466A',fontSize:'20px' }} className="font-medium">اختر قوالب الباقة</h2>
-          </Button>
+        <AiFillStar
+          style={{
+            color: "red",
+          }}
+        ></AiFillStar>
+        <Button
+          className={"w-full rounded-lg py-4 ml-10"}
+          style={{ width: '960px', height: '56px', backgroundColor: "#FFFFFF", border: '1px solid #02466A' }}
+          svg={<img src={Template} alt="template-icon" />}
+          type={"outline"}
+          onClick={() => {
+            setChooseTemplate(true);
+          }}
+        >
+          <h2 style={{ color: '#02466A', fontSize: '20px' }} className="font-medium">اختر قوالب الباقة</h2>
+        </Button>
       </div>
     </div>
   );

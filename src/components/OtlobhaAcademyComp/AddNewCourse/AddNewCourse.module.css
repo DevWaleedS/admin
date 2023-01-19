@@ -1,5 +1,4 @@
-.arrow_con
-{
+.arrow_con {
     height: 1.5rem;
     width: 1.5rem;
     display: flex;
@@ -9,6 +8,7 @@
     background-color: rgba(2, 70, 106, 0.4);
     cursor: pointer;
 }
+
 .editor :global(.demo-wrapper) {
     padding: 0;
     padding-bottom: 20px;
@@ -26,5 +26,8 @@
     border-bottom-right-radius: 8px;
     border-bottom-left-radius: 8px;
     border: 1px solid #67747B33;
-    
+}
+
+.editor :global(.rdw-editor-toolbar .rdw-option-wrapper) {
+    border: none;
 }

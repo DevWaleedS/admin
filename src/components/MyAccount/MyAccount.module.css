@@ -12,8 +12,18 @@
   top: 15px;
   left: 7px;
   right: unset;
+  opacity: 0;
 }
 
 .select :global(.MuiSelect-icon path) {
-  fill: #242424;
+  fill: #1DBBBE;
+}
+.select :global(.MuiSelect-iconOpen.MuiSelect-icon){
+  opacity: 1;
+}
+.select:has(:global(.MuiSelect-iconOpen.MuiSelect-icon)){
+  background-color: #fff;
+}
+.select:has(:global(.MuiSelect-iconOpen.MuiSelect-icon)) :global(h2){
+  color: #1DBBBE;
 }

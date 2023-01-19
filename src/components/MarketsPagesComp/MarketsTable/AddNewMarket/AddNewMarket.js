@@ -42,6 +42,8 @@ const AddNewMarket = ({ cancel }) => {
   const [conditionsSelected, setConditionsSelected] = useState("");
   const [images, setImages] = useState([]);
   const [multiImages, setMultiImages] = useState([]);
+  const [openActivity, setOpenActivity] = useState(false);
+  const [showPassword,setShowPassword] = useState(false);
   console.log(multiImages);
 
   const emptyMultiImages = [];
@@ -84,7 +86,7 @@ const AddNewMarket = ({ cancel }) => {
           >
             <h2 className="font-semibold text-2xl  mb-3">انشاء متجر جديد</h2>
             <div className="flex flex-row items-center">
-              <div onClick={()=>cancel()} className={"flex items-center gap-2 cursor-pointer"}>
+              <div onClick={() => cancel()} className={"flex items-center gap-2 cursor-pointer"}>
                 <div className="flex flex-col items-center justify-center" style={{ width: '30px', height: '30px', borderRadius: '50%', backgroundColor: '#02466A1A' }}>
                   <GoArrowRight style={{ color: "#02466A", fontSize: "1.2rem" }} />
                 </div>
@@ -174,7 +176,7 @@ const AddNewMarket = ({ cancel }) => {
                   <Select
                     className={styles.select}
                     value={storeCity}
-                    onChange={(e)=>setStoreCity(e.target.value)}
+                    onChange={(e) => setStoreCity(e.target.value)}
                     displayEmpty
                     IconComponent={(props) => (<Arrow fill="#242424" {...props} />)}
                     inputProps={{ "aria-label": "Without label" }}
@@ -248,7 +250,7 @@ const AddNewMarket = ({ cancel }) => {
                   <Select
                     className={styles.select}
                     value={planSelected}
-                    onChange={(e)=>setPlanSelected(e.target.value)}
+                    onChange={(e) => setPlanSelected(e.target.value)}
                     displayEmpty
                     IconComponent={(props) => (<Arrow fill="#242424" {...props} />)}
                     inputProps={{ "aria-label": "Without label" }}
@@ -302,7 +304,7 @@ const AddNewMarket = ({ cancel }) => {
                   <Select
                     className={styles.select}
                     value={planTimeSelected}
-                    onChange={(e)=>setPlanTimeSelected(e.target.value)}
+                    onChange={(e) => setPlanTimeSelected(e.target.value)}
                     displayEmpty
                     IconComponent={(props) => (<Arrow fill="#242424" {...props} />)}
                     inputProps={{ "aria-label": "Without label" }}
@@ -358,6 +360,10 @@ const AddNewMarket = ({ cancel }) => {
                     IconComponent={(props) => (<Arrow fill="#242424" {...props} />)}
                     multiple
                     displayEmpty
+                    open={openActivity}
+                    onClick={(e) => {
+                      setOpenActivity(true)
+                    }}
                     value={activity}
                     onChange={handleActivity}
                     renderValue={(selected) => activity.length === 0 ? 'نشاط المتجر' : selected.join(' , ')}
@@ -377,7 +383,16 @@ const AddNewMarket = ({ cancel }) => {
                         <ListItemText primary={name} />
                       </MenuItem>
                     ))}
-                    <div className="flex flex-col items-center justify-center p-3.5 rounded-none" style={{ fontSize:'18px',backgroundColor:'#02466A',color:'#FFFFFF' }}>اختر</div>
+                    <button
+                      className="w-full flex flex-col items-center justify-center p-3.5 rounded-none"
+                      style={{ fontSize: '18px', backgroundColor: '#02466A', color: '#FFFFFF' }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        setOpenActivity(false);
+                      }}
+                    >اختر
+                    </button>
                   </Select>
                 </FormControl>
               </div>
@@ -447,9 +462,9 @@ const AddNewMarket = ({ cancel }) => {
                     className="w-full outline-none"
                     style={{ backgroundColor: 'transparent' }}
                     value="12345678"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                   />
-                  <Password className={styles.password} />
+                  <Password className={styles.password} onClick={()=>setShowPassword(!showPassword)}/>
                 </div>
               </div>
               <div className="flex flex-row items-center">
@@ -471,7 +486,7 @@ const AddNewMarket = ({ cancel }) => {
                   <Select
                     className={styles.select}
                     value={ownerCity}
-                    onChange={(e)=>setOwerCity(e.target.value)}
+                    onChange={(e) => setOwerCity(e.target.value)}
                     displayEmpty
                     IconComponent={(props) => (<Arrow fill="#242424" {...props} />)}
                     inputProps={{ "aria-label": "Without label" }}
@@ -562,7 +577,7 @@ const AddNewMarket = ({ cancel }) => {
                         {...dragProps}
                       >
                         <div
-                          className="image-item w-full cursor-pointer"
+                          className="image-item w-full flex cursor-pointer"
                           style={{ height: "56px", backgroundColor: '#EFF0F0', }}
                         >
                           {/* <button
@@ -575,6 +590,16 @@ const AddNewMarket = ({ cancel }) => {
                           {!images[0] && (
                             <div className="flex flex-row justify-between items-center py-4 pr-5 h-full w-full">
                               <h2 style={{ color: '#7C7C7C' }}>( اختر صورة فقط png & jpg )</h2>
+                              <div className="flex flex-col justify-center items-center px-10 rounded-lg"
+                                style={{ height: '56px', backgroundColor: '#7C7C7C', color: '#ffffff' }}
+                              >
+                                استعراض
+                              </div>
+                            </div>
+                          )}
+                          {images[0] && (
+                            <div className="flex flex-row justify-between items-center py-4 pr-5 h-full w-full">
+                              <h2 style={{ color: '#7C7C7C' }}>{images[0].file.name}</h2>
                               <div className="flex flex-col justify-center items-center px-10 rounded-lg"
                                 style={{ height: '56px', backgroundColor: '#7C7C7C', color: '#ffffff' }}
                               >
@@ -596,7 +621,7 @@ const AddNewMarket = ({ cancel }) => {
                   <Select
                     className={styles.select}
                     value={conditionsSelected}
-                    onChange={(e)=>setConditionsSelected(e.target.value)}
+                    onChange={(e) => setConditionsSelected(e.target.value)}
                     displayEmpty
                     IconComponent={(props) => (<Arrow fill="#242424" {...props} />)}
                     inputProps={{ "aria-label": "Without label" }}
@@ -647,13 +672,14 @@ const AddNewMarket = ({ cancel }) => {
             <Button
               className={"h-[14] w-[268px]"}
               style={{ backgroundColor: `rgba(2, 70, 106, 1)` }}
+              textStyle={{ color: "#EFF9FF", fontSize: '22px' }}
               type={"normal"}
               onClick={() => {
                 setEndActionTitle("تم انشاء متجر جديد بنجاح");
                 cancel();
               }}
             >
-               حفظ واعتماد
+              حفظ واعتماد
             </Button>
           </div>
         </div>

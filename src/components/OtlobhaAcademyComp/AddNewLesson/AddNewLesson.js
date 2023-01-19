@@ -23,6 +23,16 @@ const AddNewLesson = ({ cancel, editDetails }) => {
   const [images, setImages] = useState([]);
   const [multiImages, setMultiImages] = useState([]);
   console.log(multiImages);
+  const [copy, setCopy] = useState(false);
+
+
+  const handelCopy =()=>{
+    navigator.clipboard.writeText('https://www.google.com/search%A%D8%AA%D9%8');
+    setCopy(true);
+    setTimeout(() => {
+      setCopy(false);
+    }, 5000);
+  }
 
   const emptyMultiImages = [];
   for (let index = 0; index < 5 - multiImages.length; index++) {
@@ -188,7 +198,7 @@ const AddNewLesson = ({ cancel, editDetails }) => {
                 className="w-full flex flex-row items-center justify-between rounded-md p-4"
                 style={{ backgroundColor: '#F4F5F7', border: '1px solid #67747B33' }}
               >
-                <CopyIcon className="cursor-pointer" fill="#02466A" />
+              {copy ? (<h6 style={{ color: '#02466A', fontSize: '16px' }}>Copied</h6>) : (<CopyIcon className="cursor-pointer" fill="#02466A" onClick={()=>handelCopy()}/>)}
                 <h6 className="whitespace-nowrap" style={{ color: '#02466A', fontSize: '16px' }}>https://www.google.com/search%A%D8%AA%D9%8</h6>
               </div>
             </div>

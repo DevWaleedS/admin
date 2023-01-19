@@ -4,6 +4,7 @@ import {
   } from "../../assets/Icons/index";
 import styles from "./EmailMenu.module.css";
 import StarBorderIcon from '@mui/icons-material/StarBorder';
+import { Link } from "react-router-dom";
 
 const BackDrop = ({ closeMenu }) => {
     return (
@@ -26,7 +27,7 @@ const EmailMenu = () => {
                     </BackDrop>
                     <div className={`${styles.EmailMenu} z-20`}>
                     {[1,2,3,4].map((_item,index)=>(
-                    <div key={index} className="w-full flex flex-row items-center justify-between gap-4">
+                    <div key={index} className={`${styles.email_box} w-full flex flex-row items-center justify-between gap-4`}>
                         <div className="flex flex-row items-center justify-between gap-4">
                             <div 
                                 style={{ 
@@ -37,10 +38,12 @@ const EmailMenu = () => {
                                 className="flex flex-col items-center justify-center bg-purple-500 text-white font-medium">
                                 A
                             </div>
-                            <div className="flex flex-col">
-                                <h6 className="text-lg font-medium text-black">Ahmed Abdulaziz</h6>
-                                <p className="font-normal text-black">تحديث اشتراك الباقة</p>
-                            </div>
+                            <Link to="/البريد" onClick={()=>setOpen(!open)}>
+                                <div className="flex flex-col">
+                                    <h6 className="text-lg font-medium text-black">Ahmed Abdulaziz</h6>
+                                    <p className="font-normal text-black">تحديث اشتراك الباقة</p>
+                                </div>
+                            </Link>
                         </div>
                         <div className="flex flex-row items-center justify-between gap-4">
                             <div className="flex-1 flex flex-col">

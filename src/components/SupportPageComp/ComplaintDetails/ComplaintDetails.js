@@ -100,12 +100,12 @@ const AddCountry = ({ cancel, complaintDetails }) => {
                   />
                 </div>
 
-                <h2 className="font-semibold ml-4"> الدعم الفني </h2>
+                <h2 className="ml-4" style={{ fontSize: '18px', color: "#011723" }}> الدعم الفني </h2>
               </div>
 
-              <h2 className="font-semibold ml-4"> / جدول الشكاوى </h2>
+              <h2 className="ml-4" style={{ fontSize: '18px', color: "#011723" }}> / جدول الشكاوى </h2>
 
-              <h3 className="font-medium" style={{ color: "#67747B" }}>
+              <h3 style={{ fontSize: '18px', color: "#7C7C7C" }}>
                 / تفاصيل الشكوى
               </h3>
             </div>
@@ -289,9 +289,12 @@ const AddCountry = ({ cancel, complaintDetails }) => {
                   wrapperClassName="demo-wrapper"
                   editorClassName="demo-editor"
                   toolbar={{
-                    options: ["inline", "textAlign"],
+                    options: ["inline", "textAlign", "image", "list"],
                     inline: {
-                      options: ["bold", "italic"],
+                      options: ["bold"],
+                    },
+                    list: {
+                      options: ["unordered", "ordered"],
                     },
                   }}
                 />

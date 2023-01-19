@@ -9,8 +9,8 @@ import MenuItem from "@mui/material/MenuItem";
 import { IoIosArrowDown } from "react-icons/io";
 import Button from "../../../../UI/Button/Button";
 import Context from "../../../../store/context";
-
-import { ReactComponent as CheckMarkImageIcon } from "../../../../assets/Icons/icon-24-checkmark-image.svg";
+import Person from "../../../../assets/Icons/Image Person.png";
+import ImageUploading from "react-images-uploading";
 import { ReactComponent as BsWhatsapp } from "../../../../assets/Icons/icon-24-whatsapp.svg";
 import { ReactComponent as BsFacebook } from "../../../../assets/Icons/icon-24-facebook.svg";
 import { ReactComponent as BsTwitter } from "../../../../assets/Icons/icon-24-twitter.svg";
@@ -31,7 +31,7 @@ const TabsComp = () => {
   const [category, setCategory] = useState("");
   const [specialProduct, setSpecialProduct] = useState("");
   const [condition, setCondition] = useState("");
-
+  const [images, setImages] = useState([]);
   const handleCategoryChange = (event) => {
     setCategory(event.target.value);
   };
@@ -45,6 +45,12 @@ const TabsComp = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const onChange = (imageList, addUpdateIndex) => {
+    // data for submit
+    setImages(imageList);
+  };
+
   return (
     <Box className=" pt-5 " style={{}}>
       <TabContext value={value}>
@@ -173,36 +179,82 @@ const TabsComp = () => {
                 </div>
                 <div className={`mb-5 flex gap-3 items-end `}>
                   <div
-                    className="flex items-center rounded justify-center"
+                    className="flex items-center rounded-md justify-center"
                     style={{
                       backgroundColor: "#D3D3D3",
                       height: "161px",
-                      width: "130px",
+                      minWidth: "130px",
                     }}
                   >
-                    <CheckMarkImageIcon
-                      style={{ width: "32px", height: "32px" }}
-                    />
+                    <img className="rounded-md w-full h-full" src={Person} alt="img" />
                   </div>
-                  <div className="flex flex-1">
-                    <label className="flex-1" htmlFor="">
-                      <input
-                        className="outline-none flex-1 w-full h-full p-3  rounded"
-                        style={{ border: "1px solid #E9E9E9" }}
-                        type="text"
-                        placeholder=""
-                      />
-                    </label>
-                    <Button
-                      type={"normal"}
-                      style={{
-                        backgroundColor: "rgba(35, 126, 174, 1)",
-                        height: "56px",
-                        width: "180px",
-                      }}
+                  <div className="w-full">
+                    <ImageUploading
+                      value={images}
+                      onChange={onChange}
+                      maxNumber={1}
+                      dataURLKey="data_url"
+                      acceptType={["jpg", "png", "jpeg"]}
+                      className="w-full"
                     >
-                      استعراض
-                    </Button>
+                      {({
+                        imageList,
+                        onImageUpload,
+                        dragProps,
+                      }) => (
+                        // write your building UI
+                        <div>
+                          <div
+                            className="upload__image-wrapper relative overflow-hidden"
+                            style={{
+                              width: "100%",
+
+                              border: images[0] ? "1px solid #E9E9E9" : "1px solid #E9E9E9",
+                              borderRadius: "4px",
+                            }}
+                            onClick={() => {
+                              onImageUpload();
+                            }}
+                            {...dragProps}
+                          >
+                            <div
+                              className="image-item w-full flex cursor-pointer"
+                              style={{ height: "56px" }}
+                            >
+                              {/* <button
+                        style={isDragging ? { color: "red" } : null}
+                        onClick={onImageUpload}
+                        {...dragProps}
+                      >
+                        Click or Drop here
+                      </button> */}
+                              {!images[0] && (
+                                <div className="flex flex-1">
+                                  <div className="flex-1"></div>
+                                  <div className="flex flex-col justify-center items-center px-10 rounded-lg"
+                                    style={{ width: "180px", height: '56px', backgroundColor: '#237EAE', color: '#ffffff' }}
+                                  >
+                                    استعراض
+                                  </div>
+                                </div>
+                              )}
+                              {images[0] && (
+                                <div className="flex flex-1">
+                                  <div className="flex-1 flex flex-col items-center justify-center">
+                                      <h6 style={{ fontSize:'18px',color:'#000000',fontWeight:'500' }}>{images[0].file.name}</h6>
+                                  </div>
+                                  <div className="flex flex-col justify-center items-center px-10 rounded-lg"
+                                    style={{ width: "180px", height: '56px', backgroundColor: '#237EAE', color: '#ffffff' }}
+                                  >
+                                    استعراض
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </ImageUploading>
                   </div>
                 </div>
               </div>

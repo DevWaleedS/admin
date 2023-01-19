@@ -40,6 +40,7 @@ const StyledTreeItemRoot = styled(TreeItem)(({ theme }) => ({
     paddingRight: theme.spacing(1),
     fontWeight: theme.typography.fontWeightMedium,
     padding: "0.5rem 0 0.5rem 0.5rem",
+    width: '100% !important',
     "&.Mui-expanded": {
       fontWeight: theme.typography.fontWeightRegular,
     },
@@ -70,50 +71,56 @@ function StyledTreeItem(props) {
     svg,
     labelIcon: LabelIcon,
     labelText,
+    number,
     ...other
   } = props;
 
   return (
-    <StyledTreeItemRoot
-      label={
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            p: 0.5,
-            pr: 0,
-          }}
-        >
-          {LabelIcon && (
-            <img
-              src={LabelIcon}
-              color="inherit"
-              style={{ marginLeft: 5, height: "1.2rem", zIndex: "10" }}
-              alt=""
-            />
-          )}
-          {svg}
-          <Typography
-            variant="body2"
-            className="whitespace-nowrap"
+      <StyledTreeItemRoot
+        label={
+          <Box
             sx={{
-              fontWeight: "500",
-              flexGrow: 1,
-              fontSize: "1rem",
-              fontFamily: "Tajawal, sans-serif !important",
+              display: "flex",
+              alignItems: "center",
+              p: 0.5,
+              pr: 0,
             }}
           >
-            {labelText}
-          </Typography>
-        </Box>
-      }
-      style={{
-        "--tree-view-color": color,
-        "--tree-view-bg-color": bgColor,
-        margin: "0.25rem 0",
-      }}
-      {...other}
-    />
+            {LabelIcon && (
+              <img
+                src={LabelIcon}
+                color="inherit"
+                style={{ marginLeft: 5, height: "1.2rem", zIndex: "10" }}
+                alt=""
+              />
+            )}
+            {svg}
+            <Typography
+              variant="body2"
+              className="whitespace-nowrap"
+              sx={{
+                fontWeight: "500",
+                flexGrow: 1,
+                fontSize: "1rem",
+                fontFamily: "Tajawal, sans-serif !important",
+              }}
+            >
+              {labelText}
+            </Typography>
+            {number && (
+              <div className="number flex flex-col items-center justify-center opacity-0" style={{ width: '25px', height: '25px', backgroundColor: '#B6BE34', borderRadius: '50%' }}>
+                <span style={{ fontSize: '16px', color: '#F7FCFF' }}>{number}</span>
+              </div>
+            )}
+          </Box>
+        }
+        style={{
+          "--tree-view-color": color,
+          "--tree-view-bg-color": bgColor,
+          margin: "0.25rem 0",
+        }}
+        {...other}
+      />
   );
 }
 
@@ -136,17 +143,20 @@ const SideBar = () => {
         "&  path": {
           fill: "#02466A",
         },
+        "&  .Mui-expanded .MuiTreeItem-iconContainer": {
+          display: 'none',
+        },
         "&  .Mui-expanded .MuiTreeItem-iconContainer path": {
           fill: "#fff",
         },
         "&  .Mui-expanded .MuiTreeItem-label path, .single_link .Mui-selected .MuiTreeItem-label path":
-          {
-            fill: "#1DBBBE",
-          },
+        {
+          fill: "#1DBBBE",
+        },
         "&  .Mui-expanded .MuiTreeItem-label g, .single_link .Mui-selected .MuiTreeItem-label g":
-          {
-            fill: "#1DBBBE",
-          },
+        {
+          fill: "#1DBBBE",
+        },
       }}
       className={styles.sidebar}
     >
@@ -161,15 +171,15 @@ const SideBar = () => {
           overflowY: "auto",
           overflowX: "hidden",
           "& .MuiTreeItem-group .MuiTreeItem-content": {
-            width: "fit-content",
+            paddingLeft:0,
           },
           "& .MuiTypography-root": {
             color: "#02466A",
           },
           "& .Mui-expanded .MuiTypography-root , & .single_link .Mui-selected .MuiTypography-root":
-            {
-              color: "#fff",
-            },
+          {
+            color: "#fff",
+          },
           "& > .MuiTreeItem-root .MuiTreeItem-root ": {
             backgroundColor: "#C0E9FF",
             margin: "0.25rem 0",
@@ -177,13 +187,14 @@ const SideBar = () => {
             padding: "0.25rem 1rem",
           },
           "& > a .MuiTreeItem-root:has(.Mui-expanded) .MuiCollapse-root .MuiTreeItem-root ":
-            {
-              backgroundColor: "#C0E9FF",
-              margin: "0.25rem 0",
-              borderRadius: "5px",
-              padding: "0.25rem 1rem",
-            },
+          {
+            backgroundColor: "#C0E9FF",
+            margin: "0.25rem 0",
+            borderRadius: "5px",
+            padding: "0.25rem 1rem 0.25rem 12px",
+          },
           "& > .MuiTreeItem-root .Mui-expanded.MuiTreeItem-content": {
+            width: '100%',
             backgroundColor: "#02466A !important",
             color: "#fff !important",
             transition: "0.1s",
@@ -195,30 +206,34 @@ const SideBar = () => {
             fontFamily: "Tajawal, sans-serif !important",
           },
           "& > .MuiTreeItem-root .MuiCollapse-root .MuiCollapse-wrapper li:has(> .MuiTreeItem-content.Mui-selected) , & > a .MuiTreeItem-root .MuiCollapse-root .MuiCollapse-wrapper li:has(> .MuiTreeItem-content.Mui-selected)":
-            {
-              backgroundColor: "#1DBBBE",
-            },
+          {
+            backgroundColor: "#1DBBBE",
+          },
           "& > .MuiTreeItem-root .MuiCollapse-root .MuiCollapse-wrapper .MuiTreeItem-content.Mui-selected,& > .MuiTreeItem-root .MuiCollapse-root .MuiCollapse-wrapper .MuiTreeItem-content.Mui-focused ":
-            {
-              backgroundColor: "transparent !important",
-            },
+          {
+            backgroundColor: "transparent !important",
+          },
           "& > a .MuiTreeItem-root .MuiCollapse-root .MuiCollapse-wrapper .MuiTreeItem-content.Mui-selected":
-            {
-              backgroundColor: "transparent !important",
-            },
+          {
+            backgroundColor: "transparent !important",
+          },
+          "& > a .MuiTreeItem-root .MuiCollapse-root .MuiCollapse-wrapper .MuiTreeItem-content.Mui-selected .number":
+          {
+            opacity:'1 !important',
+          },
           "& > .MuiTreeItem-root .MuiCollapse-root .MuiCollapse-wrapper .MuiTreeItem-content:hover,& > a .MuiTreeItem-root .MuiCollapse-root .MuiCollapse-wrapper .MuiTreeItem-content:hover ":
-            {
-              backgroundColor: "transparent",
-            },
+          {
+            backgroundColor: "transparent",
+          },
           "& > a .MuiTreeItem-root .Mui-expanded.MuiTreeItem-content , & > a.single_link .MuiTreeItem-root .Mui-selected.MuiTreeItem-content":
-            {
-              backgroundColor: "#02466A !important",
-              color: "#fff !important",
-              transition: "0.1s",
-              borderRight: "6px solid #1DBBBE",
-              borderRadius: "8px",
-              paddingRight: "2px",
-            },
+          {
+            backgroundColor: "#02466A !important",
+            color: "#fff !important",
+            transition: "0.1s",
+            borderRight: "6px solid #1DBBBE",
+            borderRadius: "8px",
+            paddingRight: "2px",
+          },
         }}
       >
         <Link className="single_link" to={"/"}>
@@ -335,7 +350,9 @@ const SideBar = () => {
                   />
                 }
                 nodeId="8"
+                number={2}
                 labelText="التوثيق"
+                xs={{  }}
               />
             </Link>
             {/*<Link to={"/حالة_التسجيل"}>
@@ -731,7 +748,7 @@ const SideBar = () => {
                 />
               }
               nodeId="44"
-              labelText="حالات التسجيل"
+              labelText="حالة التسجيل"
             />
           </Link>
           <Link to={"/الاشعارات"}>

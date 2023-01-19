@@ -16,3 +16,6 @@
 .editor :global(.rdw-editor-main) {
     padding: 0 20px;
 }
+.editor :global(.rdw-editor-toolbar .rdw-option-wrapper){
+    border: none;
+}

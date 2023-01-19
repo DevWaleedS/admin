@@ -67,7 +67,7 @@ h2
 /* soqu */
 
 .MuiPopover-root ul:has(.souq_storge_category_filter_items){
-  padding: 0;
+  padding: 0 !important;
 }
 .MuiPopover-root ul:has(.souq_storge_section_filter_items){
   padding: 0;

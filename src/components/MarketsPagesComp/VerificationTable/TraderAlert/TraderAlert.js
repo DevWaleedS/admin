@@ -81,9 +81,12 @@ const TraderAlert = ({ cancel, traderPackageDetails }) => {
               placeholder="الرسالة النصية"
               editorClassName="demo-editor"
               toolbar={{
-                options: ["inline", "textAlign"],
+                options: ["inline", "textAlign", "image", "list"],
                 inline: {
-                  options: ["bold", "italic"],
+                  options: ["bold"],
+                },
+                list: {
+                  options: ["unordered", "ordered"],
                 },
               }}
             />

@@ -1,7 +1,7 @@
 import React from "react";
 import { GoArrowRight } from "react-icons/go";
 import styles from "./EditPackageTemplates.module.css";
-import { BsTrash } from "react-icons/bs";
+import { ReactComponent as BsTrash } from "../../../assets/Icons/icon-24-delete.svg";
 
 const arr = ["القالب الأول", "القالب الثانى", "القالب الثالث"];
 

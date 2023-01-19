@@ -19,8 +19,11 @@ const AddNewUser = ({ cancel, couponDetails }) => {
 	const [value, setValue] = useState(dayjs('0'));
 	const [couponCode, setCouponCode] = useState('');
 	const [discountPercent, setDiscountPercent] = useState('');
-	const [dateRange, setDateRange] = useState([null, null]);
-	const [startDate, endDate] = dateRange;
+	const [dateRangeFixed, setDateRangeFixed] = useState([null, null]);
+	const [startDateFixed, endDateFixed] = dateRangeFixed;
+	const [dateRangePercent, setDateRangePercent] = useState([null, null]);
+	const [startDatePercent, endDatePercent] = dateRangePercent;
+	const [numberOfUesedFixed, setNumberOfUesedFixed] = useState('');
 
 	const handleChange = (newValue) => {
 		setValue(newValue);
@@ -165,10 +168,10 @@ const AddNewUser = ({ cancel, couponDetails }) => {
 											className='w-full outline-none'
 											placeholderText='تاريخ بداية ونهاية الخصم'
 											selectsRange={true}
-											startDate={startDate}
-											endDate={endDate}
-											onChange={(update) => {
-												setDateRange(update);
+											startDate={startDateFixed}
+											endDate={endDateFixed}
+											onChange={(updateFixed) => {
+												setDateRangeFixed(updateFixed);
 											}}
 											disabled={!couponTypePercent}
 										/>
@@ -187,9 +190,9 @@ const AddNewUser = ({ cancel, couponDetails }) => {
 										عدد مرات الاستخدام للجميع
 									</label>
 									<input
-										value={couponTypePercent ? discountPercent : ''}
+										value={numberOfUesedFixed}
 										onChange={(e) => {
-											setDiscountPercent(e.target.value);
+											setNumberOfUesedFixed(e.target.value);
 										}}
 										className='outline-none p-4 rounded-lg'
 										disabled={!couponTypePercent}
@@ -272,10 +275,10 @@ const AddNewUser = ({ cancel, couponDetails }) => {
 											className='w-full outline-none'
 											placeholderText='تاريخ بداية ونهاية الخصم'
 											selectsRange={true}
-											startDate={startDate}
-											endDate={endDate}
+											startDate={startDatePercent}
+											endDate={endDatePercent}
 											onChange={(update) => {
-												setDateRange(update);
+												setDateRangePercent(update);
 											}}
 											disabled={couponTypePercent}
 										/>

@@ -21,7 +21,8 @@ const MarketsTable = () => {
           }}
           type={"normal"}
           svg={<IoMdAdd color={"#fff"} />}
-          style={{ backgroundColor: "#02466A" }}
+          style={{ width:'140px',height:'56px',backgroundColor: "#02466A" }}
+          textStyle={{ color: "#EFF9FF", fontSize: '18px' }}
         >
           انشاء متجر
         </Button>
