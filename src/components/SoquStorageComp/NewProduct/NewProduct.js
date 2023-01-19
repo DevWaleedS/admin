@@ -54,6 +54,7 @@ const NewProduct = ({ cancel, editProduct }) => {
   const [productCode, setProductCode] = useState("");
   const [inStore, setInStore] = useState("");
   const [subCategoriesSelected, setSubCategoriesSelected] = React.useState([]);
+  const [openSubCategory,setOpenSubCategory] = useState(false);
 
   const handleSubCategory = (event) => {
     const {
@@ -190,7 +191,7 @@ const NewProduct = ({ cancel, editProduct }) => {
                   style={{
                     borderRight: "1px solid #ccc",
                     backgroundColor: "#FAFAFA",
-                    fontSize:'20px'
+                    fontSize: '20px'
                   }}
                 >
                   ر.س
@@ -198,8 +199,8 @@ const NewProduct = ({ cancel, editProduct }) => {
               </div>
             </div>
             <div className="flex flex-row">
-            <label className="font-medium" style={{ fontSize: '20px', color: '#011723', width: '315px' }}>
-            سعر البيع (مقترح)
+              <label className="font-medium" style={{ fontSize: '20px', color: '#011723', width: '315px' }}>
+                سعر البيع (مقترح)
               </label>
               <div
                 className="flex rounded-md overflow-hidden"
@@ -223,7 +224,7 @@ const NewProduct = ({ cancel, editProduct }) => {
                   style={{
                     borderRight: "1px solid #ccc",
                     backgroundColor: "#FAFAFA",
-                    fontSize:'20px'
+                    fontSize: '20px'
                   }}
                 >
                   ر.س
@@ -231,24 +232,24 @@ const NewProduct = ({ cancel, editProduct }) => {
               </div>
             </div>
             <div className="flex flex-row">
-            <label className="font-medium" style={{ fontSize: '20px', color: '#011723', width: '315px' }}>
-            كود المنتج (SKU)
+              <label className="font-medium" style={{ fontSize: '20px', color: '#011723', width: '315px' }}>
+                كود المنتج (SKU)
               </label>
-                <input
-                  value={productCode}
-                  onChange={(e) => {
-                    setProductCode(e.target.value);
-                  }}
-                  className={formInputClasses}
-                  style={{ width: '555px', backgroundColor: '#02466A00', border: '1px solid #A7A7A780' }}
-                  placeholder="#251"
-                  type="text"
-                  name="name"
-                />
+              <input
+                value={productCode}
+                onChange={(e) => {
+                  setProductCode(e.target.value);
+                }}
+                className={formInputClasses}
+                style={{ width: '555px', backgroundColor: '#02466A00', border: '1px solid #A7A7A780' }}
+                placeholder="#251"
+                type="text"
+                name="name"
+              />
             </div>
             <div className="flex flex-row">
-            <label className="font-medium" style={{ fontSize: '20px', color: '#011723', width: '315px' }}>
-            التصنيف
+              <label className="font-medium" style={{ fontSize: '20px', color: '#011723', width: '315px' }}>
+                التصنيف
               </label>
               <FormControl sx={{ width: 555 }}>
                 <Select
@@ -292,8 +293,8 @@ const NewProduct = ({ cancel, editProduct }) => {
               </FormControl>
             </div>
             <div className="flex flex-row">
-            <label className="font-medium" style={{ fontSize: '20px', color: '#011723', width: '315px' }}>
-            التصنيف الفرعي
+              <label className="font-medium" style={{ fontSize: '20px', color: '#011723', width: '315px' }}>
+                التصنيف الفرعي
               </label>
               <FormControl sx={{ width: 555 }}>
                 <Select
@@ -302,6 +303,10 @@ const NewProduct = ({ cancel, editProduct }) => {
                   multiple
                   displayEmpty
                   value={subCategoriesSelected}
+                  open={openSubCategory}
+                  onClick={()=>{
+                    setOpenSubCategory(true)
+                  }}
                   onChange={handleSubCategory}
                   renderValue={(selected) => subCategoriesSelected.length === 0 ? 'الكل' : selected.join(' , ')}
                   sx={{
@@ -319,13 +324,22 @@ const NewProduct = ({ cancel, editProduct }) => {
                       <ListItemText primary={name} />
                     </MenuItem>
                   ))}
-                  <div className="flex flex-col items-center justify-center p-3.5 rounded-none" style={{ fontSize: '18px', backgroundColor: '#02466A', color: '#FFFFFF' }}>اختر</div>
+                  <button className="w-full flex flex-col items-center justify-center p-3.5 rounded-none"
+                    style={{ fontSize: '18px', backgroundColor: '#02466A', color: '#FFFFFF' }}
+                    onClick={(e)=>{
+                      e.stopPropagation();
+                      e.preventDefault();
+                      setOpenSubCategory(false)
+                    }}
+                  >
+                    اختر
+                  </button>
                 </Select>
               </FormControl>
             </div>
             <div className="flex flex-row">
-            <label className="font-medium" style={{ fontSize: '20px', color: '#011723', width: '315px' }}>
-            صور المنتج الرئيسية
+              <label className="font-medium" style={{ fontSize: '20px', color: '#011723', width: '315px' }}>
+                صور المنتج الرئيسية
               </label>
               <ImageUploading
                 value={images}
@@ -399,8 +413,8 @@ const NewProduct = ({ cancel, editProduct }) => {
               </ImageUploading>
             </div>
             <div className="flex flex-row">
-            <label className="font-medium" style={{ fontSize: '20px', color: '#011723', width: '315px' }}>
-            الصور المتعددة او الفيديو
+              <label className="font-medium" style={{ fontSize: '20px', color: '#011723', width: '315px' }}>
+                الصور المتعددة او الفيديو
               </label>
               <ImageUploading
                 value={multiImages}
@@ -453,7 +467,7 @@ const NewProduct = ({ cancel, editProduct }) => {
                         <div
                           key={idx}
                           className=" h-24 w-24 flex justify-center items-center cursor-pointer"
-                          style={{ border: "3px dashed #ccc" }}
+                          style={{ backgroundColor: "#FAFAFA", border: "2px dashed #237EAE", borderRadius: "8px" }}
                           onClick={() => {
                             onImageUpload();
                           }}
@@ -469,24 +483,24 @@ const NewProduct = ({ cancel, editProduct }) => {
               </ImageUploading>
             </div>
             <div className="flex flex-row">
-            <label className="font-medium" style={{ fontSize: '20px', color: '#011723', width: '315px' }}>
-            المخزون
+              <label className="font-medium" style={{ fontSize: '20px', color: '#011723', width: '315px' }}>
+                المخزون
               </label>
-                <input
-                  value={inStore}
-                  onChange={(e) => {
-                    setInStore(e.target.value);
-                  }}
-                  className={formInputClasses}
-                  style={{ width: '555px', backgroundColor: '#02466A00', border: '1px solid #A7A7A780' }}
-                  placeholder="320"
-                  type="text"
-                  name="name"
-                />
+              <input
+                value={inStore}
+                onChange={(e) => {
+                  setInStore(e.target.value);
+                }}
+                className={formInputClasses}
+                style={{ width: '555px', backgroundColor: '#02466A00', border: '1px solid #A7A7A780' }}
+                placeholder="320"
+                type="text"
+                name="name"
+              />
             </div>
             <div className="flex mb-8">
-            <label className="font-medium" style={{ fontSize: '20px', color: '#011723', width: '315px' }}>
-            اضافة خيارات المنتج
+              <label className="font-medium" style={{ fontSize: '20px', color: '#011723', width: '315px' }}>
+                اضافة خيارات المنتج
               </label>
               <div
                 className="fcc p-3 gap-4 border-dashed cursor-pointer"
@@ -510,8 +524,8 @@ const NewProduct = ({ cancel, editProduct }) => {
             }}
           >
             <Button
-              style={{width:'186px',height:'56px', backgroundColor: `rgba(2, 70, 106, 1)` }}
-              textStyle={{ color: "#EFF9FF",fontSize:'22px' }}
+              style={{ width: '186px', height: '56px', backgroundColor: `rgba(2, 70, 106, 1)` }}
+              textStyle={{ color: "#EFF9FF", fontSize: '22px' }}
               type={"normal"}
               onClick={() => {
                 cancel();
@@ -523,9 +537,9 @@ const NewProduct = ({ cancel, editProduct }) => {
             <Button
               style={{
                 borderColor: `rgba(2, 70, 106, 1)`,
-                width:'186px',height:'56px',
+                width: '186px', height: '56px',
               }}
-              textStyle={{ color: "rgba(2, 70, 106, 1)",fontSize:'22px'}}
+              textStyle={{ color: "rgba(2, 70, 106, 1)", fontSize: '22px' }}
               type={"outline"}
               onClick={cancel}
             >

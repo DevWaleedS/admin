@@ -16,6 +16,7 @@ const tags = ['إدارة المخاطر', 'الخطة الاستراتيجية 
 
 const AddNewCourse = ({ cancel, editDetails }) => {
   const [showAddUnit, setShowAddUnit] = useState(false);
+  const [copy, setCopy] = useState(false);
   const [description, setDescription] = useState({
     htmlValue: "<h1></h1>\n",
     editorState: EditorState.createEmpty(),
@@ -39,6 +40,14 @@ const AddNewCourse = ({ cancel, editDetails }) => {
     // data for submit
     setImages(imageList);
   };
+
+  const handelCopy =()=>{
+    navigator.clipboard.writeText('https://www.google.com/search?q=%D8%B1%D8%A7%D8%A8%D8%B7+%D8%AA%D9%8');
+    setCopy(true);
+    setTimeout(() => {
+      setCopy(false);
+    }, 5000);
+  }
 
   return (
     <div
@@ -100,9 +109,12 @@ const AddNewCourse = ({ cancel, editDetails }) => {
               placeholder="الرسالة النصية"
               editorClassName="demo-editor"
               toolbar={{
-                options: ["inline", "textAlign"],
+                options: ["inline", "textAlign", "image", "list"],
                 inline: {
-                  options: ["bold", "italic"],
+                  options: ["bold"],
+                },
+                list: {
+                  options: ["unordered", "ordered"],
                 },
               }}
             />
@@ -192,6 +204,7 @@ const AddNewCourse = ({ cancel, editDetails }) => {
                       <h2 style={{ color: '#67747B', fontSize: '14px' }}>(سيتم قبول الصور png & jpg)</h2>
                     </div>
                   )}
+                  {images[0] && <h2 style={{ color: '#011723', fontSize: '16px' }}>{images[0]?.file?.name}</h2>}
                 </div>
               </div>
             )}
@@ -199,21 +212,22 @@ const AddNewCourse = ({ cancel, editDetails }) => {
         </div>
         <div className="flex flex-col gap-[10px]">
           <label style={{ color: '#02466A', fontSize: '20px' }}>
-            رابط الدورة 
+            رابط الدورة
             <span style={{ color: '#02466A', fontSize: '16px' }}> (تلقائي) </span>
           </label>
           <div
             className="flex flex-row items-center justify-between rounded-md p-4"
             style={{ backgroundColor: '#F4F5F7', border: '1px solid #67747B33' }}
           >
-            <CopyIcon className="cursor-pointer" fill="#02466A" />
+            {copy ? (<h6 style={{ color: '#02466A', fontSize: '16px' }}>Copied</h6>) : (<CopyIcon className="cursor-pointer" fill="#02466A" onClick={()=>handelCopy()}/>)}
+            
             <h6 style={{ color: '#02466A', fontSize: '16px' }}>https://www.google.com/search?q=%D8%B1%D8%A7%D8%A8%D8%B7+%D8%AA%D9%8</h6>
           </div>
         </div>
         <div className="flex mt-10 gap-4">
           <Button
-            style={{ width:'474px',height:'64px',backgroundColor: "#02466A" }}
-            textStyle={{ color: "#EFF9FF",fontSize:'20px' }}
+            style={{ width: '474px', height: '64px', backgroundColor: "#02466A" }}
+            textStyle={{ color: "#EFF9FF", fontSize: '20px' }}
             className={"flex-1"}
             type={"normal"}
             svg={<IoAddCircleSharp fontSize="1.5rem" color={"#fff"} />}
@@ -225,7 +239,7 @@ const AddNewCourse = ({ cancel, editDetails }) => {
           </Button>
           <Button
             style={{ borderColor: "#02466A" }}
-            textStyle={{ color: "#02466A",fontSize:'20px' }}
+            textStyle={{ color: "#02466A", fontSize: '20px' }}
             className={"flex-1"}
             type={"outline"}
             onClick={cancel}

@@ -28,6 +28,18 @@ const template = [{id:1,name: 'القالب الأول'},{id:2,name: 'القال
   },
   {
     id:8,name: 'القالب الثامن'
+  },
+  {
+    id:9,name: 'القالب التاسع'
+  },
+  {
+    id:10,name: 'القالب العاشر'
+  },
+  {
+    id:11,name: 'القالب الحادي العشر'
+  },
+  {
+    id:12,name: 'القالب الثاني عشر'
   }
 ]
 const PackageTemplate = ({ cancel }) => {

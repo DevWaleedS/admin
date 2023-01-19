@@ -2,15 +2,20 @@
     position: absolute;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
     right: 0;
     width: 450px;
-    height: 320px;
+    height: 305px;
     top: 45px;
-    background-color: #fff;
+    background-color: #fafafa;
     overflow-y: auto;
-    padding: 1rem;
-    border-radius: 5px; 
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+.notificationMenu .notification_box{
+    padding: 0.5rem 1rem;
+}
+.notificationMenu .notification_box:hover{
+    background-color: #fff;
 }
 .notificationMenu::-webkit-scrollbar {
     width: 5px;
@@ -25,4 +30,11 @@
 }
 .notificationMenu::-webkit-scrollbar-thumb:hover {
     background: #0478b7;
+}
+.notification_desc{
+    color: #000;
+    width: 190px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }

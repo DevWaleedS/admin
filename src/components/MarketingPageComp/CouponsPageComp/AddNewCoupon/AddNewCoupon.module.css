@@ -17,6 +17,8 @@
 }
 .disabled_date_input :global(.react-datepicker-wrapper input){
     font-size: 18px;
+    color: #A7A7A7;
+    background-color: transparent;
 }
 .disabled_date_input :global(.react-datepicker-wrapper input::placeholder){
     color: #A7A7A7;

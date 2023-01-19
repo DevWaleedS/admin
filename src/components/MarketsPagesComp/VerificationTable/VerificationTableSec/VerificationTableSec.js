@@ -1,4 +1,4 @@
-import React,{useContext} from "react";
+import React, { useContext } from "react";
 import styles from "./VerificationTableSec.module.css";
 import PropTypes from "prop-types";
 import { alpha } from "@mui/material/styles";
@@ -17,7 +17,6 @@ import { visuallyHidden } from "@mui/utils";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { ReactComponent as CheckedSquare } from "../../../../assets/Icons/icon-24-square checkmark.svg";
-import { ReactComponent as SwitchIcon } from "../../../../assets/Icons/icon-38-switch.svg";
 import {
   MdOutlineKeyboardArrowDown,
   MdOutlineArrowBackIosNew,
@@ -205,7 +204,8 @@ EnhancedTableHead.propTypes = {
 
 function EnhancedTableToolbar(props) {
   const { numSelected, onClick, rowCount, onSelectAllClick } = props;
-
+  const NotificationStore = useContext(NotificationContext);
+  const { setNotificationTitle } = NotificationStore;
   return (
     <Toolbar
       sx={{
@@ -214,7 +214,7 @@ function EnhancedTableToolbar(props) {
         ...(numSelected > 0 && {
           bgcolor: (theme) =>
             alpha(
-              theme.palette.primary.main,
+              theme.palette.primary.contrastText,
               theme.palette.action.activatedOpacity
             ),
         }),
@@ -224,34 +224,22 @@ function EnhancedTableToolbar(props) {
       }}
     >
       <div
-        className="fcc gap-2 px-4 rounded-full"
-        style={{ backgroundColor: "rgba(255, 159, 26, 0.04)" }}
+        className="flex flex-row justify-center items-center gap-2"
       >
         {numSelected > 0 && (
           <div
-            className="fcc gap-4 px-4 rounded-full"
-            style={{ minWidth: "114px", backgroundColor: "#FF9F1A0A" }}
-          >
-            <h2 className={"font-medium"} style={{ color: "#FF9F1A" }}>
-              نشط/ غير نشط
-            </h2>
-            <Box
-              sx={{
-                "& #Path_820": {
-                  fill: "#FF9F1A",
-                },
+              className="flex flex-row items-center justify-center gap-4 cursor-pointer"
+              style={{ width: '114px', height: '40px', backgroundColor: '#FF38381A', borderRadius: '20px' }}
+              onClick={() => {
+                setNotificationTitle('سيتم حذف جميع المنتجات التي قمت بتحديدها');
               }}
             >
-              <SwitchIcon
-                style={{
-                  cursor: "pointer",
-                  color: "red",
-                  fontSize: "0.5rem",
-                }}
-                className={"w-5"}
-              ></SwitchIcon>
-            </Box>
-          </div>
+              <h6 style={{ fontSize: '18px', color: '#FF3838' }} className="font-medium">حذف</h6>
+              <img
+                src={Delete}
+                alt='delete-icon'
+              />
+            </div>
         )}
       </div>
 
@@ -293,8 +281,6 @@ export default function EnhancedTable({ openTraderAlert,openVerificationData,ope
   const [activityAnchorEl, setActivityAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const activityOpen = Boolean(activityAnchorEl);
-  const NotificationStore = useContext(NotificationContext);
-  const { setNotificationTitle } = NotificationStore;
 
   const rowsPerPagesCount = [10, 20, 30, 50, 100];
   const handleRowsClick = (event) => {
@@ -426,7 +412,6 @@ export default function EnhancedTable({ openTraderAlert,openVerificationData,ope
                         <div className="flex items-center gap-2">
                           <img src={Delete} alt="delete-icon" 
                             onClick={() => {
-                              setNotificationTitle("سيتم حذف جميع التواثيق التي قمت بتحديدها");
                               const findIndex = data.findIndex(
                                 (item) => item.id === row.id
                               );
@@ -484,7 +469,7 @@ export default function EnhancedTable({ openTraderAlert,openVerificationData,ope
                         </div>
                       </TableCell>
                       <TableCell align="right">
-                        <h2 style={{ color: '#4D4F5C',fontSize:'18px' }} >{row.store}</h2>
+                        <h2 style={{ color: '#4D4F5C',fontSize:'18px',cursor:'pointer'}} onClick={() => {openVerificationData(row);}}>{row.store}</h2>
                       </TableCell>
                       <TableCell align="right" style={{ color: '#4D4F5C',fontSize:'18px' }}>
                         {(index + 1).toLocaleString("en-US", {

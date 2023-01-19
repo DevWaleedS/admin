@@ -35,13 +35,15 @@ const BackDrop = ({ onClick }) => {
 const MyAccount = ({ cancel, user, setUser, edit, setEditUser }) => {
   const contextStore = useContext(Context);
   const { setEndActionTitle } = contextStore;
+  const [profileImage,setProfileImage] = useState(Person);
   const [images, setImages] = useState([]);
   const [packageOption, setPackageOption] = useState("");
   const handleCategory = (event) => {
     setPackageOption(event.target.value);
   };
   const onChangeImage = (imageList, addUpdateIndex) => {
-    console.log(imageList[0].file.name);
+    console.log(imageList[0].data_url);
+    setProfileImage(imageList[0].data_url);
     // data for submit
     setImages(imageList);
   };
@@ -86,7 +88,7 @@ const MyAccount = ({ cancel, user, setUser, edit, setEditUser }) => {
             <div className="flex justify-between">
               <div className="flex flex-row gap-5">
                 <div className="h-44 w-44">
-                  <img className="h-full w-full" src={Person} alt="profile-img" />
+                  <img className="h-full w-full" src={profileImage} alt="profile-img" />
                 </div>
                 <div className="flex flex-col gap-[8px]">
                   <h2 style={{ fontSize: '20px', color: '#011723' }} className="font-medium">{user.name}</h2>
@@ -160,9 +162,11 @@ const MyAccount = ({ cancel, user, setUser, edit, setEditUser }) => {
                           <MenuItem
                             className="souq_storge_category_filter_items"
                             sx={{
-                              backgroundColor: "rgba(211, 211, 211, 1)",
+                              backgroundColor: "#EBEBEB",
                               height: "3rem",
-                              "&:hover": {},
+                              "&:hover": {
+                                backgroundColor:'#1dbbbe80'
+                              },
                             }}
                             value={`${item}`}
                           >
