@@ -14,6 +14,12 @@ body:has(.MuiPopover-root){
   overflow: auto !important;
   padding-right: 0 !important;
 }
+body::-webkit-scrollbar, 
+body::-webkit-scrollbar-track, 
+body::-webkit-scrollbar-thumb  {
+  display: none;
+}
+
 body:has(.full_screen_page){
   overflow-y: hidden;
 }
