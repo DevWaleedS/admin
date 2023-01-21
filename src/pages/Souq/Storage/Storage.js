@@ -3,9 +3,9 @@ import PageNavigate from '../../../components/PageNavigate/PageNavigate';
 import StorageStatus from '../../../components/SoquStorageComp/StorageStatus/StorageStatus';
 import StorageFilter from '../../../components/SoquStorageComp/StorageFilter/StorageFilter';
 import StorageTable from '../../../components/SoquStorageComp/StorageTable/StorageTable';
+import NewProduct from '../../../components/SoquStorageComp/NewProduct/NewProduct';
 import Button from '../../../UI/Button/Button';
 import { AiOutlinePlus } from 'react-icons/ai';
-import NewProduct from '../../../components/SoquStorageComp/NewProduct/NewProduct';
 
 const Storage = () => {
 	const [showNewProductInfo, setShowNewProductInfo] = useState(false);

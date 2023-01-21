@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -10,19 +10,18 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import Switch from "@mui/material/Switch";
-import DeleteIcon from "@mui/icons-material/Delete";
+
 import { visuallyHidden } from "@mui/utils";
-import { BsTrash } from "react-icons/bs";
+
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { ReactComponent as EditIcon } from "../../../../assets/Icons/editt 2.svg";
 import { ReactComponent as CheckedSquare } from "../../../../assets/Icons/icon-24-square checkmark.svg";
+import { ReactComponent as BsTrash } from '../../../../assets/Icons/icon-24-delete.svg';
 
 import { useNavigate } from "react-router-dom";
 
@@ -156,13 +155,14 @@ function EnhancedTableHead(props) {
       <TableRow>
         {headCells.map((headCell) => (
           <TableCell
+          className='text-lg font-medium'
             key={headCell.id}
             align={headCell.numeric ? "right" : "center"}
             padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
             sx={{
               width: headCell.width ? headCell.width : "auto",
-              fontSize: "1rem",
+        
               color: "#02466A",
             }}
           >
@@ -396,99 +396,95 @@ export default function EnhancedTable() {
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
-                    <TableRow
-                      hover
-                      //   onClick={(event) => handleClick(event, row.name)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={index}
-                      selected={isItemSelected}
-                    >
-                      <TableCell component="th" id={labelId} scope="row">
-                        <div className="flex items-center gap-2">
-                          <BsTrash
-                            onClick={() => {
-                              const findIndex = data.findIndex(
-                                (item) => item.name === row.name
-                              );
-                              const arr = [...data];
-                              arr.splice(findIndex, 1);
-                              setData(arr);
-                            }}
-                            style={{
-                              cursor: "pointer",
-                              color: "red",
-                              fontSize: "1rem",
-                            }}
-                          ></BsTrash>
-                          <EditIcon
-                            className="cursor-pointer"
-                            onClick={() => {
-                              navigate("/تعديل_مندوب");
-                            }}
-                            width={"18px"}
-                          ></EditIcon>
-                        </div>
-                      </TableCell>
-                      <TableCell align="center">
-                        <div
-                          className="w-20 h-full py-1 rounded-xl"
-                          style={{
-                            backgroundColor: row.active
-                              ? "#3AE37466"
-                              : "#ECECEC",
-                            marginLeft: "auto",
-                          }}
-                        >
-                          <h2
-                            style={{
-                              color: row.active ? "#011723" : "#67747B",
-                            }}
-                          >
-                            {row.active ? "مفعل" : "غير مفعل"}
-                          </h2>
-                        </div>
-                      </TableCell>
+																			<TableRow
+																				hover
+																				//   onClick={(event) => handleClick(event, row.name)}
+																				role='checkbox'
+																				aria-checked={isItemSelected}
+																				tabIndex={-1}
+																				key={index}
+																				selected={isItemSelected}
+																			>
+																				<TableCell component='th' id={labelId} scope='row'>
+																					<div className='flex items-center gap-2'>
+																						<BsTrash
+																							onClick={() => {
+																								const findIndex = data.findIndex((item) => item.name === row.name);
+																								const arr = [...data];
+																								arr.splice(findIndex, 1);
+																								setData(arr);
+																							}}
+																							style={{
+																								cursor: 'pointer',
+																								color: 'red',
+																								fontSize: '1rem',
+																							}}
+																						></BsTrash>
+																						<EditIcon
+																							className='cursor-pointer'
+																							onClick={() => {
+																								navigate('/تعديل_مندوب');
+																							}}
+																							width={'20px'}
+																						></EditIcon>
+																					</div>
+																				</TableCell>
+																				<TableCell align='center' className='font-normal text-base'>
+																					<div
+																						className='w-20 h-full py-1 rounded-xl'
+																						style={{
+																							backgroundColor: row.active ? '#3AE37466' : '#ECECEC',
+																							marginLeft: 'auto',
+																						}}
+																					>
+																						<h2
+																							style={{
+																								color: row.active ? '#011723' : '#67747B',
+																							}}
+																						>
+																							{row.active ? 'مفعل' : 'غير مفعل'}
+																						</h2>
+																					</div>
+																				</TableCell>
 
-                      <TableCell align="right">
-                        <div>
-                          <h2 className="font-medium">{row.city}</h2>
-                        </div>
-                      </TableCell>
+																				<TableCell align='right'>
+																					<div>
+																						<h2 className='font-normal text-lg'>{row.city}</h2>
+																					</div>
+																				</TableCell>
 
-                      <TableCell align="right">
-                        <div>
-                          <h2 className="font-medium">{row.userName}</h2>
-                        </div>
-                      </TableCell>
-                      <TableCell align="right">
-                        <h2 className="inline font-medium">{row.name}</h2>
-                      </TableCell>
-                      <TableCell align="right">
-                        {(index + 1).toLocaleString("en-US", {
-                          minimumIntegerDigits: 2,
-                          useGrouping: false,
-                        })}
-                      </TableCell>
-                      <TableCell padding="none" align={"right"}>
-                        <Checkbox
-                          checkedIcon={<CheckedSquare />}
-                          sx={{
-                            color: "#011723",
-                            "& .MuiSvgIcon-root": {
-                              color: "#011723",
-                            },
-                          }}
-                          checked={isItemSelected}
-                          onClick={(event) => handleClick(event, row.name)}
-                          inputProps={{
-                            "aria-labelledby": labelId,
-                          }}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  );
+																				<TableCell align='right'>
+																					<div>
+																						<h2 className='font-normal text-lg'>{row.userName}</h2>
+																					</div>
+																				</TableCell>
+																				<TableCell align='right'>
+																					<h2 className='inline font-normal text-lg'>{row.name}</h2>
+																				</TableCell>
+																				<TableCell align='right' className='font-normal text-lg'>
+																					{(index + 1).toLocaleString('en-US', {
+																						minimumIntegerDigits: 2,
+																						useGrouping: false,
+																					})}
+																				</TableCell>
+																				<TableCell padding='none' align={'right'}>
+																					<Checkbox
+																						checkedIcon={<CheckedSquare />}
+																						sx={{
+																							color: '#011723',
+																							'& .MuiSvgIcon-root': {
+																								color: '#011723',
+																							},
+																						}}
+																						checked={isItemSelected}
+																						onClick={(event) => handleClick(event, row.name)}
+																						inputProps={{
+																							'aria-labelledby': labelId,
+																						}}
+																					/>
+																				</TableCell>
+																			</TableRow>
+																		);
                 })}
               {emptyRows > 0 && (
                 <TableRow

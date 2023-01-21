@@ -1,26 +1,31 @@
 import React, { useState, useEffect, useContext } from 'react';
+import Context from '../../../store/context';
+
 import { Currency } from '../../../assets/Icons/index';
-import { ReactComponent as AddIcon } from '../../../assets/Icons/icon-34-add.svg';
-import { IoIosArrowDown } from 'react-icons/io';
 import Box from '@mui/material/Box';
 import AddProductOptions from './AddProductOptions/AddProductOptions';
-
+import ListItemText from '@mui/material/ListItemText';
+import Checkbox from '@mui/material/Checkbox';
 import Button from '../../../UI/Button/Button';
 import styles from './NewProduct.module.css';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { TagsInput } from 'react-tag-input-component';
 import ImageUploading from 'react-images-uploading';
+
+// Icons
+import { ReactComponent as AddIcon } from '../../../assets/Icons/icon-34-add.svg';
+import { IoIosArrowDown } from 'react-icons/io';
 import { IoMdCloudUpload } from 'react-icons/io';
 import { GrAddCircle } from 'react-icons/gr';
 import { TiDeleteOutline } from 'react-icons/ti';
-import Context from '../../../store/context';
 
 const BackDrop = ({ onClick }) => {
 	return <div onClick={onClick} className={`fixed back_drop bottom-0 left-0  w-full bg-slate-900  z-10 ${styles.back_drop}`} style={{ height: 'calc(100% - 4rem)' }}></div>;
 };
+
 const category = ['الكترونيات', 'ألعاب وهدايا', 'مستلزمات طبية', 'مواد غذائية'];
+const subCategories = ['جوالات', 'شاشات', 'بطاريات', 'اكسسوارات'];
 
 const formTitleClasses = 'font-semibold text-lg';
 const formTitleStyle = { width: '315px' };
@@ -36,20 +41,30 @@ const NewProduct = ({ cancel, editProduct }) => {
 	const { setEndActionTitle } = contextStore;
 
 	const [age, setAge] = useState('');
-	
+
 	const [images, setImages] = useState([]);
 	const [multiImages, setMultiImages] = useState([]);
 	const [showAddProductOptions, setShowAddProductOptions] = useState(false);
 
+	const [subCategoriesSelected, setSubCategoriesSelected] = React.useState([]);
 	const [productName, setProductName] = useState('');
 	const [productInfo, setProductInfo] = useState('');
 	const [buyPrice, setBuyPrice] = useState('');
 	const [sellPrice, setSellPrice] = useState('');
 	const [productCode, setProductCode] = useState('');
 	const [inStore, setInStore] = useState('');
-	
-
 	const [productSection, setProductSection] = useState('');
+	const [openSubCategory, setOpenSubCategory] = useState(false);
+
+	const handleSubCategory = (event) => {
+		const {
+			target: { value },
+		} = event;
+		setSubCategoriesSelected(
+			// On autofill we get a stringified value.
+			typeof value === 'string' ? value.split(',') : value
+		);
+	};
 
 	useEffect(() => {
 		if (editProduct) {
@@ -68,7 +83,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 	for (let index = 0; index < 5 - multiImages.length; index++) {
 		emptyMultiImages.push(index);
 	}
-	
+
 	const maxNumber = 2;
 	const onChange = (imageList, addUpdateIndex) => {
 		// data for submit
@@ -271,43 +286,45 @@ const NewProduct = ({ cancel, editProduct }) => {
 								</h2>
 								<FormControl sx={{ width: 555 }}>
 									<Select
-										value={age}
-										onChange={handleCategory}
-										displayEmpty
+										className={styles.select}
 										IconComponent={() => {
 											return <IoIosArrowDown size={'1rem'} className='absolute left-2' />;
 										}}
-										inputProps={{ 'aria-label': 'Without label' }}
-										renderValue={(selected) => {
-											if (age === '') {
-												return <h2> الكل </h2>;
-											}
-											return selected;
+										multiple
+										displayEmpty
+										value={subCategoriesSelected}
+										open={openSubCategory}
+										onClick={() => {
+											setOpenSubCategory(true);
 										}}
+										onChange={handleSubCategory}
+										renderValue={(selected) => (subCategoriesSelected.length === 0 ? 'الكل' : selected.join(' , '))}
 										sx={{
 											height: '3.5rem',
-											border: '1px solid rgba(167, 167, 167, 0.5)',
+											border: '1px solid #A7A7A780',
+											borderRadius: '4px',
 											'& .MuiOutlinedInput-notchedOutline': {
 												border: 'none',
 											},
 										}}
 									>
-										{category.map((item, idx) => {
-											return (
-												<MenuItem
-													key={idx}
-													className='souq_storge_category_filter_items'
-													sx={{
-														backgroundColor: 'rgba(211, 211, 211, 1)',
-														height: '3rem',
-														'&:hover': {},
-													}}
-													value={`${item}`}
-												>
-													{item}
-												</MenuItem>
-											);
-										})}
+										{subCategories.map((name) => (
+											<MenuItem className='souq_storge_category_filter_items multiple_select' key={name} value={name}>
+												<Checkbox checked={subCategoriesSelected.indexOf(name) > -1} />
+												<ListItemText primary={name} />
+											</MenuItem>
+										))}
+										<button
+											className='w-full flex flex-col items-center justify-center p-3.5 rounded-none'
+											style={{ fontSize: '18px', backgroundColor: '#02466A', color: '#FFFFFF' }}
+											onClick={(e) => {
+												e.stopPropagation();
+												e.preventDefault();
+												setOpenSubCategory(false);
+											}}
+										>
+											اختر
+										</button>
 									</Select>
 								</FormControl>
 							</div>
@@ -334,13 +351,6 @@ const NewProduct = ({ cancel, editProduct }) => {
 												{...dragProps}
 											>
 												<div className='image-item w-full cursor-pointer' style={{ height: '220px' }}>
-													{/* <button
-                        style={isDragging ? { color: "red" } : null}
-                        onClick={onImageUpload}
-                        {...dragProps}
-                      >
-                        Click or Drop here
-                      </button> */}
 													{!images[0] && (
 														<div className='flex flex-col justify-center items-center gap-6 h-full w-full'>
 															<IoMdCloudUpload size={'2em'}></IoMdCloudUpload>
@@ -388,7 +398,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 													<div
 														key={idx}
 														className=' h-24 w-24 flex justify-center items-center cursor-pointer'
-														style={{ border: '3px dashed #ccc' }}
+														style={{ backgroundColor: '#FAFAFA', border: '2px dashed #237EAE', borderRadius: '8px' }}
 														onClick={() => {
 															onImageUpload();
 														}}
@@ -446,8 +456,11 @@ const NewProduct = ({ cancel, editProduct }) => {
 						}}
 					>
 						<Button
-							className={'h-14 w-44'}
-							style={{ backgroundColor: `rgba(2, 70, 106, 1)` }}
+							className='p-8 flex justify-center gap-4'
+							style={{
+								height: '135px',
+								backgroundColor: 'rgba(235, 235, 235, 1)',
+							}}
 							type={'normal'}
 							onClick={() => {
 								cancel();
@@ -459,9 +472,10 @@ const NewProduct = ({ cancel, editProduct }) => {
 						<Button
 							style={{
 								borderColor: `rgba(2, 70, 106, 1)`,
+								width: '186px',
+								height: '56px',
 							}}
-							textStyle={{ color: 'rgba(2, 70, 106, 1)' }}
-							className={'h-14 w-44'}
+							textStyle={{ color: 'rgba(2, 70, 106, 1)', fontSize: '22px' }}
 							type={'outline'}
 							onClick={cancel}
 						>

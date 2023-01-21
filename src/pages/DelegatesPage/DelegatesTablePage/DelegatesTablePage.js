@@ -15,10 +15,10 @@ const DelegatesTablePage = () => {
       <div className="mt-6 flex justify-between items-center">
         <PageNavigate currentPage={"عرض المندوبين"} />
         <Button
-          className={"flex justify-center items-center"}
+          className={"flex justify-center items-center h-14 w-[234px] text-lg"}
           style={{ backgroundColor: "#02466A" }}
           type={"normal"}
-          svg={<AiOutlinePlus color="#fff" />}
+          svg={<AiOutlinePlus color="#fff"  className='w-5 h-5'/>}
           color={"white"}
           onClick={() => {
             navigate("/إضافة_مندوب_جديد");
@@ -30,12 +30,12 @@ const DelegatesTablePage = () => {
       <div className="mt-5">
         <label className={` flex-1 relative `}>
           <input
-            className="h-full w-full p-4  outline-0 pr-10 rounded-lg "
+            className="h-14 w-full p-4  outline-0 pr-10 rounded-lg bg-transparent"
             placeholder=" ابحث عن مندوب"
             type="text"
             name="name"
             onChange={() => {
-              console.log("zed");
+              
             }}
             style={{
               border: "1px solid #1DBBBE",

@@ -216,6 +216,9 @@ function EnhancedTableToolbar(props) {
 							backgroundColor: 'rgba(255, 159, 26, 0.04)',
 						}}
 					>
+					<h2 className={'font-semibold'} style={{ color: '#FF9F1A' }}>
+								تعطيل
+							</h2>
 						<Box
 							sx={{
 								'& #Path_820': {
@@ -223,17 +226,14 @@ function EnhancedTableToolbar(props) {
 								},
 							}}
 						>
-							<h2 className={'font-semibold'} style={{ color: '#FF9F1A' }}>
-								تعطيل
-							</h2>
+							
 							<SwitchIcon
 								style={{
 									cursor: 'pointer',
 									color: 'red',
 									fontSize: '0.5rem',
 								}}
-								className={'w-5'}
-							></SwitchIcon>
+								className={'w-5'}/>
 						</Box>
 					</div>
 				)}

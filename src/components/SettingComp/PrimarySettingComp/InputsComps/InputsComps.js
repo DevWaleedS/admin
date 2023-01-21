@@ -6,10 +6,10 @@ const InputsComps = () => {
       <div className="mb-5">
         <h2 className="font-medium" style={{ fontSize: "18px" }}>
           اسم المنصة
-        </h2>
+          </h2>
         <label htmlFor="">
           <input
-            className="outline-none w-full p-3 mt-3 rounded"
+            className="outline-none w-full h-14 p-3 mt-3 rounded"
             style={{ border: "none" }}
             type="text"
             placeholder="ادخل اسم المنصة"
@@ -22,7 +22,7 @@ const InputsComps = () => {
         </h2>
         <label htmlFor="">
           <input
-            className="outline-none w-full p-3 mt-3 rounded"
+            className="outline-none w-full h-14 p-3 mt-3 rounded"
             style={{ border: "none" }}
             type="text"
             placeholder="اكتب وصف للمنصة"
@@ -35,7 +35,7 @@ const InputsComps = () => {
         </h2>
         <label htmlFor="">
           <input
-            className="outline-none w-full p-3 mt-3 rounded"
+            className="outline-none w-full h-14 p-3 mt-3 rounded"
             style={{ border: "none" }}
             type="text"
             placeholder="www.sample.com"
@@ -48,7 +48,7 @@ const InputsComps = () => {
         </h2>
         <label htmlFor="">
           <input
-            className="outline-none w-full p-3 mt-3 rounded"
+            className="outline-none w-full h-14 p-3 mt-3 rounded"
             style={{ border: "none" }}
             type="email"
             placeholder="www.sample.com"
@@ -61,7 +61,7 @@ const InputsComps = () => {
         </h2>
         <label htmlFor="">
           <input
-            className="outline-none w-full p-3 mt-3 rounded"
+            className="outline-none w-full h-14 p-3 mt-3 rounded"
             style={{ border: "none" }}
             type="text"
             placeholder="ادخل العنوان والاقامة"
@@ -74,7 +74,7 @@ const InputsComps = () => {
         </h2>
         <label htmlFor="">
           <input
-            className="outline-none w-full p-3 mt-3 rounded"
+            className="outline-none w-full h-14 p-3 mt-3 rounded"
             style={{ border: "none" }}
             type="number"
             placeholder="966515131515"
@@ -87,7 +87,7 @@ const InputsComps = () => {
         </h2>
         <label htmlFor="">
           <input
-            className="outline-none w-full p-3 mt-3 rounded"
+            className="outline-none w-full h-14 p-3 mt-3 rounded"
             style={{ border: "none" }}
             type="text"
             placeholder="قم برفع شعار للمنصة"

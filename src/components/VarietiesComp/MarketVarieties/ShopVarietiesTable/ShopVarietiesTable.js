@@ -10,26 +10,26 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Switch from "@mui/material/Switch";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
-import { BsTrash } from "react-icons/bs";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+
 import { ReactComponent as EditIcon } from "../../../../assets/Icons/editt 2.svg";
 import { ReactComponent as Gift } from "../../../../assets/Icons/icon-26-gift.svg";
-
+import { ReactComponent as BsTrash } from '../../../../assets/Icons/icon-24-delete.svg';
+import { ReactComponent as SwitchIcon } from '../../../../assets/Icons/icon-38-switch.svg';
+import { ReactComponent as SortIcon } from "../../../../assets/Icons/icon-24-sort.svg";
+import { ReactComponent as CheckedSquare } from '../../../../assets/Icons/icon-24-square checkmark.svg';
 import {
   MdOutlineKeyboardArrowDown,
   MdOutlineArrowBackIosNew,
   MdOutlineArrowForwardIos,
 } from "react-icons/md";
-import { ReactComponent as SortIcon } from "../../../../assets/Icons/icon-24-sort.svg";
 function createData(name, sectionTags, active) {
   return {
     name,
@@ -128,43 +128,43 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  {
-    id: "situation",
-    numeric: false,
-    disablePadding: false,
-    label: "الإجراء",
-    width: "5rem",
-  },
-  {
-    id: "active",
-    numeric: true,
-    disablePadding: false,
-    label: "الحالة",
-  },
-  {
-    id: "daysLeft",
-    numeric: true,
-    disablePadding: false,
-    label: "الأقسام",
-  },
-  {
-    id: "rate",
-    numeric: true,
-    disablePadding: false,
-    label: "اسم التصنيف",
-  },
-  {
-    id: "rate",
-    numeric: true,
-    disablePadding: false,
-    label: "الرمز",
-  },
-  {
-    id: "number",
-    numeric: true,
-    disablePadding: false,
-    label: "م",
-  },
+	{
+		id: 'situation',
+		numeric: false,
+		disablePadding: false,
+		label: 'الإجراء',
+		width: '5rem',
+	},
+	{
+		id: 'active',
+		numeric: true,
+		disablePadding: false,
+		label: 'الحالة',
+	},
+	{
+		id: 'daysLeft',
+		numeric: true,
+		disablePadding: false,
+		label: 'التصنيفات الفرعية',
+	},
+	{
+		id: 'rate',
+		numeric: true,
+		disablePadding: false,
+		label: 'اسم التصنيف',
+	},
+	{
+		id: 'rate',
+		numeric: true,
+		disablePadding: false,
+		label: 'الرمز',
+	},
+	{
+		id: 'number',
+		numeric: true,
+		disablePadding: false,
+		label: 'م',
+	},
 ];
 
 function EnhancedTableHead(props) {
@@ -178,13 +178,14 @@ function EnhancedTableHead(props) {
       <TableRow>
         {headCells.map((headCell) => (
           <TableCell
+            className='text-lg font-medium'
             key={headCell.id}
             align={headCell.numeric ? "right" : "center"}
             padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
             sx={{
               width: headCell.width ? headCell.width : "auto",
-              fontSize: "1rem",
+            
               color: "#011723",
             }}
           >
@@ -228,64 +229,86 @@ EnhancedTableHead.propTypes = {
 function EnhancedTableToolbar(props) {
   const { numSelected, onClick, rowCount, onSelectAllClick } = props;
 
-  return (
-    <Toolbar
-      sx={{
-        pl: { sm: 2 },
-        pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
-          bgcolor: (theme) =>
-            alpha(
-              theme.palette.primary.main,
-              theme.palette.action.activatedOpacity
-            ),
-        }),
-        display: "flex",
-        justifyContent: "space-between",
-      }}
-    >
-      <div className="flex gap-2 items-center">
-        <div></div>
-        {numSelected > 0 && (
-          <Tooltip onClick={onClick} title="Delete">
-            <IconButton>
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        )}
+ 	return (
+			<Toolbar
+				sx={{
+					pl: { sm: 2 },
+					pr: { xs: 1, sm: 1 },
+					...(numSelected > 0 && {
+						bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
+					}),
+					display: 'flex',
+					gap: '2rem',
+					justifyContent: 'flex-end',
+				}}
+			>
+				<div className='fcc gap-2 px-4 rounded-full' style={{ backgroundColor: 'rgba(255, 159, 26, 0.04)' }}>
+					{numSelected > 0 && (
+						<div className='fcc gap-4 px-4 rounded-full' style={{ minWidth: '114px', backgroundColor: '#FF9F1A0A' }}>
+							<h2 className={'font-medium'} style={{ color: '#FF9F1A' }}>
+								تعطيل
+							</h2>
+							<Box
+								sx={{
+									'& #Path_820': {
+										fill: '#FF9F1A',
+									},
+								}}
+							>
+								<SwitchIcon
+									style={{
+										cursor: 'pointer',
+										color: 'red',
+										fontSize: '0.5rem',
+									}}
+									className={'w-5'}
+								></SwitchIcon>
+							</Box>
+						</div>
+					)}
+				</div>
+				<div className='flex gap-2 items-center'>
+					{numSelected > 0 && (
+						<Tooltip onClick={onClick} title='Delete'>
+							<div className='fcc gap-2 px-4 rounded-full' style={{ width: '114px', backgroundColor: '#FF38381A' }}>
+								<h2 className={'font-medium'} style={{ color: '#FF3838' }}>
+									حذف
+								</h2>
+								<IconButton>
+									<BsTrash
+										style={{
+											cursor: 'pointer',
+											color: 'red',
+											fontSize: '1rem',
+										}}
+									></BsTrash>
+								</IconButton>
+							</div>
+						</Tooltip>
+					)}
+				</div>
 
-        {numSelected > 0 && (
-          <Typography
-            sx={{}}
-            color="inherit"
-            variant="subtitle1"
-            component="div"
-          >
-            {numSelected} selected
-          </Typography>
-        )}
-      </div>
-
-      <div className="flex items-center">
-        <h2 className="font-medium">تحديد الكل</h2>
-        <Checkbox
-          sx={{
-            color: "#011723",
-            paddingRight: "0",
-            "& .MuiSvgIcon-root": {
-              color: "#011723",
-            },
-          }}
-          indeterminate={numSelected > 0 && numSelected < rowCount}
-          checked={rowCount > 0 && numSelected === rowCount}
-          onChange={onSelectAllClick}
-          inputProps={{
-            "aria-label": "select all desserts",
-          }}
-        />
-      </div>
-    </Toolbar>
-  );
+				<div className='flex items-center'>
+					<h2 className='font-medium'>تحديد الكل</h2>
+					<Checkbox
+						checkedIcon={<CheckedSquare />}
+						sx={{
+							pr: '0',
+							color: '#011723',
+							'& .MuiSvgIcon-root': {
+								color: '#011723',
+							},
+						}}
+						indeterminate={numSelected > 0 && numSelected < rowCount}
+						checked={rowCount > 0 && numSelected === rowCount}
+						onChange={onSelectAllClick}
+						inputProps={{
+							'aria-label': 'select all desserts',
+						}}
+					/>
+				</div>
+			</Toolbar>
+		);
 }
 
 EnhancedTableToolbar.propTypes = {
@@ -362,8 +385,7 @@ export default function EnhancedTable({ editSection }) {
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   const allRows = () => {
     const num = Math.ceil(data.length / rowsPerPage);
@@ -404,8 +426,7 @@ export default function EnhancedTable({ editSection }) {
               rowCount={data.length}
             />
             <TableBody>
-              {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-                 rows.sort(getComparator(order, orderBy)).slice() */}
+       
 
               {stableSort(data, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -414,139 +435,149 @@ export default function EnhancedTable({ editSection }) {
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
-                    <TableRow
-                      hover
-                      //   onClick={(event) => handleClick(event, row.name)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={index}
-                      selected={isItemSelected}
-                    >
-                      <TableCell component="th" id={labelId} scope="row">
-                        <div className="flex items-center gap-2">
-                          <EditIcon
-                              className={"cursor-pointer"}
-                              onClick={() => {
-                                editSection(row);
-                              }}
-                              width={"18px"}
-                          >
-                          </EditIcon>
-                          <BsTrash
-                            onClick={() => {
-                              const findIndex = data.findIndex(
-                                (item) => item.name === row.name
-                              );
-                              const arr = [...data];
-                              arr.splice(findIndex, 1);
-                              setData(arr);
-                            }}
-                            style={{
-                              cursor: "pointer",
-                              color: "red",
-                              fontSize: "1rem",
-                            }}
-                          ></BsTrash>
-                        </div>
-                      </TableCell>
-                      <TableCell align="right">
-                        <div>
-                          <Switch
-                            onChange={() => {
-                              const findIndex = data.findIndex(
-                                (item) => item.name === row.name
-                              );
-                              const arr = [...data];
-                              arr[findIndex].active = !arr[findIndex].active;
-                              setData(arr);
-                            }}
-                            className=""
-                            sx={{
-                              "& .Mui-checked .MuiSwitch-thumb": {
-                                backgroundColor: "#3AE374",
-                              },
-                              "&.MuiSwitch-root .Mui-checked+.MuiSwitch-track":
-                                {
-                                  backgroundColor: "#3AE374",
-                                },
-                            }}
-                            checked={row.active}
-                          />
-                        </div>
-                      </TableCell>
-                      <TableCell align="right">
-                        <div dir={"rtl"} className="flex items-center gap-8">
-                          {row.sectionTags.slice(0, 3).map((tag, idx) => {
-                            return (
-                              <div
-                                key={idx}
-                                className="rounded-full font-medium flex py-1 items-center justify-center px-2"
-                                style={{
-                                  backgroundColor: "#EBEBEB",
-                                  color: "#011723",
-                                }}
-                              >
-                                {tag}
-                              </div>
-                            );
-                          })}
-                          {row.sectionTags.length > 3 && (
-                            <div
-                              className="rounded-xl flex items-center font-semibold justify-center px-1 text-2xl"
-                              style={{
-                                backgroundColor: "#EBEBEB",
-                                color: "#011723",
-                              }}
-                            >
-                              ...
-                            </div>
-                          )}
-                        </div>
-                      </TableCell>
+																			<TableRow
+																				hover
+																		
+																				role='checkbox'
+																				aria-checked={isItemSelected}
+																				tabIndex={-1}
+																				key={index}
+																				selected={isItemSelected}
+																			>
+																				<TableCell component='th' id={labelId} scope='row'>
+																					<div className='flex items-center gap-2'>
+																						<EditIcon
+																							className={'cursor-pointer'}
+																							onClick={() => {
+																								editSection(row);
+																							}}
+																							width={'20px'}
+																						></EditIcon>
+																						<BsTrash
+																							onClick={() => {
+																								const findIndex = data.findIndex((item) => item.name === row.name);
+																								const arr = [...data];
+																								arr.splice(findIndex, 1);
+																								setData(arr);
+																							}}
+																							style={{
+																								cursor: 'pointer',
+																								color: 'red',
+																								fontSize: '1.2rem',
+																							}}
+																						></BsTrash>
+																					</div>
+																				</TableCell>
+																				<TableCell align='right'>
+																					<div>
+																						<Switch
+																							onChange={() => {
+																								const findIndex = data.findIndex((item) => item.name === row.name);
+																								const arr = [...data];
+																								arr[findIndex].active = !arr[findIndex].active;
+																								setData(arr);
+																							}}
+																							className=''
+																							sx={{
+																								width: '50px',
+																								'& .MuiSwitch-thumb': {
+																									width: '11px',
+																									height: '11px',
+																								},
+																								'& .MuiSwitch-switchBase': {
+																									padding: '6px',
+																									top: '9px',
+																									left: '9px',
+																								},
+																								'& .MuiSwitch-switchBase.Mui-checked': {
+																									left: '-1px',
+																								},
+																								'& .Mui-checked .MuiSwitch-thumb': {
+																									backgroundColor: '#FFFFFF',
+																								},
+																								'& .MuiSwitch-track': {
+																									height: '16px',
+																									borderRadius: '20px',
+																								},
+																								'&.MuiSwitch-root .Mui-checked+.MuiSwitch-track': {
+																									backgroundColor: '#3AE374',
 
-                      <TableCell align="right">
-                        <h2 className="inline font-medium">{row.name}</h2>
-                      </TableCell>
-                      <TableCell align="right">
-                        <div className="inline font-medium">
-                          <Gift
-                            style={{
-                              marginLeft: "auto",
-                              width: "2rem",
-                              height: "2rem",
-                            }}
-                          ></Gift>
-                        </div>
-                      </TableCell>
-                      <TableCell align="right">
-                        <h2
-                          className="font-semibold"
-                          style={{ color: "#011723" }}
-                        >
-                          {(index + 1).toLocaleString("en-US", {
-                            minimumIntegerDigits: 2,
-                            useGrouping: false,
-                          })}
-                        </h2>
-                      </TableCell>
-                      <TableCell padding="none" align={"right"}>
-                        <Checkbox
-                          sx={{
-                            color: "#1DBBBE",
-                            "& .MuiSvgIcon-root": {
-                              color: "#011723",
-                            },
-                          }}
-                          checked={isItemSelected}
-                          onClick={(event) => handleClick(event, row.name)}
-                          inputProps={{
-                            "aria-labelledby": labelId,
-                          }}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  );
+																									opacity: 1,
+																								},
+																							}}
+																							checked={row.active}
+																						/>
+																					</div>
+																				</TableCell>
+																				<TableCell align='right'>
+																					<div dir={'rtl'} className='flex items-center gap-8'>
+																						{row.sectionTags.slice(0, 3).map((tag, idx) => {
+																							return (
+																								<div
+																									key={idx}
+																									className='rounded-full text-[14px] font-medium flex py-1 items-center justify-center px-2'
+																									style={{
+																										backgroundColor: '#EBEBEB',
+																										color: '#011723',
+																									}}
+																								>
+																									{tag}
+																								</div>
+																							);
+																						})}
+																						{row.sectionTags.length > 3 && (
+																							<div
+																								className='rounded-xl flex items-center font-semibold justify-center px-1 text-2xl'
+																								style={{
+																									backgroundColor: '#EBEBEB',
+																									color: '#011723',
+																								}}
+																							>
+																								...
+																							</div>
+																						)}
+																					</div>
+																				</TableCell>
+
+																				<TableCell align='right'>
+																					<h2 className='inline font-normal text-lg'>{row.name}</h2>
+																				</TableCell>
+																				<TableCell align='right'>
+																					<div className='inline font-normal text-lg'>
+																						<Gift
+																							style={{
+																								marginLeft: 'auto',
+																								width: '2rem',
+																								height: '2rem',
+																							}}
+																						></Gift>
+																					</div>
+																				</TableCell>
+																				<TableCell align='right'>
+																					<h2 className='font-normal text-lg' style={{ color: '#011723' }}>
+																						{(index + 1).toLocaleString('en-US', {
+																							minimumIntegerDigits: 2,
+																							useGrouping: false,
+																						})}
+																					</h2>
+																				</TableCell>
+																				<TableCell padding='none' align={'right'}>
+																					<Checkbox
+																						sx={{
+																							color: '#1DBBBE',
+																							'& .MuiSvgIcon-root': {
+																								color: '#011723',
+																							},
+																						}}
+																						checked={isItemSelected}
+																						onClick={(event) => handleClick(event, row.name)}
+																						inputProps={{
+																							'aria-labelledby': labelId,
+																						}}
+																					/>
+																				</TableCell>
+																			</TableRow>
+																		);
                 })}
               {emptyRows > 0 && (
                 <TableRow
@@ -655,7 +686,7 @@ export default function EnhancedTable({ editSection }) {
             onClick={() => {
               setPage(page + 1);
             }}
-          ></MdOutlineArrowForwardIos>
+          />
         </div>
         <div></div>
       </div>
