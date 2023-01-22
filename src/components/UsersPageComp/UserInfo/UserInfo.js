@@ -9,6 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 import ImageUploading from 'react-images-uploading';
 import { BiLinkAlt } from 'react-icons/bi';
 import { IoIosArrowDown } from 'react-icons/io';
+import { UploadOutlined } from '../../../assets/Icons/index';
 
 const packagesOptions = ['إدارة المنصة', 'المشرف العام', 'مسئول المتاجر والباقات', 'مسئول السوق والصفحات'];
 
@@ -21,14 +22,17 @@ const BackDrop = ({ onClick }) => {
 const UserInfo = ({ cancel, user, edit }) => {
 	const [images, setImages] = useState([]);
 	const [packageOption, setPackageOption] = useState('');
+	const [profileImage, setProfileImage] = useState(Person);
 	const handleCategory = (event) => {
 		setPackageOption(event.target.value);
 	};
-	const onChangeImage = (imageList, addUpdateIndex) => {
-		console.log(imageList[0].file.name);
-		// data for submit
-		setImages(imageList);
-	};
+
+const onChangeImage = (imageList, addUpdateIndex) => {
+	console.log(imageList[0].data_url);
+	setProfileImage(imageList[0].data_url);
+	// data for submit
+	setImages(imageList);
+};
 	return (
 		<>
 			<BackDrop onClick={cancel}></BackDrop>
@@ -54,7 +58,7 @@ const UserInfo = ({ cancel, user, edit }) => {
 						<div className='flex justify-between'>
 							<div className='flex gap-4 '>
 								<div className='h-44 w-44'>
-									<img className='h-full w-full' src={Person} alt='' />
+									<img className='h-full w-full' src={profileImage} alt='' />
 								</div>
 								<div>
 									<h2 className='text-xl font-medium mb-3'>{user.name}</h2>
@@ -97,8 +101,9 @@ const UserInfo = ({ cancel, user, edit }) => {
 							<div className='flex mt-12 gap-48'>
 								<div className='flex-1 '>
 									<div className='mt-6  '>
-										<h2 className='font-medium mb-2'>الدور الوظيفى</h2>
+										<h2 className='font-normal text-lg mb-2'>الدور الوظيفى</h2>
 										<Select
+											className='w-full h-14  outline-none  rounded-lg'
 											value={packageOption}
 											onChange={handleCategory}
 											displayEmpty
@@ -141,12 +146,12 @@ const UserInfo = ({ cancel, user, edit }) => {
 										</Select>
 									</div>
 									<div className='mt-6  '>
-										<h2 className='font-medium mb-2'>اسم المتسخدم</h2>
-										<label className='w-full' htmlFor=''>
+										<h2 className='font-normal text-lg mb-2'>اسم المتسخدم</h2>
+										<label className='w-full ' htmlFor=''>
 											<input
 												className='w-full outline-none p-4 rounded-lg'
 												style={{
-													border: '1px solid #ccc',
+													border: 'none',
 													backgroundColor: '#EBEBEB',
 												}}
 												type='text'
@@ -155,12 +160,12 @@ const UserInfo = ({ cancel, user, edit }) => {
 										</label>
 									</div>
 									<div className='mt-6  '>
-										<h2 className='font-medium mb-2'>البريد الالكترونى</h2>
-										<label className='w-full' htmlFor=''>
+										<h2 className='font-normal text-lg mb-2'>البريد الالكترونى</h2>
+										<label className='w-full ' htmlFor=''>
 											<input
 												className='w-full outline-none p-4 rounded-lg'
 												style={{
-													border: '1px solid #ccc',
+													border: 'none',
 													backgroundColor: '#EBEBEB',
 												}}
 												type='email'
@@ -168,16 +173,20 @@ const UserInfo = ({ cancel, user, edit }) => {
 											/>
 										</label>
 									</div>
-									<div className='mt-6  '>
-										<h2 className='font-medium mb-2'>الصورة الشخصية</h2>
+
+									<div className='mt-6'>
+										<label className='font-normal' style={{ fontSize: '18px', color: '#011723' }}>
+											الصورة الشخصية
+										</label>
 										<ImageUploading value={images} onChange={onChangeImage} maxNumber={2} dataURLKey='data_url' acceptType={['jpg', 'png', 'jpeg']}>
-											{({ imageList, onImageUpload, onImageRemoveAll, onImageUpdate, onImageRemove, isDragging, dragProps }) => (
+											{({ onImageUpload, dragProps }) => (
 												// write your building UI
 												<div
-													className='upload__image-wrapper relative h-14 flex items-center overflow-hidden'
+													className='upload__image-wrapper relative h-14 flex items-center overflow-hidden rounded-lg'
 													style={{
-														border: '1px solid #ccc',
+														border: 'none',
 														backgroundColor: '#EBEBEB',
+														color: '#011723',
 													}}
 													{...dragProps}
 												>
@@ -190,7 +199,7 @@ const UserInfo = ({ cancel, user, edit }) => {
 															onImageUpload();
 														}}
 													>
-														{images[0]?.file?.name || 'أدخل الصورة الشخصية'}
+														{images[0]?.file?.name || ''}
 													</h2>
 													<div
 														className='flex h-full items-center justify-center'
@@ -199,7 +208,7 @@ const UserInfo = ({ cancel, user, edit }) => {
 															backgroundColor: '#02466A',
 														}}
 													>
-														<BiLinkAlt color='#fff'></BiLinkAlt>
+														<img src={UploadOutlined} alt='upload-icon' />
 													</div>
 												</div>
 											)}
@@ -208,31 +217,33 @@ const UserInfo = ({ cancel, user, edit }) => {
 								</div>
 								<div className='flex-1 '>
 									<div className='mt-6  '>
-										<h2 className='font-medium mb-2'>كلمة المرور</h2>
-										<label className='w-full' htmlFor=''>
+										<h2 className='font-normal text-lg mb-2'>كلمة المرور</h2>
+										<label className='w-full font-normal text-lg' htmlFor=''>
 											<input
 												className='w-full outline-none p-4 rounded-lg'
 												style={{
-													border: '1px solid #ccc',
+													border: 'none',
 													backgroundColor: '#EBEBEB',
 												}}
 												type='password'
-												placeholder='*******************'
+												placeholder='00000000'
 											/>
+											<p className='text-base font-normal text-[#ADB5B9]'>أدخل أرقام وحروف ورموز</p>
 										</label>
 									</div>
 									<div className='mt-6  '>
-										<h2 className='font-medium mb-2'>تأكيد كلمة المرور</h2>
+										<h2 className='font-normal text-lg mb-2'>تأكيد كلمة المرور</h2>
 										<label className='w-full' htmlFor=''>
 											<input
 												className='w-full outline-none p-4 rounded-lg'
 												style={{
-													border: '1px solid #ccc',
+													border: 'none',
 													backgroundColor: '#EBEBEB',
 												}}
 												type='password'
-												placeholder='*******************'
+												placeholder='00000000'
 											/>
+											<p className='text-base font-normal text-[#ADB5B9]'>أدخل أرقام وحروف ورموز</p>
 										</label>
 									</div>
 								</div>
@@ -265,7 +276,7 @@ const UserInfo = ({ cancel, user, edit }) => {
 									borderColor: `#02466A`,
 								}}
 								textStyle={{ color: '#02466A' }}
-								className={'h-14 w-[113px] text-2xl '}
+								className={'h-14 w-[181px] text-2xl '}
 								type={'outline'}
 								onClick={cancel}
 							>

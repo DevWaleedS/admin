@@ -136,7 +136,7 @@ const PartitionsSections = () => {
 					</TabPanel>
 					<TabPanel value='2' className='pr-0'>
 						<div className='mb-5'>
-							<h2 className='mb-2' style={{ color: '#011723' }}>
+							<h2 className='mb-2 text-lg font-normal' style={{ color: '#011723' }}>
 								اسم القسم
 							</h2>
 							<label>
@@ -154,7 +154,7 @@ const PartitionsSections = () => {
 						</div>
 
 						<div className='mb-5'>
-							<h2 className='mb-2' style={{ color: '#011723' }}>
+							<h2 className='mb-2 text-lg font-normal' style={{ color: '#011723' }}>
 								الحالة
 							</h2>
 							<Select
@@ -210,7 +210,7 @@ const PartitionsSections = () => {
 					</TabPanel>
 					<TabPanel value='3' className='pr-0'>
 						<div className='mb-5'>
-							<h2 className='mb-2' style={{ color: '#011723' }}>
+							<h2 className='mb-2 text-lg font-normal' style={{ color: '#011723' }}>
 								اسم القسم
 							</h2>
 							<label>
@@ -228,7 +228,7 @@ const PartitionsSections = () => {
 						</div>
 
 						<div className='mb-5'>
-							<h2 className='mb-2' style={{ color: '#011723' }}>
+							<h2 className='mb-2 text-lg font-normal' style={{ color: '#011723' }}>
 								الحالة{' '}
 							</h2>
 							<Select
@@ -267,7 +267,6 @@ const PartitionsSections = () => {
 											sx={{
 												backgroundColor: '#fff',
 												height: '3rem',
-												
 
 												'&:hover': {},
 												'ul:has(&)': {

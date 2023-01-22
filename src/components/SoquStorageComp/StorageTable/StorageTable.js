@@ -345,15 +345,7 @@ export default function EnhancedTable({ editProduct }) {
 									const labelId = `enhanced-table-checkbox-${index}`;
 
 									return (
-										<TableRow
-											hover
-											//   onClick={(event) => handleClick(event, row.name)}
-											role='checkbox'
-											aria-checked={isItemSelected}
-											tabIndex={-1}
-											key={row.name}
-											selected={isItemSelected}
-										>
+										<TableRow hover role='checkbox' aria-checked={isItemSelected} tabIndex={-1} key={row.name} selected={isItemSelected}>
 											<TableCell component='th' id={labelId} scope='row'>
 												<div className='flex items-center gap-2'>
 													<TrashICon
@@ -411,11 +403,11 @@ export default function EnhancedTable({ editProduct }) {
 											</TableCell>
 											<TableCell align='right'>
 												<div className='flex items-center justify-end gap-3'>
-													<h2>{row.name}</h2>
+													<h2 className='text-lg font-normal'>{row.name}</h2>
 													<img src={row.icon} alt='' />
 												</div>
 											</TableCell>
-											<TableCell align='right'>
+											<TableCell align='right' className='text-lg font-normal'>
 												<h2 className='inline text-lg font-normal'>{row.sku}</h2>
 											</TableCell>
 											<TableCell align='right' className='font-normal text-lg '>

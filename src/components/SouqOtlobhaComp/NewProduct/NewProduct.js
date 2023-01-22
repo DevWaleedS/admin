@@ -17,7 +17,6 @@ import ImageUploading from 'react-images-uploading';
 import { ReactComponent as AddIcon } from '../../../assets/Icons/icon-34-add.svg';
 import { IoIosArrowDown } from 'react-icons/io';
 import { IoMdCloudUpload } from 'react-icons/io';
-import { GrAddCircle } from 'react-icons/gr';
 import { TiDeleteOutline } from 'react-icons/ti';
 
 const BackDrop = ({ onClick }) => {
@@ -27,14 +26,17 @@ const BackDrop = ({ onClick }) => {
 const category = ['الكترونيات', 'ألعاب وهدايا', 'مستلزمات طبية', 'مواد غذائية'];
 const subCategories = ['جوالات', 'شاشات', 'بطاريات', 'اكسسوارات'];
 
-const formTitleClasses = 'font-semibold text-lg';
+const formTitleClasses = 'font-medium text-xl';
 const formTitleStyle = { width: '315px' };
 //
-const formInputClasses = 'p-4 outline-0 rounded-md';
+const formInputClasses = 'p-4 outline-0 rounded-md text-lg font-normal';
 const formInputStyle = {
 	width: '555px',
 	border: '1px solid rgba(167, 167, 167, 0.5)',
 	backgroundColor: '#f6f6f6',
+	fontSize: '20px',
+	fontWight: '400',
+	color: '#ADB5B9',
 };
 const NewProduct = ({ cancel, editProduct }) => {
 	const contextStore = useContext(Context);
@@ -108,7 +110,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 					editProduct={editProduct}
 				></AddProductOptions>
 			)}
-			<div className={`fixed bottom-0 left-0 bg-slate-50 z-20 otlobha_new_product ${styles.container}`} style={{ width: '1104px', height: 'calc(100% - 4rem)' }}>
+			<div className={`fixed bottom-0 left-0 bg-slate-50 z-20  otlobha_new_product ${styles.container}`} style={{ width: '1104px', height: 'calc(100% - 4rem)' }}>
 				<div className='flex h-full flex-col justify-between'>
 					<div
 						className='p-8'
@@ -117,8 +119,8 @@ const NewProduct = ({ cancel, editProduct }) => {
 							backgroundColor: 'rgba(235, 235, 235, 1)',
 						}}
 					>
-						<h2 className='font-semibold text-2xl  mb-3'>{editProduct ? 'تفاصيل المنتج' : 'اضافة منتج جديد للسوق'}</h2>
-						<h2>{editProduct ? 'تعديل بيانات المنتجات في سق اطلبها' : 'أدخل بيانات المنتج ليتم اضافته في منتجات سوق اطلبها'}</h2>
+						<h2 className='font-bold text-2xl  mb-3'>{editProduct ? 'تفاصيل المنتج' : 'اضافة منتج جديد للسوق'}</h2>
+						<h2 className='text-xl font-normal'>{editProduct ? 'تعديل بيانات المنتجات في سق اطلبها' : 'أدخل بيانات المنتج ليتم اضافته في منتجات سوق اطلبها'}</h2>
 					</div>
 					<div className={`flex-1 overflow-y-scroll py-12 pr-8 bg-[#f6f6f6] ${styles.content}`}>
 						<form action=''>
@@ -240,6 +242,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 								</h2>
 								<FormControl sx={{ width: 555 }}>
 									<Select
+										className={`text-lg font-normal rounded-lg ${styles.select}`}
 										value={age}
 										onChange={handleCategory}
 										IconComponent={() => {
@@ -249,7 +252,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 										inputProps={{ 'aria-label': 'Without label' }}
 										renderValue={(selected) => {
 											if (age === '') {
-												return <h2>اختر التصنيف</h2>;
+												return <h2 className='text-[#ADB5B9]'>اختر التصنيف</h2>;
 											}
 											return selected;
 										}}
@@ -286,7 +289,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 								</h2>
 								<FormControl sx={{ width: 555 }}>
 									<Select
-										className={styles.select}
+										className={`text-lg font-normal rounded-lg ${styles.select}`}
 										IconComponent={() => {
 											return <IoIosArrowDown size={'1rem'} className='absolute left-2' />;
 										}}
@@ -298,7 +301,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 											setOpenSubCategory(true);
 										}}
 										onChange={handleSubCategory}
-										renderValue={(selected) => (subCategoriesSelected.length === 0 ? 'الكل' : selected.join(' , '))}
+										renderValue={(selected) => (subCategoriesSelected.length === 0 ? <h2 className='text-[#ADB5B9]'>الكل</h2> : selected.join(' , '))}
 										sx={{
 											height: '3.5rem',
 											border: '1px solid #A7A7A780',
@@ -397,13 +400,15 @@ const NewProduct = ({ cancel, editProduct }) => {
 												return (
 													<div
 														key={idx}
-														className=' h-24 w-24 flex justify-center items-center cursor-pointer'
-														style={{ backgroundColor: '#FAFAFA', border: '2px dashed #237EAE', borderRadius: '8px' }}
+														className=' h-20 w-20 flex justify-center items-center cursor-pointer'
+														style={{ backgroundColor: '#FAFAFA', border: '2px dashed #237EAE', borderRadius: '4px' }}
 														onClick={() => {
 															onImageUpload();
 														}}
 													>
-														<GrAddCircle style={{ fontSize: '1.25rem' }}></GrAddCircle>
+														<Box sx={{ '& circle': { fill: '#ADB5B9' } }}>
+															<AddIcon className='w-5 h-5' />
+														</Box>
 													</div>
 												);
 											})}
@@ -434,7 +439,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 									اضافة خيارات المنتج
 								</h2>
 								<div
-									className='fcc p-3 gap-4 border-dashed cursor-pointer'
+									className='fcc p-3 gap-4 border-2 border-dashed cursor-pointer rounded-lg'
 									style={formInputStyle}
 									onClick={() => {
 										setShowAddProductOptions(true);
@@ -456,10 +461,11 @@ const NewProduct = ({ cancel, editProduct }) => {
 						}}
 					>
 						<Button
-							className='p-8 flex justify-center gap-4'
+							className=' text-2xl font-medium'
 							style={{
-								height: '135px',
-								backgroundColor: 'rgba(235, 235, 235, 1)',
+								width: '186px',
+								height: '56px',
+								backgroundColor: '#02466A',
 							}}
 							type={'normal'}
 							onClick={() => {
@@ -470,12 +476,13 @@ const NewProduct = ({ cancel, editProduct }) => {
 							حفظ
 						</Button>
 						<Button
+							className='text-2xl font-medium'
 							style={{
 								borderColor: `rgba(2, 70, 106, 1)`,
 								width: '186px',
 								height: '56px',
 							}}
-							textStyle={{ color: 'rgba(2, 70, 106, 1)', fontSize: '22px' }}
+							textStyle={{ color: 'rgba(2, 70, 106, 1)' }}
 							type={'outline'}
 							onClick={cancel}
 						>
