@@ -50,7 +50,7 @@ const PackageTemplate = ({ cancel }) => {
       <div
         className="w-full absolute flex flex-col top-8 translate-x-2/4  right-2/4 z-20 rounded-lg overflow-hidden"
       >
-        <div className="flex-1 flex flex-row flex-wrap px-10 py-12 gap-6">
+        <div className="flex-1 flex flex-row items-center justify-center flex-wrap px-10 py-12 gap-6">
           {template.map((item,index)=>(
             <div key={index} className="rounded-md flex flex-col"
                   style={{ width:'250px', height:'250px',backgroundColor:'#ECFEFF',border:'1px solid #B4EDEE' }}
@@ -68,8 +68,7 @@ const PackageTemplate = ({ cancel }) => {
                 </div>
             </div>
           ))}
-        </div>
-        <div className="flex flex-row items-center px-80">
+          <div className="w-full flex flex-row items-center px-64">
             <Button
               onClick={() => {
                 cancel();
@@ -80,6 +79,7 @@ const PackageTemplate = ({ cancel }) => {
             >
                 <h2 className="font-medium">اعتماد</h2>
             </Button>
+        </div>
         </div>
       </div>
     </>
