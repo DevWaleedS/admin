@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, {  useContext } from "react";
 import {
   CommunicationSendOutlined,
   Delete,
@@ -20,7 +20,6 @@ const cases = [
 ];
 
 const NotificationsPage = () => {
-  const [data, setData] = useState([]);
   const NotificationStore = useContext(NotificationContext);
   const { setNotificationTitle } = NotificationStore;
   const [selected, setSelected] = React.useState([]);
