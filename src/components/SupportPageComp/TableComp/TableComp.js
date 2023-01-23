@@ -242,26 +242,8 @@ function EnhancedTableToolbar(props) {
 					</div>
 				)}
 			</div>
-			{/** <div className='flex gap-2 items-center'>
-				{numSelected > 0 && (
-					<Tooltip onClick={onClick} title='Delete'>
-						<div className='fcc gap-2 px-4 rounded-full' style={{ width: '114px', backgroundColor: '#FF38381A' }}>
-							<h2 className={'font-medium'} style={{ color: '#FF3838' }}>
-								حذف
-							</h2>
-							<IconButton>
-								<BsTrash
-									style={{
-										cursor: 'pointer',
-										color: 'red',
-										fontSize: '1rem',
-									}}
-								></BsTrash>
-							</IconButton>
-						</div>
-					</Tooltip>
-				)}
-			</div> */}
+		
+	
 
 			<div className='flex items-center'>
 				<h2 className='font-medium'>تحديد الكل</h2>
