@@ -34,7 +34,7 @@ const PaymentGatewaysPage = () => {
     >
       <h3 style={{ fontSize: '24px', color: '#011723' }} className="font-bold">بوابات الدفع</h3>
 
-      <div className="flex flex-row items-center gap-4 flex-wrap mt-20">
+      <div className="flex flex-row items-center gap-x-4 gap-y-10 flex-wrap mt-20">
         
         {payments.map((payment, index) => (
           <div style={{ width:'280px',height:'120px' }} key={payment.id} className="flex flex-col items-center gap-5">
