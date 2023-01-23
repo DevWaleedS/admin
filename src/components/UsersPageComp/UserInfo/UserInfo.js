@@ -7,7 +7,6 @@ import Select from '@mui/material/Select';
 import Person from '../../../assets/Icons/Image Person.png';
 import MenuItem from '@mui/material/MenuItem';
 import ImageUploading from 'react-images-uploading';
-import { BiLinkAlt } from 'react-icons/bi';
 import { IoIosArrowDown } from 'react-icons/io';
 import { UploadOutlined } from '../../../assets/Icons/index';
 
@@ -28,7 +27,7 @@ const UserInfo = ({ cancel, user, edit }) => {
 	};
 
 const onChangeImage = (imageList, addUpdateIndex) => {
-	console.log(imageList[0].data_url);
+
 	setProfileImage(imageList[0].data_url);
 	// data for submit
 	setImages(imageList);
