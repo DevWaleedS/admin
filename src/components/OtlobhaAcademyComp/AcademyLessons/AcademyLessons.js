@@ -45,7 +45,7 @@ const lessons = [
   },
 ];
 
-const AcademyLessons = () => {
+const AcademyLessons = ({EditLesson}) => {
   return (
     <Box sx={{ flexGrow: 1, mt: "3rem" }}>
       <Grid class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -60,7 +60,7 @@ const AcademyLessons = () => {
               </h2>
               <div className="flex flex-row items-center justify-center gap-5" style={{ backgroundColor:'#FF38380A',height:'52px' }}>
                 <Copy ></Copy>
-                <Edit ></Edit>
+                <Edit className="cursor-pointer" onClick={() => {EditLesson(lesson);}}></Edit>
                 <BsTrash ></BsTrash>
               </div>
             </div>

@@ -31,3 +31,14 @@
 .editor :global(.rdw-editor-toolbar .rdw-option-wrapper) {
     border: none;
 }
+.clear_icon{
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+.clear_icon path{
+    fill: #67747B;
+}
+.arrow_icon path{
+    fill: #011723;
+}
