@@ -1,0 +1,9 @@
+.deleteIcon path,
+.detailIcon path {
+	fill: #67747b;
+	cursor: 'pointer';
+}
+.editIcon path {
+	stroke: #cacdcf;
+	cursor: 'pointer';
+}

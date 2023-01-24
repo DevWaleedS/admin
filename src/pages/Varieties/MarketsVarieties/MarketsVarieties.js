@@ -18,15 +18,15 @@ const ShopVarieties = () => {
     <div className={`px-4 pt-8 mt-5`} style={{ backgroundColor: "#F6F6F6" }}>
       <div className="ml-36">
         <div className="mt-6 flex items-center justify-between">
-          <PageNavigate currentPage={"تصنيفات السوق"} />
+          <PageNavigate currentPage={"تصنيفات السوق"} className='text-lg font-medium'/>
           <div className="flex gap-4">
             <Button
               className={"flex justify-center items-center"}
               type={"normal"}
-              svg={<AiOutlinePlus color="#fff" />}
+              svg={<AiOutlinePlus color="#fff" className='w-5 h-5'/>}
               color={"white"}
               style={{ backgroundColor: "#B6BE34",width:'200px',height:'57px' }}
-              textStyle={{ color: "#EFF9FF",fontSize:'21px' }}
+              textStyle={{ color: "#EFF9FF",fontSize:'20px' }}
               onClick={() => {
                 setShowAddVarietyPage(true);
                 setEditVariety(null);

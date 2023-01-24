@@ -1,0 +1,10 @@
+.icons svg {
+	width: 100%;
+	height: 100%;
+}
+
+.deleteIcon path,
+.detailIcon path {
+	fill: #67747b;
+	cursor: 'pointer';
+}

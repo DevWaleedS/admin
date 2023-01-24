@@ -5,24 +5,24 @@ import { GoArrowRight } from "react-icons/go";
 
 const PageNavigate = ({ currentPage, parentPage, nestedPage }) => {
   return (
-    <div className="flex">
-      <Link to={"/"} className={"flex items-center gap-2"}>
-        <div className={` ${styles.arrow_con}`}>
-          <GoArrowRight style={{ color: "#02466A", fontSize: "1.2rem" }} />
-        </div>
-        <h2 className="font-semibold ml-4"> الرئيسية </h2>
-      </Link>
-      {nestedPage && <h2 className="font-semibold ml-4"> / {parentPage} </h2>}
-      {parentPage && !nestedPage && (
-        <Link to={`/${parentPage}`}>
-          <h2 className="font-semibold ml-4"> / {parentPage} </h2>
-        </Link>
-      )}
-      <h3 className="font-medium" style={{ color: "#67747B" }}>
-        / {currentPage}
-      </h3>
-    </div>
-  );
+			<div className='flex'>
+				<Link to={'/'} className={'flex items-center gap-2'}>
+					<div className={` ${styles.arrow_con}`}>
+						<GoArrowRight style={{ color: '#02466A', fontSize: '1.2rem' }} />
+					</div>
+					<h2 className="className='text-lg font-medium' ml-4"> الرئيسية </h2>
+				</Link>
+				{nestedPage && <h2 className='text-lg font-medium ml-4'> / {parentPage} </h2>}
+				{parentPage && !nestedPage && (
+					<Link to={`/${parentPage}`}>
+						<h2 className='text-lg font-medium ml-4'> / {parentPage} </h2>
+					</Link>
+				)}
+				<h3 className='text-lg font-medium ' style={{ color: '#67747B' }}>
+					/ {currentPage}
+				</h3>
+			</div>
+		);
 };
 
 export default PageNavigate;

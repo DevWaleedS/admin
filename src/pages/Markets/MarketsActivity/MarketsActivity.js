@@ -5,6 +5,7 @@ import Button from '../../../UI/Button/Button';
 import { IoIosAdd } from 'react-icons/io';
 import MarketsActivityTable from '../../../components/MarketsPagesComp/MarketsActivity/MarketsActivityTable/MarketsActivityTable';
 import AddAnActivity from '../../../components/MarketsPagesComp/MarketsActivity/AddAnActivity/AddAnActivity';
+import EditActivity from '../../../components/MarketsPagesComp/MarketsActivity/AddAnActivity/AddAnActivity';
 
 const MarketsActivity = () => {
 	const [showAddActivity, setShowAddActivity] = useState(false);
@@ -33,6 +34,15 @@ const MarketsActivity = () => {
 					editProduct={editProduct}
 				></AddAnActivity>
 			)}
+			{showAddActivity && (
+				<EditActivity
+					cancel={() => {
+						setShowAddActivity(false);
+					}}
+					editProduct={editProduct}
+				></EditActivity>
+			)}
+			
 			<h2 className='mt-12 mb-6 text-xl font-medium'>الأنشطة المضافة</h2>
 			<div dir='ltr'>
 				<MarketsActivityTable

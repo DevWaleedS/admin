@@ -6,7 +6,7 @@ import {
   YAxis,
   ResponsiveContainer,
   CartesianGrid,
-  Legend,
+  
 } from "recharts";
 const data = [
   {
@@ -54,54 +54,41 @@ const data = [
 ];
 
 const GraphSec = () => {
-  const [ticks, setTicks] = useState([]);
+  const [ticks] = useState([]);
   console.log(ticks);
   return (
-    <div className="h-full">
-      <div className="pr-8">
-        <h2 className="pb-4 font-medium">إحصائيات المتاجر</h2>
-        <h2 className="text-xl font-medium" style={{ color: "#1DBBBE" }}>
-          Avg. $5,309
-        </h2>
-      </div>
-      <div className="flex h-full gap-4">
-        <div className="mt-8" style={{ width: "100%", height: "200px" }}>
-          <ResponsiveContainer>
-            <LineChart width={600} height={100} data={data}>
-              <CartesianGrid horizontal={false} />
-              <XAxis
-                axisLine={false}
-                dataKey="name"
-                interval={0}
-                tickLine={false}
-                dx={6}
-              />
-              <YAxis
-                scale="sqrt"
-                tickMargin="60"
-                tickLine={false}
-                axisLine={false}
-                interval="preserveStartEnd"
-                orientation={"right"}
-                tickFormatter={(e) => {
-                  return `$${e}`;
-                }}
-              />
+			<div className='h-full'>
+				<div className='pr-8'>
+					<h2 className='pb-4 font-medium text-[22px]'>إحصائيات المتاجر</h2>
+					<h2 className='text-[22px] font-bold ' style={{ color: '#1DBBBE' }}>
+						Avg. $5,309
+					</h2>
+				</div>
+				<div className='flex h-full gap-4'>
+					<div className='mt-8' style={{ width: '100%', height: '200px' }}>
+						<ResponsiveContainer>
+							<LineChart width={600} height={100} data={data}>
+								<CartesianGrid horizontal={false} />
+								<XAxis axisLine={false} dataKey='name' interval={0} tickLine={false} dx={6} />
+								<YAxis
+									scale='sqrt'
+									tickMargin='60'
+									tickLine={false}
+									axisLine={false}
+									interval='preserveStartEnd'
+									orientation={'right'}
+									tickFormatter={(e) => {
+										return `$${e}`;
+									}}
+								/>
 
-              <Line
-                type=""
-                dot={false}
-                dataKey="pv"
-                strokeWidth={3}
-                stroke="#1DBBBE"
-                activeDot={{ r: 8 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-    </div>
-  );
+								<Line type='' dot={false} dataKey='pv' strokeWidth={3} stroke='#1DBBBE' activeDot={{ r: 8 }} />
+							</LineChart>
+						</ResponsiveContainer>
+					</div>
+				</div>
+			</div>
+		);
 };
 
 export default GraphSec;

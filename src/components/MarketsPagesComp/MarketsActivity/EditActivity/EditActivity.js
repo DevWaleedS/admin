@@ -2,16 +2,16 @@ import React, { useContext, useEffect, useState } from 'react';
 import { IoMdCloseCircleOutline } from 'react-icons/io';
 import Button from '../../../../UI/Button/Button';
 import Context from '../../../../store/context';
-import styles from './AddAnActivity.module.css';
 
 const BackDrop = ({ onClick }) => {
-	return <div onClick={onClick} className={`fixed opacity-25 back_drop top-0 left-0 h-full w-full bg-slate-900  z-10 `}></div>;
+	return <div onClick={onClick} className={`fixed opacity-5 back_drop top-0 left-0 h-full w-full bg-slate-900  z-10 `}></div>;
 };
 
-const AddAnActivity = ({ cancel, editActivity }) => {
+const EditActivity = ({ cancel, editActivity }) => {
 	const contextStore = useContext(Context);
+ 
 	const [showAddActivity, setShowAddActivity] = useState(false);
-	const [activiyName, setActitviyName] = useState('');
+	const [activiyName, setActitviyName] = useState('الكترونيات');
 	const { setEndActionTitle } = contextStore;
 
 	useEffect(() => {
@@ -23,21 +23,21 @@ const AddAnActivity = ({ cancel, editActivity }) => {
 		<>
 			<BackDrop onClick={cancel} />
 			{showAddActivity && (
-				<AddAnActivity
+				<EditActivity
 					cancel={() => {
 						setShowAddActivity(false);
 					}}
 					editProduct={editActivity}
-				></AddAnActivity>
+				></EditActivity>
 			)}
-			<div className='fixed flex flex-col top-24 translate-x-2/4 right-2/4 z-20 rounded-md overflow-hidden' style={{ height: '36rem', width: '51.25rem' }}>
+			<div dir='rtl' className='fixed flex flex-col top-24 translate-x-2/4 right-2/4 z-20 rounded-md overflow-hidden' style={{ height: '36rem', width: '51.25rem' }}>
 				<div className='h-16 w-full flex items-center justify-between px-4' style={{ backgroundColor: '#02466A' }}>
 					<h2></h2>
-					<h2 className='text-slate-50 text-center text-[22px] font-medium'>اضافة نشاط جديد </h2>
+					<h2 className='text-slate-50 text-center text-[22px] font-medium'>تعديل نشاط - الكترونيات   </h2>
 					<IoMdCloseCircleOutline color={'#fff'} className={'cursor-pointer w-5 h-20 '} onClick={cancel}></IoMdCloseCircleOutline>
 				</div>
 				<div className='flex-1 px-44 pt-10' style={{ backgroundColor: '#FFFFFF' }}>
-					<h2 className='font-normal text-lg'>اسم النشاط</h2>
+					<h2 className='font-normal text-lg text-right'>اسم النشاط</h2>
 					<label>
 						<input
 							className='w-full outline-none shadow-[0px_3px_6px_#00000029] rounded-md p-4 my-4 h-[60px] text-lg'
@@ -72,4 +72,4 @@ const AddAnActivity = ({ cancel, editActivity }) => {
 	);
 };
 
-export default AddAnActivity;
+export default EditActivity;

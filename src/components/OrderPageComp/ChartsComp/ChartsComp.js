@@ -1,9 +1,8 @@
 import React from "react";
-import Box from "@mui/material/Box";
 import PieChartSec from "./PieChartSec/PieChartSec";
 import GraphSec from "./GraphSec/GraphSec";
 
-import { ReactComponent as StoreIcon } from "../../../assets/Icons/icon-24-store.svg";
+
 
 const ChartsComp = () => {
   return (
@@ -13,10 +12,10 @@ const ChartsComp = () => {
         style={{ width: "376px", backgroundColor: "#DDE199" }}
       >
         <div>
-          <h2 className="text-3xl font-semibold" style={{ color: "#02466A" }}>
-            23
+          <h2 className="text-[28px] font-bold" style={{ color: "#02466A" }}>
+            76
           </h2>
-          <h3>طلب متجر جديد</h3>
+          <h3 className='text-base font-normal'>طلب متجر جديد</h3>
         </div>
         <GraphSec></GraphSec>
       </div>

@@ -51,7 +51,7 @@ const VerificationData = ({ cancel, verificationInfo, editVerificationData, setV
     <>
       <BackDrop onClick={cancel} />
       <div
-        className="absolute flex flex-col top-28 translate-x-2/4  right-2/4 z-20 rounded-lg overflow-hidden"
+        className="absolute flex flex-col top-5 translate-x-2/4  right-2/4 z-20 rounded-lg overflow-hidden"
         style={{ width: "60.25rem" }}
       >
         <div
@@ -71,7 +71,7 @@ const VerificationData = ({ cancel, verificationInfo, editVerificationData, setV
             onClick={cancel}
           ></IoMdCloseCircleOutline>
         </div>
-        <div className="flex-1 flex flex-col px-[98px] py-[48px] gap-[24px] bg-white">
+        <div className="flex-1 flex flex-col px-[98px] py-[48px] gap-[24px] bg-white text-right">
           <div className="flex flex-col gap-[10px]">
             <label style={{ color: '#011723',fontSize:'20px' }} htmlFor="activity_store">نشاط المتجر</label>
             <input

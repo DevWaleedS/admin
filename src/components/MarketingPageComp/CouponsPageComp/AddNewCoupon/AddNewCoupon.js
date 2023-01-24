@@ -39,7 +39,7 @@ const AddNewUser = ({ cancel, couponDetails }) => {
 	}, [couponDetails]);
 
 	return (
-		<div className='absolute pl-36 top-0 right-0  z-10 pt-5 pr-24  w-full ' style={{ backgroundColor: '#fafafa' }}>
+		<div className='absolute pl-36 top-0 right-0  z-10 pt-5 pr-24  w-full  h-full' style={{ backgroundColor: '#fafafa' }}>
 			<div className='flex justify-between items-center mb-2'>
 				<div className='flex items-center gap-2'>
 					<div onClick={cancel} className={` ${styles.arrow_con}`}>

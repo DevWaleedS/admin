@@ -22,7 +22,7 @@ const GeneralSouq = () => {
 				<Button
 					className={'flex justify-center items-center w-[180px] h-[56px] text-lg '}
 					type={'normal'}
-					svg={<AiOutlinePlus color='#fff' className='w-[1rem] h-[1rem]'/>}
+					svg={<AiOutlinePlus color='#fff' className='w-5 h-5'/>}
 					color={'white'}
 					onClick={() => {
 						setShowAddApi(true);

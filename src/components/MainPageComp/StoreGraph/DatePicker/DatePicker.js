@@ -1,23 +1,12 @@
 import * as React from "react";
-import dayjs from "dayjs";
-import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import { DataIcon } from "../../../../assets/Icons/index";
-import { DatePicker as DateRange, Space } from "antd";
-// import { DateRangePicker } from "@adobe/react-spectrum";
-
+import { DatePicker as DateRange } from "antd";
 import "rsuite/DateRangePicker/styles/index.less";
-// import "rsuite/dist/rsuite-rtl.min.css";
-
-import { DateRangePicker } from "rsuite";
 
 const DatePicker = () => {
-  const [fromValue, setFromValue] = React.useState(dayjs(null));
-  const [toValue, setToValue] = React.useState(dayjs(null));
-
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Stack
@@ -43,7 +32,7 @@ const DatePicker = () => {
           <img src={DataIcon} alt="" />
         </div>
         <DateRange.RangePicker
-          className="main_page_date_picker rounded-none rounded-l-sm  mt-0 w-80"
+          className="main_page_date_picker rounded-none rounded-l-lg text-lg font-normal mt-0 h-[48px] w-[541px]"
           style={{
             backgroundColor: "rgb(239, 249, 255)",
           }}

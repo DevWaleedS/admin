@@ -142,13 +142,14 @@ function EnhancedTableHead(props) {
 			<TableRow>
 				{headCells.map((headCell) => (
 					<TableCell
+					className='text-lg font-medium '
 						key={headCell.id}
 						align={headCell.numeric ? 'right' : 'center'}
 						padding={headCell.disablePadding ? 'none' : 'normal'}
 						sortDirection={orderBy === headCell.id ? order : false}
 						sx={{
 							width: headCell.width ? headCell.width : 'auto',
-							fontSize: '1rem',
+						
 							color: '#02466A',
 						}}
 					>
@@ -344,9 +345,7 @@ export default function EnhancedTable({ openTraderAlert }) {
 		setSelected(newSelected);
 	};
 
-	const handleChangePage = (event, newPage) => {
-		setPage(newPage);
-	};
+
 
 	const handleChangeRowsPerPage = (event) => {
 		setRowsPerPage(parseInt(event.target.value, 10));
@@ -417,27 +416,27 @@ export default function EnhancedTable({ openTraderAlert }) {
 											</TableCell>
 											<TableCell align='right'>
 												<div className=''>
-													<h2 dir='rtl' className='font-normal text-base'>
+													<h2 dir='rtl' className='font-normal text-lg'>
 														<span className='ml-1'>{row.daysLeft}</span>
 														<span>يوم</span>
 													</h2>
 												</div>
 											</TableCell>
 											<TableCell align='right'>
-												<h2 className='font-normal text-base'>{row.packageLength}</h2>
+												<h2 className='font-normal text-lg'>{row.packageLength}</h2>
 											</TableCell>
 
 											<TableCell align='right' sx={{ display: 'flex', gap: '0.5rem', p: '24px 0' }}>
 												<img src={Gift} alt='' />
-												<h2 className='font-normal text-base'>{row.name}</h2>
+												<h2 className='font-normal text-lg'>{row.name}</h2>
 											</TableCell>
 											<TableCell align='right'>
-												<div className={`h-10 w-28 font-normal text-base rounded-3xl ml-auto flex justify-center items-center`} style={{ backgroundColor: row.packageType.class }}>
+												<div className={`h-10 w-28 font-normal text-lg rounded-3xl ml-auto flex justify-center items-center`} style={{ backgroundColor: row.packageType.class }}>
 													{row.packageType.title}
 												</div>
 											</TableCell>
 
-											<TableCell align='right'>
+											<TableCell align='right' className='font-normal text-lg'>
 												{(index + 1).toLocaleString('en-US', {
 													minimumIntegerDigits: 2,
 													useGrouping: false,

@@ -17,7 +17,7 @@ const AddSubVariety = ({ cancel }) => {
     <>
       <BackDrop onClick={cancel} />
       <div
-        className="absolute flex flex-col top-28 translate-x-2/4  right-2/4 z-50 rounded-lg overflow-hidden"
+        className="absolute flex flex-col top-5 translate-x-2/4  right-2/4 z-50 rounded-lg overflow-hidden"
         style={{ width: "60.25rem" }}
       >
           <div

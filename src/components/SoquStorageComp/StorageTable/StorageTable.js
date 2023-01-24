@@ -153,13 +153,14 @@ function EnhancedTableHead(props) {
 			<TableRow>
 				{headCells.map((headCell) => (
 					<TableCell
+						className='text-lg font-medium'
 						key={headCell.id}
 						align={headCell.numeric ? 'right' : 'center'}
 						padding={headCell.disablePadding ? 'none' : 'normal'}
 						sortDirection={orderBy === headCell.id ? order : false}
 						sx={{
 							width: headCell.width ? headCell.width : 'auto',
-							fontSize: '1rem',
+							
 							color: '#02466A',
 						}}
 					>
@@ -315,9 +316,7 @@ export default function EnhancedTable({ editProduct }) {
 		setSelected(newSelected);
 	};
 
-	const handleChangePage = (event, newPage) => {
-		setPage(newPage);
-	};
+
 
 	const handleChangeRowsPerPage = (event) => {
 		setRowsPerPage(parseInt(event.target.value, 10));
@@ -328,14 +327,7 @@ export default function EnhancedTable({ editProduct }) {
 
 	// Avoid a layout jump when reaching the last page with empty rows.
 	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-	const allRows = () => {
-		const num = Math.ceil(data.length / rowsPerPage);
-		const arr = [];
-		for (let index = 0; index < num; index++) {
-			arr.push(index + 1);
-		}
-		return arr;
-	};
+
 	return (
 		<Box sx={{ width: '100%' }}>
 			<Paper sx={{ width: '100%', mb: 2 }}>
@@ -353,15 +345,7 @@ export default function EnhancedTable({ editProduct }) {
 									const labelId = `enhanced-table-checkbox-${index}`;
 
 									return (
-										<TableRow
-											hover
-											//   onClick={(event) => handleClick(event, row.name)}
-											role='checkbox'
-											aria-checked={isItemSelected}
-											tabIndex={-1}
-											key={row.name}
-											selected={isItemSelected}
-										>
+										<TableRow hover role='checkbox' aria-checked={isItemSelected} tabIndex={-1} key={row.name} selected={isItemSelected}>
 											<TableCell component='th' id={labelId} scope='row'>
 												<div className='flex items-center gap-2'>
 													<TrashICon
@@ -374,7 +358,7 @@ export default function EnhancedTable({ editProduct }) {
 														style={{
 															cursor: 'pointer',
 															color: 'red',
-															fontSize: '1rem',
+															fontSize: '1.2rem',
 														}}
 													></TrashICon>
 													<EditIcon
@@ -382,7 +366,7 @@ export default function EnhancedTable({ editProduct }) {
 														onClick={() => {
 															editProduct(row);
 														}}
-														width={'18px'}
+														width={'20px'}
 													></EditIcon>
 
 													<BootstrapTooltip
@@ -394,14 +378,14 @@ export default function EnhancedTable({ editProduct }) {
 														placement='top-start'
 													>
 														<IconButton>
-															<MdOutlineAddBox color='#1DBBBE' size={'18px'}></MdOutlineAddBox>
+															<MdOutlineAddBox color='#1DBBBE' size={'20px'}></MdOutlineAddBox>
 														</IconButton>
 													</BootstrapTooltip>
 												</div>
 											</TableCell>
 											<TableCell align='center'>
 												<div className=''>
-													<h2 dir='rtl' className='font-medium'>
+													<h2 dir='rtl' className='text-lg font-normal'>
 														<span className='ml-1'>{row.price}</span>
 														<span>ر.س</span>
 													</h2>
@@ -409,24 +393,24 @@ export default function EnhancedTable({ editProduct }) {
 											</TableCell>
 											<TableCell align='right'>
 												<div>
-													<h2 className='font-medium'>{row.quantity}</h2>
+													<h2 className='text-lg font-normal'>{row.quantity}</h2>
 												</div>
 											</TableCell>
 
 											<TableCell align='right' sx={{ display: 'flex', gap: '0.5rem', p: '24px 0' }}>
 												<img src={Gift} alt='' />
-												<h2 className='font-medium'>{row.activity}</h2>
+												<h2 className='text-lg font-normal'>{row.activity}</h2>
 											</TableCell>
 											<TableCell align='right'>
 												<div className='flex items-center justify-end gap-3'>
-													<h2>{row.name}</h2>
+													<h2 className='text-lg font-normal'>{row.name}</h2>
 													<img src={row.icon} alt='' />
 												</div>
 											</TableCell>
-											<TableCell align='right'>
-												<h2 className='inline font-medium'>{row.sku}</h2>
+											<TableCell align='right' className='text-lg font-normal'>
+												<h2 className='inline text-lg font-normal'>{row.sku}</h2>
 											</TableCell>
-											<TableCell align='right'>
+											<TableCell align='right' className='font-normal text-lg '>
 												{(index + 1).toLocaleString('en-US', {
 													minimumIntegerDigits: 2,
 													useGrouping: false,
