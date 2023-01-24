@@ -455,7 +455,7 @@ export default function EnhancedTable({ openTraderAlert,openVerificationData,ope
                               onClose={activityHandleClose}
                           >
                               {[1,2,3].map((_item,index)=>(
-                                <MenuItem key={index} className="flex flex-row items-center justify-center gap-2" style={{ color:'#4D4F5C' }} onClick={activityHandleClose}>
+                              <MenuItem key={index} className="flex flex-row items-center justify-center gap-2" style={{ color:'#4D4F5C' }} onClick={activityHandleClose}>
                                   <div
                                     className="flex flex-row items-center justify-center"
                                     style={{ width:'30px',height:'30px',borderRadius:'50%',backgroundColor:'#8D8AD333' }}><img src={Stationery} alt="stationery-icon" /></div>

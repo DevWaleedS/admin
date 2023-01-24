@@ -32,13 +32,12 @@ const courses = [
   },
 ];
 
-const TrainingCourses = () => {
+const TrainingCourses = ({EditCourse}) => {
   return (
     <div className="mt-12">
       <div>
         {courses.map((course, index) => {
           const image = require("../../../assets/images/drop_shipping_img.png");
-          console.log(`"${course.img}"`);
           return (
             <div key={index} className="flex flex-row items-center justify-between shadow-lg  mb-4">
               <div className="flex gap-4">
@@ -68,7 +67,7 @@ const TrainingCourses = () => {
               </div>
               <div className="flex flex-row items-center justify-center gap-5 pl-6">
                 <Copy ></Copy>
-                <Edit ></Edit>
+                <Edit className="cursor-pointer" onClick={() => {EditCourse(course);}}></Edit>
                 <VisibilityIcon style={{ color:'#1DBBBE' }}></VisibilityIcon>
                 <BsTrash ></BsTrash>
               </div>

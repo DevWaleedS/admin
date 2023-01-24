@@ -10,8 +10,9 @@ import { ReactComponent as ActionAdd } from "../../assets/Icons/icon-24-action-a
 const OtlobhaAcademy = () => {
   const [newLessonWindow, setNewLessonWindow] = useState(false);
   const [newCourseWindow, setNewCourseWindow] = useState(false);
-  const [ selectedTab,setSelectTab ] = useState();
-
+  const [editCourseData, setEditCourseData] = useState(null);
+  const [editLessonData, setEditLessonData] = useState(null);
+  const [selectedTab, setSelectTab] = useState();
   return (
     <div
       className={`p-4 relative pl-36`}
@@ -21,37 +22,39 @@ const OtlobhaAcademy = () => {
         <PageNavigate currentPage={"أكاديمية أطلبها"} />
         <div className="flex gap-2">
           {
-            selectedTab === 1 ? 
-            (
-              <Button
+            selectedTab === 1 ?
+              (
+                <Button
                   className={"flex justify-center items-center"}
                   type={"outline"}
-                  style={{ width:'180px',height:'56px',borderColor: "#02466A" }}
-                  textStyle={{ color: "#02466A",fontSize:'20px' }}
+                  style={{ width: '180px', height: '56px', borderColor: "#02466A" }}
+                  textStyle={{ color: "#02466A", fontSize: '20px' }}
                   svg={<ActionAdd fill="#02466A" />}
                   onClick={() => {
                     setNewCourseWindow(true);
+                    setEditCourseData(null);
                   }}
-              >
-                   اضافة دورة
-              </Button>
-            ) : 
-            (
-              <Button
+                >
+                  اضافة دورة
+                </Button>
+              ) :
+              (
+                <Button
                   className={"flex justify-center items-center"}
                   type={"outline"}
-                  style={{ width:'180px',height:'56px',borderColor: "#02466A" }}
-                  textStyle={{ color: "#02466A",fontSize:'20px' }}
+                  style={{ width: '180px', height: '56px', borderColor: "#02466A" }}
+                  textStyle={{ color: "#02466A", fontSize: '20px' }}
                   svg={<ActionAdd fill="#02466A" />}
                   onClick={() => {
                     setNewLessonWindow(true);
+                    setEditLessonData(null);
                   }}
-              >
+                >
                   اضافة درس
-              </Button>
-            )
+                </Button>
+              )
           }
-          
+
         </div>
       </div>
       {newCourseWindow && (
@@ -59,6 +62,7 @@ const OtlobhaAcademy = () => {
           cancel={() => {
             setNewCourseWindow(false);
           }}
+          editData={editCourseData}
         ></AddNewCourse>
       )}
       {newLessonWindow && (
@@ -66,10 +70,22 @@ const OtlobhaAcademy = () => {
           cancel={() => {
             setNewLessonWindow(false);
           }}
+          editLessonData={editLessonData}
         ></AddNewLesson>
       )}
       <div className="mt-16">
-        <OtlobhaAcademyComp setSelectTab={setSelectTab}></OtlobhaAcademyComp>
+        <OtlobhaAcademyComp
+          EditCourse={(data) => {
+            setNewCourseWindow(true);
+            setEditCourseData(data);
+          }}
+          EditLesson={(data) => {
+            setNewLessonWindow(true);
+            setEditLessonData(data);
+          }}
+          setSelectTab={setSelectTab}
+        >
+        </OtlobhaAcademyComp>
       </div>
     </div>
   );

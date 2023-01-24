@@ -330,7 +330,7 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable({ openTraderAlert }) {
+export default function EnhancedTable({ openProductDetails, openTraderAlert }) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
@@ -613,7 +613,12 @@ export default function EnhancedTable({ openTraderAlert }) {
                         <h2 style={{ color: '#4D4F5C', fontSize: '16px' }}>{row.store}</h2>
                       </TableCell>
                       <TableCell align='right'>
-                        <h2 style={{ color: '#4D4F5C', fontSize: '16px' }}>{row.product}</h2>
+                        <h2 style={{ color: '#4D4F5C', fontSize: '16px', cursor: 'pointer' }}
+                          onClick={() => {
+                            openProductDetails(row);
+                          }}>
+                          {row.product}
+                        </h2>
                       </TableCell>
                       <TableCell align='right'>
                         <h2 style={{ color: '#4D4F5C', fontSize: '18px' }}>{row.number}</h2>
