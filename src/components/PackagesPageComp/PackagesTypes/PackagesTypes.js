@@ -6,7 +6,7 @@ const PackagesTypes = ({ editPackage }) => {
 	const [yearlyPlan, setYearlyPlan] = useState(false);
 	const [showEditTemplates, setShowEditTemplates] = useState(false);
 	return (
-		<div className=''>
+		<div className='h-full mb-20'>
 			<div className='flex justify-center items-center gap-4 my-12'>
 				<h2 className='font-medium text-[20px]'>سنوى/شهرى </h2>
 				<div

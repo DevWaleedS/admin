@@ -7,7 +7,7 @@ const CurrentSubscriptions = () => {
   const [traderAlert, setTraderAlert] = useState(false);
   const [traderPackageDetails, setTraderPackageDetails] = useState([]);
   return (
-    <div className={`p-4 pl-36`} style={{ backgroundColor: "#fafafa" }}>
+    <div className={`p-4 pl-36 text-lg font-medium`} style={{ backgroundColor: "#fafafa" }}>
       <PageNavigate
         currentPage={"الإشتراكات الحالية"}
         nestedPage={true}

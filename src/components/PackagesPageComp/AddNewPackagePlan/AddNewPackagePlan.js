@@ -57,7 +57,7 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
   };
   return (
     <div
-      className="absolute py-[40px] pl-[102px] pr-4 top-0 right-0  z-10  w-full h-full"
+      className="absolute pb-20 py-[40px] pl-[102px] pr-4 top-0 right-0  z-10  w-full "
       style={{ backgroundColor: "#fafafa" }}
     >
       <div className="flex justify-between items-center mb-2">
@@ -65,7 +65,7 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
           <div onClick={cancel} className={` ${styles.arrow_con}`}>
             <GoArrowRight style={{ color: "#02466A", fontSize: "1.2rem" }} />
           </div>
-          <h2 style={{ fontSize: '18px', color: '#011723' }}>الباقات والأسعار</h2>
+          <h2 className='text-lg font-medium' style={{  color: '#011723' }}>الباقات والأسعار</h2>
         </div>
         <Button
           style={{ width: '180px', height: '56px', fontSize: '22px', color: '#011723', whiteSpace: 'nowrap', }}
@@ -83,7 +83,7 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
         </Button>
       </div>
       <div className="flex flex-col gap-[10px]">
-        <h2 style={{ fontSize: '16px', color: '#1DBBBE' }}>
+        <h2 className='text-lg font-normal' style={{ color: '#1DBBBE' }}>
           رقم الباقة
         </h2>
         <input
@@ -133,7 +133,7 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
                 <h2 style={{ color: "#0099FB" }} className="text-lg font-medium mb-3">
                   اضافة محتوى جديد للخطة
                 </h2>
-                <FormControl sx={{ width: "100%" }}>
+                <FormControl sx={{ width: "100%", height: '240px' }}>
                   <Select
                     multiple
                     displayEmpty
@@ -193,7 +193,7 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
             )
             :
             (
-              <div className="flex flex-col gap-[28px] bg-white mt-[28px] pr-[10px] pl-[30px] pt-[20px] pb-20 rounded-lg" style={{ boxShadow: '0px 3px 6px #1DBBBE0F' }}>
+              <div className="flex flex-col gap-[28px] bg-white mt-[28px] pr-[10px] pl-[30px] pt-[20px] pb-52 rounded-lg" style={{ boxShadow: '0px 3px 6px #1DBBBE0F' }}>
                 <h2 style={{ color: "#0099FB", fontSize: '20px' }} className="font-medium">
                   <AiFillStar
                     style={{

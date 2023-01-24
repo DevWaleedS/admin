@@ -15,6 +15,7 @@ import ImageUploading from 'react-images-uploading';
 
 // Icons
 import { ReactComponent as AddIcon } from '../../../assets/Icons/icon-34-add.svg';
+import { ReactComponent as CopyIcon } from '../../../assets/Icons/copy icon.svg';
 import { IoIosArrowDown } from 'react-icons/io';
 import { IoMdCloudUpload } from 'react-icons/io';
 import { TiDeleteOutline } from 'react-icons/ti';
@@ -57,6 +58,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 	const [inStore, setInStore] = useState('');
 	const [productSection, setProductSection] = useState('');
 	const [openSubCategory, setOpenSubCategory] = useState(false);
+	const [copy, setCopy] = useState(false);
 
 	const handleSubCategory = (event) => {
 		const {
@@ -66,6 +68,14 @@ const NewProduct = ({ cancel, editProduct }) => {
 			// On autofill we get a stringified value.
 			typeof value === 'string' ? value.split(',') : value
 		);
+	};
+
+	const handelCopy = () => {
+		navigator.clipboard.writeText('https://www.google.com/search?q=%D8%B1%D8%A7%D8%A8%D8%B7+%D8%AA%D9%8');
+		setCopy(true);
+		setTimeout(() => {
+			setCopy(false);
+		}, 5000);
 	};
 
 	useEffect(() => {
@@ -283,54 +293,72 @@ const NewProduct = ({ cancel, editProduct }) => {
 									</Select>
 								</FormControl>
 							</div>
-							<div className='flex mb-8'>
-								<h2 className={formTitleClasses} style={formTitleStyle}>
-									التصنيف الفرعي
-								</h2>
-								<FormControl sx={{ width: 555 }}>
-									<Select
-										className={`text-lg font-normal rounded-lg ${styles.select}`}
-										IconComponent={() => {
-											return <IoIosArrowDown size={'1rem'} className='absolute left-2' />;
-										}}
-										multiple
-										displayEmpty
-										value={subCategoriesSelected}
-										open={openSubCategory}
-										onClick={() => {
-											setOpenSubCategory(true);
-										}}
-										onChange={handleSubCategory}
-										renderValue={(selected) => (subCategoriesSelected.length === 0 ? <h2 className='text-[#ADB5B9]'>الكل</h2> : selected.join(' , '))}
-										sx={{
-											height: '3.5rem',
-											border: '1px solid #A7A7A780',
-											borderRadius: '4px',
-											'& .MuiOutlinedInput-notchedOutline': {
-												border: 'none',
-											},
-										}}
+
+							{editProduct && (
+								<div className='flex mb-8'>
+									<h2 className={formTitleClasses} style={formTitleStyle}>
+										رابط المنتج
+									</h2>
+									<div
+										className={`flex flex-row items-center justify-between ${formInputClasses}`} 
+									style={formInputStyle}
 									>
-										{subCategories.map((name) => (
-											<MenuItem className='souq_storge_category_filter_items multiple_select' key={name} value={name}>
-												<Checkbox checked={subCategoriesSelected.indexOf(name) > -1} />
-												<ListItemText primary={name} />
-											</MenuItem>
-										))}
-										<button
-											className='w-full flex flex-col items-center justify-center p-3.5 rounded-none'
-											style={{ fontSize: '18px', backgroundColor: '#02466A', color: '#FFFFFF' }}
-											onClick={(e) => {
-												e.stopPropagation();
-												e.preventDefault();
-												setOpenSubCategory(false);
+										<h6 style={{ color: '#02466A', fontSize: '16px' }}>https://www.cat.com/en_US/products/new/technology/equipm</h6>
+
+										{copy ? <h6 style={{ color: '#02466A', fontSize: '16px' }}>Copied</h6> : <CopyIcon className='cursor-pointer mr-2' fill='#02466A' onClick={() => handelCopy()} />}
+									</div>
+								</div>
+							)}
+							{editProduct && (
+								<div className='flex mb-8'>
+									<h2 className={formTitleClasses} style={formTitleStyle}>
+										التصنيف الفرعي
+									</h2>
+									<FormControl sx={{ width: 555 }}>
+										<Select
+											className={`text-lg font-normal rounded-lg ${styles.select}`}
+											IconComponent={() => {
+												return <IoIosArrowDown size={'1rem'} className='absolute left-2' />;
+											}}
+											multiple
+											displayEmpty
+											value={subCategoriesSelected}
+											open={openSubCategory}
+											onClick={() => {
+												setOpenSubCategory(true);
+											}}
+											onChange={handleSubCategory}
+											renderValue={(selected) => (subCategoriesSelected.length === 0 ? <h2 className='text-[#ADB5B9]'>الكل</h2> : selected.join(' , '))}
+											sx={{
+												height: '3.5rem',
+												border: '1px solid #A7A7A780',
+												borderRadius: '4px',
+												'& .MuiOutlinedInput-notchedOutline': {
+													border: 'none',
+												},
 											}}
 										>
-											اختر
-										</button>
-									</Select>
-								</FormControl>
-							</div>
+											{subCategories.map((name) => (
+												<MenuItem className='souq_storge_category_filter_items multiple_select' key={name} value={name}>
+													<Checkbox checked={subCategoriesSelected.indexOf(name) > -1} />
+													<ListItemText primary={name} />
+												</MenuItem>
+											))}
+											<button
+												className='w-full flex flex-col items-center justify-center p-3.5 rounded-none'
+												style={{ fontSize: '18px', backgroundColor: '#02466A', color: '#FFFFFF' }}
+												onClick={(e) => {
+													e.stopPropagation();
+													e.preventDefault();
+													setOpenSubCategory(false);
+												}}
+											>
+												اختر
+											</button>
+										</Select>
+									</FormControl>
+								</div>
+							)}
 
 							<div className='flex mb-8'>
 								<h2 className={formTitleClasses} style={formTitleStyle}>

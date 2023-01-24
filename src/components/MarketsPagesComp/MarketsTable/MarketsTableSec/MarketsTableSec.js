@@ -25,8 +25,9 @@ import { MdOutlineKeyboardArrowDown, MdOutlineArrowBackIosNew, MdOutlineArrowFor
 import { ReactComponent as SortIcon } from '../../../../assets/Icons/icon-24-sort.svg';
 import { NotificationContext } from '../../../../store/NotificationProvider';
 
-function createData(name, activity, opened, daysLeft, rate) {
+function createData(id, name, activity, opened, daysLeft, rate) {
 	return {
+		id,
 		name,
 		activity,
 		opened,
@@ -36,21 +37,18 @@ function createData(name, activity, opened, daysLeft, rate) {
 }
 
 const rows = [
-	createData('أمازون', 'هدايا وألعاب', true, 90, 4.3),
-	createData('صحتى', 'مستلزمات طبية', false, 67, 2.2),
-	createData('تسعة', 'الكترونيات', false, 7, 4.3, 2.2),
-	createData('ماركت14', 'هدايا وألعاب', true, 7, 2.2),
-	createData('ماركت13', 'مستلزمات طبية', false, 75, 4.3),
-	createData('ماركت12', 'الكترونيات', false, 5, 2.2),
-	createData('ماركت11', 'هدايا وألعاب', true, 75, 4.3),
-	createData('ماركت10', 'مستلزمات طبية', false, 75, 2.2),
-	createData('ماركت9', 'الكترونيات', false, 7, 4.3),
-	createData('ماركت6', 'هدايا وألعاب', true, 75, 2.2),
-	createData('ماركت5', 'مستلزمات طبية', false, 75, 4.3),
-	createData('ماركت4', 'الكترونيات', false, 55, 4.3),
-	createData('7ماركت', 'هدايا وألعاب', true, 52, 2.2),
-	createData('ماركت3', 'مستلزمات طبية', false, 54, 4.3),
-	createData('ماركت2', 'الكترونيات', false, 55, 2.2),
+	createData(1,'أمازون', 'هدايا وألعاب', true, 90, 4.3),
+	createData(2,'صحتى', 'مستلزمات طبية', false, 67, 2.2),
+	createData(3,'تسعة', 'الكترونيات', false, 7, 4.3, 2.2),
+	createData(4,'ماركت14', 'هدايا وألعاب', true, 7, 2.2),
+	createData(5,'ماركت13', 'مستلزمات طبية', false, 75, 4.3),
+	createData(6,'ماركت12', 'الكترونيات', false, 5, 2.2),
+	createData(7,'ماركت11', 'هدايا وألعاب', true, 75, 4.3),
+	createData(8,'ماركت10', 'مستلزمات طبية', false, 75, 2.2),
+	createData(9,'ماركت9', 'الكترونيات', false, 7, 4.3),
+	createData(10,'ماركت6', 'هدايا وألعاب', true, 75, 2.2),
+	createData(11,'ماركت5', 'مستلزمات طبية', false, 75, 4.3),
+
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -70,7 +68,7 @@ function getComparator(order, orderBy) {
 // This method is created for cross-browser compatibility, if you don't
 // need to support IE11, you can use Array.prototype.sort() directly
 function stableSort(array, comparator) {
-	const stabilizedThis = array.map((el, index) => [el, index]);
+	const stabilizedThis = array.map((el, id) => [el, id]);
 	stabilizedThis.sort((a, b) => {
 		const order = comparator(a[0], b[0]);
 		if (order !== 0) {
@@ -283,7 +281,7 @@ export default function EnhancedTable() {
 
 	const handleSelectAllClick = (event) => {
 		if (event.target.checked) {
-			const newSelected = data.map((n) => n.name);
+			const newSelected = data.map((n) => n.id);
 			setSelected(newSelected);
 			return;
 		}
@@ -291,20 +289,20 @@ export default function EnhancedTable() {
 	};
 	const deleteItems = () => {
 		const array = [...data];
-		selected.forEach((item, idx) => {
-			const findIndex = array.findIndex((i) => item === i.name);
+		selected.forEach((item, id) => {
+			const findIndex = array.findIndex((i) => item === i.id);
 			array.splice(findIndex, 1);
 		});
 		setData(array);
 		setSelected([]);
 	};
 
-	const handleClick = (event, name) => {
-		const selectedIndex = selected.indexOf(name);
+	const handleClick = (event, id) => {
+		const selectedIndex = selected.indexOf(id);
 		let newSelected = [];
 
 		if (selectedIndex === -1) {
-			newSelected = newSelected.concat(selected, name);
+			newSelected = newSelected.concat(selected, id);
 		} else if (selectedIndex === 0) {
 			newSelected = newSelected.concat(selected.slice(1));
 		} else if (selectedIndex === selected.length - 1) {
@@ -343,12 +341,11 @@ export default function EnhancedTable() {
 					<Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={'medium'}>
 						<EnhancedTableHead numSelected={selected.length} order={order} orderBy={orderBy} onSelectAllClick={handleSelectAllClick} onRequestSort={handleRequestSort} rowCount={data.length} />
 						<TableBody>
-							{/* if you don't need to support IE11, you can replace the `stableSort` call with:
-                 rows.sort(getComparator(order, orderBy)).slice() */}
+					
 							{stableSort(data, getComparator(order, orderBy))
 								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 								.map((row, index) => {
-									const isItemSelected = isSelected(row.name);
+									const isItemSelected = isSelected(row.id);
 									const labelId = `enhanced-table-checkbox-${index}`;
 
 									return (
@@ -358,7 +355,7 @@ export default function EnhancedTable() {
 											role='checkbox'
 											aria-checked={isItemSelected}
 											tabIndex={-1}
-											key={row.name}
+											key={row.id}
 											selected={isItemSelected}
 										>
 											<TableCell component='th' id={labelId} scope='row'>
@@ -366,7 +363,7 @@ export default function EnhancedTable() {
 													<BsTrash
 														onClick={() => {
 															setNotificationTitle('سيتم حذف جميع المتاجر التي قمت بتحديدها');
-															const findIndex = data.findIndex((item) => item.name === row.name);
+															const findIndex = data.findIndex((item) => item.id === row.id);
 															const arr = [...data];
 															arr.splice(findIndex, 1);
 															setData(arr);
@@ -379,7 +376,7 @@ export default function EnhancedTable() {
 													></BsTrash>
 													<Switch
 														onChange={() => {
-															const findIndex = data.findIndex((item) => item.name === row.name);
+															const findIndex = data.findIndex((item) => item.id === row.id);
 															const arr = [...data];
 															arr[findIndex].opened = !arr[findIndex].opened;
 															setData(arr);
@@ -467,7 +464,7 @@ export default function EnhancedTable() {
 														},
 													}}
 													checked={isItemSelected}
-													onClick={(event) => handleClick(event, row.name)}
+													onClick={(event) => handleClick(event, row.id)}
 													inputProps={{
 														'aria-labelledby': labelId,
 													}}

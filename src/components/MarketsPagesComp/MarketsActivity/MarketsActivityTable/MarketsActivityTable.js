@@ -17,15 +17,16 @@ import Tooltip from '@mui/material/Tooltip';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { visuallyHidden } from '@mui/utils';
-import AddAnActivity from '../AddAnActivity/AddAnActivity';
+import EditActivity from '../EditActivity/EditActivity';
 
 import { MdOutlineKeyboardArrowDown, MdOutlineArrowBackIosNew, MdOutlineArrowForwardIos } from 'react-icons/md';
 
 import { ReactComponent as EditIcon } from '../../../../assets/Icons/editt 2.svg';
 import { ReactComponent as TrashICon } from '../../../../assets/Icons/icon-24-delete.svg';
 
-function createData(name, count, opened, daysLeft, rate) {
+function createData(id,name, count, opened, daysLeft, rate) {
 	return {
+		id,
 		name,
 		count,
 		opened,
@@ -35,21 +36,18 @@ function createData(name, count, opened, daysLeft, rate) {
 }
 
 const rows = [
-	createData('ملابس', '  ( متجر 30 ) ', true, 90, 4.3),
-	createData('حلويات', '( متجر 17 ) ', false, 67, 2.2),
-	createData('الكتروينيات', '( متجر 50 )', false, 7, 4.3, 2.2),
-	createData('موبيليا', ' ( متجر 20 )', true, 7, 2.2),
-	createData('ملابس', ' ( متجر 30 )', false, 75, 4.3),
-	createData('حلويات', '( متجر 17 )', false, 5, 2.2),
-	createData('الكتروينيات', ' ( متجر 12 )', true, 75, 4.3),
-	createData('موبيليا', ' ( متجر 10 )', false, 75, 2.2),
-	createData('ملابس', '( متجر 50 )', false, 7, 4.3),
-	createData('ماركت6', ' ( متجر 50 )', true, 75, 2.2),
-	createData('ماركت5', ' ( متجر 60 )', false, 75, 4.3),
-	createData('حلويات', '( متجر 90 )', false, 55, 4.3),
-	createData('موبيليا', ' ( متجر 10 )', true, 52, 2.2),
-	createData('الكتروينيات', ' ( متجر 70 )', false, 54, 4.3),
-	createData('موبيليا', '( متجر 80 )', false, 55, 2.2),
+	createData(1,'ملابس', '  ( متجر 30 ) ', true, 90, 4.3),
+	createData(2,'حلويات', '( متجر 17 ) ', false, 67, 2.2),
+	createData(3,'الكتروينيات', '( متجر 50 )', false, 7, 4.3, 2.2),
+	createData(4,'موبيليا', ' ( متجر 20 )', true, 7, 2.2),
+	createData(5,'ملابس', ' ( متجر 30 )', false, 75, 4.3),
+	createData(6,'حلويات', '( متجر 17 )', false, 5, 2.2),
+	createData(7,'الكتروينيات', ' ( متجر 12 )', true, 75, 4.3),
+	createData(8,'موبيليا', ' ( متجر 10 )', false, 75, 2.2),
+	createData(9,'ملابس', '( متجر 50 )', false, 7, 4.3),
+	createData(10,'ماركت6', ' ( متجر 50 )', true, 75, 2.2),
+	createData(11,'ماركت5', ' ( متجر 60 )', false, 75, 4.3),
+
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -213,16 +211,7 @@ function EnhancedTableToolbar(props) {
 					</Tooltip>
 				)}
 
-				{/* {numSelected > 0 && (
-          <Typography
-            sx={{}}
-            color="inherit"
-            variant="subtitle1"
-            component="div"
-          >
-            {numSelected} selected
-          </Typography>
-        )} */}
+				
 			</div>
 
 			<div className='flex items-center'>
@@ -270,15 +259,11 @@ export default function EnhancedTable() {
 		setAnchorEl(null);
 	};
 
-	const handleRequestSort = (event, property) => {
-		const isAsc = orderBy === property && order === 'asc';
-		setOrder(isAsc ? 'desc' : 'asc');
-		setOrderBy(property);
-	};
+	
 
 	const handleSelectAllClick = (event) => {
 		if (event.target.checked) {
-			const newSelected = data.map((n) => n.name);
+			const newSelected = data.map((n) => n.id);
 			setSelected(newSelected);
 			return;
 		}
@@ -286,20 +271,20 @@ export default function EnhancedTable() {
 	};
 	const deleteItems = () => {
 		const array = [...data];
-		selected.forEach((item, idx) => {
-			const findIndex = array.findIndex((i) => item === i.name);
+		selected.forEach((item) => {
+			const findIndex = array.findIndex((i) => item === i.id);
 			array.splice(findIndex, 1);
 		});
 		setData(array);
 		setSelected([]);
 	};
 
-	const handleClick = (event, name) => {
-		const selectedIndex = selected.indexOf(name);
+	const handleClick = (event, id) => {
+		const selectedIndex = selected.indexOf(id);
 		let newSelected = [];
 
 		if (selectedIndex === -1) {
-			newSelected = newSelected.concat(selected, name);
+			newSelected = newSelected.concat(selected, id);
 		} else if (selectedIndex === 0) {
 			newSelected = newSelected.concat(selected.slice(1));
 		} else if (selectedIndex === selected.length - 1) {
@@ -311,9 +296,7 @@ export default function EnhancedTable() {
 		setSelected(newSelected);
 	};
 
-	const handleChangePage = (event, newPage) => {
-		setPage(newPage);
-	};
+
 
 	const handleChangeRowsPerPage = (event) => {
 		setRowsPerPage(parseInt(event.target.value, 10));
@@ -343,25 +326,25 @@ export default function EnhancedTable() {
                  rows.sort(getComparator(order, orderBy)).slice() */}
 							{stableSort(data, getComparator(order, orderBy))
 								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-								.map((row, index) => {
-									const isItemSelected = isSelected(row.name);
-									const labelId = `enhanced-table-checkbox-${index}`;
+								.map((row) => {
+									const isItemSelected = isSelected(row.id);
+									const labelId = `enhanced-table-checkbox-${row.id}`;
 
 									return (
 										<TableRow
 											hover
-											//   onClick={(event) => handleClick(event, row.name)}
+										
 											role='checkbox'
 											aria-checked={isItemSelected}
 											tabIndex={-1}
-											key={index}
+											key={row.id}
 											selected={isItemSelected}
 										>
 											<TableCell component='th' id={labelId} scope='row'>
 												<div className='flex items-center gap-2'>
 													<TrashICon
 														onClick={() => {
-															const findIndex = data.findIndex((item) => item.name === row.name);
+															const findIndex = data.findIndex((item) => item.id === row.id);
 															const arr = [...data];
 															arr.splice(findIndex, 1);
 															setData(arr);
@@ -382,11 +365,11 @@ export default function EnhancedTable() {
 														}}
 													/>
 													{showAddActivity && (
-														<AddAnActivity
+														<EditActivity
 															cancel={() => {
 																setShowAddActivity(false);
 															}}
-														></AddAnActivity>
+														></EditActivity>
 													)}
 												</div>
 											</TableCell>
@@ -406,7 +389,7 @@ export default function EnhancedTable() {
 															},
 														}}
 														checked={isItemSelected}
-														onClick={(event) => handleClick(event, row.name)}
+														onClick={(event) => handleClick(event, row.id)}
 														inputProps={{
 															'aria-labelledby': labelId,
 														}}

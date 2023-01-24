@@ -12,7 +12,7 @@ const Storage = () => {
 	const [editProduct, setEditProduct] = useState(null);
   return (
 			<div className={`px-4 pt-8`} style={{ backgroundColor: '#fafafa' }}>
-				<div className='p-4 font-medium' style={{ color: '#237EAE', backgroundColor: '#C0E9FF' }}>
+				<div className='p-4 font-medium text-right' style={{ color: '#237EAE', backgroundColor: '#C0E9FF' }}>
 					هذه الواجهة خاصة بإدارة المخزون الخاص بسوق اطلبها
 				</div>
 				<div className='flex items-center justify-between mt-6 mb-[18px] pl-[124px]'>

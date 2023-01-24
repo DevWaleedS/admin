@@ -8,7 +8,7 @@ const CountriesPages = () => {
 	const [showAddNewCountry, setShowAddNewCountry] = useState(false);
 	const [editData, setEditData] = useState(null);
 	return (
-		<div className={`px-4 pt-8 mt-5 pl-36 pr-24 h-full`} style={{ backgroundColor: '#fafafa' }}>
+		<div className={`px-4 pt-8 mt-5 pl-36 pr-24 `} style={{ backgroundColor: '#fafafa' }}>
 			<div className='flex justify-between'>
 				<h2 className='text-2xl font-bold'>جدول الدول</h2>
 				<Button

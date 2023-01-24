@@ -26,20 +26,17 @@ const MapChartSec = () => {
       <div className="flex-1 flex flex-col justify-between">
         {COUNTRIES.map((item, idx) => {
           return (
-            <div className="flex justify-between">
-              <div className="flex items-center gap-2">
-                <div
-                  className="h-3 w-3 rounded-full"
-                  style={{ border: `2px solid ${COLORS[idx]}` }}
-                ></div>
-                <h2 className="font-medium">{item}</h2>
-              </div>
-              <h2 className="font-medium">${PRICES[idx]}</h2>
-            </div>
-          );
+											<div className='flex justify-between'>
+												<div className='flex items-center gap-2'>
+													<div className='h-3 w-3 rounded-full' style={{ border: `2px solid ${COLORS[idx]}` }}></div>
+													<h2 className='font-normal text-[15px] text-[#4D4F5C]'>{item}</h2>
+												</div>
+												<h2 className='font-normal text-[13px] text-[#4D4F5C]'>${PRICES[idx]}</h2>
+											</div>
+										);
         })}
       </div>
-      <div className="flex-1 flex justify-center items-center">
+      <div className="flex-1 flex justify-center items-center mr-3">
         <MapChartDraw colors={COLORS} />
       </div>
     </div>

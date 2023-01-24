@@ -8,13 +8,7 @@ import { ReactComponent as ActionAdd } from "../../../assets/Icons/icon-24-actio
 import Context from "../../../store/context";
 
 const BackDrop = ({ onClick }) => {
-  return (
-    <div
-      onClick={onClick}
-      className={`fixed back_drop bottom-0 left-0  w-full bg-slate-900  z-10 ${styles.back_drop}`}
-      style={{ height: "calc(100% - 4rem)" }}
-    ></div>
-  );
+  return <div onClick={onClick} className={`fixed back_drop bottom-0 left-0  w-full bg-slate-900 pb-36  z-10 ${styles.back_drop}`} style={{ height: 'calc(100% - 4rem)' }}></div>;
 };
 
 const AddNewLesson = ({ cancel, editDetails }) => {

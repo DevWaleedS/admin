@@ -15,7 +15,7 @@ const DelegatesTablePage = () => {
       <div className="mt-6 flex justify-between items-center">
         <PageNavigate currentPage={"عرض المندوبين"} />
         <Button
-          className={"flex justify-center items-center h-14 w-[234px] text-lg"}
+          className={"flex justify-center items-center h-14 w-[234px] text-lg "}
           style={{ backgroundColor: "#02466A" }}
           type={"normal"}
           svg={<AiOutlinePlus color="#fff"  className='w-5 h-5'/>}

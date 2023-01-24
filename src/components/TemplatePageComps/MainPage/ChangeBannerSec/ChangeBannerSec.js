@@ -31,7 +31,7 @@ const ChangeBannerSec = () => {
 						<span className='mr-3 text-base font-normal text-[#67747B]'>(تستطيع تغيير الصورة التي تظهر كإعلانات في وسط الموقع وبين الأقسام)</span>
 					</h2>
 				</div>
-				<div className='py-10 flex flex-col '>
+				<div className='py-10 flex flex-col pr-24'>
 					<ImageUploading value={images} onChange={onChangeLogoImage} maxNumber={2} dataURLKey='data_url' acceptType={['jpg', 'png', 'jpeg']}>
 						{({ imageList, onImageUpload, onImageRemoveAll, onImageUpdate, onImageRemove, isDragging, dragProps }) => (
 							// write your building UI
@@ -53,7 +53,7 @@ const ChangeBannerSec = () => {
 										</div>
 									</div>
 									<div className='flex items-center'>
-										<h2 className='text-center font-normal text-lg text-[#67747B]' style={{ width: '274px',  }}>
+										<h2 className='text-center font-normal text-lg text-[#67747B]' style={{ width: '274px' }}>
 											بانر إعلاني رقم 1
 										</h2>
 										<div
@@ -97,7 +97,7 @@ const ChangeBannerSec = () => {
 										</div>
 									</div>
 									<div className='flex items-center'>
-										<h2 className='text-center font-normal text-lg text-[#67747B]' style={{ width: '274px', }}>
+										<h2 className='text-center font-normal text-lg text-[#67747B]' style={{ width: '274px' }}>
 											بانر إعلاني رقم 2
 										</h2>
 										<div
@@ -141,7 +141,7 @@ const ChangeBannerSec = () => {
 										</div>
 									</div>
 									<div className='flex items-center'>
-										<h2 className='text-center font-normal text-lg text-[#67747B] ' style={{ width: '274px', }}>
+										<h2 className='text-center font-normal text-lg text-[#67747B] ' style={{ width: '274px' }}>
 											بانر إعلاني رقم 3
 										</h2>
 										<div

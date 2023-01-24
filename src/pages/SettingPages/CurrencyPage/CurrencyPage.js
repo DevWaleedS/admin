@@ -9,7 +9,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 const CurrencyPage = () => {
   const [showAddCurrency, setShowAddCurrency] = useState(false);
   return (
-			<div className={`px-4 pt-6 h-full pl-36`} style={{ backgroundColor: '#F7F7F7' }}>
+			<div className={`px-4 pt-6 pl-36 pb-20`} style={{ backgroundColor: '#F7F7F7' }}>
 				<div className='flex justify-between items-center'>
 					<PageNavigate nestedPage={true} parentPage={'الاعدادات'} currentPage={'العملات'} />
 					<Button
