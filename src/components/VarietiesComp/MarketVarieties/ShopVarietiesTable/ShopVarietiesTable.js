@@ -1,4 +1,4 @@
-import * as React from "react";
+import  React,{useContext} from "react";
 import PropTypes from "prop-types";
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -18,7 +18,7 @@ import Switch from "@mui/material/Switch";
 import { visuallyHidden } from "@mui/utils";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-
+import { NotificationContext } from "../../../../store/NotificationProvider";
 import { ReactComponent as EditIcon } from "../../../../assets/Icons/editt 2.svg";
 import { ReactComponent as Gift } from "../../../../assets/Icons/icon-26-gift.svg";
 import { ReactComponent as BsTrash } from '../../../../assets/Icons/icon-24-delete.svg';
@@ -228,7 +228,8 @@ EnhancedTableHead.propTypes = {
 
 function EnhancedTableToolbar(props) {
   const { numSelected, onClick, rowCount, onSelectAllClick } = props;
-
+  const NotificationStore = useContext(NotificationContext);
+  const { setNotificationTitle,setActionTitle } = NotificationStore;
  	return (
 			<Toolbar
 				sx={{
@@ -244,7 +245,13 @@ function EnhancedTableToolbar(props) {
 			>
 				<div className='fcc gap-2 px-4 rounded-full' style={{ backgroundColor: 'rgba(255, 159, 26, 0.04)' }}>
 					{numSelected > 0 && (
-						<div className='fcc gap-4 px-4 rounded-full' style={{ minWidth: '114px', backgroundColor: '#FF9F1A0A' }}>
+						<div className='fcc gap-4 px-4 rounded-full' 
+                  style={{ minWidth: '114px', backgroundColor: '#FF9F1A0A' }}
+                  onClick={()=>{
+                    setNotificationTitle('سيتم تعطيل جميع التصنيفات التي قمت بتحديدها');
+                    setActionTitle('تم تعطيل التصنيفات بنجاح');
+                  }} 
+            >
 							<h2 className={'font-medium'} style={{ color: '#FF9F1A' }}>
 								تعطيل
 							</h2>
@@ -269,7 +276,13 @@ function EnhancedTableToolbar(props) {
 				</div>
 				<div className='flex gap-2 items-center'>
 					{numSelected > 0 && (
-						<Tooltip onClick={onClick} title='Delete'>
+						<Tooltip 
+            onClick={()=>{
+							setNotificationTitle('سيتم حذف جميع التصنيفات التي قمت بتحديدها');
+							setActionTitle('تم حذف التصنيفات بنجاح');
+							onClick();
+						}} 
+            >
 							<div className='fcc gap-2 px-4 rounded-full' style={{ width: '114px', backgroundColor: '#FF38381A' }}>
 								<h2 className={'font-medium'} style={{ color: '#FF3838' }}>
 									حذف

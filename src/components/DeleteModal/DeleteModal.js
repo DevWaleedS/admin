@@ -3,6 +3,7 @@ import ReactDom from "react-dom";
 import {NotificationContext} from "../../store/NotificationProvider";
 import { ReactComponent as Warning } from "../../assets/Icons/icon-32-warning.svg";
 import Button from "../../UI/Button/Button";
+import Context from "../../store/context";
 
 const BackDrop = () => {
   return (
@@ -18,8 +19,9 @@ const BackDrop = () => {
 };
 const DeleteModal = ({ cancelEarly }) => {
   const NotificationProvider = useContext(NotificationContext);
-  const { notificationTitle, setNotificationTitle,setAction } = NotificationProvider;
-
+  const { notificationTitle, setNotificationTitle,actionTitle } = NotificationProvider;
+  const contextStore = useContext(Context);
+  const { setEndActionTitle } = contextStore;
   return (
     <>
       <BackDrop />
@@ -43,6 +45,7 @@ const DeleteModal = ({ cancelEarly }) => {
               textStyle={{ color: "#EFF9FF", fontSize: '20px' }}
               className={"rounded-lg px-4"}
               onClick={() => {
+                setEndActionTitle(actionTitle);
                 setNotificationTitle(null);
               }}
             >

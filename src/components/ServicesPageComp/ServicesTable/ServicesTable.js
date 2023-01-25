@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React,{useContext} from 'react';
+import styles from './ServicesTable.module.css';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -13,12 +14,11 @@ import Toolbar from '@mui/material/Toolbar';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
-
 import { ReactComponent as DeleteIcon } from '../../../assets/Icons/icon-24-delete.svg';
-
-import { HiOutlineMail } from 'react-icons/hi';
+import { ReactComponent as InfoIcon } from '../../../assets/Icons/icon-24-actions-info_outined.svg';
 import { visuallyHidden } from '@mui/utils';
 import { ReactComponent as CheckedSquare } from '../../../assets/Icons/icon-24-square checkmark.svg';
+import { NotificationContext } from "../../../store/NotificationProvider";
 
 function createData(name, amount) {
 	return {
@@ -149,7 +149,8 @@ EnhancedTableHead.propTypes = {
 
 function EnhancedTableToolbar(props) {
 	const { numSelected, rowCount, onSelectAllClick } = props;
-
+	const NotificationStore = useContext(NotificationContext);
+	const { setNotificationTitle,setActionTitle } = NotificationStore;
 	return (
 		<Toolbar
 			sx={{
@@ -171,6 +172,10 @@ function EnhancedTableToolbar(props) {
 							width: '114px',
 							backgroundColor: 'rgba(255, 56, 56, 0.1)',
 						}}
+						onClick={()=>{
+							setNotificationTitle('سيتم حذف جميع الخدمات التي قمت بتحديدها');
+							setActionTitle('تم حذف الخدمات بنجاح');
+						}} 
 					>
 						<IconButton>
 							<DeleteIcon
@@ -215,7 +220,7 @@ EnhancedTableToolbar.propTypes = {
 	numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable() {
+export default function EnhancedTable({showdetails}) {
 	const [order, setOrder] = React.useState('asc');
 	const [orderBy, setOrderBy] = React.useState('calories');
 	const [selected, setSelected] = React.useState([]);
@@ -298,14 +303,10 @@ export default function EnhancedTable() {
 										>
 											<TableCell component='th' id={labelId} scope='row'>
 												<div className='flex items-center gap-4'>
-													<HiOutlineMail
-														onClick={() => {}}
-														style={{
-															cursor: 'pointer',
-															color: 'rgba(29, 187, 190, 1)',
-															fontSize: '1.5rem',
-														}}
-													></HiOutlineMail>
+													<InfoIcon
+														className={styles.info_icon}
+														onClick={() => showdetails(true)}
+													></InfoIcon>
 													<DeleteIcon
 														onClick={() => {
 															const findIndex = data.findIndex((item) => item.name === row.name);

@@ -6,9 +6,11 @@ import Button from '../../UI/Button/Button';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { useState } from 'react';
 import NewService from '../../components/ServicesPageComp/NewService/NewService';
+import ShowDetails from '../../components/ServicesPageComp/ShowDetails/ShowDetails';
 
 const ServicesPage = () => {
 	const [showNewProductInfo, setShowNewProductInfo] = useState(false);
+	const [showDetailsModal, setShowDetailsModal] = useState(false);
 	return (
 		<div className={`p-4 pl-36`} style={{ backgroundColor: '#fafafa' }}>
 			<div className='flex items-center justify-between'>
@@ -35,8 +37,15 @@ const ServicesPage = () => {
 					}}
 				/>
 			)}
+			{showDetailsModal && (
+				<ShowDetails
+					cancel={() => {
+						setShowDetailsModal(false);
+					}}
+				/>
+			)}
 			<div dir={'ltr'} className='mt-20'>
-				<ServicesTable></ServicesTable>
+				<ServicesTable showdetails={setShowDetailsModal}></ServicesTable>
 			</div>
 		</div>
 	);

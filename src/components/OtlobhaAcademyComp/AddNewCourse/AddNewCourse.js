@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "./AddNewCourse.module.css";
 import { GoArrowRight } from "react-icons/go";
 import { Editor } from "react-draft-wysiwyg";
@@ -20,7 +20,7 @@ import MainImage from '../../../assets/images/drop_shipping_img.png';
 import { NotificationContext } from "../../../store/NotificationProvider";
 const tags = ['إدارة المخاطر', 'الخطة الاستراتيجية لادارة المتجر', 'تنظيم عمليات المتجر', 'شراء المنتجات وإدارة المخزون', 'الخطة الاستراتيجية لادارة المتجر', 'تنظيم عمليات المتجر'];
 
-const AddNewCourse = ({ cancel, editData }) => {
+const AddNewCourse = ({ cancel, editData, addNewLesson }) => {
   const [data, setData] = useState({
     name: '',
     description: '',
@@ -35,7 +35,7 @@ const AddNewCourse = ({ cancel, editData }) => {
   const [openMenu, setOpenMenu] = useState(false);
   const [openMenu2, setOpenMenu2] = useState(false);
   const NotificationStore = useContext(NotificationContext);
-  const { setNotificationTitle } = NotificationStore;
+  const { setNotificationTitle, setActionTitle } = NotificationStore;
   const [description, setDescription] = useState({
     htmlValue: "<h1></h1>\n",
     editorState: EditorState.createEmpty(),
@@ -220,7 +220,7 @@ const AddNewCourse = ({ cancel, editData }) => {
               >
                 <div
                   className="flex flex-row items-center justify-between p-4 rounded-lg cursor-pointer"
-                  onClick={() => {setOpenMenu(true);setOpenMenu2(false)}}>
+                  onClick={() => { setOpenMenu(true); setOpenMenu2(false) }}>
                   <div className="flex flex-row items-center gap-2">
                     <h6 style={{ fontSize: '18px', fontWeight: '500', color: '#000000' }}>الوحدة الأولى</h6>
                     <span style={{ fontSize: '18px', color: '#67747B' }}>(4 دروس)</span>
@@ -240,10 +240,12 @@ const AddNewCourse = ({ cancel, editData }) => {
                         <h6 style={{ fontSize: '20px', fontWeight: '500', color: '#011723' }} className="mr-[20px] ml-[30px]">المقدمة</h6>
                         <span style={{ fontSize: '18px', color: '#011723' }}>4:00</span>
                       </div>
-                      <DeleteIcon className="cursor-pointer" 
+                      <DeleteIcon className="cursor-pointer"
                         onClick={() => {
-                        setNotificationTitle('سيتم حذف الدرس');
-                      }}/>
+                          setNotificationTitle('سيتم حذف الدرس');
+                          setActionTitle('تم حذف الدرس بنجاح');
+
+                        }} />
                     </div>
                     {[1, 2, 3].map((_item, index) => (
                       <div className="flex flex-row items-center justify-between">
@@ -252,10 +254,11 @@ const AddNewCourse = ({ cancel, editData }) => {
                           <h6 style={{ fontSize: '20px', fontWeight: '500', color: '#011723' }} className="mr-[20px] ml-[30px]">مصطلحات تعريفيقة</h6>
                           <span style={{ fontSize: '18px', color: '#011723' }}>10:05</span>
                         </div>
-                        <DeleteIcon className="cursor-pointer" 
-                        onClick={() => {
-                        setNotificationTitle('سيتم حذف الدرس');
-                      }}/>
+                        <DeleteIcon className="cursor-pointer"
+                          onClick={() => {
+                            setNotificationTitle('سيتم حذف الدرس');
+                            setActionTitle('تم حذف الدرس بنجاح');
+                          }} />
                       </div>
                     ))}
                     <div className="flex flex-row items-center justify-between">
@@ -263,7 +266,7 @@ const AddNewCourse = ({ cancel, editData }) => {
                         <PDFIcon />
                         <h6 style={{ fontSize: '20px', fontWeight: '500', color: '#0077FF' }} className="mr-[20px] ml-[30px]">ملفات الوحدة</h6>
                       </div>
-                      <h6 style={{ fontSize: '18px', color: '#0077FF',cursor:'pointer' }}>تحميل</h6>
+                      <h6 style={{ fontSize: '18px', color: '#0077FF', cursor: 'pointer' }}>تحميل</h6>
                     </div>
                   </div>
                 }
@@ -294,10 +297,11 @@ const AddNewCourse = ({ cancel, editData }) => {
                         <h6 style={{ fontSize: '20px', fontWeight: '500', color: '#011723' }} className="mr-[20px] ml-[30px]">المقدمة</h6>
                         <span style={{ fontSize: '18px', color: '#011723' }}>4:00</span>
                       </div>
-                      <DeleteIcon className="cursor-pointer" 
+                      <DeleteIcon className="cursor-pointer"
                         onClick={() => {
-                        setNotificationTitle('سيتم حذف الدرس');
-                      }}/>
+                          setNotificationTitle('سيتم حذف الدرس');
+                          setActionTitle('تم حذف الدرس بنجاح');
+                        }} />
                     </div>
                     {[1, 2, 3].map((_item, index) => (
                       <div className="flex flex-row items-center justify-between">
@@ -306,10 +310,11 @@ const AddNewCourse = ({ cancel, editData }) => {
                           <h6 style={{ fontSize: '20px', fontWeight: '500', color: '#011723' }} className="mr-[20px] ml-[30px]">مصطلحات تعريفيقة</h6>
                           <span style={{ fontSize: '18px', color: '#011723' }}>10:05</span>
                         </div>
-                        <DeleteIcon className="cursor-pointer" 
-                        onClick={() => {
-                        setNotificationTitle('سيتم حذف الدرس');
-                      }}/>
+                        <DeleteIcon className="cursor-pointer"
+                          onClick={() => {
+                            setNotificationTitle('سيتم حذف الدرس');
+                            setActionTitle('تم حذف الدرس بنجاح');
+                          }} />
                       </div>
                     ))}
                     <div className="flex flex-row items-center justify-between">
@@ -317,7 +322,7 @@ const AddNewCourse = ({ cancel, editData }) => {
                         <PDFIcon />
                         <h6 style={{ fontSize: '20px', fontWeight: '500', color: '#0077FF' }} className="mr-[20px] ml-[30px]">ملفات الوحدة</h6>
                       </div>
-                      <h6 style={{ fontSize: '18px', color: '#0077FF',cursor:'pointer' }}>تحميل</h6>
+                      <h6 style={{ fontSize: '18px', color: '#0077FF', cursor: 'pointer' }}>تحميل</h6>
                     </div>
                   </div>
                 }
@@ -422,7 +427,7 @@ const AddNewCourse = ({ cancel, editData }) => {
               type={"outline"}
               svg={<IoAddCircleSharp fontSize="1.5rem" color={"#02466A"} />}
               onClick={() => {
-                setShowAddUnit(true);
+                addNewLesson(true);
               }}
             >
               إضافة درس

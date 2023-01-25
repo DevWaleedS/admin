@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -14,7 +14,7 @@ import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-
+import { NotificationContext } from "../../../../store/NotificationProvider";
 import { visuallyHidden } from "@mui/utils";
 
 import Menu from "@mui/material/Menu";
@@ -155,14 +155,14 @@ function EnhancedTableHead(props) {
       <TableRow>
         {headCells.map((headCell) => (
           <TableCell
-          className='text-lg font-medium'
+            className='text-lg font-medium'
             key={headCell.id}
             align={headCell.numeric ? "right" : "center"}
             padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
             sx={{
               width: headCell.width ? headCell.width : "auto",
-        
+
               color: "#02466A",
             }}
           >
@@ -205,7 +205,8 @@ EnhancedTableHead.propTypes = {
 
 function EnhancedTableToolbar(props) {
   const { numSelected, onClick, rowCount, onSelectAllClick } = props;
-
+  const NotificationStore = useContext(NotificationContext);
+  const { setNotificationTitle, setActionTitle } = NotificationStore;
   return (
     <Toolbar
       sx={{
@@ -225,7 +226,13 @@ function EnhancedTableToolbar(props) {
     >
       <div className="flex gap-2 items-center">
         {numSelected > 0 && (
-          <Tooltip onClick={onClick} title="Delete">
+          <Tooltip
+            onClick={() => {
+              setNotificationTitle('سيتم حذف جميع المناديب التي قمت بتحديدهم');
+              setActionTitle('تم حذف المناديب بنجاح');
+              onClick();
+            }}
+            title="Delete">
             <div
               className="fcc gap-2 px-4 rounded-full"
               style={{ width: "114px", backgroundColor: "#FF38381A" }}
@@ -396,95 +403,95 @@ export default function EnhancedTable() {
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
-																			<TableRow
-																				hover
-																				//   onClick={(event) => handleClick(event, row.name)}
-																				role='checkbox'
-																				aria-checked={isItemSelected}
-																				tabIndex={-1}
-																				key={index}
-																				selected={isItemSelected}
-																			>
-																				<TableCell component='th' id={labelId} scope='row'>
-																					<div className='flex items-center gap-2'>
-																						<BsTrash
-																							onClick={() => {
-																								const findIndex = data.findIndex((item) => item.name === row.name);
-																								const arr = [...data];
-																								arr.splice(findIndex, 1);
-																								setData(arr);
-																							}}
-																							style={{
-																								cursor: 'pointer',
-																								color: 'red',
-																								fontSize: '1rem',
-																							}}
-																						></BsTrash>
-																						<EditIcon
-																							className='cursor-pointer'
-																							onClick={() => {
-																								navigate('/تعديل_مندوب');
-																							}}
-																							width={'20px'}
-																						></EditIcon>
-																					</div>
-																				</TableCell>
-																				<TableCell align='center' className='font-normal text-base'>
-																					<div
-																						className='w-20 h-full py-1 rounded-xl'
-																						style={{
-																							backgroundColor: row.active ? '#3AE37466' : '#ECECEC',
-																							marginLeft: 'auto',
-																						}}
-																					>
-																						<h2
-																							style={{
-																								color: row.active ? '#011723' : '#67747B',
-																							}}
-																						>
-																							{row.active ? 'مفعل' : 'غير مفعل'}
-																						</h2>
-																					</div>
-																				</TableCell>
+                    <TableRow
+                      hover
+                      //   onClick={(event) => handleClick(event, row.name)}
+                      role='checkbox'
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={index}
+                      selected={isItemSelected}
+                    >
+                      <TableCell component='th' id={labelId} scope='row'>
+                        <div className='flex items-center gap-2'>
+                          <BsTrash
+                            onClick={() => {
+                              const findIndex = data.findIndex((item) => item.name === row.name);
+                              const arr = [...data];
+                              arr.splice(findIndex, 1);
+                              setData(arr);
+                            }}
+                            style={{
+                              cursor: 'pointer',
+                              color: 'red',
+                              fontSize: '1rem',
+                            }}
+                          ></BsTrash>
+                          <EditIcon
+                            className='cursor-pointer'
+                            onClick={() => {
+                              navigate('/تعديل_مندوب');
+                            }}
+                            width={'20px'}
+                          ></EditIcon>
+                        </div>
+                      </TableCell>
+                      <TableCell align='center' className='font-normal text-base'>
+                        <div
+                          className='w-20 h-full py-1 rounded-xl'
+                          style={{
+                            backgroundColor: row.active ? '#3AE37466' : '#ECECEC',
+                            marginLeft: 'auto',
+                          }}
+                        >
+                          <h2
+                            style={{
+                              color: row.active ? '#011723' : '#67747B',
+                            }}
+                          >
+                            {row.active ? 'مفعل' : 'غير مفعل'}
+                          </h2>
+                        </div>
+                      </TableCell>
 
-																				<TableCell align='right'>
-																					<div>
-																						<h2 className='font-normal text-lg'>{row.city}</h2>
-																					</div>
-																				</TableCell>
+                      <TableCell align='right'>
+                        <div>
+                          <h2 className='font-normal text-lg'>{row.city}</h2>
+                        </div>
+                      </TableCell>
 
-																				<TableCell align='right'>
-																					<div>
-																						<h2 className='font-normal text-lg'>{row.userName}</h2>
-																					</div>
-																				</TableCell>
-																				<TableCell align='right'>
-																					<h2 className='inline font-normal text-lg'>{row.name}</h2>
-																				</TableCell>
-																				<TableCell align='right' className='font-normal text-lg'>
-																					{(index + 1).toLocaleString('en-US', {
-																						minimumIntegerDigits: 2,
-																						useGrouping: false,
-																					})}
-																				</TableCell>
-																				<TableCell padding='none' align={'right'}>
-																					<Checkbox
-																						checkedIcon={<CheckedSquare />}
-																						sx={{
-																							color: '#011723',
-																							'& .MuiSvgIcon-root': {
-																								color: '#011723',
-																							},
-																						}}
-																						checked={isItemSelected}
-																						onClick={(event) => handleClick(event, row.name)}
-																						inputProps={{
-																							'aria-labelledby': labelId,
-																						}}
-																					/>
-																				</TableCell>
-																			</TableRow>
-																		);
+                      <TableCell align='right'>
+                        <div>
+                          <h2 className='font-normal text-lg'>{row.userName}</h2>
+                        </div>
+                      </TableCell>
+                      <TableCell align='right'>
+                        <h2 className='inline font-normal text-lg'>{row.name}</h2>
+                      </TableCell>
+                      <TableCell align='right' className='font-normal text-lg'>
+                        {(index + 1).toLocaleString('en-US', {
+                          minimumIntegerDigits: 2,
+                          useGrouping: false,
+                        })}
+                      </TableCell>
+                      <TableCell padding='none' align={'right'}>
+                        <Checkbox
+                          checkedIcon={<CheckedSquare />}
+                          sx={{
+                            color: '#011723',
+                            '& .MuiSvgIcon-root': {
+                              color: '#011723',
+                            },
+                          }}
+                          checked={isItemSelected}
+                          onClick={(event) => handleClick(event, row.name)}
+                          inputProps={{
+                            'aria-labelledby': labelId,
+                          }}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  );
                 })}
               {emptyRows > 0 && (
                 <TableRow

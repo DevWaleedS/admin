@@ -63,6 +63,7 @@ const OtlobhaAcademy = () => {
             setNewCourseWindow(false);
           }}
           editData={editCourseData}
+          addNewLesson={()=>setNewLessonWindow(true)}
         ></AddNewCourse>
       )}
       {newLessonWindow && (

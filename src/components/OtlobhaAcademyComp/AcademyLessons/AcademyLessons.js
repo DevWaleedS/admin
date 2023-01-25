@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import { ReactComponent as BsTrash } from "../../../assets/Icons/icon-24-delete.svg";
 import { ReactComponent as Copy } from "../../../assets/Icons/copy icon.svg";
 import { ReactComponent as Edit } from "../../../assets/Icons/editt 2.svg";
+import { NotificationContext } from "../../../store/NotificationProvider";
 
 const lessons = [
   {
@@ -45,7 +46,9 @@ const lessons = [
   },
 ];
 
-const AcademyLessons = ({EditLesson}) => {
+const AcademyLessons = ({ EditLesson }) => {
+  const NotificationStore = useContext(NotificationContext);
+  const { setNotificationTitle, setActionTitle } = NotificationStore;
   return (
     <Box sx={{ flexGrow: 1, mt: "3rem" }}>
       <Grid class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -58,10 +61,16 @@ const AcademyLessons = ({EditLesson}) => {
               <h2 className="mt-5 mb-8 text-center text-lg font-medium">
                 {lesson.title}
               </h2>
-              <div className="flex flex-row items-center justify-center gap-5" style={{ backgroundColor:'#FF38380A',height:'52px' }}>
+              <div className="flex flex-row items-center justify-center gap-5" style={{ backgroundColor: '#FF38380A', height: '52px' }}>
                 <Copy ></Copy>
-                <Edit className="cursor-pointer" onClick={() => {EditLesson(lesson);}}></Edit>
-                <BsTrash ></BsTrash>
+                <Edit className="cursor-pointer" onClick={() => { EditLesson(lesson); }}></Edit>
+                <BsTrash
+                  className="cursor-pointer"
+                  onClick={() => {
+                    setNotificationTitle('سيتم حذف الفيديو');
+                    setActionTitle('تم حذف الفيديو بنجاح');
+                  }}>
+                </BsTrash>
               </div>
             </div>
           );

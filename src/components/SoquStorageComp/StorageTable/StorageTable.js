@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React,{useContext} from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -25,9 +25,9 @@ import { ReactComponent as TrashICon } from '../../../assets/Icons/icon-24-delet
 import { ReactComponent as CheckedSquare } from '../../../assets/Icons/icon-24-square checkmark.svg';
 import { ReactComponent as EditIcon } from '../../../assets/Icons/editt 2.svg';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
-import { Gift, CarImg, CameraImg, ShoesImg } from '../../../assets/Icons/index';
+import { Gift, CarImg, CameraImg, ShoesImg,Delete } from '../../../assets/Icons/index';
 import { MdOutlineAddBox } from 'react-icons/md';
-
+import { NotificationContext } from "../../../store/NotificationProvider";
 
 
 const BootstrapTooltip = styled(({ className, ...props }) => <Tooltip {...props} arrow classes={{ popper: className }} />)(({ theme }) => ({
@@ -197,7 +197,8 @@ EnhancedTableHead.propTypes = {
 
 function EnhancedTableToolbar(props) {
 	const { numSelected, onClick, rowCount, onSelectAllClick } = props;
-
+	const NotificationStore = useContext(NotificationContext);
+    const { setNotificationTitle,setActionTitle } = NotificationStore;
 	return (
 		<Toolbar
 			sx={{
@@ -213,7 +214,13 @@ function EnhancedTableToolbar(props) {
 		>
 			<div className='flex gap-2 items-center'>
 				{numSelected > 0 && (
-					<Tooltip onClick={onClick} title='Delete'>
+					<Tooltip 
+						onClick={()=>{
+							setNotificationTitle('سيتم حذف جميع المنتجات التي قمت بتحديدها');
+							setActionTitle('تم حذف المنتجات بنجاح');
+							onClick();
+						}} 
+						title='Delete'>
 						<div className='fcc gap-2 px-4 rounded-full' style={{ width: '114px', backgroundColor: '#FF38381A' }}>
 							<h2 className={'font-medium'} style={{ color: '#FF3838' }}>
 								حذف

@@ -1,0 +1,8 @@
+.info_icon{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+.info_icon path{
+    fill: #1DBBBE;
+}
