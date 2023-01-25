@@ -21,7 +21,7 @@ const cases = [
 const EmailSettingPage = ({ openTraderAlert }) => {
 
 	const NotificationStore = useContext(NotificationContext);
-	const { setNotificationTitle } = NotificationStore;
+	const { setNotificationTitle,setActionTitle } = NotificationStore;
 	const [selected, setSelected] = React.useState([]);
 	const isSelected = (name) => selected.indexOf(name) !== -1;
 
@@ -86,7 +86,8 @@ const EmailSettingPage = ({ openTraderAlert }) => {
 								className='flex flex-row items-center justify-center gap-4 cursor-pointer'
 								style={{ width: '114px', height: '40px', backgroundColor: '#FF38381A', borderRadius: '20px' }}
 								onClick={() => {
-									setNotificationTitle('سيتم حذف جميع المنتجات التي قمت بتحديدها');
+									setNotificationTitle('سيتم حذف جميع البريد التي قمت بتحديدها');
+									setActionTitle('تم حذف البريد بنجاح');
 								}}
 							>
 								<h6 style={{ fontSize: '18px', color: '#FF3838' }} className='font-medium'>
