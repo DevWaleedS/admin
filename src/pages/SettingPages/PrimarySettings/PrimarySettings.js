@@ -6,6 +6,7 @@ const PrimarySettings = () => {
     <div className={`px-4 pt-6`} style={{ backgroundColor: "#F7F7F7" }}>
       <div className="">
         <PageNavigate
+        
           nestedPage={true}
           parentPage={"الاعدادات"}
           currentPage={"الاعدادات الاساسية"}

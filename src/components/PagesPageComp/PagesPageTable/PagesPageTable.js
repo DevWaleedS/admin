@@ -26,8 +26,9 @@ import { ReactComponent as DeleteIcon } from '../../../assets/Icons/icon-24-dele
 import { ReactComponent as SortIcon } from '../../../assets/Icons/icon-24-sort.svg';
 import { MdOutlineKeyboardArrowDown, MdOutlineArrowBackIosNew, MdOutlineArrowForwardIos } from 'react-icons/md';
 
-function createData(name, title, publishDate, active) {
+function createData(id,name, title, publishDate, active) {
 	return {
+		id,
 		name,
 		title,
 		publishDate,
@@ -36,30 +37,22 @@ function createData(name, title, publishDate, active) {
 }
 
 const rows = [
-	createData('فايز بن صالح', 'من نحن', '13-Sep-2022', true),
-	createData('فايز بن صالح', 'سياسة الخصوصية', '15-Sep-2022', true),
-	createData('فايز بن صالح', 'المدونة', '17-Sep-2022', false),
-	createData('فايز بن صالح', 'من نحن', '13-Sep-2022', true),
-	createData('فايز بن صالح', 'سياسة الخصوصية', '15-Sep-2022', true),
-	createData('فايز بن صالح', 'المدونة', '17-Sep-2022', false),
-	createData('فايز بن صالح', 'من نحن', '13-Sep-2022', true),
-	createData('فايز بن صالح', 'سياسة الخصوصية', '15-Sep-2022', true),
-	createData('فايز بن صالح', 'المدونة', '17-Sep-2022', false),
-	createData('فايز بن صالح', 'من نحن', '13-Sep-2022', true),
-	createData('فايز بن صالح', 'سياسة الخصوصية', '15-Sep-2022', true),
-	createData('فايز بن صالح', 'المدونة', '17-Sep-2022', false),
-	createData('فايز بن صالح', 'من نحن', '13-Sep-2022', true),
-	createData('فايز بن صالح', 'سياسة الخصوصية', '15-Sep-2022', true),
-	createData('فايز بن صالح', 'المدونة', '17-Sep-2022', false),
-	createData('فايز بن صالح', 'من نحن', '13-Sep-2022', true),
-	createData('فايز بن صالح', 'سياسة الخصوصية', '15-Sep-2022', true),
-	createData('فايز بن صالح', 'المدونة', '17-Sep-2022', false),
-	createData('فايز بن صالح', 'من نحن', '13-Sep-2022', true),
-	createData('فايز بن صالح', 'سياسة الخصوصية', '15-Sep-2022', true),
-	createData('فايز بن صالح', 'المدونة', '17-Sep-2022', false),
-	createData('فايز بن صالح', 'من نحن', '13-Sep-2022', true),
-	createData('فايز بن صالح', 'سياسة الخصوصية', '15-Sep-2022', true),
-	createData('فايز بن صالح', 'المدونة', '17-Sep-2022', false),
+	createData(1,'فايز بن صالح', 'من نحن', '13-Sep-2022', true),
+	createData(2,'فايز بن صالح', 'سياسة الخصوصية', '15-Sep-2022', true),
+	createData(3,'فايز بن صالح', 'المدونة', '17-Sep-2022', false),
+	createData(4,'فايز بن صالح', 'من نحن', '13-Sep-2022', true),
+	createData(5,'فايز بن صالح', 'سياسة الخصوصية', '15-Sep-2022', true),
+	createData(6,'فايز بن صالح', 'المدونة', '17-Sep-2022', false),
+	createData(7,'فايز بن صالح', 'من نحن', '13-Sep-2022', true),
+	createData(8,'فايز بن صالح', 'سياسة الخصوصية', '15-Sep-2022', true),
+	createData(9,'فايز بن صالح', 'المدونة', '17-Sep-2022', false),
+	createData(10,'فايز بن صالح', 'من نحن', '13-Sep-2022', true),
+	createData(11,'فايز بن صالح', 'سياسة الخصوصية', '15-Sep-2022', true),
+	createData(12,'فايز بن صالح', 'المدونة', '17-Sep-2022', false),
+	createData(13,'فايز بن صالح', 'من نحن', '13-Sep-2022', true),
+	createData(14,'فايز بن صالح', 'سياسة الخصوصية', '15-Sep-2022', true),
+	createData(15,'فايز بن صالح', 'المدونة', '17-Sep-2022', false),
+	
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -415,7 +408,6 @@ export default function EnhancedTable() {
 														className=''
 														sx={{
 															width: '50px',
-
 															'& .MuiSwitch-thumb': {
 																width: '11px',
 																height: '11px',

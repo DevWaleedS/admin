@@ -5,7 +5,6 @@ import MenuItem from "@mui/material/MenuItem";
 import TableComp from "./TableComp/TableComp";
 import UserInfo from "./UserInfo/UserInfo";
 import { IoIosArrowDown } from "react-icons/io";
-
 import { AiOutlineSearch } from "react-icons/ai";
 
 const category = ["أدمن", "محرر", "إدارة", "دعم فنى"];
@@ -22,7 +21,7 @@ const UsersTable = () => {
   return (
     <div className="mt-10">
       <h2 className="text-2xl font-medium mb-8">جدول المستخدمين</h2>
-      <h2 className="mb-2">فرز حسب</h2>
+      <h2 className="mb-2 text-lg">فرز حسب</h2>
       <div className="mb-4">
         <FormControl
           className="flex flex-row gap-4"
@@ -47,6 +46,7 @@ const UsersTable = () => {
               height: "3.5rem",
               pl: "1rem",
               border: "1px solid #A7A7A7",
+              borderRadius: '8px',
               "& .MuiOutlinedInput-notchedOutline": {
                 border: "none",
               },
@@ -75,11 +75,11 @@ const UsersTable = () => {
           <label className={`flex-1 h-14 relative `}>
             <input
               className="w-full h-full outline-0 pr-16 rounded-lg "
-              placeholder=" للبحث قم بإدخال رقم أو اسم المنتج"
+              placeholder=" ابحث عن مستخدم"
               type="text"
               name="name"
               onChange={() => {
-                console.log("zed");
+              
               }}
               style={{ border: "1px solid #A7A7A7" }}
             />

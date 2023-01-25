@@ -166,10 +166,10 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 					}}
 				></ActionCompleteComp>
 			)}
-			<div className='fixed flex flex-col top-24 translate-x-2/4 right-2/4 z-40 rounded-md overflow-hidden' style={{ height: '36rem', width: '60.25rem', maxHeight: '80%' }}>
+			<div className='fixed flex flex-col top-10 translate-x-2/4 right-2/4 z-40 rounded-md overflow-hidden' style={{ height: '40rem', width: '60.25rem', maxHeight: '80%' }}>
 				<div className='h-16 w-full flex items-center justify-between px-4' style={{ backgroundColor: '#1DBBBE' }}>
-					<h2 className='text-slate-50'>اضافة خيارات للمنتج - {editProduct.title}</h2>
-					<IoMdCloseCircleOutline color={'#fff'} className={'cursor-pointer'} onClick={closeDetails}></IoMdCloseCircleOutline>
+					<h2 className='text-slate-50 text-lg '>اضافة خيارات للمنتج - {editProduct.title}</h2>
+					<IoMdCloseCircleOutline color={'#fff'} className={'cursor-pointer w-5 h-5'} onClick={closeDetails}></IoMdCloseCircleOutline>
 				</div>
 				<div className='flex-1 overflow-scroll hide_scrollbar px-4 pt-6 pb-2' style={{ backgroundColor: '#F6F6F6' }}>
 					<div className='flex  gap-4 '>

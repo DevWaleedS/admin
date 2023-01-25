@@ -15,8 +15,8 @@ const EditPackageTemplates = ({ cancel }) => {
         <div onClick={cancel} className={` ${styles.arrow_con}`}>
           <GoArrowRight style={{ color: "#02466A", fontSize: "1.2rem" }} />
         </div>
-        <h2 className="font-medium">الباقات والأسعار</h2>
-        <h2 className="" style={{ color: "rgba(103, 116, 123, 1)" }}>
+        <h2 className="font-medium text-lg">الباقات والأسعار</h2>
+        <h2 className="font-medium text-lg" style={{ color: "rgba(103, 116, 123, 1)" }}>
           / كل الباقات
         </h2>
       </div>

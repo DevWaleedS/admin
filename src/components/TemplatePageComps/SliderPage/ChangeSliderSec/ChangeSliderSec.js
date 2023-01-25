@@ -31,7 +31,7 @@ const ChangeSliderSec = () => {
 						<span className='mr-3 text-base font-normal text-[#67747B'>(تستطيع تغيير الصورة التي تظهر في السلايدر المتحرك أعلى الموقع)</span>
 					</h2>
 				</div>
-				<div className='py-10 flex flex-col '>
+				<div className='py-10 flex flex-col pr-24'>
 					<ImageUploading value={images} onChange={onChangeLogoImage} maxNumber={2} dataURLKey='data_url' acceptType={['jpg', 'png', 'jpeg']}>
 						{({ imageList, onImageUpload, onImageRemoveAll, onImageUpdate, onImageRemove, isDragging, dragProps }) => (
 							// write your building UI

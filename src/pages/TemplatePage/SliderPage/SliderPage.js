@@ -12,7 +12,7 @@ const TemplatePage = () => {
         هذه الواجهة خاصة بإعدادات الصفحة الرئيسية للموقع الإلكتروني
       </div>
       <div className="mt-6">
-        <PageNavigate parentPage={"القالب"} currentPage={"السلايدر"} />
+        <PageNavigate className='text-lg font-normal' parentPage={"القالب"} currentPage={"السلايدر"} />
       </div>
       <div className={""}>
         <ChangeSliderSec></ChangeSliderSec>

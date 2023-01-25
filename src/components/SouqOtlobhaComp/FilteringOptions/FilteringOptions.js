@@ -9,16 +9,6 @@ import Select from '@mui/material/Select';
 import Button from '../../../UI/Button/Button';
 import { IoIosArrowDown } from 'react-icons/io';
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-	PaperProps: {
-		style: {
-			maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-			width: 250,
-		},
-	},
-};
 const category = ['الكترونيات', 'ألعاب وهدايا', 'مستلزمات طبية', 'مواد غذائية'];
 const sections = ['أجهزة حاسوب', 'تابلت', 'جوالات', 'اكسسوارات'];
 
@@ -44,12 +34,13 @@ const FilteringOptions = ({ showFilteringOptions, hideFilteringOptions }) => {
 	return (
 		<div className={` absolute top-0 w-full gap-10 pb-2 pt-4 pr-2  rounded-lg otlobha_filtering_sec duration-300 ${showFilteringOptions ? 'flex' : 'hidden'}`} style={{ backgroundColor: '#EDEDEF' }}>
 			<FormControl sx={{ minWidth: 120, flex: '1' }}>
-				<h2 className='font-semibold mb-2'>التصنيف الأساسى</h2>
+				<h2 className='font-medium text-lg mb-2'>التصنيف الأساسى</h2>
 
 				<Select
+					className='text-xl font-medium rounded-lg'
 					value={age}
 					IconComponent={() => {
-						return <IoIosArrowDown size={'1rem'} />;
+						return <IoIosArrowDown size={'1.3rem'} />;
 					}}
 					onChange={handleCategory}
 					displayEmpty
@@ -88,22 +79,25 @@ const FilteringOptions = ({ showFilteringOptions, hideFilteringOptions }) => {
 				</Select>
 			</FormControl>
 			<FormControl sx={{ width: 300, flex: '1' }}>
-				<h2 className='font-semibold mb-2'>القسم</h2>
+				<h2 className='font-medium text-lg mb-2'>القسم</h2>
 				<Select
+					className='text-xl font-medium text-[rgba(29, 187, 190, 1)] rounded-lg'
 					labelId='demo-multiple-checkbox-label'
 					id='demo-multiple-checkbox'
 					multiple
 					IconComponent={() => {
-						return <IoIosArrowDown size={'1rem'} />;
+						return <IoIosArrowDown size={'1.3rem'} fill='rgba(29, 187, 190, 1)' />;
 					}}
 					displayEmpty
 					value={personName}
 					onChange={handleSection}
 					input={<OutlinedInput label='Tag' />}
-					renderValue={() => {
-						return <h2>الكل</h2>;
+					renderValue={(selected) => {
+						if (personName.length === 0) {
+							return <h2>الكل</h2>;
+						}
+						return selected.join(' , ');
 					}}
-					MenuProps={MenuProps}
 					sx={{
 						height: '3.5rem',
 						border: '1px solid rgba(29, 187, 190, 1)',
@@ -140,7 +134,7 @@ const FilteringOptions = ({ showFilteringOptions, hideFilteringOptions }) => {
 				</Select>
 			</FormControl>
 			<div className='flex items-end'>
-				<Button onClick={hideFilteringOptions} type={'normal'} className={'w-44 h-14'} style={{ backgroundColor: '#02466A' }}>
+				<Button onClick={hideFilteringOptions} type={'normal'} className={'w-[178px] h-14 text-xl'} style={{ backgroundColor: '#02466A' }}>
 					تنفيذ الفرز
 				</Button>
 			</div>

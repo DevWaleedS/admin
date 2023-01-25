@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
 import Switch from '@mui/material/Switch';
+import IconButton from '@mui/material/IconButton';
 
 import { Currency } from '../../../assets/Icons/index';
 import { ReactComponent as StaticsIcon } from '../../../assets/Icons/icon-24-static.svg';
@@ -10,8 +11,6 @@ import { ReactComponent as CheckedSquare } from '../../../assets/Icons/icon-24-s
 import { ReactComponent as SwitchIcon } from '../../../assets/Icons/icon-38-switch.svg';
 import { ReactComponent as MoreIcon } from '../../../assets/Icons/icon-24- more_vertical.svg';
 import { ReactComponent as StarIcon } from '../../../assets/Icons/stare.svg';
-
-import IconButton from '@mui/material/IconButton';
 
 import Button from '../../../UI/Button/Button';
 import ProductDetails from './ProductDetails/ProductDetails';
@@ -30,13 +29,6 @@ const ItemCategory = (props) => {
 	const [moreMenu, setMoreMenu] = useState(null);
 	const openMoreMenu = Boolean(moreMenu);
 
-	//
-	const [showSpecial, setShowSpecial] = useState(false);
-
-	const onChangeHandler = (event) => {
-		setShowSpecial(!showSpecial);
-	};
-
 	// functions for menu
 	const handleClick = (event) => {
 		setMenuButton(event.currentTarget);
@@ -54,6 +46,15 @@ const ItemCategory = (props) => {
 		setMoreMenu(null);
 	};
 
+
+
+	//
+	const [showSpecial, setShowSpecial] = useState(props.isSpecial);
+
+	const onChangeHandler = (event) => {
+		setShowSpecial(!showSpecial);
+	};
+
 	const { title, id, img, price, inStore, checkedList, handleCheckboxClick, category, section, handleProductDetails } = props;
 	const item = props.item;
 
@@ -62,7 +63,7 @@ const ItemCategory = (props) => {
 			<div className='flex'>
 				<div className='flex flex-col gap-8 px-3 items-center'>
 					<Checkbox checkedIcon={<CheckedSquare />} sx={{ display: 'inline', padding: '0' }} className='' item={id} value={id} checked={checkedList.includes(id)} onChange={handleCheckboxClick} />
-					<StarIcon className={`${showSpecial ? 'opacity-0' : 'opacity-100'}`} />
+					<StarIcon className={`${showSpecial ? 'opacity-100' : 'opacity-0'}`} />
 				</div>
 
 				<div className=' '>
@@ -272,12 +273,12 @@ const ProductsTable = ({ editProduct }) => {
 	const [itemsChecked, setItemsChecked] = useState(false);
 	const [showProductDetails, setShowProductDetails] = useState(false);
 	const [productDetails, setProductDetails] = useState(null);
-	
 
 	useEffect(() => {
 		const initialCategories = [
 			{
 				id: 251,
+				isSpecial: true,
 				title: 'سماعة هيدفون أصلية',
 				sellPrice: 30,
 				price: 40,
@@ -289,6 +290,7 @@ const ProductsTable = ({ editProduct }) => {
 			},
 			{
 				id: 40,
+				isSpecial: false,
 				title: 'عطر خليجى فخم',
 				sellPrice: 30,
 				price: 40,
@@ -300,6 +302,7 @@ const ProductsTable = ({ editProduct }) => {
 			},
 			{
 				id: 60,
+				isSpecial: false,
 				title: 'عطر ماكس',
 				sellPrice: 55,
 				price: 62,
@@ -311,6 +314,7 @@ const ProductsTable = ({ editProduct }) => {
 			},
 			{
 				id: 456,
+				isSpecial: false,
 				title: 'عطر ماكس',
 				sellPrice: 95,
 				price: 120,
@@ -341,6 +345,7 @@ const ProductsTable = ({ editProduct }) => {
 			setItemsChecked(false);
 		}
 	};
+
 	const handleProductDetails = (item) => {
 		setShowProductDetails(true);
 		setProductDetails(item);
@@ -348,7 +353,7 @@ const ProductsTable = ({ editProduct }) => {
 
 	const selectItem = (e) => {
 		const { checked } = e.target;
-	
+
 		const collection = [];
 
 		if (checked) {
@@ -417,13 +422,13 @@ const ProductsTable = ({ editProduct }) => {
 				)}
 			</header>
 			<ul className=''>
-				{categories.map((category) => {
-					
+				{categories.map((category, menuItem) => {
 					return (
 						<ItemCategory
 							{...category}
 							item={category}
 							key={category.id}
+							isSpecial={category.isSpecial}
 							handleCheckboxClick={handleCheckboxClick}
 							checkedList={checkedList}
 							handleProductDetails={handleProductDetails}

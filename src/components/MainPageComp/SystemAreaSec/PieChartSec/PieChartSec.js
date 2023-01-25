@@ -15,7 +15,7 @@ const renderActiveShape = (props: any) => {
   return (
     <g>
       <text
-        className="text-xl font-medium"
+        className="text-[22px] font-bold"
         x={cx}
         y={cy}
         dy={8}
@@ -69,7 +69,7 @@ const PieChartSec = () => {
                 className=" h-4 w-4 rounded-full"
                 style={{ backgroundColor: `${color}` }}
               ></div>
-              <h2>{TITLES[idx]}</h2>
+              <h2 className='text-[15px] text-medium'>{TITLES[idx]}</h2>
             </div>
           );
         })}

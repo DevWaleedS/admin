@@ -1,55 +1,82 @@
 import React, { useState, useEffect, useContext } from 'react';
+import Context from '../../../store/context';
+
 import { Currency } from '../../../assets/Icons/index';
-import { ReactComponent as AddIcon } from '../../../assets/Icons/icon-34-add.svg';
-import { IoIosArrowDown } from 'react-icons/io';
 import Box from '@mui/material/Box';
 import AddProductOptions from './AddProductOptions/AddProductOptions';
-
+import ListItemText from '@mui/material/ListItemText';
+import Checkbox from '@mui/material/Checkbox';
 import Button from '../../../UI/Button/Button';
 import styles from './NewProduct.module.css';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { TagsInput } from 'react-tag-input-component';
 import ImageUploading from 'react-images-uploading';
+
+// Icons
+import { ReactComponent as AddIcon } from '../../../assets/Icons/icon-34-add.svg';
+import { ReactComponent as CopyIcon } from '../../../assets/Icons/copy icon.svg';
+import { IoIosArrowDown } from 'react-icons/io';
 import { IoMdCloudUpload } from 'react-icons/io';
-import { GrAddCircle } from 'react-icons/gr';
 import { TiDeleteOutline } from 'react-icons/ti';
-import Context from '../../../store/context';
 
 const BackDrop = ({ onClick }) => {
 	return <div onClick={onClick} className={`fixed back_drop bottom-0 left-0  w-full bg-slate-900  z-10 ${styles.back_drop}`} style={{ height: 'calc(100% - 4rem)' }}></div>;
 };
-const category = ['الكترونيات', 'ألعاب وهدايا', 'مستلزمات طبية', 'مواد غذائية'];
 
-const formTitleClasses = 'font-semibold text-lg';
+const category = ['الكترونيات', 'ألعاب وهدايا', 'مستلزمات طبية', 'مواد غذائية'];
+const subCategories = ['جوالات', 'شاشات', 'بطاريات', 'اكسسوارات'];
+
+const formTitleClasses = 'font-medium text-xl';
 const formTitleStyle = { width: '315px' };
 //
-const formInputClasses = 'p-4 outline-0 rounded-md';
+const formInputClasses = 'p-4 outline-0 rounded-md text-lg font-normal';
 const formInputStyle = {
 	width: '555px',
 	border: '1px solid rgba(167, 167, 167, 0.5)',
 	backgroundColor: '#f6f6f6',
+	fontSize: '20px',
+	fontWight: '400',
+	color: '#ADB5B9',
 };
 const NewProduct = ({ cancel, editProduct }) => {
 	const contextStore = useContext(Context);
 	const { setEndActionTitle } = contextStore;
 
 	const [age, setAge] = useState('');
-	
+
 	const [images, setImages] = useState([]);
 	const [multiImages, setMultiImages] = useState([]);
 	const [showAddProductOptions, setShowAddProductOptions] = useState(false);
 
+	const [subCategoriesSelected, setSubCategoriesSelected] = React.useState([]);
 	const [productName, setProductName] = useState('');
 	const [productInfo, setProductInfo] = useState('');
 	const [buyPrice, setBuyPrice] = useState('');
 	const [sellPrice, setSellPrice] = useState('');
 	const [productCode, setProductCode] = useState('');
 	const [inStore, setInStore] = useState('');
-	
-
 	const [productSection, setProductSection] = useState('');
+	const [openSubCategory, setOpenSubCategory] = useState(false);
+	const [copy, setCopy] = useState(false);
+
+	const handleSubCategory = (event) => {
+		const {
+			target: { value },
+		} = event;
+		setSubCategoriesSelected(
+			// On autofill we get a stringified value.
+			typeof value === 'string' ? value.split(',') : value
+		);
+	};
+
+	const handelCopy = () => {
+		navigator.clipboard.writeText('https://www.google.com/search?q=%D8%B1%D8%A7%D8%A8%D8%B7+%D8%AA%D9%8');
+		setCopy(true);
+		setTimeout(() => {
+			setCopy(false);
+		}, 5000);
+	};
 
 	useEffect(() => {
 		if (editProduct) {
@@ -68,7 +95,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 	for (let index = 0; index < 5 - multiImages.length; index++) {
 		emptyMultiImages.push(index);
 	}
-	
+
 	const maxNumber = 2;
 	const onChange = (imageList, addUpdateIndex) => {
 		// data for submit
@@ -93,7 +120,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 					editProduct={editProduct}
 				></AddProductOptions>
 			)}
-			<div className={`fixed bottom-0 left-0 bg-slate-50 z-20 otlobha_new_product ${styles.container}`} style={{ width: '1104px', height: 'calc(100% - 4rem)' }}>
+			<div className={`fixed bottom-0 left-0 bg-slate-50 z-20  otlobha_new_product ${styles.container}`} style={{ width: '1104px', height: 'calc(100% - 4rem)' }}>
 				<div className='flex h-full flex-col justify-between'>
 					<div
 						className='p-8'
@@ -102,8 +129,8 @@ const NewProduct = ({ cancel, editProduct }) => {
 							backgroundColor: 'rgba(235, 235, 235, 1)',
 						}}
 					>
-						<h2 className='font-semibold text-2xl  mb-3'>{editProduct ? 'تفاصيل المنتج' : 'اضافة منتج جديد للسوق'}</h2>
-						<h2>{editProduct ? 'تعديل بيانات المنتجات في سق اطلبها' : 'أدخل بيانات المنتج ليتم اضافته في منتجات سوق اطلبها'}</h2>
+						<h2 className='font-bold text-2xl  mb-3'>{editProduct ? 'تفاصيل المنتج' : 'اضافة منتج جديد للسوق'}</h2>
+						<h2 className='text-xl font-normal'>{editProduct ? 'تعديل بيانات المنتجات في سق اطلبها' : 'أدخل بيانات المنتج ليتم اضافته في منتجات سوق اطلبها'}</h2>
 					</div>
 					<div className={`flex-1 overflow-y-scroll py-12 pr-8 bg-[#f6f6f6] ${styles.content}`}>
 						<form action=''>
@@ -225,6 +252,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 								</h2>
 								<FormControl sx={{ width: 555 }}>
 									<Select
+										className={`text-lg font-normal rounded-lg ${styles.select}`}
 										value={age}
 										onChange={handleCategory}
 										IconComponent={() => {
@@ -234,7 +262,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 										inputProps={{ 'aria-label': 'Without label' }}
 										renderValue={(selected) => {
 											if (age === '') {
-												return <h2>اختر التصنيف</h2>;
+												return <h2 className='text-[#ADB5B9]'>اختر التصنيف</h2>;
 											}
 											return selected;
 										}}
@@ -265,52 +293,72 @@ const NewProduct = ({ cancel, editProduct }) => {
 									</Select>
 								</FormControl>
 							</div>
-							<div className='flex mb-8'>
-								<h2 className={formTitleClasses} style={formTitleStyle}>
-									التصنيف الفرعي
-								</h2>
-								<FormControl sx={{ width: 555 }}>
-									<Select
-										value={age}
-										onChange={handleCategory}
-										displayEmpty
-										IconComponent={() => {
-											return <IoIosArrowDown size={'1rem'} className='absolute left-2' />;
-										}}
-										inputProps={{ 'aria-label': 'Without label' }}
-										renderValue={(selected) => {
-											if (age === '') {
-												return <h2> الكل </h2>;
-											}
-											return selected;
-										}}
-										sx={{
-											height: '3.5rem',
-											border: '1px solid rgba(167, 167, 167, 0.5)',
-											'& .MuiOutlinedInput-notchedOutline': {
-												border: 'none',
-											},
-										}}
+
+							{editProduct && (
+								<div className='flex mb-8'>
+									<h2 className={formTitleClasses} style={formTitleStyle}>
+										رابط المنتج
+									</h2>
+									<div
+										className={`flex flex-row items-center justify-between ${formInputClasses}`} 
+									style={formInputStyle}
 									>
-										{category.map((item, idx) => {
-											return (
-												<MenuItem
-													key={idx}
-													className='souq_storge_category_filter_items'
-													sx={{
-														backgroundColor: 'rgba(211, 211, 211, 1)',
-														height: '3rem',
-														'&:hover': {},
-													}}
-													value={`${item}`}
-												>
-													{item}
+										<h6 style={{ color: '#02466A', fontSize: '16px' }}>https://www.cat.com/en_US/products/new/technology/equipm</h6>
+
+										{copy ? <h6 style={{ color: '#02466A', fontSize: '16px' }}>Copied</h6> : <CopyIcon className='cursor-pointer mr-2' fill='#02466A' onClick={() => handelCopy()} />}
+									</div>
+								</div>
+							)}
+							{editProduct && (
+								<div className='flex mb-8'>
+									<h2 className={formTitleClasses} style={formTitleStyle}>
+										التصنيف الفرعي
+									</h2>
+									<FormControl sx={{ width: 555 }}>
+										<Select
+											className={`text-lg font-normal rounded-lg ${styles.select}`}
+											IconComponent={() => {
+												return <IoIosArrowDown size={'1rem'} className='absolute left-2' />;
+											}}
+											multiple
+											displayEmpty
+											value={subCategoriesSelected}
+											open={openSubCategory}
+											onClick={() => {
+												setOpenSubCategory(true);
+											}}
+											onChange={handleSubCategory}
+											renderValue={(selected) => (subCategoriesSelected.length === 0 ? <h2 className='text-[#ADB5B9]'>الكل</h2> : selected.join(' , '))}
+											sx={{
+												height: '3.5rem',
+												border: '1px solid #A7A7A780',
+												borderRadius: '4px',
+												'& .MuiOutlinedInput-notchedOutline': {
+													border: 'none',
+												},
+											}}
+										>
+											{subCategories.map((name) => (
+												<MenuItem className='souq_storge_category_filter_items multiple_select' key={name} value={name}>
+													<Checkbox checked={subCategoriesSelected.indexOf(name) > -1} />
+													<ListItemText primary={name} />
 												</MenuItem>
-											);
-										})}
-									</Select>
-								</FormControl>
-							</div>
+											))}
+											<button
+												className='w-full flex flex-col items-center justify-center p-3.5 rounded-none'
+												style={{ fontSize: '18px', backgroundColor: '#02466A', color: '#FFFFFF' }}
+												onClick={(e) => {
+													e.stopPropagation();
+													e.preventDefault();
+													setOpenSubCategory(false);
+												}}
+											>
+												اختر
+											</button>
+										</Select>
+									</FormControl>
+								</div>
+							)}
 
 							<div className='flex mb-8'>
 								<h2 className={formTitleClasses} style={formTitleStyle}>
@@ -334,13 +382,6 @@ const NewProduct = ({ cancel, editProduct }) => {
 												{...dragProps}
 											>
 												<div className='image-item w-full cursor-pointer' style={{ height: '220px' }}>
-													{/* <button
-                        style={isDragging ? { color: "red" } : null}
-                        onClick={onImageUpload}
-                        {...dragProps}
-                      >
-                        Click or Drop here
-                      </button> */}
 													{!images[0] && (
 														<div className='flex flex-col justify-center items-center gap-6 h-full w-full'>
 															<IoMdCloudUpload size={'2em'}></IoMdCloudUpload>
@@ -387,13 +428,15 @@ const NewProduct = ({ cancel, editProduct }) => {
 												return (
 													<div
 														key={idx}
-														className=' h-24 w-24 flex justify-center items-center cursor-pointer'
-														style={{ border: '3px dashed #ccc' }}
+														className=' h-20 w-20 flex justify-center items-center cursor-pointer'
+														style={{ backgroundColor: '#FAFAFA', border: '2px dashed #237EAE', borderRadius: '4px' }}
 														onClick={() => {
 															onImageUpload();
 														}}
 													>
-														<GrAddCircle style={{ fontSize: '1.25rem' }}></GrAddCircle>
+														<Box sx={{ '& circle': { fill: '#ADB5B9' } }}>
+															<AddIcon className='w-5 h-5' />
+														</Box>
 													</div>
 												);
 											})}
@@ -424,7 +467,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 									اضافة خيارات المنتج
 								</h2>
 								<div
-									className='fcc p-3 gap-4 border-dashed cursor-pointer'
+									className='fcc p-3 gap-4 border-2 border-dashed cursor-pointer rounded-lg'
 									style={formInputStyle}
 									onClick={() => {
 										setShowAddProductOptions(true);
@@ -446,8 +489,12 @@ const NewProduct = ({ cancel, editProduct }) => {
 						}}
 					>
 						<Button
-							className={'h-14 w-44'}
-							style={{ backgroundColor: `rgba(2, 70, 106, 1)` }}
+							className=' text-2xl font-medium'
+							style={{
+								width: '186px',
+								height: '56px',
+								backgroundColor: '#02466A',
+							}}
 							type={'normal'}
 							onClick={() => {
 								cancel();
@@ -457,11 +504,13 @@ const NewProduct = ({ cancel, editProduct }) => {
 							حفظ
 						</Button>
 						<Button
+							className='text-2xl font-medium'
 							style={{
 								borderColor: `rgba(2, 70, 106, 1)`,
+								width: '186px',
+								height: '56px',
 							}}
 							textStyle={{ color: 'rgba(2, 70, 106, 1)' }}
-							className={'h-14 w-44'}
 							type={'outline'}
 							onClick={cancel}
 						>

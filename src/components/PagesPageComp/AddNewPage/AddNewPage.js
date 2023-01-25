@@ -34,7 +34,7 @@ const AddNewPage = ({ cancel }) => {
 	return (
 		<>
 			<BackDrop onClick={cancel} />
-			<div className='absolute  flex flex-col top-28 translate-x-2/4 add_new_page_popup  right-2/4 z-20 rounded-lg overflow-hidden' style={{ width: '72.5rem' }}>
+			<div className='absolute  flex flex-col top-5 translate-x-2/4 add_new_page_popup  right-2/4 z-20 rounded-lg overflow-hidden' style={{ width: '72.5rem' }}>
 				<div className='h-16 w-full flex items-center justify-between py-4 px-4 trader_alert' style={{ backgroundColor: '#1DBBBE' }}>
 					<h2 className='text-slate-50 text-xl text-center font-medium'>إنشاء صفحة </h2>
 					<IoMdCloseCircleOutline size={'1.25rem'} color={'#fff'} className={'cursor-pointer'} onClick={cancel}></IoMdCloseCircleOutline>
