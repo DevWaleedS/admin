@@ -170,13 +170,14 @@ function EnhancedTableHead(props) {
       <TableRow>
         {headCells.map((headCell) => (
           <TableCell
+            className='text-lg font-medium'
             key={headCell.id}
             align={headCell.numeric ? "right" : "center"}
             padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
             sx={{
               width: headCell.width ? headCell.width : "auto",
-              fontSize: "1rem",
+             
               color: "#02466A",
             }}
           >
