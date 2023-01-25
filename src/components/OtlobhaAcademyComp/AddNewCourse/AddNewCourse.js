@@ -18,7 +18,6 @@ import { ReactComponent as PlayVideo } from "../../../assets/Icons/video-play.sv
 import { ReactComponent as PDFIcon } from "../../../assets/Icons/pfd.svg";
 import MainImage from '../../../assets/images/drop_shipping_img.png';
 import { NotificationContext } from "../../../store/NotificationProvider";
-
 const tags = ['إدارة المخاطر', 'الخطة الاستراتيجية لادارة المتجر', 'تنظيم عمليات المتجر', 'شراء المنتجات وإدارة المخزون', 'الخطة الاستراتيجية لادارة المتجر', 'تنظيم عمليات المتجر'];
 
 const AddNewCourse = ({ cancel, editData }) => {
