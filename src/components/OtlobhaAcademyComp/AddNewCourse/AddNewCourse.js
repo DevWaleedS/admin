@@ -48,11 +48,12 @@ const AddNewCourse = ({ cancel, editData }) => {
       convertToRaw(editorValue.getCurrentContent())
     );
     console.log(editorStateInHtml);
-	const [images, setImages] = useState([]);
-	console.log(description);
-	const onEditorStateChange = (editorValue) => {
-		const editorStateInHtml = draftToHtml(convertToRaw(editorValue.getCurrentContent()));
-		console.log(editorStateInHtml);
+
+    setDescription({
+      htmlValue: editorStateInHtml,
+      editorState: editorValue,
+    });
+  };
 
   const onChange = (imageList, addUpdateIndex) => {
     // data for submit
@@ -81,10 +82,7 @@ const AddNewCourse = ({ cancel, editData }) => {
   }, [editData]);
 
   return (
-    <div
-      className="absolute pl-[140px] pr-5 py-[43px]  top-0 right-0  z-10  w-full otlobha_acadmic"
-      style={{ backgroundColor: "#fafafa" }}
-    >
+    <div className='absolute pl-[140px] pr-5 py-[43px]  top-0 right-0  z-10  pb-36  w-full otlobha_acadmic' style={{ backgroundColor: '#fafafa' }}>
       {showAddUnit && (
         <AddUnit
           cancel={() => {
@@ -103,22 +101,9 @@ const AddNewCourse = ({ cancel, editData }) => {
               <GoArrowRight style={{ color: "#02466A", fontSize: "1.2rem" }} />
             </div>
 
-	return (
-		<div className='absolute pl-[140px] pr-5 py-[43px]  top-0 right-0  z-10  pb-36  w-full otlobha_acadmic' style={{ backgroundColor: '#fafafa' }}>
-			{showAddUnit && (
-				<AddUnit
-					cancel={() => {
-						setShowAddUnit(false);
-					}}
-					cancelAll={cancel}
-				></AddUnit>
-			)}
-			<div className='flex justify-between items-center mb-2'>
-				<div className='flex'>
-					<div className={`flex items-center gap-2 `}>
-						<div onClick={cancel} className={`flex items-center gap-2 cursor-pointer ${styles.arrow_con}`}>
-							<GoArrowRight style={{ color: '#02466A', fontSize: '1.2rem' }} />
-						</div>
+            <h2 style={{ fontSize: '18px' }} className="font-medium ml-4"> الرئيسية </h2>
+          </div>
+
           <h2 style={{ fontSize: '18px' }} className="font-medium ml-4"> / أكاديمية اطلبها </h2>
           {
             editData ?
@@ -491,5 +476,4 @@ const AddNewCourse = ({ cancel, editData }) => {
     </div>
   );
 };
-
 export default AddNewCourse;
