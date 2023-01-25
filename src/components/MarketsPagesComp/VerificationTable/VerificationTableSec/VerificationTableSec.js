@@ -205,7 +205,7 @@ EnhancedTableHead.propTypes = {
 function EnhancedTableToolbar(props) {
   const { numSelected, onClick, rowCount, onSelectAllClick } = props;
   const NotificationStore = useContext(NotificationContext);
-  const { setNotificationTitle } = NotificationStore;
+  const { setNotificationTitle,setActionTitle } = NotificationStore;
   return (
     <Toolbar
       sx={{
@@ -231,7 +231,8 @@ function EnhancedTableToolbar(props) {
               className="flex flex-row items-center justify-center gap-4 cursor-pointer"
               style={{ width: '114px', height: '40px', backgroundColor: '#FF38381A', borderRadius: '20px' }}
               onClick={() => {
-                setNotificationTitle('سيتم حذف جميع المنتجات التي قمت بتحديدها');
+                setNotificationTitle('سيتم حذف جميع طلبات التوثيق التي قمت بتحديدها');
+                setActionTitle('تم حذف طلبات التوثيق بنجاح');
               }}
             >
               <h6 style={{ fontSize: '18px', color: '#FF3838' }} className="font-medium">حذف</h6>

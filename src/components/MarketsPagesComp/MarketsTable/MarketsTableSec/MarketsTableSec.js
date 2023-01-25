@@ -186,7 +186,9 @@ EnhancedTableHead.propTypes = {
 
 function EnhancedTableToolbar(props) {
 	const { numSelected, rowCount, onSelectAllClick } = props;
-
+	const NotificationStore = useContext(NotificationContext);
+	const { setNotificationTitle,setActionTitle } = NotificationStore;
+	
 	return (
 		<Toolbar
 			sx={{
@@ -202,7 +204,14 @@ function EnhancedTableToolbar(props) {
 		>
 			<div className='fcc gap-2 px-4 rounded-full' style={{ backgroundColor: 'rgba(255, 159, 26, 0.04)' }}>
 				{numSelected > 0 && (
-					<div className='fcc gap-4 px-4 rounded-full' style={{ minWidth: '114px', backgroundColor: '#FF9F1A0A' }}>
+					<div 
+						className='fcc gap-4 px-4 rounded-full' 
+						style={{ minWidth: '114px', backgroundColor: '#FF9F1A0A' }}
+						onClick={()=>{
+							setNotificationTitle('سيتم إيقاف تنشيط جميع المتاجر التي قمت بتحديدها');
+							setActionTitle('تم إيقاف تنشيط المتاجر بنجاح');
+						}} 
+					>
 						<h2 className={'font-medium'} style={{ color: '#FF9F1A' }}>
 							نشط/ غير نشط
 						</h2>
@@ -262,8 +271,6 @@ export default function EnhancedTable() {
 	const [data, setData] = React.useState(rows);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
-	const NotificationStore = useContext(NotificationContext);
-	const { setNotificationTitle } = NotificationStore;
 
 	const rowsPerPagesCount = [10, 20, 30, 50, 100];
 	const handleRowsClick = (event) => {
@@ -362,7 +369,6 @@ export default function EnhancedTable() {
 												<div className='flex items-center gap-2'>
 													<BsTrash
 														onClick={() => {
-															setNotificationTitle('سيتم حذف جميع المتاجر التي قمت بتحديدها');
 															const findIndex = data.findIndex((item) => item.id === row.id);
 															const arr = [...data];
 															arr.splice(findIndex, 1);

@@ -36,8 +36,8 @@ const ProductDetails = ({ cancel, details }) => {
     <>
       <BackDrop />
       <div
-        className="fixed trader_alert   flex flex-col top-1/2 translate-x-2/4 -translate-y-2/4 right-2/4 z-30 rounded-2xl overflow-hidden"
-        style={{ width: "51.25rem", maxHeight: "662px" }}
+        className="fixed trader_alert   flex flex-col top-[55%] translate-x-2/4 -translate-y-2/4 right-2/4 z-40 rounded-2xl overflow-hidden"
+        style={{ width: "51.25rem", maxHeight: "600px" }}
       >
         <div
           className="h-16 w-full flex items-center justify-between py-4 px-4"

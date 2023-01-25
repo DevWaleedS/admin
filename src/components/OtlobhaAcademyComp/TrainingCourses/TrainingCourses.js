@@ -1,9 +1,10 @@
-import React from "react";
+import React,{useContext} from "react";
 import { BsPlayCircle } from "react-icons/bs";
 import { ReactComponent as BsTrash } from "../../../assets/Icons/icon-24-delete.svg";
 import { ReactComponent as Copy } from "../../../assets/Icons/copy icon.svg";
 import { ReactComponent as Edit } from "../../../assets/Icons/editt 2.svg";
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { NotificationContext } from "../../../store/NotificationProvider";
 
 const courses = [
   {
@@ -33,6 +34,8 @@ const courses = [
 ];
 
 const TrainingCourses = ({EditCourse}) => {
+  const NotificationStore = useContext(NotificationContext);
+  const { setNotificationTitle,setActionTitle } = NotificationStore;
   return (
     <div className="mt-12">
       <div>
@@ -69,7 +72,13 @@ const TrainingCourses = ({EditCourse}) => {
                 <Copy ></Copy>
                 <Edit className="cursor-pointer" onClick={() => {EditCourse(course);}}></Edit>
                 <VisibilityIcon style={{ color:'#1DBBBE' }}></VisibilityIcon>
-                <BsTrash ></BsTrash>
+                <BsTrash 
+                  className="cursor-pointer"
+                  onClick={()=>{
+                    setNotificationTitle('سيتم حذف الدورة');
+                    setActionTitle('تم حذف الدورة بنجاح');
+                }}>
+                </BsTrash>
               </div>
             </div>
           );

@@ -4,12 +4,12 @@ export const NotificationContext = React.createContext({});
 
 const NotificationProvider = (props) => {
   const [notificationTitle, setNotificationTitle] = useState(null);
-  const [action, setAction] = useState(false);
+  const [actionTitle, setActionTitle] = useState(null);
   const notification = {
     notificationTitle,
     setNotificationTitle,
-    action,
-    setAction
+    actionTitle,
+    setActionTitle
   };
 
   return <NotificationContext.Provider value={notification}>{props.children}</NotificationContext.Provider>;

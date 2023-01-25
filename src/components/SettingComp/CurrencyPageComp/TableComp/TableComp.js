@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React,{useContext} from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -14,9 +14,8 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
-
+import { NotificationContext } from "../../../../store/NotificationProvider";
 import { visuallyHidden } from '@mui/utils';
-
 import { ReactComponent as SortIcon } from '../../../../assets/Icons/icon-24-sort.svg';
 import { ReactComponent as CheckedSquare } from '../../../../assets/Icons/icon-24-square checkmark.svg';
 import { ReactComponent as DollarIcon } from '../../../../assets/Icons/dolar icon.svg';
@@ -149,7 +148,8 @@ EnhancedTableHead.propTypes = {
 
 function EnhancedTableToolbar(props) {
 	const { numSelected, onClick, rowCount, onSelectAllClick } = props;
-
+	const NotificationStore = useContext(NotificationContext);
+	const { setNotificationTitle,setActionTitle } = NotificationStore;
 	return (
 		<Toolbar
 			sx={{
@@ -166,7 +166,14 @@ function EnhancedTableToolbar(props) {
 			<div className='fcc gap-2 px-4 rounded-full' style={{ backgroundColor: 'rgba(255, 159, 26, 0.04)' }}></div>
 			<div className='flex gap-2 items-center'>
 				{numSelected > 0 && (
-					<div className='fcc gap-4 px-4 rounded-full' style={{ minWidth: '114px', backgroundColor: '#FF9F1A0A' }}>
+					<div 
+						className='fcc gap-4 px-4 rounded-full' 
+						style={{ minWidth: '114px', backgroundColor: '#FF9F1A0A' }}
+						onClick={()=>{
+							setNotificationTitle('سيتم تعطيل جميع العملات التي قمت بتحديدهم');
+							setActionTitle('تم تعطيل العملات بنجاح');
+						}} 
+					>
 						<h2 className={'font-medium'} style={{ color: '#FF9F1A' }}>
 							تعطيل
 						</h2>

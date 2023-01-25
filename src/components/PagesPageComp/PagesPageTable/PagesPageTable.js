@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React,{useContext} from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -17,7 +17,7 @@ import Switch from '@mui/material/Switch';
 import { visuallyHidden } from '@mui/utils';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-
+import { NotificationContext } from "../../../store/NotificationProvider";
 // Import icons and images
 import { ReactComponent as EditIcon } from '../../../assets/Icons/editt 2.svg';
 import { ReactComponent as CheckedSquare } from '../../../assets/Icons/icon-24-square checkmark.svg';
@@ -186,7 +186,8 @@ EnhancedTableHead.propTypes = {
 
 function EnhancedTableToolbar(props) {
 	const { numSelected, onClick, rowCount, onSelectAllClick } = props;
-
+	const NotificationStore = useContext(NotificationContext);
+	const { setNotificationTitle,setActionTitle } = NotificationStore;
 	return (
 		<Toolbar
 			sx={{
@@ -208,6 +209,10 @@ function EnhancedTableToolbar(props) {
 							width: '114px',
 							backgroundColor: 'rgba(255, 159, 26, 0.04)',
 						}}
+						onClick={()=>{
+							setNotificationTitle('سيتم تعطيل جميع الصفحات التي قمت بتحديدها');
+							setActionTitle('تم تعطيل الصفحات بنجاح');
+						}} 
 					>
 						<Box
 							sx={{
@@ -237,6 +242,10 @@ function EnhancedTableToolbar(props) {
 							width: '114px',
 							backgroundColor: 'rgba(255, 56, 56, 0.1)',
 						}}
+						onClick={()=>{
+							setNotificationTitle('سيتم حذف جميع الصفحات التي قمت بتحديدها');
+							setActionTitle('تم حذف الصفحات بنجاح');
+						}} 
 					>
 						<IconButton>
 							<DeleteIcon

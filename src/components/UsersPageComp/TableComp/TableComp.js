@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React,{useContext} from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -18,7 +18,7 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-
+import { NotificationContext } from "../../../store/NotificationProvider";
 import { visuallyHidden } from '@mui/utils';
 import { ReactComponent as SortIcon } from '../../../assets/Icons/icon-24-sort.svg';
 import { ReactComponent as DocumentIcon } from '../../../assets/Icons/document_text_outlined.svg';
@@ -188,7 +188,8 @@ EnhancedTableHead.propTypes = {
 
 function EnhancedTableToolbar(props) {
 	const { numSelected, rowCount, onSelectAllClick } = props;
-
+	const NotificationStore = useContext(NotificationContext);
+	const { setNotificationTitle,setActionTitle } = NotificationStore;
 	return (
 		<Toolbar
 			sx={{
@@ -210,6 +211,10 @@ function EnhancedTableToolbar(props) {
 							width: '114px',
 							backgroundColor: 'rgba(255, 159, 26, 0.04)',
 						}}
+						onClick={()=>{
+							setNotificationTitle('سيتم تعطيل جميع المستخدمين التي قمت بتحديدهم');
+							setActionTitle('تم تعطيل المستخدمين بنجاح');
+						}} 
 					>
 						<h2 className={'font-semibold'} style={{ color: '#FF9F1A' }}>
 							تعطيل
@@ -239,6 +244,10 @@ function EnhancedTableToolbar(props) {
 							width: '114px',
 							backgroundColor: 'rgba(255, 56, 56, 0.1)',
 						}}
+						onClick={()=>{
+							setNotificationTitle('سيتم حذف جميع المستخدمين التي قمت بتحديدهم');
+							setActionTitle('تم حذف المستخدمين بنجاح');
+						}} 
 					>
 						<IconButton>
 							<DeleteIcon

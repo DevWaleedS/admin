@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React,{useContext} from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -18,7 +18,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { visuallyHidden } from '@mui/utils';
 import EditActivity from '../EditActivity/EditActivity';
-
+import { NotificationContext } from "../../../../store/NotificationProvider";
 import { MdOutlineKeyboardArrowDown, MdOutlineArrowBackIosNew, MdOutlineArrowForwardIos } from 'react-icons/md';
 
 import { ReactComponent as EditIcon } from '../../../../assets/Icons/editt 2.svg';
@@ -177,7 +177,8 @@ EnhancedTableHead.propTypes = {
 
 function EnhancedTableToolbar(props) {
 	const { numSelected, onClick, rowCount, onSelectAllClick } = props;
-
+	const NotificationStore = useContext(NotificationContext);
+	const { setNotificationTitle,setActionTitle } = NotificationStore;
 	return (
 		<Toolbar
 			sx={{
@@ -193,7 +194,10 @@ function EnhancedTableToolbar(props) {
 		>
 			<div className='flex gap-8 items-center'>
 				{numSelected > 0 && (
-					<Tooltip title='Delete'>
+					<Tooltip title='Delete' onClick={()=>{
+							setNotificationTitle('سيتم حذف جميع الانشطة التي قمت بتحديدها');
+							setActionTitle('تم حذف الانشطة بنجاح');
+					}}>
 						<div className='fbc px-2 rounded-full' style={{ width: '134px' }}>
 							<h2 className={'font-medium'} style={{ color: '#FF3838' }}>
 								حذف الكل
@@ -249,7 +253,6 @@ export default function EnhancedTable() {
 	const [data, setData] = React.useState(rows);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [showAddActivity, setShowAddActivity] = React.useState(false);
-
 	const open = Boolean(anchorEl);
 	const rowsPerPagesCount = [5, 10, 25, 50, 100];
 	const handleRowsClick = (event) => {

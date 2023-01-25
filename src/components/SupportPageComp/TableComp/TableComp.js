@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React,{useContext} from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -19,7 +19,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { Gift } from '../../../assets/Icons/index';
 import { visuallyHidden } from '@mui/utils';
 import styles from './TableComp.module.css';
-
+import { NotificationContext } from "../../../store/NotificationProvider";
 import { ReactComponent as SortIcon } from '../../../assets/Icons/icon-24-sort.svg';
 import { ReactComponent as BsTrash } from '../../../assets/Icons/icon-24-delete.svg';
 import { ReactComponent as SwitchIcon } from '../../../assets/Icons/icon-38-switch.svg';
@@ -203,7 +203,8 @@ EnhancedTableHead.propTypes = {
 };
 function EnhancedTableToolbar(props) {
 	const { numSelected, onClick, rowCount, onSelectAllClick } = props;
-
+	const NotificationStore = useContext(NotificationContext);
+	const { setNotificationTitle,setActionTitle } = NotificationStore;
 	return (
 		<Toolbar
 			sx={{
@@ -219,7 +220,14 @@ function EnhancedTableToolbar(props) {
 		>
 			<div className='fcc gap-2 px-4 rounded-full' style={{ backgroundColor: 'rgba(255, 159, 26, 0.04)' }}>
 				{numSelected > 0 && (
-					<div className='fcc gap-4 px-4 rounded-full' style={{ minWidth: '114px', backgroundColor: '#FF9F1A0A' }}>
+					<div 
+						className='fcc gap-4 px-4 rounded-full' 
+						style={{ minWidth: '114px', backgroundColor: '#FF9F1A0A' }}
+						onClick={()=>{
+							setNotificationTitle('سيتم تعطيل جميع الشكاوى والاستفسارات التي قمت بتحديدهم');
+							setActionTitle('تم تعطيل الشكاوى والاستفسارات بنجاح');
+						}} 
+					>
 						<h2 className={'font-medium'} style={{ color: '#FF9F1A' }}>
 							تعطيل
 						</h2>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useContext } from 'react';
 import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
 import Switch from '@mui/material/Switch';
@@ -20,6 +20,8 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import MenuItem from '@mui/material/MenuItem';
 import { BiLinkAlt } from 'react-icons/bi';
 import { HiOutlineDocumentDuplicate } from 'react-icons/hi';
+import { NotificationContext } from "../../../store/NotificationProvider";
+import {Delete} from "../../../assets/Icons/index";
 
 const ItemCategory = (props) => {
 	const [menuButton, setMenuButton] = useState(null);
@@ -273,6 +275,8 @@ const ProductsTable = ({ editProduct }) => {
 	const [itemsChecked, setItemsChecked] = useState(false);
 	const [showProductDetails, setShowProductDetails] = useState(false);
 	const [productDetails, setProductDetails] = useState(null);
+	const NotificationStore = useContext(NotificationContext);
+    const { setNotificationTitle,setActionTitle } = NotificationStore;
 
 	useEffect(() => {
 		const initialCategories = [
@@ -382,42 +386,64 @@ const ProductsTable = ({ editProduct }) => {
 					تحديد الكل
 				</label>
 				{itemsChecked && (
-					<div className='fcc gap-2 px-4 rounded-full' style={{ width: '114px', backgroundColor: '#FF38381A' }}>
-						<IconButton>
-							<TrashICon
-								style={{
-									cursor: 'pointer',
-									color: 'red',
-									fontSize: '1rem',
-								}}
-							/>
-						</IconButton>
-						<h2 className={'font-semibold'} style={{ color: '#FF3838' }}>
-							حذف
-						</h2>
+					<div
+						className="flex flex-row items-center justify-center gap-4 cursor-pointer"
+						style={{ width: '114px', height: '40px', backgroundColor: '#FF38381A', borderRadius: '20px' }}
+						onClick={() => {
+							setNotificationTitle('سيتم حذف جميع المنتجات التي قمت بتحديدها');
+							setActionTitle('تم حذف المنتجات بنجاح');
+						}}
+					>
+						<h6 style={{ fontSize: '18px', color: '#FF3838' }} className="font-medium">حذف</h6>
+						<img
+							src={Delete}
+							alt='delete-icon'
+						/>
 					</div>
 				)}
 				{itemsChecked && (
-					<div className='fcc gap-4 px-4 rounded-full' style={{ width: '114px', backgroundColor: '#FF9F1A0A' }}>
-						<Box
+					<div
+						className="flex flex-row items-center justify-center gap-3 cursor-pointer"
+						style={{ width: '126px', height: '40px', backgroundColor: '#FF9F1A0A', borderRadius: '20px' }}
+						onClick={() => {
+							setNotificationTitle('سيتم تعطيل جميع المنتجات التي قمت بتحديدها');
+							setActionTitle('تم تعطيل المنتجات بنجاح');
+						}}
+					>
+						<h6 style={{ fontSize: '18px', color: '#FF9F1A' }} className="font-medium">تعطيل</h6>
+						<Switch
+							onChange={() => {
+							}}
+							className=''
 							sx={{
-								'& #Path_820': {
-									fill: '#FF9F1A',
+								width: '50px',
+								'& .MuiSwitch-thumb': {
+									width: '11px',
+									height: '11px',
+								},
+								'& .MuiSwitch-switchBase': {
+									padding: '6px',
+									top: '9px',
+									left: '9px',
+								},
+								'& .MuiSwitch-switchBase.Mui-checked': {
+									left: '-1px',
+								},
+								'& .Mui-checked .MuiSwitch-thumb': {
+									backgroundColor: '#FFFFFF',
+								},
+								'& .MuiSwitch-track': {
+									height: '16px',
+									borderRadius: '20px',
+								},
+								'&.MuiSwitch-root .Mui-checked+.MuiSwitch-track': {
+									backgroundColor: '#FF9F1A',
+
+									opacity: 1,
 								},
 							}}
-						>
-							<SwitchIcon
-								style={{
-									cursor: 'pointer',
-									color: 'red',
-									fontSize: '0.5rem',
-								}}
-								className={'w-5'}
-							></SwitchIcon>
-						</Box>
-						<h2 className={'font-semibold'} style={{ color: '#FF9F1A' }}>
-							تعطيل
-						</h2>
+							checked={itemsChecked}
+						/>
 					</div>
 				)}
 			</header>

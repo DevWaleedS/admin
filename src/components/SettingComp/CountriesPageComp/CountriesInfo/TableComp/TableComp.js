@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -16,7 +16,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-
+import { NotificationContext } from "../../../../../store/NotificationProvider";
 import { visuallyHidden } from '@mui/utils';
 import { ReactComponent as SortIcon } from '../../../../../assets/Icons/icon-24-sort.svg';
 import { ReactComponent as BsTrash } from '../../../../../assets/Icons/icon-24-delete.svg';
@@ -150,7 +150,8 @@ EnhancedTableHead.propTypes = {
 
 function EnhancedTableToolbar(props) {
 	const { numSelected, onClick, rowCount, onSelectAllClick } = props;
-
+	const NotificationStore = useContext(NotificationContext);
+	const { setNotificationTitle,setActionTitle } = NotificationStore;
 	return (
 		<Toolbar
 			sx={{
@@ -167,7 +168,13 @@ function EnhancedTableToolbar(props) {
 			<div className='fcc gap-2 px-4 rounded-full' style={{ backgroundColor: 'rgba(255, 159, 26, 0.04)' }}></div>
 			<div className='flex gap-2 items-center'>
 				{numSelected > 0 && (
-					<Tooltip onClick={onClick} title='Delete'>
+					<Tooltip
+						onClick={() => {
+							setNotificationTitle('سيتم حذف جميع الدول التي قمت بتحديدها');
+							setActionTitle('تم حذف الدول بنجاح');
+							onClick();
+						}}
+						title='Delete'>
 						<div className='fcc gap-2 px-4 rounded-full' style={{ width: '114px', backgroundColor: '#FF38381A' }}>
 							<h2 className={'font-medium'} style={{ color: '#FF3838' }}>
 								حذف
