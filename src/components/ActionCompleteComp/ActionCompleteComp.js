@@ -2,11 +2,9 @@ import React, { useContext } from "react";
 import ReactDom from "react-dom";
 import styles from "./ActionCompleteComp.module.css";
 import Context from "../../store/context";
-
 import { ReactComponent as ClearIcon } from "../../assets/Icons/icon-24-actioins-clear.svg";
 import { ReactComponent as CheckMark } from "../../assets/Icons/icon-36-actions-checkamark.svg";
 import { ReactComponent as Rejected } from "../../assets/Icons/icon-24-actions- fuals.svg";
-
 import Box from "@mui/material/Box";
 
 const BackDrop = ({ onClick }) => {
