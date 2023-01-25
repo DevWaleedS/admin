@@ -82,10 +82,7 @@ const AddNewCourse = ({ cancel, editData }) => {
   }, [editData]);
 
   return (
-    <div
-      className="absolute pl-[140px] pr-5 py-[43px]  top-0 right-0  z-10  w-full otlobha_acadmic"
-      style={{ backgroundColor: "#fafafa" }}
-    >
+    <div className='absolute pl-[140px] pr-5 py-[43px]  top-0 right-0  z-10  pb-36  w-full otlobha_acadmic' style={{ backgroundColor: '#fafafa' }}>
       {showAddUnit && (
         <AddUnit
           cancel={() => {
@@ -479,5 +476,4 @@ const AddNewCourse = ({ cancel, editData }) => {
     </div>
   );
 };
-
 export default AddNewCourse;
