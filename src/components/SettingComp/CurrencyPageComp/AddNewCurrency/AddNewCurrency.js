@@ -25,13 +25,14 @@ const BackDrop = ({ onClick }) => {
 };
 const category = ["الكترونيات", "ألعاب وهدايا", "مستلزمات طبية", "مواد غذائية"];
 
-const formTitleClasses = "font-semibold text-lg";
+const formTitleClasses = "font-normal text-lg";
 const formTitleStyle = { width: "315px" };
 //
 const formInputClasses = "p-4 outline-0 rounded-md";
 const formInputStyle = {
   width: "555px",
-  border: "1px solid rgba(167, 167, 167, 0.5)",
+  border: "1px solid #A7A7A7",
+  backgroundColor: '#fffff',
 };
 
 const AddNewCurrency = ({ cancel, data }) => {
@@ -59,7 +60,7 @@ const AddNewCurrency = ({ cancel, data }) => {
     <>
       <BackDrop onClick={cancel}></BackDrop>
       <div
-        className={`fixed bottom-0 left-0 bg-slate-50 z-20 ${styles.container}`}
+        className={`fixed bottom-0 left-0 bg-[#F6F6F6] z-20 ${styles.container}`}
         style={{ width: "1104px", height: "calc(100% - 5rem)" }}
       >
         <div className="flex h-full flex-col justify-between">
@@ -109,8 +110,9 @@ const AddNewCurrency = ({ cancel, data }) => {
                       style={{
                         width: "555px",
                         height: "56px",
-                        border: "1px solid #ccc",
+                        border: "1px solid #A7A7A7",
                         borderRadius: "8px",
+                        backgroundColor: "#fff"
                       }}
                       onClick={() => {
                         onImageUpload();
@@ -198,7 +200,7 @@ const AddNewCurrency = ({ cancel, data }) => {
             }}
           >
             <Button
-              className={"h-14 w-44"}
+              className={"h-14 w-44 text-xl "}
               style={{ backgroundColor: `rgba(2, 70, 106, 1)` }}
               type={"normal"}
               onClick={() => {
@@ -209,7 +211,7 @@ const AddNewCurrency = ({ cancel, data }) => {
               حفظ
             </Button>
             <Button
-              className={"h-14 w-44"}
+              className={"h-14 w-44 text-xl"}
               style={{ backgroundColor: `rgba(2, 70, 106, 1)` }}
               type={"normal"}
               onClick={cancel}
