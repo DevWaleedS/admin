@@ -219,15 +219,15 @@ const SideBar = () => {
 				<Link className='single_link' to={'/'}>
 					<StyledTreeItem nodeId='1' onClick={handleExpanding('1')} labelText='الرئيسية' svg={<Dashboard style={{ marginLeft: 5, height: '1.2rem', zIndex: '10' }} />} />
 				</Link>
-				<StyledTreeItem sx={{}} nodeId='2' onClick={handleExpanding('2')} labelText='السوق' svg={<Market style={{ marginLeft: 5, height: '1.2rem', zIndex: '10' }} />}>
+				<StyledTreeItem  nodeId='2' onClick={handleExpanding('2')} labelText='السوق' svg={<Market style={{ marginLeft: 5, height: '1.2rem', zIndex: '10' }} />}>
 					<Link to={'/سوق_اطلبها'}>
-						<StyledTreeItem nodeId='33' labelText='سوق أطلبها' svg={<GiPlainCircle style={{ marginLeft: 5, height: '1rem', width: '1rem', zIndex: '10' }} />}></StyledTreeItem>
+						<StyledTreeItem className='pr-5' nodeId='33' labelText='سوق أطلبها' svg={<GiPlainCircle style={{ position: 'absolute', height: '1rem', width: '1rem', zIndex: '10' }} />}></StyledTreeItem>
 					</Link>
 					<Link to={'/السوق_العام'}>
-						<StyledTreeItem nodeId='34' labelText='السوق العام' svg={<GiPlainCircle style={{ marginLeft: 5, height: '1rem', width: '1rem', zIndex: '10' }} />}></StyledTreeItem>
+						<StyledTreeItem className='pr-5' nodeId='34' labelText='السوق العام' svg={<GiPlainCircle style={{ position: 'absolute', height: '1rem', width: '1rem', zIndex: '10' }} />}></StyledTreeItem>
 					</Link>
 					<Link to={'/المخزون'}>
-						<StyledTreeItem nodeId='35' labelText='المخزون' svg={<GiPlainCircle style={{ marginLeft: 5, height: '1rem', width: '1rem', zIndex: '10' }} />} />
+						<StyledTreeItem className='pr-5' nodeId='35' labelText='المخزون' svg={<GiPlainCircle style={{ position: 'absolute', height: '1rem', width: '1rem', zIndex: '10' }} />} />
 					</Link>
 				</StyledTreeItem>
 
@@ -244,17 +244,17 @@ const SideBar = () => {
 						svg={<Store style={{ marginLeft: 5, height: '1.2rem', zIndex: '10' }} />}
 					>
 						<Link to={'/نشاط_المتاجر'}>
-							<StyledTreeItem svg={<GiPlainCircle style={{ marginLeft: 5, height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='5' labelText='نشاط المتاجر'></StyledTreeItem>
+							<StyledTreeItem className='pr-5' svg={<GiPlainCircle style={{ position: 'absolute', height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='5' labelText='نشاط المتاجر'></StyledTreeItem>
 						</Link>
 
 						<Link to={'/عرض_المتاجر'}>
-							<StyledTreeItem svg={<GiPlainCircle style={{ marginLeft: 5, height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='6' labelText='المتاجر' />
+							<StyledTreeItem className='pr-5' svg={<GiPlainCircle style={{ position: 'absolute', height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='6' labelText='المتاجر' />
 						</Link>
 						<Link to={'/المنتجات'}>
-							<StyledTreeItem svg={<GiPlainCircle style={{ marginLeft: 5, height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='7' labelText='المنتجات' />
+							<StyledTreeItem className='pr-5' svg={<GiPlainCircle style={{ position: 'absolute', height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='7' labelText='المنتجات' />
 						</Link>
 						<Link to={'/التوثيق'}>
-							<StyledTreeItem svg={<GiPlainCircle style={{ marginLeft: 5, height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='8' number={2} labelText='التوثيق' xs={{}} />
+							<StyledTreeItem className='pr-5' svg={<GiPlainCircle style={{ position: 'absolute', height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='8' number={2} labelText='التوثيق' />
 						</Link>
 					</StyledTreeItem>
 				</Link>
@@ -296,10 +296,10 @@ const SideBar = () => {
 						svg={<Template style={{ marginLeft: 5, height: '1.2rem', zIndex: '10' }} />}
 					>
 						<Link to={'/السلايدر'}>
-							<StyledTreeItem svg={<GiPlainCircle style={{ marginLeft: 5, height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='14' labelText='السلايدر' />
+							<StyledTreeItem className='pr-5' svg={<GiPlainCircle style={{ position: 'absolute', height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='14' labelText='السلايدر' />
 						</Link>
 						<Link to={'/التقسيم'}>
-							<StyledTreeItem svg={<GiPlainCircle style={{ marginLeft: 5, height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='15' labelText='التقسيم' />
+							<StyledTreeItem className='pr-5' svg={<GiPlainCircle style={{ position: 'absolute', height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='15' labelText='التقسيم' />
 						</Link>
 					</StyledTreeItem>
 				</Link>
@@ -321,7 +321,7 @@ const SideBar = () => {
 					svg={<Marketing style={{ marginLeft: 5, height: '1.2rem', zIndex: '10' }} />}
 				>
 					<Link to={'/كوبونات_الخصم'}>
-						<StyledTreeItem svg={<GiPlainCircle style={{ marginLeft: 5, height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='19' labelText='كوبونات الخصم' />
+						<StyledTreeItem className='pr-5' svg={<GiPlainCircle style={{ position: 'absolute', height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='19' labelText='كوبونات الخصم' />
 					</Link>
 				</StyledTreeItem>
 				<StyledTreeItem
@@ -336,10 +336,10 @@ const SideBar = () => {
 					svg={<SalesMan style={{ marginLeft: 5, height: '1.2rem', zIndex: '10' }} />}
 				>
 					<Link to={'/عرض_المناديب'}>
-						<StyledTreeItem svg={<GiPlainCircle style={{ marginLeft: 5, height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='21' labelText='عرض المناديب' />
+						<StyledTreeItem className='pr-5' svg={<GiPlainCircle style={{ position: 'absolute', height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='21' labelText='عرض المناديب' />
 					</Link>
 					<Link to={'/حالة_تسجيل_المندوبين'}>
-						<StyledTreeItem svg={<GiPlainCircle style={{ marginLeft: 5, height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='22' labelText='حالة التسجيل' />
+						<StyledTreeItem className='pr-5' svg={<GiPlainCircle style={{ position: 'absolute', height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='22' labelText='حالة التسجيل' />
 					</Link>
 				</StyledTreeItem>
 				<StyledTreeItem
@@ -354,10 +354,10 @@ const SideBar = () => {
 					svg={<Category style={{ marginLeft: 5, height: '1.2rem', zIndex: '10' }} />}
 				>
 					<Link to={'/تصنيفات_السوق'}>
-						<StyledTreeItem svg={<GiPlainCircle style={{ marginLeft: 5, height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='24' labelText='تصنيفات السوق' />
+						<StyledTreeItem className='pr-5' svg={<GiPlainCircle style={{ position: 'absolute', height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='24' labelText='تصنيفات السوق' />
 					</Link>
 					<Link to={'/تصنيفات_المتاجر'}>
-						<StyledTreeItem svg={<GiPlainCircle style={{ marginLeft: 5, height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='25' labelText='تصنيفات المتاجر' />
+						<StyledTreeItem className='pr-5' svg={<GiPlainCircle style={{ position: 'absolute', height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='25' labelText='تصنيفات المتاجر' />
 					</Link>
 				</StyledTreeItem>
 				<Link className='single_link' to={'/الطلبات'}>
@@ -387,7 +387,7 @@ const SideBar = () => {
 					svg={<Setting style={{ marginLeft: 5, height: '1.2rem', zIndex: '10' }} />}
 				>
 					<Link to={'/الاعدادت_الأساسية'}>
-						<StyledTreeItem svg={<GiPlainCircle style={{ marginLeft: 5, height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='32' labelText='الاعدادات الأساسية' />
+						<StyledTreeItem className='pr-5' svg={<GiPlainCircle style={{ position: 'absolute', height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='32' labelText='الاعدادات الأساسية' />
 					</Link>
 					<Link to={'/الدول'}>
 						<StyledTreeItem svg={<CityIcon style={{ marginLeft: 5, height: '1.2rem', zIndex: '10' }} />} nodeId='36' labelText='الدول' />
@@ -405,13 +405,13 @@ const SideBar = () => {
 						<StyledTreeItem svg={<ReportIcon style={{ marginLeft: 5, height: '1.2rem', zIndex: '10' }} />} nodeId='42' labelText='التقارير' />
 					</Link>
 					<Link to={'/التواصل_الاجتماعى'}>
-						<StyledTreeItem svg={<GiPlainCircle style={{ marginLeft: 5, height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='43' labelText='التواصل الإجتماعى' />
+						<StyledTreeItem className='pr-5' svg={<GiPlainCircle style={{ position: 'absolute', height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='43' labelText='التواصل الإجتماعى' />
 					</Link>
 					<Link to={'/حالات_التسجيل'}>
-						<StyledTreeItem svg={<GiPlainCircle style={{ marginLeft: 5, height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='44' labelText='حالة التسجيل' />
+						<StyledTreeItem className='pr-5' svg={<GiPlainCircle style={{ position: 'absolute', height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='44' labelText='حالة التسجيل' />
 					</Link>
 					<Link to={'/الاشعارات'}>
-						<StyledTreeItem svg={<GiPlainCircle style={{ marginLeft: 5, height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='45' labelText='الاشعارات' />
+						<StyledTreeItem className='pr-5' svg={<GiPlainCircle style={{ position: 'absolute', height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='45' labelText='الاشعارات' />
 					</Link>
 				</StyledTreeItem>
 			</TreeView>
