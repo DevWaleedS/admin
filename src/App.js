@@ -1,6 +1,6 @@
 import "./App.css";
 import React, {useContext } from "react";
-import { BrowserRouter, Routes, Route, ScrollRestoration  } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import ActionCompleteComp from "./components/ActionCompleteComp/ActionCompleteComp";
 import DeleteModal from "./components/DeleteModal/DeleteModal";
@@ -56,13 +56,13 @@ function App() {
 
   return (
 			<BrowserRouter>
-			<Navbar></Navbar>
-			{title && <ActionCompleteComp></ActionCompleteComp>}
-			{notificationTitle && <DeleteModal></DeleteModal>}
-			<div className='flex mx-auto mt-20 ' style={{ maxWidth: '1920px' }}>
-			<SideBar />
-			<div className='p-4 flex-1 app-page'>
-			<ScrollRestoration />
+				<Navbar></Navbar>
+				{title && <ActionCompleteComp></ActionCompleteComp>}
+				{notificationTitle && <DeleteModal></DeleteModal>}
+				<div className='flex mx-auto mt-20 ' style={{ maxWidth: '1920px' }}>
+					<SideBar />
+					<div className='p-4 flex-1 app-page'>
+						<BackToTop />
 						<Routes>
 							<Route exact path='/' element={<MainPage />} />
 							{/*************************** السوق ************************/}
