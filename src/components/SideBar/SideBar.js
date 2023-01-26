@@ -162,6 +162,7 @@ const SideBar = () => {
 						color: '#02466A',
 						fontSize: '18px',
 						fontWeight: 400,
+						paddingRight: '20px',
 					},
 					'& .Mui-expanded .MuiTypography-root , & .single_link .Mui-selected .MuiTypography-root': {
 						color: '#fff',
