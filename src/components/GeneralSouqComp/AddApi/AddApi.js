@@ -28,6 +28,7 @@ const AddApi = ({ cancel, editDetails }) => {
 		}
 	}, [editDetails]);
 
+	
 	return (
 		<>
 			<BackDrop onClick={cancel} />
