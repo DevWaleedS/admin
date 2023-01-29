@@ -19,6 +19,7 @@ const BackDrop = ({ onClick }) => {
     ></div>
   );
 };
+
 const ActionComplete = ({ cancelEarly }) => {
   const contextStore = useContext(Context);
   const { title, actionWarning, setEndActionTitle } = contextStore;
