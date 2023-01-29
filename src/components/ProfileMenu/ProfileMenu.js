@@ -31,7 +31,7 @@ const ProfileMenu = () => {
     const [editUser, setEditUser] = useState(false);
 
     return (
-            <div className="relative h-full">
+            <div className="relative h-full order-last md:order-first">
                     <div
                         className={`flex items-center gap-2 cursor-pointer ${styles.user}`}
                         style={{ color: "#1DBBBE" }}
@@ -49,8 +49,8 @@ const ProfileMenu = () => {
                                     }}
                                     ></span>
                             </div>
-                            <MdKeyboardArrowDown className="text-2xl"/>
-                            <h2 style={{ color: "#fff" }}>محمد عبد الرحمن</h2>
+                            <MdKeyboardArrowDown className="hidden md:flex text-2xl"/>
+                            <h2 className="hidden md:flex" style={{ color: "#fff" }}>محمد عبد الرحمن</h2>
                     </div>
                     <div className={`${open ? 'flex':'hidden'}`}>
                         <BackDrop 
