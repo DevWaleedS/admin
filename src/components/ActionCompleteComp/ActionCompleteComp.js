@@ -7,6 +7,7 @@ import { ReactComponent as CheckMark } from "../../assets/Icons/icon-36-actions-
 import { ReactComponent as Rejected } from "../../assets/Icons/icon-24-actions- fuals.svg";
 import Box from "@mui/material/Box";
 
+
 const BackDrop = ({ onClick }) => {
   return (
     <div
