@@ -10,7 +10,6 @@ import styles from './SideBar.module.css';
 import { Link } from 'react-router-dom';
 import { IoIosArrowBack, IoIosArrowDown } from 'react-icons/io';
 import { GiPlainCircle } from 'react-icons/gi';
-
 import { ReactComponent as Dashboard } from '../../assets/Icons/icon-24-dashboard.svg';
 import { ReactComponent as Market } from '../../assets/Icons/icon-24-market.svg';
 import { ReactComponent as Store } from '../../assets/Icons/icon-24-store.svg';
@@ -119,7 +118,7 @@ StyledTreeItem.propTypes = {
 	labelText: PropTypes.string.isRequired,
 };
 
-const SideBar = () => {
+const SideBar = ({openSidebar}) => {
 	const [expanded, setExpanded] = useState(['1']);
 	const handleExpanding = (id) => () => {
 		setExpanded([id]);
@@ -143,7 +142,7 @@ const SideBar = () => {
 					fill: '#1DBBBE',
 				},
 			}}
-			className={styles.sidebar}
+			className={`${styles.sidebar} ${openSidebar ? styles.active:''}`}
 		>
 			<TreeView
 				aria-label='file system navigator'

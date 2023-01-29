@@ -38,3 +38,13 @@
     font-size: 1rem;
     color: #ADB5B9;
 }
+.menuIcon{
+    font-size: 2rem;
+    color: #fff;
+    cursor: pointer;
+}
+@media (max-width:768px){
+    .navbar{
+        padding: 1rem 2rem 1rem 2rem;
+    }
+}

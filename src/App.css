@@ -1,5 +1,4 @@
 .app-page {
-
 	left: 0;
 	top: 80px;
 	width: calc(100% - 240px);
@@ -42,4 +41,9 @@
 	to {
 		transform: rotate(360deg);
 	}
+}
+@media (max-width:768px){
+    .app-page{
+        width: 100%;
+    }
 }
