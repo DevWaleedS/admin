@@ -10,8 +10,7 @@ const StoreGraph = () => {
   return (
 			<div className='mt-8 '>
 				<DatePicker></DatePicker>
-
-				<div className='flex mt-6 h-96 gap-6'>
+				<div className='flex mt-6 h-96 gap-6 flex-wrap'>
 					<div className='flex-1 p-4 shadow-[0px_6px_12px_#0000000F] rounded-lg' style={{ backgroundColor: '#fff' }}>
 						<GraphSec />
 					</div>

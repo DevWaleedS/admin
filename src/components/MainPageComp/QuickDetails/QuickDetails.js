@@ -7,7 +7,7 @@ import { Store, User, Service } from "../../../assets/Icons/index";
 const QuickDetails = () => {
   return (
 			<Box sx={{ width: '100%', mb: 7 }}>
-				<Stack gap={5} sx={{ flexDirection: 'row' }}>
+				<Stack gap={5} sx={{ flexDirection: 'row',flexWrap:'wrap' }}>
 					<Paper
 						sx={{
 							flex: '1',

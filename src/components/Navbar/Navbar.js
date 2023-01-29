@@ -8,16 +8,20 @@ import { Link } from "react-router-dom";
 import ProfileMenu from "../ProfileMenu/ProfileMenu";
 import NotificationsMenu from "../NotificationsMenu/NotificationsMenu";
 import EmailMenu from "../EmailMenu/EmailMenu";
+import MenuIcon from '@mui/icons-material/Menu';
 
-const Navbar = () => {
+const Navbar = ({openSidebar}) => {
   return (
     <nav className={styles.navbar}>
-      <div className="flex">
-        <Link to="/" className={`flex items-center gap-2 ${styles.logo}`}>
+      <div className="w-full flex flex-row items-center md:justify-start justify-between">
+        <Link to="/" className={`hidden md:flex items-center gap-2 ${styles.logo}`}>
           <img className="h-6" src={HomeIcon} alt="" />
           <h1 className="text-slate-50 font-medium text-base">الموقع</h1>
         </Link>
-        <div className={`flex items-center gap-10 px-8 `}>
+        <div className="md:hidden flex flex-col items-center justify-center" onClick={() => {openSidebar();}}>
+          <MenuIcon className={styles.menuIcon}/>
+        </div>
+        <div className={`flex items-center gap-10 md:px-8 px-0`}>
           <ProfileMenu />
           <div className="flex gap-4">
             <NotificationsMenu/>
@@ -25,7 +29,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      <div className="flex relative h-12">
+      <div className="hidden md:flex relative h-12 ">
         <label className={`h-full relative ${styles.search_input}`}>
           <input
             placeholder=" هنا ستجد ما تبحث عنه"

@@ -1,9 +1,10 @@
 import "./App.css";
-import React, {useContext } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, {useState,useContext } from "react";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 import ActionCompleteComp from "./components/ActionCompleteComp/ActionCompleteComp";
 import DeleteModal from "./components/DeleteModal/DeleteModal";
-import { Navbar, SideBar } from "./components/index";
+import { Navbar, SideBar, BackToTop } from './components/index';
 import Context from "./store/context";
 import { NotificationContext } from "./store/NotificationProvider";
 
@@ -48,6 +49,7 @@ import {
   NotificationsPage
 } from "./pages/index";
 function App() {
+  const [openSidebar,setOpenSidebar] = useState(false);
   const contextStore = useContext(Context);
   const NotificationStore = useContext(NotificationContext);
   const { title, setTitle } = contextStore;
@@ -55,12 +57,13 @@ function App() {
 
   return (
 			<BrowserRouter>
-				<Navbar></Navbar>
+				<Navbar openSidebar={() => {setOpenSidebar(!openSidebar);}}></Navbar>
 				{title && <ActionCompleteComp></ActionCompleteComp>}
 				{notificationTitle && <DeleteModal></DeleteModal>}
 				<div className='flex mx-auto mt-20 ' style={{ maxWidth: '1920px' }}>
-					<SideBar />
+					<SideBar openSidebar={openSidebar}/>
 					<div className='p-4 flex-1 app-page'>
+						<BackToTop />
 						<Routes>
 							<Route exact path='/' element={<MainPage />} />
 							{/*************************** السوق ************************/}
