@@ -10,7 +10,7 @@ const PageNavigate = ({ currentPage, parentPage, nestedPage }) => {
 					<div className={` ${styles.arrow_con}`}>
 						<GoArrowRight style={{ color: '#02466A', fontSize: '1.2rem' }} />
 					</div>
-					<h2 className="className='text-lg font-medium' ml-4"> الرئيسية </h2>
+					<h2 className="text-lg font-medium ml-4"> الرئيسية </h2>
 				</Link>
 				{nestedPage && <h2 className='text-lg font-medium ml-4'> / {parentPage} </h2>}
 				{parentPage && !nestedPage && (

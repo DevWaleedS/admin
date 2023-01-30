@@ -12,7 +12,7 @@ const BackDrop = ({ onClick }) => {
 const formTitleClasses = 'font-normal text-lg';
 const formTitleStyle = { width: '315px' };
 //
-const formInputClasses = 'p-4 outline-0 rounded-md';
+const formInputClasses = 'px-4 outline-0 rounded-lg h-14';
 const formInputStyle = {
 	width: '555px',
 	border: '1px solid #A7A7A7',

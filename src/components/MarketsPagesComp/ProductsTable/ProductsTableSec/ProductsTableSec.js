@@ -171,13 +171,21 @@ function EnhancedTableHead(props) {
       <TableRow>
         {headCells.map((headCell) => (
           <TableCell
+<<<<<<< HEAD
             className='md:text-[18px] text-[14px] font-medium'
+=======
+            className='text-lg font-medium'
+>>>>>>> 0f4d0ee6e5e22c5c9ad9e2d58bedfca31309307e
             key={headCell.id}
             align={headCell.numeric ? "right" : "center"}
             padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
             sx={{
               width: headCell.width ? headCell.width : "auto",
+<<<<<<< HEAD
+=======
+             
+>>>>>>> 0f4d0ee6e5e22c5c9ad9e2d58bedfca31309307e
               color: "#02466A",
               whiteSpace:'nowrap'
             }}
@@ -528,13 +536,22 @@ export default function EnhancedTable({ openProductDetails, openTraderAlert }) {
 																					</div>
 																				</TableCell>
 																				<TableCell align='right'>
+<<<<<<< HEAD
 																					<h2 className='md:text-[18px] text-[16px] font-normal' style={{ color: '#4D4F5C'}}>
+=======
+																					<h2 className='font-normal' style={{ color: '#4D4F5C', fontSize: '18px' }}>
+>>>>>>> 0f4d0ee6e5e22c5c9ad9e2d58bedfca31309307e
 																						{row.date}
 																					</h2>
 																				</TableCell>
 																				<TableCell align='right'>
+<<<<<<< HEAD
 																					<div className='flex flex-row items-center gap-1 py-1 px-3 md:w-16 w-24 h-6 rounded-md'>
 																						<h2 style={{ color: row.special ? '#3AE374' : '#ADB5B9' }} className='md:text-[16px] text-[14px] min-w-[50px] whitespace-nowrap'>
+=======
+																					<div className='flex flex-row items-center gap-1 py-1 px-3 w-16 h-6 rounded-md'>
+																						<h2 style={{ fontSize: '16px', color: row.special ? '#3AE374' : '#ADB5B9' }} className='min-w-[50px] whitespace-nowrap'>
+>>>>>>> 0f4d0ee6e5e22c5c9ad9e2d58bedfca31309307e
 																							{row.special ? 'مميز' : 'غير مميز'}
 																						</h2>
 																						<Switch
@@ -577,20 +594,32 @@ export default function EnhancedTable({ openProductDetails, openTraderAlert }) {
 																						/>
 																					</div>
 																				</TableCell>
+<<<<<<< HEAD
 																				<TableCell className="min-w-[200px]" align='right'>
+=======
+																				<TableCell align='right'>
+>>>>>>> 0f4d0ee6e5e22c5c9ad9e2d58bedfca31309307e
 																					<div className='flex flex-row items-center justify-end gap-3'>
 																						<img className='cursor-pointer' src={ListMoreCategory} alt='list-more-category' onClick={activityHandleClick} />
 																						<Menu className={styles.activity_menu} anchorEl={activityAnchorEl} open={activityOpen} onClose={activityHandleClose}>
 																							{[1, 2, 3].map((_item, index) => (
 																								<MenuItem key={index} className='flex flex-row items-center justify-center gap-2' style={{ color: '#4D4F5C' }} onClick={activityHandleClose}>
+<<<<<<< HEAD
 																									<div className='flex flex-row items-center justify-center md:w-[30px] w-[20px] md:h-[30px] h-[20px] p-[0.2rem]' style={{ borderRadius: '50%', backgroundColor: '#8D8AD333' }}>
+=======
+																									<div className='flex flex-row items-center justify-center' style={{ width: '30px', height: '30px', borderRadius: '50%', backgroundColor: '#8D8AD333' }}>
+>>>>>>> 0f4d0ee6e5e22c5c9ad9e2d58bedfca31309307e
 																										<img src={Stationery} alt='stationery-icon' />
 																									</div>
 																									قرطاسية
 																								</MenuItem>
 																							))}
 																						</Menu>
+<<<<<<< HEAD
 																						<h2 style={{ color: '#4D4F5C'}} className='md:text-[16px] text-[14px] inline whitespace-nowrap font-normal'>
+=======
+																						<h2 style={{ color: '#4D4F5C', fontSize: '16px' }} className='inline whitespace-nowrap font-normal'>
+>>>>>>> 0f4d0ee6e5e22c5c9ad9e2d58bedfca31309307e
 																							{row.activity}
 																						</h2>
 																					</div>
@@ -603,6 +632,7 @@ export default function EnhancedTable({ openProductDetails, openTraderAlert }) {
 																							marginLeft: 'auto',
 																						}}
 																					>
+<<<<<<< HEAD
 																						<h2 className="md:text-[16px] text-[14px]" style={{ color: row.opened ? '#011723' : '#67747B' }}>{row.opened ? 'نشط' : 'غير نشط'}</h2>
 																					</div>
 																				</TableCell>
@@ -613,6 +643,18 @@ export default function EnhancedTable({ openProductDetails, openTraderAlert }) {
 																					<h2
                                           className="md:text-[16px] text-[14px] font-normal"
 																						style={{ color: '#4D4F5C', cursor: 'pointer' }}
+=======
+																						<h2 style={{ color: row.opened ? '#011723' : '#67747B', fontSize: '16px' }}>{row.opened ? 'نشط' : 'غير نشط'}</h2>
+																					</div>
+																				</TableCell>
+																				<TableCell align='right'>
+																					<h2 style={{ color: '#4D4F5C', fontSize: '16px' }}>{row.store}</h2>
+																				</TableCell>
+																				<TableCell align='right'>
+																					<h2
+                                          className='font-normal'
+																						style={{ color: '#4D4F5C', fontSize: '16px', cursor: 'pointer' }}
+>>>>>>> 0f4d0ee6e5e22c5c9ad9e2d58bedfca31309307e
 																						onClick={() => {
 																							openProductDetails(row);
 																						}}
@@ -621,9 +663,15 @@ export default function EnhancedTable({ openProductDetails, openTraderAlert }) {
 																					</h2>
 																				</TableCell>
 																				<TableCell align='right'>
+<<<<<<< HEAD
 																					<h2 className="md:text-[18px] text-[16px]" style={{ color: '#4D4F5C'}}>{row.number}</h2>
 																				</TableCell>
 																				<TableCell className="md:text-[18px] text-[16px]" align='right' style={{ color: '#4D4F5C' }}>
+=======
+																					<h2 style={{ color: '#4D4F5C', fontSize: '18px' }}>{row.number}</h2>
+																				</TableCell>
+																				<TableCell align='right' style={{ color: '#4D4F5C', fontSize: '18px' }}>
+>>>>>>> 0f4d0ee6e5e22c5c9ad9e2d58bedfca31309307e
 																					{(index + 1).toLocaleString('en-US', {
 																						minimumIntegerDigits: 2,
 																						useGrouping: false,

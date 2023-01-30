@@ -17,7 +17,7 @@ const category = [
 	{ countryName: 'فلسطين', number: '970' },
 ];
 
-const formTitleClasses = 'font-normal text-lg';
+const formTitleClasses = 'font-normal text-lg ';
 const formTitleStyle = { width: '315px' };
 //
 const formInputClasses = 'px-4 outline-0 rounded-lg h-14';
@@ -53,7 +53,7 @@ const AddCountry = ({ cancel, data }) => {
 	return (
 		<>
 			<BackDrop onClick={cancel}></BackDrop>
-			<div className={`fixed bottom-0 left-0 bg-slate-50 z-20 ${styles.container}`} style={{ width: '1104px', height: 'calc(100% - 5rem)' }}>
+			<div className={`fixed bottom-0 left-0 bg-[#F6F6F6] z-20 ${styles.container}`} style={{ width: '1104px', height: 'calc(100% - 5rem)' }}>
 				<div className='flex h-full flex-col justify-between'>
 					<div
 						className='p-8'
@@ -110,7 +110,7 @@ const AddCountry = ({ cancel, data }) => {
 									sx={{
 										height: '3.5rem',
 										width: '555px',
-										border: '1px solid rgba(167, 167, 167, 0.5)',
+										border: '1px solid #A7A7A7',
 										pl: '1rem !important',
 										'& .MuiSelect-select': {
 											pr: '1rem !important',
