@@ -1,4 +1,6 @@
-
+.backdrop{
+    height: calc( 100vh - 80px);
+}
 .line_anim
 {
     animation: anim 3s ease-out;
@@ -9,5 +11,10 @@
     }
     to{
         width: 0%;
+    }
+}
+@media(max-width:768px){
+    .backdrop{
+      height: 100% !important;
     }
 }

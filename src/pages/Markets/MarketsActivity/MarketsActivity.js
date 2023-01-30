@@ -11,14 +11,14 @@ const MarketsActivity = () => {
 	const [showAddActivity, setShowAddActivity] = useState(false);
 	const [editProduct, setEditProduct] = useState(null);
 	return (
-		<div className={`${styles.recording_status} p-12 pl-36 `}>
-			<div className='flex items-center justify-between'>
+		<div className={`${styles.recording_status} md:p-12 md:pl-36 p-4 pt-0`}>
+			<div className='flex md:flex-row flex-col md:items-center items-start justify-between gap-4'>
 				<PageNavigate currentPage={'نشاط المتاجر'} parentPage={'المتاجر'} />
 				<Button
 					onClick={() => {
 						setShowAddActivity(true);
 					}}
-					className='w-[153px] h-[56px] text-lg px-1'
+					className='px-1 md:w-[153px] w-full md:h-[56px] h-[44px] text-lg'
 					style={{ backgroundColor: '#02466A' }}
 					type={'normal'}
 					svg={<IoIosAdd style={{ color: '#fff', fontSize: '1.25rem' }} className='w-7 h-7'></IoIosAdd>}
@@ -43,7 +43,7 @@ const MarketsActivity = () => {
 				></EditActivity>
 			)}
 			
-			<h2 className='mt-12 mb-6 text-xl font-medium'>الأنشطة المضافة</h2>
+			<h2 className='md:mt-12 mt-5 mb-6 text-xl font-medium'>الأنشطة المضافة</h2>
 			<div dir='ltr'>
 				<MarketsActivityTable
 					editProduct={(item) => {

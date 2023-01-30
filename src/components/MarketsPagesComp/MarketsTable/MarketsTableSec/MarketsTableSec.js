@@ -147,6 +147,7 @@ function EnhancedTableHead(props) {
 						sx={{
 							width: headCell.width ? headCell.width : 'auto',
 							color: '#02466A',
+							whiteSpace:'nowrap'
 						}}
 					>
 						{headCell.sort && (
@@ -212,7 +213,7 @@ function EnhancedTableToolbar(props) {
 							setActionTitle('تم إيقاف تنشيط المتاجر بنجاح');
 						}} 
 					>
-						<h2 className={'font-medium'} style={{ color: '#FF9F1A' }}>
+						<h2 className={'font-medium whitespace-nowrap'} style={{ color: '#FF9F1A' }}>
 							نشط/ غير نشط
 						</h2>
 						<Box
@@ -236,7 +237,7 @@ function EnhancedTableToolbar(props) {
 			</div>
 
 			<div className='flex items-center'>
-				<h2 className='font-medium'>تحديد الكل</h2>
+				<h2 className='font-medium whitespace-nowrap'>تحديد الكل</h2>
 				<Checkbox
 					checkedIcon={<CheckedSquare />}
 					sx={{
@@ -342,7 +343,7 @@ export default function EnhancedTable() {
 	};
 	return (
 		<Box sx={{ width: '100%' }}>
-			<Paper sx={{ width: '100%', mb: 2 }}>
+			<Paper sx={{ width: '100%', mb: 2,boxShadow:'none' }}>
 				<EnhancedTableToolbar onClick={deleteItems} numSelected={selected.length} rowCount={data.length} onSelectAllClick={handleSelectAllClick} />
 				<TableContainer>
 					<Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={'medium'}>
@@ -449,7 +450,7 @@ export default function EnhancedTable() {
 											</TableCell>
 											<TableCell align='right' sx={{ display: 'flex', gap: '0.5rem', p: '24px 0' }}>
 												<img src={Gift} alt='' />
-												<h2 className='font-normal text-lg'>{row.activity}</h2>
+												<h2 className='font-normal text-lg whitespace-nowrap'>{row.activity}</h2>
 											</TableCell>
 											<TableCell align='right'>
 												<h2 className='inline font-normal text-lg'>{row.name}</h2>
@@ -492,7 +493,7 @@ export default function EnhancedTable() {
 					</Table>
 				</TableContainer>
 			</Paper>
-			<div className='flex items-center justify-between'>
+			<div className='flex md:flex-row flex-col items-center justify-between gap-[26px] md:mt-4 mt-8'>
 				<div className='flex items-center gap-2 p-2 rounded-md' style={{ border: '1px solid #2D62ED' }}>
 					<div
 						id='basic-button'

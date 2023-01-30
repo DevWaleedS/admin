@@ -37,10 +37,10 @@ const MyAccount = ({ cancel, user, setUser, edit, setEditUser }) => {
 	return (
 		<>
 			<BackDrop onClick={cancel}></BackDrop>
-			<div className={`fixed bottom-0 left-0 bg-slate-50 z-20 otlobha_new_product ${styles.container}`} style={{ width: '1104px', height: 'calc(100% - 4rem)' }}>
+			<div className={`fixed bottom-0 left-0 bg-slate-50 z-20 otlobha_new_product ${styles.container}`} style={{ width: '1104px', maxWidth: '100%', height: 'calc(100% - 4rem)' }}>
 				<div className='flex h-full flex-col justify-between'>
 					<div
-						className='py-[48px] pr-[70px]'
+						className='md:py-[48px] py-[30px] md:pr-[70px] pr-[20px]'
 						style={{
 							height: '135px',
 							backgroundColor: '#EBEBEB',
@@ -48,77 +48,76 @@ const MyAccount = ({ cancel, user, setUser, edit, setEditUser }) => {
 					>
 						{edit ? (
 							<>
-								<h2 style={{ fontSize: '24px', color: '#011723' }} className='font-bold'>
+								<h2 style={{ color: '#011723' }} className='md:text-[24px] text-[20px] font-bold'>
 									تعديل بيانات حسابي
 								</h2>
 								<div className='flex flex-row mt-[10px]'>
-									<h2 style={{ fontSize: '18px', color: '#011723' }} className='font-semibold ml-4'>
-										{' '}
-										حسابي الادمن{' '}
+									<h2 style={{ color: '#011723' }} className='md:text-[18px] text-[12px] md:font-semibold font-normal ml-4'>
+										حسابي الادمن
 									</h2>
 
-									<h3 className='font-medium' style={{ fontSize: '18px', color: '#7C7C7C' }}>
+									<h3 className='md:text-[18px] text-[12px] md:font-medium font-normal' style={{ color: '#7C7C7C' }}>
 										/ تعديل بيانات الحساب
 									</h3>
 								</div>
 							</>
 						) : (
-							<h2 style={{ fontSize: '24px', color: '#011723' }} className='font-bold'>
+							<h2 style={{ color: '#011723' }} className='md:text-[24px] text-[20px] font-bold'>
 								حسابي الادمن
 							</h2>
 						)}
 					</div>
-					<div className={`flex-1 px-[90px] bg-[#F6F6F6] overflow-y-scroll py-[48px]  ${styles.content}`}>
-						<div className='flex justify-between'>
-							<div className='flex flex-row gap-5'>
-								<div className='h-44 w-44'>
-									<img className='h-full w-full' src={profileImage} alt='profile-img' />
+					<div className={`flex-1 md:px-[90px] px-[18px] bg-[#F6F6F6] overflow-y-scroll py-[48px]  ${styles.content}`}>
+						<div className='flex md:flex-row flex-col items-center md:items-start justify-between flex-wrap gap-6'>
+							<div className='flex md:flex-row flex-col gap-5'>
+								<div className='md:h-44 md:w-44 h-[92px] w-[92px] self-center'>
+									<img className='h-full w-full md:rounded-none rounded-lg' src={profileImage} alt='profile-img' />
 								</div>
-								<div className='flex flex-col gap-[8px]'>
+								<div className='flex flex-col md:gap-[8px] gap-4'>
 									<h2 style={{ fontSize: '20px', color: '#011723' }} className='font-medium'>
 										{user.name}
 									</h2>
-									<h2 className='flex flex-row gap-[18px] items-center' style={{ fontSize: '18px', color: '#67747B' }}>
-										<HiOutlineMail
-											style={{
-												cursor: 'pointer',
-												color: 'rgba(29, 187, 190, 1)',
-												fontSize: '1.5rem',
-											}}
-										></HiOutlineMail>
-										{user.email}
-									</h2>
-									<h2 className='flex flex-row gap-[18px] items-center' style={{ fontSize: '18px', color: '#67747B' }}>
-										<IoIosCall
-											style={{
-												cursor: 'pointer',
-												color: 'rgba(29, 187, 190, 1)',
-												fontSize: '1.5rem',
-											}}
-										></IoIosCall>
-										{user.phone}
-									</h2>
+									<div className='flex flex-col gap-[8px]'>
+										<h2 className='flex flex-row gap-[18px] items-center' style={{ fontSize: '18px', color: '#67747B' }}>
+											<HiOutlineMail
+												style={{
+													cursor: 'pointer',
+													color: 'rgba(29, 187, 190, 1)',
+													fontSize: '1.5rem',
+												}}
+											></HiOutlineMail>
+											{user.email}
+										</h2>
+										<h2 className='flex flex-row gap-[18px] items-center' style={{ fontSize: '18px', color: '#67747B' }}>
+											<IoIosCall
+												style={{
+													cursor: 'pointer',
+													color: 'rgba(29, 187, 190, 1)',
+													fontSize: '1.5rem',
+												}}
+											></IoIosCall>
+											{user.phone}
+										</h2>
+									</div>
 								</div>
 							</div>
 							<Button
 								style={{
 									fontSize: '20px',
 									color: '#EFF9FF',
-									width: '278px',
-									height: '60px',
 									backgroundColor: edit ? '#02466A' : '#5EBFF2',
 								}}
 								type={'normal'}
-								className='cursor-auto font-bold'
+								className='cursor-auto font-bold order-first md:order-last md:w-[278px] w-[162px] md:h-[60px] h-[48px]'
 							>
 								{user.role}
 							</Button>
 						</div>
 						{edit && (
-							<div className='flex mt-[52px] gap-48'>
+							<div className='flex md:flex-row flex-col mt-[52px] md:gap-48 gap-5'>
 								<div className='flex-1 flex flex-col gap-5'>
 									<div className='flex flex-col gap-2'>
-										
+
 										<Select
 											className={styles.select}
 											value={packageOption}
@@ -287,24 +286,16 @@ const MyAccount = ({ cancel, user, setUser, edit, setEditUser }) => {
 							</div>
 						)}
 					</div>
-					<div
-						className='p-8 flex justify-center gap-4'
-						style={{
-							height: '135px',
-							backgroundColor: '#EBEBEB',
-						}}
-					>
+					<div className='py-8 md:px-8 px-[18px] flex justify-center gap-4 md:h-[135px] h-[115px] md:bg-[#EBEBEB] bg-[#F6F6F6]'>
 						{!edit && (
-							<div className='flex flex-row gap-5'>
+							<div className='w-full flex flex-row justify-center gap-5'>
 								<Button
 									style={{
-										width: '128px',
-										height: '56px',
 										backgroundColor: '#02466A',
 										borderColor: `#02466A`,
 									}}
-									textStyle={{ color: '#EFF9FF', fontSize: '24px' }}
-									className='font-medium'
+									textStyle={{ color: '#EFF9FF'}}
+									className='md:w-[128px] w-full md:h-[56px] h-[50px] md:text-[24px] text-[19px] font-medium'
 									type={'normal'}
 									onClick={setEditUser}
 								>
@@ -316,8 +307,8 @@ const MyAccount = ({ cancel, user, setUser, edit, setEditUser }) => {
 										height: '56px',
 										borderColor: `#02466A`,
 									}}
-									textStyle={{ color: '#02466A', fontSize: '24px' }}
-									className='font-medium'
+									textStyle={{ color: '#02466A' }}
+									className='md:w-[128px] w-full md:h-[56px] h-[50px] md:text-[24px] text-[19px] font-medium'
 									type={'outline'}
 									onClick={cancel}
 								>
@@ -328,12 +319,11 @@ const MyAccount = ({ cancel, user, setUser, edit, setEditUser }) => {
 						{edit && (
 							<Button
 								style={{
-									width: '182px',
-									height: '56px',
 									border: '1px solid #02466A',
 									borderRadius: '8px',
 								}}
-								textStyle={{ color: '#02466A', fontSize: '24px' }}
+								className="md:w-[182px] w-full md:h-[56px] h-[50px] md:text-[24px] text-[19px] font-medium bg-transparent"
+								textStyle={{ color: '#02466A' }}
 								type={'outline'}
 								onClick={() => {
 									cancel();

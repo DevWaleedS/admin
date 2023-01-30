@@ -1,14 +1,12 @@
 import React from "react";
 import styles from "./Navbar.module.css";
-import {
-  HomeIcon,
-  SearchIcon,
-} from "../../assets/Icons/index";
+import {HomeIcon} from "../../assets/Icons/index";
 import { Link } from "react-router-dom";
 import ProfileMenu from "../ProfileMenu/ProfileMenu";
 import NotificationsMenu from "../NotificationsMenu/NotificationsMenu";
 import EmailMenu from "../EmailMenu/EmailMenu";
 import MenuIcon from '@mui/icons-material/Menu';
+import SearchInput from "../SearchInput/SearchInput";
 
 const Navbar = ({openSidebar}) => {
   return (
@@ -30,17 +28,7 @@ const Navbar = ({openSidebar}) => {
         </div>
       </div>
       <div className="hidden md:flex relative h-12 ">
-        <label className={`h-full relative ${styles.search_input}`}>
-          <input
-            placeholder=" هنا ستجد ما تبحث عنه"
-            type="text"
-            name="name"
-            style={{ backgroundColor: "rgba(29, 187, 190, 0.2)" }}
-          />
-        </label>
-        <div className={`absolute top-0 right-0 ${styles.search_container}`}>
-          <img src={SearchIcon} alt="" />
-        </div>
+        <SearchInput />
       </div>
     </nav>
   );

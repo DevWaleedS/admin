@@ -31,3 +31,13 @@
 .EmailMenu::-webkit-scrollbar-thumb:hover {
     background: #0478b7;
 }
+@media(max-width:768px){
+    .EmailMenu{
+        position: fixed;
+        left: 0;
+        top: 75px;
+        max-width: 90%;
+        height: 220px;
+        margin: auto;
+    }
+}

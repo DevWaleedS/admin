@@ -45,5 +45,7 @@
 @media (max-width:768px){
     .app-page{
         width: 100%;
+		padding: 0 !important;
+		position: absolute;
     }
 }
