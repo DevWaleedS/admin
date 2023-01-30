@@ -29,19 +29,20 @@ const NotificationsMenu = () => {
                     <div className={`${styles.notificationMenu} z-20`}>
                         {[1,2,3,4].map((_item,index)=>(
                         <div key={index} className={`${styles.notification_box} w-full flex flex-row items-center gap-4`}>
-                            <img src={logo} alt="notification-img" 
-                                style={{width:'35px', height:'35px',borderRadius:'50%'}}
+                            <img src={logo} alt="notification-img"
+                                className="md:w-[35px] w-[30px] md:h-[35px] h-[30px]"
+                                style={{borderRadius:'50%'}}
                             />
                             <div className="flex-1 flex flex-col">
                                 <Link to="/الاشعارات" onClick={()=>setOpen(!open)}>
-                                    <h6 className="text-blue-400 mb-3">متجر أمازون</h6>
+                                    <h6 className="md:text-[16px] text-[14px] text-blue-400 mb-3">متجر أمازون</h6>
                                 </Link>
                                 <div className="flex flex-row justify-between">
-                                    <p className={styles.notification_desc}>استفسار حول دعم السيرفر للالعاب</p>
-                                    <span className="text-sm text-gray-400">20 Agus 2022</span>
+                                    <p className={`${styles.notification_desc} md:text-[16px] text-[14px]`}>استفسار حول دعم السيرفر للالعاب</p>
+                                    <span className="md:text-[14px] text-[12px] text-gray-400">20 Agus 2022</span>
                                 </div>
                             </div>
-                            <CloseIcon fontSize="small" className="cursor-pointer"/>
+                            <CloseIcon className="md:text-[1.2rem] text-[0.9rem] cursor-pointer"/>
                         </div>
                         ))}
                     </div>

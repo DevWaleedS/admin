@@ -21,28 +21,28 @@ const IncreaseRateChart = () => {
   }
   return (
     <div className="bg-slate-50 flex-1 shadow-lg">
-      <div className="flex justify-between px-16 pt-4">
+      <div className="flex flex-row md:px-16 px-4 pt-4">
         <div>
-          <h2 className="text-xl font-medium">احصائيات توضح معدل الزيادة</h2>
-          <div className="flex justify-between mt-6">
-            <h2 className="flex-1">
-              متاجر فعلة{" "}
+          <h2 className="md:text-[18px] text-[14px] font-medium">احصائيات توضح معدل الزيادة</h2>
+          <div className="flex flex-row gap-2 mt-4">
+            <h2 className="flex-1 flex flex-row items-baseline gap-2 whitespace-nowrap">
+              متاجر فعلة
               <span
-                className="inline-flex mr-1 h-3 w-3 rounded-full"
+                className="inline-flex h-3 w-3 rounded-full"
                 style={{ border: "3px solid #B6BE34" }}
               ></span>
             </h2>
-            <h2 className="flex-1">
-              متاجر غير فعالة{" "}
+            <h2 className="flex-1 flex flex-row items-baseline gap-2 whitespace-nowrap">
+              متاجر غير فعالة
               <span
-                className="inline-flex mr-1 h-3 w-3 rounded-full"
+                className="inline-flex h-3 w-3 rounded-full"
                 style={{ border: "3px solid #b6be3480" }}
               ></span>
             </h2>
           </div>
         </div>
 
-        <Box sx={{ minWidth: 120 }}>
+        <Box sx={{ minWidth: 100,marginRight:'auto' }}>
           <FormControl fullWidth>
             <Select
               labelId="demo-simple-select-label"

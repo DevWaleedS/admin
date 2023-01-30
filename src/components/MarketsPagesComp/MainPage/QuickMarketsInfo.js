@@ -4,9 +4,9 @@ import QuickDetails from "./QuickDetails/QuickDetails";
 
 const QuickMarketsInfo = () => {
   return (
-    <div className="flex gap-4 mt-8">
-      <LatestMarkets></LatestMarkets>
-      <QuickDetails></QuickDetails>
+    <div className="flex md:flex-row flex-col gap-4 md:mt-8 mt-4">
+      <LatestMarkets/>
+      <QuickDetails/>
     </div>
   );
 };

@@ -4,7 +4,7 @@ import QuickMarketsInfo from "../../components/MarketsPagesComp/MainPage/QuickMa
 
 const Markets = () => {
   return (
-    <div className={`p-4 pl-36`} style={{ backgroundColor: "#fafafa" }}>
+    <div className="p-4 md:pl-36 md:bg-[#fafafa] bg-white flex flex-col">
       <MarketsStatus />
       <QuickMarketsInfo />
     </div>

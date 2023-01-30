@@ -4,7 +4,7 @@ import IncreaseRateChart from "./IncreaseRateChart/IncreaseRateChart";
 
 const MarketsStatus = () => {
   return (
-    <div className="flex gap-4 h-80 mt-8" style={{}}>
+    <div className="flex md:flex-row flex-col gap-4 h-fit md:mt-8 mt-4">
       <TotalMarkets />
       <IncreaseRateChart></IncreaseRateChart>
     </div>

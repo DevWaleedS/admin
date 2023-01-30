@@ -27,3 +27,8 @@
 .select:has(:global(.MuiSelect-iconOpen.MuiSelect-icon)) :global(h2){
   color: #1DBBBE;
 }
+@media(max-width:768px){
+  .container{
+    height: 100% !important;
+  }
+}

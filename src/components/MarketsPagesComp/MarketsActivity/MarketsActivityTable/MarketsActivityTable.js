@@ -198,8 +198,8 @@ function EnhancedTableToolbar(props) {
 							setNotificationTitle('سيتم حذف جميع الانشطة التي قمت بتحديدها');
 							setActionTitle('تم حذف الانشطة بنجاح');
 					}}>
-						<div className='fbc px-2 rounded-full' style={{ width: '134px' }}>
-							<h2 className={'font-medium'} style={{ color: '#FF3838' }}>
+						<div className='flex flex-row items-center gap-2 px-2 rounded-full' style={{ width: '134px' }}>
+							<h2 className={'font-medium md:text-[16px] text-[14px]'} style={{ color: '#FF3838' }}>
 								حذف الكل
 							</h2>
 							<IconButton>
@@ -219,7 +219,7 @@ function EnhancedTableToolbar(props) {
 			</div>
 
 			<div className='flex items-center'>
-				<h2 className='font-medium text-lg'>تحديد الكل</h2>
+				<h2 className='font-medium md:text-[18px] text-[16px]'>تحديد الكل</h2>
 				<Checkbox
 					sx={{
 						color: '#1DBBBE',
@@ -323,7 +323,7 @@ export default function EnhancedTable() {
 			<Paper sx={{ width: '100%', mb: 2 }}>
 				<EnhancedTableToolbar onClick={deleteItems} numSelected={selected.length} rowCount={data.length} onSelectAllClick={handleSelectAllClick} />
 				<TableContainer>
-					<Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={'medium'}>
+					<Table className='md:min-w-[750px] min-w-full' aria-labelledby='tableTitle' size={'medium'}>
 						<TableBody>
 							{/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.sort(getComparator(order, orderBy)).slice() */}
@@ -336,14 +336,15 @@ export default function EnhancedTable() {
 									return (
 										<TableRow
 											hover
-										
 											role='checkbox'
 											aria-checked={isItemSelected}
 											tabIndex={-1}
 											key={row.id}
 											selected={isItemSelected}
+											className='flex flex-row justify-between'
+											style={{ borderBottom:'1px solid #e0e0e0' }}
 										>
-											<TableCell component='th' id={labelId} scope='row'>
+											<TableCell id={labelId} className="flex flex-row items-center border-none">
 												<div className='flex items-center gap-2'>
 													<TrashICon
 														onClick={() => {
@@ -376,14 +377,10 @@ export default function EnhancedTable() {
 													)}
 												</div>
 											</TableCell>
-
-											{/* <TableCell align="right"></TableCell> */}
-
-											<TableCell padding='none' align={'right'}>
-												<div className='flex items-center justify-end '>
+											<TableCell className="border-none">
+												<div className='flex items-center'>
 													<p className='text-[#ADB5B9] text-base font-normal mr-3'>{row.count}</p>
 													<h2 className='font-medium text-lg'>{row.name}</h2>
-
 													<Checkbox
 														sx={{
 															color: '#1DBBBE',

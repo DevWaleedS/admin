@@ -1,28 +1,43 @@
 .content::-webkit-scrollbar {
-    display: none;
-  }
-  
+  display: none;
+}
 
-.back_drop{
+.back_drop {
   opacity: 0.5;
 }
-.icon{
+
+.icon {
   margin-left: 1.2rem;
 }
-.icon path{
+
+.icon path {
   fill: #02466A;
 }
-.password{
+
+.password {
   cursor: pointer;
 }
-.password path{
+
+.password path {
   fill: #7C7C7C;
 }
-.select :global(.MuiSelect-icon){
+.select{
+  height: 100% !important;
+}
+.select :global(.MuiSelect-icon) {
   top: 15px;
   left: 7px;
   right: unset;
 }
-.select :global(.MuiSelect-icon path){
+
+.select :global(.MuiSelect-icon path) {
   fill: #242424;
+}
+@media(max-width:768px){
+  .container{
+    height: 100% !important;
+  }
+  .select :global(.MuiSelect-icon) {
+    top: 10px;
+  }
 }

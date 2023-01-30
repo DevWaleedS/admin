@@ -29,28 +29,26 @@ const EmailMenu = () => {
                     {[1,2,3,4].map((_item,index)=>(
                     <div key={index} className={`${styles.email_box} w-full flex flex-row items-center justify-between gap-4`}>
                         <div className="flex flex-row items-center justify-between gap-4">
-                            <div 
+                            <div
                                 style={{ 
-                                    width: '35px',
-                                    height: '35px',
                                     borderRadius: '50%'
                                 }} 
-                                className="flex flex-col items-center justify-center bg-purple-500 text-white font-medium">
+                                className="md:w-[35px] w-[30px] md:h-[35px] h-[30px] flex flex-col items-center justify-center bg-purple-500 text-white font-medium">
                                 A
                             </div>
                             <Link to="/البريد" onClick={()=>setOpen(!open)}>
                                 <div className="flex flex-col">
-                                    <h6 className="text-lg font-medium text-black">Ahmed Abdulaziz</h6>
-                                    <p className="font-normal text-black">تحديث اشتراك الباقة</p>
+                                    <h6 className="md:text-[18px] text-[14px] font-medium text-black">Ahmed Abdulaziz</h6>
+                                    <p className="md:text-[16px] text-[12px] font-normal text-black">تحديث اشتراك الباقة</p>
                                 </div>
                             </Link>
                         </div>
                         <div className="flex flex-row items-center justify-between gap-4">
                             <div className="flex-1 flex flex-col">
-                                <h6 className="font-light text-gray-400">اليوم</h6>
-                                <span className=" font-light text-gray-400">08:20 ص</span>
+                                <h6 className="md:text-[16px] text-[12px] font-light text-gray-400">اليوم</h6>
+                                <span className="md:text-[16px] text-[12px] font-light text-gray-400">08:20 ص</span>
                             </div>
-                            <StarBorderIcon className="cursor-pointer text-gray-500"/>
+                            <StarBorderIcon className="cursor-pointer text-gray-500 md:text-[24px] text-[18px]"/>
                         </div>
                     </div>
                     ))}

@@ -36,14 +36,14 @@ const ProductDetails = ({ cancel, details }) => {
     <>
       <BackDrop />
       <div
-        className="fixed trader_alert   flex flex-col top-[55%] translate-x-2/4 -translate-y-2/4 right-2/4 z-40 rounded-2xl overflow-hidden"
-        style={{ width: "51.25rem", maxHeight: "600px" }}
+        className="fixed trader_alert   flex flex-col top-[55%] md:max-h-[600px] max-h-[550px] translate-x-2/4 -translate-y-2/4 right-2/4 z-40 rounded-2xl overflow-hidden"
+        style={{ width: "51.25rem",maxWidth:'90%', }}
       >
         <div
           className="h-16 w-full flex items-center justify-between py-4 px-4"
           style={{ backgroundColor: "#1DBBBE", }}
         >
-          <h2 style={{ fontSize:'22px',color:'#ECFEFF' }} className="font-medium text-center flex-1">{details.product}</h2>
+          <h2 style={{ color:'#ECFEFF' }} className="md:text-[22px] text-[18px] font-medium text-center flex-1">{details.product}</h2>
           <IoMdCloseCircleOutline
             width="20px"
             height="20px"
@@ -53,12 +53,12 @@ const ProductDetails = ({ cancel, details }) => {
             onClick={cancel}
           ></IoMdCloseCircleOutline>
         </div>
-        <div className="flex-1 bg-white px-[98px] pt-[72px] pb-[46px] overflow-y-auto">
-            <div className="flex flex-row gap-[18px]">
+        <div className="flex-1 bg-white md:px-[98px] px-4 md:pt-[72px] pt-[30px] pb-[46px] overflow-y-auto">
+            <div className="flex md:flex-row flex-col items-center gap-[18px]">
               <div className="flex flex-col items-center justify-center" style={{ width:'180px',height:'226px',border:'1px solid #EEEEEE' }}>
                   <img className="w-full" src={Cam1} alt="main-img" />
               </div>
-              <div className="flex flex-col gap-4">
+              <div className="flex md:flex-col flex-row gap-4">
                   <div className="flex flex-col items-center justify-center" style={{ width:'80px',height:'65px',border:'1px solid #EEEEEE' }}>
                     <img className="w-full" src={Cam2} alt="small-img" />
                   </div>
@@ -71,20 +71,19 @@ const ProductDetails = ({ cancel, details }) => {
               </div>
             </div>
             <div className="flex flex-col gap-[10px] mt-[38px]">
-                <h5 style={{ fontSize:'20px',color:'#011723',fontWeight:'500' }}>وصف المنتج</h5>
+                <h5 className="md:text-[20px] text-[18px]" style={{ color:'#011723',fontWeight:'500' }}>وصف المنتج</h5>
                 <div style={{ padding:'20px',border:'1px solid #EEEEEE' }}>
-                  <p style={{ fontSize:'18px',color:'#011723' }}>
+                  <p className="md:text-[18px] text-[16px]" style={{ color:'#011723' }}>
                       هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف التى يولدها التطبيق
                   </p>
                 </div>
             </div>
             <div className="flex flex-col gap-[17px] mt-[38px]">
-                <span className="flex flex-col items-center justify-center" style={{ 
+                <span className="md:h-[50px] h-[38px] flex flex-col items-center justify-center" style={{ 
                   fontSize:'20px',
                   fontWeight:'500',
                   color:'#011723',
                   width:'180px',
-                  height: '50px',
                   padding:'11px 45px', 
                   backgroundColor:'#B6BE341A',
                   borderRadius:'25px'
@@ -92,24 +91,22 @@ const ProductDetails = ({ cancel, details }) => {
                     الكترونيات
                  </span>
                 <div className="flex flex-row items-center gap-4">
-                    <span className="flex flex-col items-center justify-center" style={{ 
+                    <span className="md:h-[50px] h-[38px] flex flex-col items-center justify-center" style={{ 
                       fontSize:'20px',
                       fontWeight:'500',
                       color:'#011723',
                       width:'115px',
-                      height: '50px',
                       padding:'11px 30px', 
                       backgroundColor:'#1DBBBE1A',
                       borderRadius:'25px'
                     }}>
                         كاميرا
                     </span>
-                    <span className="flex flex-col items-center justify-center" style={{ 
+                    <span className="md:h-[50px] h-[38px] flex flex-col items-center justify-center" style={{ 
                       fontSize:'20px',
                       fontWeight:'500',
                       color:'#011723',
                       width:'115px',
-                      height: '50px',
                       padding:'11px 30px', 
                       backgroundColor:'#1DBBBE1A',
                       borderRadius:'25px'

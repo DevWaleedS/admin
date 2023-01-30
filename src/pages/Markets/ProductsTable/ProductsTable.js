@@ -13,7 +13,7 @@ const ProductsTable = () => {
   const [traderPackageDetails, setTraderPackageDetails] = useState([]);
 
   return (
-    <div className={`pr-4 pt-8 pl-4`} style={{ backgroundColor: "#fafafa" }}>
+    <div className="pr-4 md:pt-8 pl-4 pt-0 md:bg-[#fafafa] bg-[#ffffff]">
       <div className="flex items-center justify-between">
         <PageNavigate currentPage={"المنتجات"} parentPage={"المتاجر"} />
       </div>
@@ -33,7 +33,7 @@ const ProductsTable = () => {
               traderPackageDetails={traderPackageDetails}
               />
         )}
-      <div className="mt-8" dir="ltr">
+      <div className="md:mt-8 mt-4" dir="ltr">
         <ProductsTableSec 
           openProductDetails={(row) => {
             setOpenProductDetails(true);

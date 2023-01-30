@@ -38,3 +38,16 @@
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+@media(max-width:768px){
+    .notificationMenu{
+        position: fixed;
+        left: 0;
+        top: 75px;
+        max-width: 90%;
+        height: 280px;
+        margin: auto;
+    }
+    .notification_desc{
+        width: 120px;
+    }
+}

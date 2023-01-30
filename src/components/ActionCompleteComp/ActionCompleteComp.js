@@ -7,17 +7,13 @@ import { ReactComponent as CheckMark } from "../../assets/Icons/icon-36-actions-
 import { ReactComponent as Rejected } from "../../assets/Icons/icon-24-actions- fuals.svg";
 import Box from "@mui/material/Box";
 
+
 const BackDrop = ({ onClick }) => {
   return (
-    <div
-      className="fixed back_drop  bottom-0 left-0 w-full  opacity-50 z-50"
-      style={{
-        height: "calc( 100vh - 80px )",
-        backgroundColor: "rgba(246, 246, 246, 0.75)",
-      }}
-    ></div>
+    <div className={`${styles.backdrop} fixed back_drop  bottom-0 left-0 w-full  md:opacity-50 opacity-70 z-50 md:bg-[#f6f6f6bf] bg-[#242424]`}></div>
   );
 };
+
 const ActionComplete = ({ cancelEarly }) => {
   const contextStore = useContext(Context);
   const { title, actionWarning, setEndActionTitle } = contextStore;
@@ -27,7 +23,7 @@ const ActionComplete = ({ cancelEarly }) => {
       <BackDrop />
       <div
         className="fixed shadow-lg p-6 fcc back_drop -translate-x-1/2 rounded  left-1/2   bg-slate-50  z-50"
-        style={{ height: "170px", width: "556px", top: "100px" }}
+        style={{ height: "170px", width: "556px",maxWidth:'90%', top: "100px" }}
       >
         <Box
           onClick={() => {
@@ -43,7 +39,7 @@ const ActionComplete = ({ cancelEarly }) => {
             backgroundColor: actionWarning ? "rgba(255, 56, 56, 1)" : "#3AE374",
           }}
         ></div>
-        <div className="flex gap-8 items-center">
+        <div className="flex md:gap-8 gap-5 items-center">
           <Box
             sx={{
               "& svg": {
@@ -55,7 +51,7 @@ const ActionComplete = ({ cancelEarly }) => {
             {actionWarning ? <Rejected></Rejected> : <CheckMark></CheckMark>}
           </Box>
 
-          <h2 className="font-medium text-2xl" style={{ color: "#011723" }}>
+          <h2 className="font-medium md:text-[24px] text-[18px] whitespace-nowrap" style={{ color: "#011723" }}>
             {title}
           </h2>
         </div>

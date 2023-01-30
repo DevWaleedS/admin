@@ -57,10 +57,10 @@ const ProfileMenu = () => {
                             closeMenu={() => {
                             setOpen(false);}}>
                         </BackDrop>
-                        <div style={{ backgroundColor:'#A4A1FB' }} className="flex flex-col gap-4 text-white w-full py-3 absolute top-14 left-0 z-20">
+                        <div className="md:bg-[#A4A1FB] bg-[#C0E9FF] flex flex-col gap-4 md:text-[#F7FCFF] text-[#02466A] w-full py-3 md:absolute fixed md:top-14 top-[4.7rem] left-0 z-20">
                             <div className="flex flex-row gap-4 px-6">
                                 <img src={MyAccountIcon} alt='my-account-icon' />
-                                <span className="whitespace-nowrap cursor-pointer" onClick={()=>setShowMyProfile(true)}>حسابي</span>
+                                <span className="md:text[16px] text-[18px] md:text-[#F7FCFF] text-[#02466A] whitespace-nowrap cursor-pointer" onClick={()=>setShowMyProfile(true)}>حسابي</span>
                                 {showMyProfile &&
                                 (
                                     <MyAccount 

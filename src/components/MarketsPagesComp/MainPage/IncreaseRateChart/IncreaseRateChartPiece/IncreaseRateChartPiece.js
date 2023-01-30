@@ -85,7 +85,7 @@ const data = [
 
 const IncreaseRateChartPiece = () => {
   return (
-    <div style={{ width: "100%", height: 200, marginTop: "2.5rem" }}>
+    <div className="md:mt-[2.5rem] mt-1" style={{ width: "100%", height: 200 }}>
       <ResponsiveContainer>
         <BarChart
           data={data}
