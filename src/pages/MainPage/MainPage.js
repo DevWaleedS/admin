@@ -8,7 +8,7 @@ import ProductsInfo from "../../components/MainPageComp/ProductsInfo/ProductsInf
 
 const MainPage = () => {
   return (
-    <div className={`${styles.main_page} md:p-4 py-2 px-4`}>
+    <div className={`${styles.main_page} md:p-4 pb-4 px-4`}>
       <QuickDetails />
       <StoreGraph />
       <OrdersGraph />

@@ -7,7 +7,7 @@ const CurrentSubscriptions = () => {
   const [traderAlert, setTraderAlert] = useState(false);
   const [traderPackageDetails, setTraderPackageDetails] = useState([]);
   return (
-    <div className={`p-4 pl-36 text-lg font-medium`} style={{ backgroundColor: "#fafafa" }}>
+    <div className="p-4 md:pl-36 text-lg font-medium" style={{ backgroundColor: "#fafafa" }}>
       <PageNavigate
         currentPage={"الإشتراكات الحالية"}
         nestedPage={true}
@@ -21,7 +21,7 @@ const CurrentSubscriptions = () => {
           traderPackageDetails={traderPackageDetails}
         />
       )}
-      <div dir="ltr" className="mt-28">
+      <div dir="ltr" className="md:mt-28 mt-8">
         <CurrentSubscribersTable
           openTraderAlert={(row) => {
             setTraderAlert(true);

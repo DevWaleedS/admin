@@ -48,50 +48,50 @@ const NewProduct = ({ cancel, data, setShowAddSubVariety }) => {
     <>
       <BackDrop onClick={cancel}></BackDrop>
       <div
-        className={`fixed bottom-0 left-0 bg-slate-50 z-20 otlobha_new_product ${styles.container}`}
-        style={{ width: "1104px", height: "calc(100% - 4rem)" }}
+        className={`fixed bottom-0 left-0 bg-slate-50 z-30 otlobha_new_product ${styles.container}`}
+        style={{ width: "1104px",maxWidth:"100%", height: "calc(100% - 4rem)" }}
       >
         <div className="flex h-full flex-col justify-between">
           {
             data ?
               (
                 <div
-                  className="flex flex-col p-[30px] gap-[10px]"
+                  className="flex flex-col md:p-[30px] px-5 py-7 gap-[10px]"
                   style={{
                     height: "135px",
                     backgroundColor: "rgba(235, 235, 235, 1)",
                   }}
                 >
-                  <h2 style={{ fontSize: '24px', color: '#011723' }} className="font-bold">
+                  <h2 style={{ color: '#011723' }} className="md:text-[24px] text-[20px] font-bold">
                     تعديل التصنيف - السوق
                   </h2>
-                  <p style={{ fontSize: '20px', color: '#011723' }} className="font-normal">قم بتعديل بيانات التصنيف</p>
+                  <p style={{ color: '#011723' }} className="md:text-[20px] text-[16px] font-normal">قم بتعديل بيانات التصنيف</p>
                 </div>
               ) :
               (
                 <div
-                  className="flex flex-col p-[30px] gap-[10px]"
+                  className="flex flex-col md:p-[30px] px-5 py-7 gap-[10px]"
                   style={{
                     height: "135px",
                     backgroundColor: "rgba(235, 235, 235, 1)",
                   }}
                 >
-                  <h2 style={{ fontSize: '24px', color: '#011723' }} className="font-bold">
+                  <h2 style={{ color: '#011723' }} className="md:text-[24px] text-[20px] font-bold">
                     اضافة تصنيف - السوق
                   </h2>
-                  <p style={{ fontSize: '20px', color: '#011723' }} className="font-normal">أضف تصنيف جديد للتصنيفات الرئيسية</p>
+                  <p style={{ color: '#011723' }} className="md:text-[20px] text-[16px] font-normal">أضف تصنيف جديد للتصنيفات الرئيسية</p>
                 </div>
               )
           }
           <div
             style={{ backgroundColor: '#F6F6F6' }}
-            className={`flex-1 flex flex-col gap-8 overflow-y-scroll py-[40px] pr-[30px] pl-40 ${styles.content}`}
+            className={`flex-1 flex flex-col gap-8 overflow-y-scroll md:py-[40px] md:pr-[30px] md:pl-40 p-5 ${styles.content}`}
           >
-            <div className="flex flex-row items-start">
-              <h2 style={{ fontSize: '20px', color: '#011723' }} className="w-96 font-medium whitespace-nowrap">
+            <div className="flex md:flex-row flex-col items-start gap-y-[10px]">
+              <h2 style={{ color: '#011723' }} className="md:text-[20px] text-[18px] w-96 max-w-full font-medium whitespace-nowrap">
                 رمز التصنيف
               </h2>
-              <div className="flex flex-col gap-2">
+              <div className="md:w-auto w-full flex flex-col gap-2">
                 <ImageUploading
                   value={images}
                   onChange={onChange}
@@ -105,7 +105,7 @@ const NewProduct = ({ cancel, data, setShowAddSubVariety }) => {
                   }) => (
                     // write your building UI
                     <div
-                      className="upload__image-wrapper relative overflow-hidden"
+                      className="md:w-[555px] w-full md:h-[170px] h-[100px] upload__image-wrapper relative overflow-hidden"
                       style={{
                         width: "555px",
                         height: "170px",
@@ -146,15 +146,13 @@ const NewProduct = ({ cancel, data, setShowAddSubVariety }) => {
                 {
                   data &&
                   (
-                    <div className="flex flex-col relative"
-                      style={{ width: '85px', height: '80' }}
-                    >
+                    <div className="md:w-[85px] w-[55px] md:h-[80px] h-[50px]flex flex-col relative">
                       <img
                         className="w-full h-full"
                         src={Mcdo}
                         alt="img"
                       />
-                      <DeleteIconCircle className="absolute top-1 left-1 cursor-pointer" />
+                      <DeleteIconCircle className="md:w-[24px] w-[20px] absolute top-1 left-1 cursor-pointer" />
                     </div>
 
                   )
@@ -162,7 +160,7 @@ const NewProduct = ({ cancel, data, setShowAddSubVariety }) => {
               </div>
 
             </div>
-            <div className="flex flex-row items-center">
+            <div className="flex md:flex-row flex-col items-center gap-y-[10px]">
               <div className="flex flex-row items-center gap-3">
                 <AiFillStar
                   style={{
@@ -171,7 +169,7 @@ const NewProduct = ({ cancel, data, setShowAddSubVariety }) => {
                     color: "red",
                   }}
                 ></AiFillStar>
-                <label style={{ color: '#011723', fontSize: '20px' }} className="w-80 font-medium whitespace-nowrap">
+                <label style={{ color: '#011723' }} className="md:text-[20px] text-[18px] w-80 max-w-full font-medium whitespace-nowrap">
                   رقم التصنيف
                 </label>
               </div>
@@ -183,7 +181,7 @@ const NewProduct = ({ cancel, data, setShowAddSubVariety }) => {
                 name="name"
               />
             </div>
-            <div className="flex flex-row items-center">
+            <div className="flex md:flex-row flex-col items-center gap-y-[10px]">
               <div className="flex flex-row items-center gap-3">
                 <AiFillStar
                   style={{
@@ -192,7 +190,7 @@ const NewProduct = ({ cancel, data, setShowAddSubVariety }) => {
                     color: "red",
                   }}
                 ></AiFillStar>
-                <label style={{ color: '#011723', fontSize: '20px' }} className="w-80 font-medium whitespace-nowrap">
+                <label style={{ color: '#011723' }} className="md:text-[20px] text-[18px] w-80 max-w-full font-medium whitespace-nowrap">
                   التصنيف الرئيسي
                 </label>
               </div>
@@ -207,9 +205,9 @@ const NewProduct = ({ cancel, data, setShowAddSubVariety }) => {
             {
               data &&
               (
-                <div className="flex flex-row items-center">
-                  <div className="flex flex-row items-center mr-10">
-                    <label style={{ color: '#1DBBBE', fontSize: '20px' }} className="w-80 font-medium whitespace-nowrap">
+                <div className="flex md:flex-row flex-col md:items-center items-start gap-y-[10px]">
+                  <div className="flex flex-row items-center md:mr-10">
+                    <label style={{ color: '#1DBBBE' }} className="md:text-[20px] text-[18px] w-80 max-w-full font-medium whitespace-nowrap">
                       فرعي رقم 1
                     </label>
                   </div>
@@ -236,13 +234,7 @@ const NewProduct = ({ cancel, data, setShowAddSubVariety }) => {
               </div>
             </div>
           </div>
-          <div
-            className="p-8 flex justify-center gap-4"
-            style={{
-              height: "135px",
-              backgroundColor: "rgba(235, 235, 235, 1)",
-            }}
-          >
+          <div className="md:p-8 p-5 md:h-[135px] md-[110px] md:bg-[#ebebeb] bg-[#F6F6F6] flex justify-center gap-4">
             {
               data ?
                 (

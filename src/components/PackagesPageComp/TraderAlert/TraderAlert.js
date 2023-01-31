@@ -47,16 +47,16 @@ const TraderAlert = ({ cancel, traderPackageDetails }) => {
 	return (
 		<>
 			<BackDrop onClick={cancel} />
-			<div className='fixed trader_alert   flex flex-col top-1/2 translate-x-2/4 -translate-y-2/4 right-2/4 z-20 rounded-lg overflow-hidden' style={{ width: '51.25rem', maxHeight: '77.5%' }}>
+			<div className='fixed trader_alert   flex flex-col md:top-1/2 top-[55%] translate-x-2/4 -translate-y-2/4 right-2/4 z-20 rounded-lg md:overflow-hidden overflow-auto' style={{ width: '51.25rem',maxWidth:'90%', maxHeight: '77.5%' }}>
 				<div className='h-16 w-full flex items-center justify-center py-4 px-4 trader_alert' style={{ backgroundColor: '#1DBBBE' }}>
-					<h2 className='text-slate-50 text-center text-[22px] font-medium'>ارسال تنبيه للتاجر </h2>
+					<h2 className='text-slate-50 text-center md:text-[22px] text-[18px] font-medium'>ارسال تنبيه للتاجر </h2>
 				</div>
-				<div className='flex-1 p-4 pt-10 pb-8' style={{ backgroundColor: 'rgb(246,246,246)' }}>
-					<div className='flex gap-24'>
+				<div className='flex-1 p-4 md:pt-10 pb-8' style={{ backgroundColor: 'rgb(246,246,246)' }}>
+					<div className='flex md:flex-row flex-col md:gap-24 gap-[18px]'>
 						<div>
-							<h2 className='font-normal text-lg h-8'>نوع التنبيه</h2>
+							<h2 className='font-normal md:text-[18px] text-[16px] h-8'>نوع التنبيه</h2>
 							<Select
-								className='text-[#1DBBBE]'
+								className='text-[#1DBBBE] md:w-[11rem] w-full'
 								IconComponent={IoIosArrowDown}
 								value={packageOption}
 								onChange={handleCategory}
@@ -70,7 +70,6 @@ const TraderAlert = ({ cancel, traderPackageDetails }) => {
 								}}
 								sx={{
 									height: '3rem',
-									width: '11rem',
 									backgroundColor: '#fff',
 									border: '1px solid rgba(29, 187, 190, 1)',
 									'& .MuiOutlinedInput-notchedOutline': {
@@ -101,7 +100,7 @@ const TraderAlert = ({ cancel, traderPackageDetails }) => {
 								})}
 							</Select>
 						</div>
-						<div>
+						<div className='flex flex-col'>
 							<FormControl>
 								<RadioGroup
 									row
@@ -150,15 +149,13 @@ const TraderAlert = ({ cancel, traderPackageDetails }) => {
 										}}
 									/>
 								</RadioGroup>
-
 								<LocalizationProvider dateAdapter={AdapterDayjs}>
-									<Stack spacing={3} sx={{ flexDirection: 'row' }}>
+									<Stack spacing={3} sx={{ flexDirection: 'row',maxWidth:'100%' }}>
 										<div className='w-20 p-2 flex justify-center items-center rounded-r-md' style={{ backgroundColor: '#1DBBBE' }}>
 											<img src={DataIcon} alt='' />
 										</div>
-
 										<DateRange.RangePicker
-											className='main_page_date_picker rounded-none  rounded-l-lg   mt-0 w-80'
+											className='main_page_date_picker rounded-none rounded-l-lg mt-0 md:w-80 w-full'
 											style={{
 												backgroundColor: '#fff',
 												border: '1px solid #1DBBBE',
@@ -178,7 +175,7 @@ const TraderAlert = ({ cancel, traderPackageDetails }) => {
 							</FormControl>
 						</div>
 					</div>
-					<div className='mt-20 rounded-lg'>
+					<div className='md:mt-20 mt-4 rounded-lg'>
 						<Editor
 							toolbarHidden={false}
 							editorState={description.editorState}
@@ -201,10 +198,10 @@ const TraderAlert = ({ cancel, traderPackageDetails }) => {
 						<h2>تواصل مع الدعم الفني للحصول على كود خصم لتجديد اشتراكك</h2>
 					</div>
 					<div className='flex gap-4 justify-center'>
-						<Button onClick={cancel} type={'normal'} className={'text-center mt-12 w-[163px] h-16 text-xl font-normal'} style={{ backgroundColor: '#02466A' }} svg={<FiSend color={'#fff'} />}>
+						<Button onClick={cancel} type={'normal'} className={'text-center mt-12 w-[163px] md:h-16 h-[45px] text-xl font-normal'} style={{ backgroundColor: '#02466A' }} svg={<FiSend color={'#fff'} />}>
 							ارسال
 						</Button>
-						<Button type={'outline'} className={'text-center  mt-12 w-[163px] h-16 text-xl font-normal'} style={{ borderColor: '#02466A' }} textStyle={{ color: '#02466A' }} onClick={cancel}>
+						<Button type={'outline'} className={'text-center  mt-12 w-[163px] md:h-16 h-[45px] text-xl font-normal'} style={{ borderColor: '#02466A' }} textStyle={{ color: '#02466A' }} onClick={cancel}>
 							الغاء
 						</Button>
 					</div>

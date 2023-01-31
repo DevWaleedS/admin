@@ -24,11 +24,11 @@ const rows = [createData(true, true, true, true, false, false, false), createDat
 const Plans = ({ yearlyPlan, editPackage, editPackageTemplate }) => {
 	return (
 		<div>
-			<div className='flex gap-4 items-center'>
+			<div className='flex md:flex-row flex-col gap-4 items-center'>
 				{rows.map((row, idx) => {
 					const proPackage = idx === 1 ? styles.pro : styles.normal;
 					return (
-						<div key={idx} className={`flex-1 p-5 shadow-xl rounded-lg ${proPackage}`}>
+						<div key={idx} className={`flex-1 md:w-[376px] w-full p-5 rounded-lg ${proPackage}`}>
 							<div className='py-6 '>
 								<h2 className='flex items-center text-2xl font-medium gap-4 mb-6 justify-center'>
 									{title[idx]}

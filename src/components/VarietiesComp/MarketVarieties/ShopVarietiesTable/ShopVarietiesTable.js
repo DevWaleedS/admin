@@ -185,8 +185,8 @@ function EnhancedTableHead(props) {
             sortDirection={orderBy === headCell.id ? order : false}
             sx={{
               width: headCell.width ? headCell.width : "auto",
-            
               color: "#011723",
+              whiteSpace:"nowrap"
             }}
           >
             {headCell.sort && (
@@ -232,6 +232,7 @@ function EnhancedTableToolbar(props) {
   const { setNotificationTitle,setActionTitle } = NotificationStore;
  	return (
 			<Toolbar
+        className="md:gap-8 gap-4"
 				sx={{
 					pl: { sm: 2 },
 					pr: { xs: 1, sm: 1 },
@@ -239,7 +240,6 @@ function EnhancedTableToolbar(props) {
 						bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
 					}),
 					display: 'flex',
-					gap: '2rem',
 					justifyContent: 'flex-end',
 				}}
 			>
@@ -252,7 +252,7 @@ function EnhancedTableToolbar(props) {
                     setActionTitle('تم تعطيل التصنيفات بنجاح');
                   }} 
             >
-							<h2 className={'font-medium'} style={{ color: '#FF9F1A' }}>
+							<h2 className={'font-medium md:text-[18px] text-[16px] whitespace-nowrap'} style={{ color: '#FF9F1A' }}>
 								تعطيل
 							</h2>
 							<Box
@@ -284,7 +284,7 @@ function EnhancedTableToolbar(props) {
 						}} 
             >
 							<div className='fcc gap-2 px-4 rounded-full' style={{ width: '114px', backgroundColor: '#FF38381A' }}>
-								<h2 className={'font-medium'} style={{ color: '#FF3838' }}>
+								<h2 className={'font-medium md:text-[18px] text-[16px] whitespace-nowrap'} style={{ color: '#FF3838' }}>
 									حذف
 								</h2>
 								<IconButton>
@@ -302,7 +302,7 @@ function EnhancedTableToolbar(props) {
 				</div>
 
 				<div className='flex items-center'>
-					<h2 className='font-medium'>تحديد الكل</h2>
+					<h2 className='font-medium md:text-[18px] text-[16px] whitespace-nowrap'>تحديد الكل</h2>
 					<Checkbox
 						checkedIcon={<CheckedSquare />}
 						sx={{
@@ -528,7 +528,7 @@ export default function EnhancedTable({ editSection }) {
 																							return (
 																								<div
 																									key={idx}
-																									className='rounded-full text-[14px] font-medium flex py-1 items-center justify-center px-2'
+																									className='rounded-full text-[14px] font-medium flex py-1 items-center justify-center px-2 whitespace-nowrap'
 																									style={{
 																										backgroundColor: '#EBEBEB',
 																										color: '#011723',
@@ -606,7 +606,7 @@ export default function EnhancedTable({ editSection }) {
         </TableContainer>
       </Paper>
       <div
-        className="flex items-center justify-between pt-6 px-4 pb-4 "
+        className="flex md:flex-row flex-col items-center justify-between gap-4 pt-8 px-4 pb-4 "
         style={{ backgroundColor: "#fff" }}
       >
         <div

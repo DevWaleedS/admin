@@ -50,10 +50,10 @@ const PackageTemplate = ({ cancel }) => {
       <div
         className="w-full absolute flex flex-col top-8 translate-x-2/4  right-2/4 z-20 rounded-lg overflow-hidden"
       >
-        <div className="flex-1 flex flex-row items-center justify-center flex-wrap px-10 py-12 gap-6">
+        <div className="flex-1 flex flex-row items-center justify-center flex-wrap md:px-10 md:py-12 p-4 md:gap-6 gap-4">
           {template.map((item,index)=>(
-            <div key={index} className="rounded-md flex flex-col"
-                  style={{ width:'250px', height:'250px',backgroundColor:'#ECFEFF',border:'1px solid #B4EDEE' }}
+            <div key={index} className="md:w-[250px] w-[162px] md:h-[250px] h-[150px] rounded-md flex flex-col"
+                  style={{ backgroundColor:'#ECFEFF',border:'1px solid #B4EDEE' }}
             >
                 <div className="w-full flex-1 flex flex-col items-center justify-center">
                     <h6 style={{ color:'#011723',fontSize:'18px' }} className="font-medium">{item.name}</h6>
@@ -68,13 +68,13 @@ const PackageTemplate = ({ cancel }) => {
                 </div>
             </div>
           ))}
-          <div className="w-full flex flex-row items-center px-64">
+          <div className="md:w-[572px] w-[338px] flex  flex-row items-center">
             <Button
               onClick={() => {
                 cancel();
               }}
               type={"normal"}
-              style={{ backgroundColor: '#1DBBBE', color: '#F7FCFF' }}
+              style={{ backgroundColor: '#1DBBBE', color: '#F7FCFF'}}
               className={"w-full text-center py-4 rounded-lg"}
             >
                 <h2 className="font-medium">اعتماد</h2>

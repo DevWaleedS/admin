@@ -12,63 +12,59 @@ import { AiOutlinePlus } from "react-icons/ai";
 const ShopVarieties = () => {
   const [showAddVarietyPage, setShowAddVarietyPage] = useState(false);
   const [editVariety, setEditVariety] = useState(null);
-  const [showAddSubVariety,setShowAddSubVariety] =useState(false);
+  const [showAddSubVariety, setShowAddSubVariety] = useState(false);
 
   return (
-    <div className={`px-4 pt-8 mt-5`} style={{ backgroundColor: "#F6F6F6" }}>
+    <div className="md:px-4 md:pt-8 md:pl-36 p-4 pt-0 md:mt-5 mt-0 md:bg-[#F6F6F6] bg-[#FFFFFF]">
       <div
         className="p-3 rounded font-medium"
         style={{ color: "#EFF9FF", backgroundColor: "#237EAE" }}
       >
         هذه الواجهة خاصة بإعدادات الصفحة الرئيسية للموقع الإلكتروني
       </div>
-      <div className="ml-36">
-        <div className="mt-6 flex items-center justify-between">
-          <PageNavigate currentPage={"تصنيفات السوق"} />
-          <div className="flex gap-4">
-            <Button
-              className={"flex justify-center items-center"}
-              type={"normal"}
-              svg={<AiOutlinePlus color="#fff" />}
-              color={"white"}
-              style={{ backgroundColor: "#B6BE34",width:'200px',height:'57px' }}
-              textStyle={{ color: "#EFF9FF",fontSize:'21px' }}
-              onClick={() => {
-                setShowAddVarietyPage(true);
-                setEditVariety(null);
-              }}
-            >
-              اضف تصنيف
-            </Button>
-          </div>
-        </div>
-        <FilteringOptions></FilteringOptions>
-
-        {showAddVarietyPage && (
-          <AddVariety
-            cancel={() => {
-              setShowAddVarietyPage(false);
-            }}
-            data={editVariety}
-            setShowAddSubVariety={setShowAddSubVariety}
-          ></AddVariety>
-        )}
-        {
-          showAddSubVariety &&
-          <AddSubVariety 
-              cancel={() => {
-                setShowAddSubVariety(false);
-              }}
-          />
-        }
-        <div dir="ltr" className={"mt-10"}>
-          <ShopVarietiesTable
-            editSection={(item) => {
-              setEditVariety(item);
+      <div className="md:mt-6 mt-4 flex md:flex-row flex-col md:items-center items-start justify-between gap-4">
+        <PageNavigate currentPage={"تصنيفات السوق"} />
+          <Button
+            className="md:w-[200px] w-full md:h-[56px] h-[45px] md:text-[20px] text-[18px] flex justify-center items-center"
+            type={"normal"}
+            svg={<AiOutlinePlus color="#fff" />}
+            color={"white"}
+            style={{ backgroundColor: "#B6BE34", width: '200px', height: '57px' }}
+            textStyle={{ color: "#EFF9FF", fontSize: '21px' }}
+            onClick={() => {
               setShowAddVarietyPage(true);
+              setEditVariety(null);
             }}
-          ></ShopVarietiesTable>
-        </div>
+          >
+            اضف تصنيف
+          </Button>
+      </div>
+      <FilteringOptions></FilteringOptions>
+
+      {showAddVarietyPage && (
+        <AddVariety
+          cancel={() => {
+            setShowAddVarietyPage(false);
+          }}
+          data={editVariety}
+          setShowAddSubVariety={setShowAddSubVariety}
+        ></AddVariety>
+      )}
+      {
+        showAddSubVariety &&
+        <AddSubVariety
+          cancel={() => {
+            setShowAddSubVariety(false);
+          }}
+        />
+      }
+      <div dir="ltr" className="md:mt-10 mt-6">
+        <ShopVarietiesTable
+          editSection={(item) => {
+            setEditVariety(item);
+            setShowAddVarietyPage(true);
+          }}
+        ></ShopVarietiesTable>
       </div>
     </div>
   );
