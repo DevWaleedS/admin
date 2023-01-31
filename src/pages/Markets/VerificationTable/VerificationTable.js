@@ -15,7 +15,7 @@ const VerificationTable = () => {
   const [editVerificationData, setEditVerificationData] = useState(null);
   const [verification,setVerification]= useState(null)
   return (
-    <div className={`pr-4 pt-8 pl-36`} style={{ backgroundColor: "#fafafa" }}>
+    <div className="md:pr-4 md:pt-8 md:pl-36 p-4 pt-0 md:bg-[#fafafa] bg-[#ffffff]">
       <div className="flex items-center justify-between">
         <PageNavigate currentPage={"التوثيق"} parentPage={"المتاجر"} />
       </div>
@@ -49,7 +49,7 @@ const VerificationTable = () => {
           setVerification = {setVerification}
         ></VerificationData>
       )}
-      <div className="mt-8" dir="ltr">
+      <div className="md:mt-8 mt-4" dir="ltr">
         <VerificationTableSec 
           openTraderAlert={(row) => {
             setTraderAlert(true);

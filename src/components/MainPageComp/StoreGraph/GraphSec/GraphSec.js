@@ -55,14 +55,14 @@ const data = [
 const GraphSec = () => {
   return (
 			<div className='h-full'>
-				<div className='pr-8'>
-					<h2 className='pb-4 font-medium text-[22px]'>احصائيات المتاجر</h2>
-					<h2 className='text-xl font-bold text-[22px]' style={{ color: '#1DBBBE' }}>
+				<div className='md:pr-8 pr-5'>
+					<h2 className='md:pb-4 font-medium md:text-[22px] text-[16px]'>احصائيات المتاجر</h2>
+					<h2 className='font-bold md:text-[22px] text-[14px]' style={{ color: '#1DBBBE' }}>
 						Avg. $5,309
 					</h2>
 				</div>
 				<div className='flex h-full gap-4'>
-					<div className='mt-8' style={{ width: '100%', height: '200px' }}>
+					<div className='md:mt-8 mt-2' style={{ width: '100%', height: '200px' }}>
 						<ResponsiveContainer>
 							<LineChart width={600} height={100} data={data}>
 								<CartesianGrid horizontal={false} />

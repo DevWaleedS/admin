@@ -54,7 +54,7 @@ const data = [
 
 const GraphSec = () => {
   return (
-    <div className="h-full mt-8">
+    <div className="h-full md:mt-8 mt-4">
       <div className="flex h-full gap-4">
         <div className="mt-8" style={{ width: "100%", height: "200px" }}>
           <ResponsiveContainer>

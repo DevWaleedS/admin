@@ -11,14 +11,14 @@ const CouponsPage = () => {
   console.log(couponDetails);
 
   return (
-    <div style={{ backgroundColor:'#FAFAFA' }} className="relative pt-[50px] pl-[134px] pr-[56px]">
-      <div className="flex flex-row items-center justify-between gap-4">
+    <div style={{ backgroundColor:'#FAFAFA' }} className="relative md:pt-[50px] md:pl-[134px] md:pr-[56px] p-4 pt-0">
+      <div className="flex md:flex-row flex-col md:items-center items-start justify-between gap-4">
         <h3 style={{ fontSize:'22px',color:'#011723' }} className="font-bold ">جدول الكوبونات</h3>
           <Button
             type={"normal"}
-            style={{ width:'216px',height:'56px', backgroundColor: "#B6BE34" }}
+            style={{ backgroundColor: "#B6BE34" }}
             textStyle={{ color: "#EFF9FF",fontSize:'20px' }}
-            className={"font-medium px-4"}
+            className={"md:w-[216px] w-full md:h-[56px] h-[45px] font-medium px-4"}
             svg={<AiOutlinePlus fill="#fff" className='w-5 h-5'/>}
             onClick={() => {
               setShowAddNewCoupon(true);

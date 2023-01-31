@@ -8,7 +8,7 @@ const BackDrop = ({ onClick }) => {
   return (
     <div
       onClick={onClick}
-      className="fixed back_drop top-0 left-0 h-full w-full bg-slate-900 opacity-50 z-10"
+      className="fixed back_drop top-0 left-0 h-full w-full bg-slate-900 opacity-70 z-10"
     ></div>
   );
 };
@@ -52,15 +52,15 @@ const VerificationData = ({ cancel, verificationInfo, editVerificationData, setV
       <BackDrop onClick={cancel} />
       <div
         className="absolute flex flex-col top-5 translate-x-2/4  right-2/4 z-20 rounded-lg overflow-hidden"
-        style={{ width: "60.25rem" }}
+        style={{ width: "60.25rem",maxWidth:"90%" }}
       >
         <div
           className="h-16 w-full flex items-center justify-between py-4 px-4 trader_alert"
           style={{ backgroundColor: editVerificationData ? "#FF9F1A" : "#1DBBBE" }}
         >
           {editVerificationData ?
-            (<h2 style={{ color: '#ECFEFF',fontSize:'22px' }} className="font-medium text-center flex-1">تعديل طلب توثيق متجر</h2>) :
-            (<h2 style={{ color: '#ECFEFF',fontSize:'22px' }} className="font-medium text-center flex-1">بيانات طلب توثيق متجر</h2>)
+            (<h2 style={{ color: '#ECFEFF' }} className="md:text-[22px] text-[18px] font-medium text-center flex-1">تعديل طلب توثيق متجر</h2>) :
+            (<h2 style={{ color: '#ECFEFF' }} className="md:text-[22px] text-[18px] font-medium text-center flex-1">بيانات طلب توثيق متجر</h2>)
           }
           <IoMdCloseCircleOutline
             width="20px"
@@ -71,13 +71,13 @@ const VerificationData = ({ cancel, verificationInfo, editVerificationData, setV
             onClick={cancel}
           ></IoMdCloseCircleOutline>
         </div>
-        <div className="flex-1 flex flex-col px-[98px] py-[48px] gap-[24px] bg-white text-right">
+        <div className="flex-1 flex flex-col md:px-[98px] md:py-[48px] px-4 py-[30px] gap-[24px] bg-white text-right">
           <div className="flex flex-col gap-[10px]">
-            <label style={{ color: '#011723',fontSize:'20px' }} htmlFor="activity_store">نشاط المتجر</label>
+            <label style={{ color: '#011723' }} className="md:text-[20px] text-[16px]" htmlFor="activity_store">نشاط المتجر</label>
             <input
               id="activity_store"
-              className="py-[14px] px-[24px] rounded-md outline-none"
-              style={{ backgroundColor: '#FAFAFA', color: '#67747B',fontSize:'20px' }}
+              className="md:text-[20px] text-[16px] py-[14px] px-[24px] rounded-md outline-none"
+              style={{ backgroundColor: '#FAFAFA', color: '#67747B' }}
               type="text"
               placeholder="ملابس"
               value={data.store_activity}
@@ -85,11 +85,11 @@ const VerificationData = ({ cancel, verificationInfo, editVerificationData, setV
             />
           </div>
           <div className="flex flex-col gap-[10px]">
-            <label style={{ color: '#011723',fontSize:'20px' }} htmlFor="owner">المالك</label>
+            <label style={{ color: '#011723' }} className="md:text-[20px] text-[16px]" htmlFor="owner">المالك</label>
             <input
               id="owner"
-              className="py-[14px] px-[24px] rounded-md outline-none"
-              style={{ backgroundColor: '#FAFAFA', color: '#67747B',fontSize:'20px' }}
+              className="md:text-[20px] text-[16px] py-[14px] px-[24px] rounded-md outline-none"
+              style={{ backgroundColor: '#FAFAFA', color: '#67747B' }}
               type="text"
               placeholder="خالد محمد"
               value={data.store_owner}
@@ -97,11 +97,11 @@ const VerificationData = ({ cancel, verificationInfo, editVerificationData, setV
             />
           </div>
           <div className="flex flex-col gap-[10px]">
-            <label style={{ color: '#011723',fontSize:'20px' }} htmlFor="store_name">اسم المتجر</label>
+            <label style={{ color: '#011723' }} className="md:text-[20px] text-[16px]" htmlFor="store_name">اسم المتجر</label>
             <input
               id="store_name"
-              className="py-[14px] px-[24px] rounded-md outline-none"
-              style={{ backgroundColor: '#FAFAFA', color: '#67747B',fontSize:'20px' }}
+              className="md:text-[20px] text-[16px] py-[14px] px-[24px] rounded-md outline-none"
+              style={{ backgroundColor: '#FAFAFA', color: '#67747B' }}
               type="text"
               placeholder="أمازون"
               value={data.store_name}
@@ -109,7 +109,7 @@ const VerificationData = ({ cancel, verificationInfo, editVerificationData, setV
             />
           </div>
           <div className="flex flex-col gap-[10px]">
-            <label style={{ color: '#011723',fontSize:'20px' }}>وثيقة العمل الحر/ السجل التجاري</label>
+            <label style={{ color: '#011723' }} className="md:text-[20px] text-[16px]">وثيقة العمل الحر/ السجل التجاري</label>
             <ImageUploading
               value={images}
               onChange={onChangeLogoImage}
@@ -134,23 +134,24 @@ const VerificationData = ({ cancel, verificationInfo, editVerificationData, setV
                         backgroundColor: "#FAFAFA",
                       }}
                     >
-                      <div className="flex flex-row items-center gap-2">
-                          <h2 style={{ color: '#67747B',fontSize:'20px' }}>السجل التجاري</h2>
+                      <div className="flex-1 flex flex-row items-center md:justify-start justify-between gap-2">
+                          <h2 className="md:text-[20px] text-[16px] whitespace-nowrap" style={{ color: '#67747B' }}>السجل التجاري</h2>
                           <img src={PDF} alt="pdf-icon" />
                       </div>
-                      <h2 style={{ color: '#0099FB',fontSize:'16px' }}>تحميل السجل التجاري</h2>
+                      <h2 className="md:text-[16px] text-[14px] md:flex hidden" style={{ color: '#0099FB' }}>تحميل السجل التجاري</h2>
                     </div>
                   </div>
                 </div>
               )}
             </ImageUploading>
+            <h2 className="md:text-[16px] text-[14px] md:hidden flex" style={{ color: '#0099FB' }}>تحميل السجل التجاري</h2>
           </div>
           <div className="flex flex-col gap-[10px]">
-            <label style={{ color: '#011723',fontSize:'20px' }} htmlFor="link">رابط منصة معروف</label>
+            <label style={{ color: '#011723' }} className="md:text-[20px] text-[16px]" htmlFor="link">رابط منصة معروف</label>
             <input
               id="link"
-              className="py-[14px] px-[24px] rounded-md outline-none"
-              style={{ backgroundColor: '#FAFAFA', color: '#0099FB',fontSize:'20px' }}
+              className="md:text-[20px] text-[16px] py-[14px] px-[24px] rounded-md outline-none"
+              style={{ backgroundColor: '#FAFAFA', color: '#0099FB' }}
               type="text"
               placeholder="https://maroof.amazon.sa/"
               value={data.maroof_link}
@@ -168,8 +169,8 @@ const VerificationData = ({ cancel, verificationInfo, editVerificationData, setV
                 }}
                 type={"normal"}
                 style={{ backgroundColor: '#1DBBBE', color: '#F7FCFF' }}
-                textStyle={{ color: "#F7FCFF", fontSize: '18px' }}
-                className={"text-center w-full py-4 rounded-none font-medium"}
+                textStyle={{ color: "#F7FCFF"}}
+                className="md:h-[60px] h-[45px] md:text-[18px] text-[16px] text-center w-full py-4 rounded-none font-medium"
               >
                 تعديل الطلب
               </Button>
@@ -179,8 +180,8 @@ const VerificationData = ({ cancel, verificationInfo, editVerificationData, setV
                 }}
                 type={"outline"}
                 style={{ backgroundColor: '#FFFFFF', border: '1px solid #011723' }}
-                textStyle={{ color: "#011723", fontSize: '18px' }}
-                className={"text-center w-full py-4 rounded-none font-medium"}
+                textStyle={{ color: "#011723" }}
+                className="md:h-[60px] h-[45px] md:text-[18px] text-[16px] text-center w-full py-4 rounded-none font-medium"
               >
                 الغاء التعديل
               </Button>
@@ -196,8 +197,8 @@ const VerificationData = ({ cancel, verificationInfo, editVerificationData, setV
                 }}
                 type={"normal"}
                 style={{ backgroundColor: '#1DBBBE' }}
-                textStyle={{ color: "#F7FCFF", fontSize: '18px' }}
-                className={"text-center w-full py-4 rounded-none font-medium"}
+                textStyle={{ color: "#F7FCFF"}}
+                className="md:h-[60px] h-[45px] md:text-[18px] text-[16px] text-center w-full py-4 rounded-none font-medium"
               >
                 قبول التوثيق
               </Button>
@@ -207,9 +208,9 @@ const VerificationData = ({ cancel, verificationInfo, editVerificationData, setV
                   cancel();
                 }}
                 type={"outline"}
-                textStyle={{ color: "#011723", fontSize: '18px' }}
+                textStyle={{ color: "#011723" }}
                 style={{ backgroundColor: '#FFFFFF', border: '1px solid #011723' }}
-                className={"text-center w-full py-4 rounded-none font-medium"}
+                className="md:h-[60px] h-[45px] md:text-[18px] text-[16px] text-center w-full py-4 rounded-none font-medium"
               >
                 رفض التوثيق
               </Button>

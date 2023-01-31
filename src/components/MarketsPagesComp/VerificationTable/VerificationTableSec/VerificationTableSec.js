@@ -163,6 +163,7 @@ function EnhancedTableHead(props) {
               width: headCell.width ? headCell.width : "auto",
               fontSize: "1rem",
               color: "#02466A",
+              whiteSpace:'nowrap'
             }}
           >
             {headCell.sort && (
@@ -235,7 +236,7 @@ function EnhancedTableToolbar(props) {
                 setActionTitle('تم حذف طلبات التوثيق بنجاح');
               }}
             >
-              <h6 style={{ fontSize: '18px', color: '#FF3838' }} className="font-medium">حذف</h6>
+              <h6 style={{ color: '#FF3838' }} className="md:text-[18px] text-[16px] font-medium">حذف</h6>
               <img
                 src={Delete}
                 alt='delete-icon'
@@ -245,7 +246,7 @@ function EnhancedTableToolbar(props) {
       </div>
 
       <div className="flex items-center">
-        <h2 className="font-medium">تحديد الكل</h2>
+        <h2 className="md:text-[18px] text-[16px] font-medium">تحديد الكل</h2>
         <Checkbox
           checkedIcon={<CheckedSquare />}
           sx={{
@@ -409,7 +410,7 @@ export default function EnhancedTable({ openTraderAlert,openVerificationData,ope
                       key={row.id}
                       selected={isItemSelected}
                     >
-                      <TableCell component="th" id={labelId} scope="row">
+                      <TableCell id={labelId} className="min-w-[7rem]">
                         <div className="flex items-center gap-2">
                           <img src={Delete} alt="delete-icon" 
                             onClick={() => {
@@ -431,7 +432,7 @@ export default function EnhancedTable({ openTraderAlert,openVerificationData,ope
                         </div>
                       </TableCell>
                       <TableCell align="right">
-                          <h2 style={{ color:'#4D4F5C',fontSize:'18px' }}>
+                          <h2 className="md:text-[18px] text-[16px]" style={{ color:'#4D4F5C' }}>
                             {row.date}
                           </h2>
                       </TableCell>
@@ -446,7 +447,7 @@ export default function EnhancedTable({ openTraderAlert,openVerificationData,ope
                           <h2 style={{ color: '#4D4F5C',fontSize:'16px' }}>{row.opened.title}</h2>
                         </div>
                       </TableCell>
-                      <TableCell align="right">
+                      <TableCell align="right" className="min-w-[14rem]">
                         <div className="flex flex-row items-center justify-end gap-3">
                           <img className="cursor-pointer" src={ListMoreCategory} alt="list-more-category" onClick={activityHandleClick}/>
                           <Menu

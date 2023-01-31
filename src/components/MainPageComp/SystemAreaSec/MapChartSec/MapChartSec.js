@@ -22,7 +22,7 @@ const PRICES = ["29.193", "18.832", "19.758", "23.078", "29.193", "37.760"];
 
 const MapChartSec = () => {
   return (
-    <div className="flex p-4 h-full">
+    <div className="flex md:flex-row flex-col-reverse md:p-4 h-full">
       <div className="flex-1 flex flex-col justify-between">
         {COUNTRIES.map((item, idx) => {
           return (
@@ -36,7 +36,7 @@ const MapChartSec = () => {
 										);
         })}
       </div>
-      <div className="flex-1 flex justify-center items-center mr-3">
+      <div className="w-full flex-1 flex justify-center items-center mr-3">
         <MapChartDraw colors={COLORS} />
       </div>
     </div>

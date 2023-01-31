@@ -122,8 +122,8 @@ function EnhancedTableHead(props) {
 						sortDirection={orderBy === headCell.id ? order : false}
 						sx={{
 							width: headCell.width ? headCell.width : 'auto',
-
 							color: '#011723',
+							whiteSpace:"nowrap"
 						}}
 					>
 						{headCell.sort && (
@@ -167,6 +167,7 @@ function EnhancedTableToolbar(props) {
 	const { setNotificationTitle,setActionTitle } = NotificationStore;
 	return (
 		<Toolbar
+			className="md:gap-8 gap-4"
 			sx={{
 				pl: { sm: 2 },
 				pr: { xs: 1, sm: 1 },
@@ -174,7 +175,6 @@ function EnhancedTableToolbar(props) {
 					bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
 				}),
 				display: 'flex',
-				gap: '2rem',
 				justifyContent: 'flex-end',
 			}}
 		>
@@ -188,7 +188,7 @@ function EnhancedTableToolbar(props) {
 							setActionTitle('تم تعطيل التصنيفات بنجاح');
 						}}
 					>
-						<h2 className={'font-medium'} style={{ color: '#FF9F1A' }}>
+						<h2 className={'font-medium md:text-[18px] text-[16px] whitespace-nowrap'} style={{ color: '#FF9F1A' }}>
 							تعطيل
 						</h2>
 						<Box
@@ -220,7 +220,7 @@ function EnhancedTableToolbar(props) {
 						}}
 						title='Delete'>
 						<div className='fcc gap-2 px-4 rounded-full' style={{ width: '114px', backgroundColor: '#FF38381A' }}>
-							<h2 className={'font-medium'} style={{ color: '#FF3838' }}>
+							<h2 className={'font-medium md:text-[18px] text-[16px] whitespace-nowrap'} style={{ color: '#FF3838' }}>
 								حذف
 							</h2>
 							<IconButton>
@@ -238,7 +238,7 @@ function EnhancedTableToolbar(props) {
 			</div>
 
 			<div className='flex items-center'>
-				<h2 className='font-medium'>تحديد الكل</h2>
+				<h2 className='font-medium md:text-[18px] text-[16px] whitespace-nowrap'>تحديد الكل</h2>
 				<Checkbox
 					checkedIcon={<CheckedSquare />}
 					sx={{
@@ -513,7 +513,7 @@ export default function EnhancedTable({ editSection }) {
 					</Table>
 				</TableContainer>
 			</Paper>
-			<div className='flex items-center justify-between pt-52 px-4 pb-4 ' style={{ backgroundColor: '#fff' }}>
+			<div className='flex md:flex-row flex-col items-center justify-between gap-4 pt-8 px-4 pb-4 ' style={{ backgroundColor: '#fff' }}>
 				<div className='flex items-center gap-2 p-2 rounded-md' style={{ border: '1px solid #2D62ED' }}>
 					<div
 						id='basic-button'

@@ -15,17 +15,17 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const SystemAreaSec = () => {
   return (
-			<Box sx={{ flexGrow: 1, mt: 4, height: '16rem' }}>
-				<Grid container spacing={2}>
-					<Grid sx={{ height: '16rem' }} item xs={4}>
+			<Box className="md:h-[16rem] md:mt-8 mt-5" sx={{ flexGrow: 1}}>
+				<Grid className="flex md:flex-row flex-col items-center" container spacing={2}>
+					<Grid sx={{ height: '16rem',width:'100%',maxWidth:'100%' }} item xs={4}>
 						<Item sx={{ height: '1', p: '1rem' }} className='shadow-[0px_3px_6px_#272D3B0F] rounded-lg  pb-12'>
-							<h2 className='font-normal text-lg'>إجمالي استخدام النظام</h2>
+							<h2 className='font-normal md:text-lg text-[16px]'>إجمالي استخدام النظام</h2>
 							<PieChartSec />
 						</Item>
 					</Grid>
-					<Grid sx={{ height: '16rem' }} item xs={8}>
-						<Item sx={{ height: '1', p: '1rem' }} className='shadow-[0px_3px_6px_#272D3B0F] rounded-lg pb-12'>
-							<h2 className='font-normal text-lg' style={{ color: '#1DBBBE' }}>
+					<Grid sx={{ height: '16rem',width:'100%',maxWidth:'100%' }} item xs={8}>
+						<Item sx={{ height: '1', p: '1rem' }} className='shadow-[0px_3px_6px_#272D3B0F] rounded-lg md:pb-12'>
+							<h2 className='font-normal md:text-lg text-[16px]' style={{ color: '#1DBBBE' }}>
 								المناطق الأكثر اشتراكاً
 							</h2>
 							<MapChartSec />

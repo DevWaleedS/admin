@@ -57,18 +57,19 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
   };
   return (
     <div
-      className="absolute pb-20 py-[40px] pl-[102px] pr-4 top-0 right-0  z-10  w-full "
-      style={{ backgroundColor: "#fafafa" }}
+      className="absolute md:pb-20 md:py-[40px] md:pl-[102px] md:pr-4 p-4 pt-0 top-0 right-0  z-10  w-full "
+      style={{ backgroundColor: "#fafafa",height:"100%" }}
     >
-      <div className="flex justify-between items-center mb-2">
+      <div className="flex md:flex-row flex-col justify-between md:items-center items-start gap-4 mb-2">
         <div className="flex items-center gap-2">
           <div onClick={cancel} className={` ${styles.arrow_con}`}>
             <GoArrowRight style={{ color: "#02466A", fontSize: "1.2rem" }} />
           </div>
-          <h2 className='text-lg font-medium' style={{  color: '#011723' }}>الباقات والأسعار</h2>
+          <h2 className='md:text-lg text-[16px] font-medium whitespace-nowrap' style={{  color: '#011723' }}>الباقات والأسعار</h2>
         </div>
         <Button
-          style={{ width: '180px', height: '56px', fontSize: '22px', color: '#011723', whiteSpace: 'nowrap', }}
+          className="md:w-[180px] w-full md:h-[56px] h-[45px] md:text-[22px] text-[18px]"
+          style={{ color: '#011723', whiteSpace: 'nowrap', }}
           onClick={() => {
             setEndActionTitle(
               editPackageDetails
@@ -83,12 +84,12 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
         </Button>
       </div>
       <div className="flex flex-col gap-[10px]">
-        <h2 className='text-lg font-normal' style={{ color: '#1DBBBE' }}>
+        <h2 className='md:text-[18px] text-[16px] font-normal' style={{ color: '#1DBBBE' }}>
           رقم الباقة
         </h2>
         <input
-          className="font-medium text-center py-[12px] px-2 outline-none rounded-lg placeholder:text-[#02466A]"
-          style={{ width: '180px', height: '56px', backgroundColor: "#D3D3D3", color: '#02466A', fontSize: '24px' }}
+          className="w-[180px] md:h-[56px] h-[45px] font-medium text-center py-[12px] px-2 outline-none rounded-lg placeholder:text-[#02466A]"
+          style={{ backgroundColor: "#D3D3D3", color: '#02466A', fontSize: '24px' }}
           placeholder="0212"
           type="text"
         />
@@ -265,7 +266,7 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
             )
         }
         <div className="flex flex-col gap-[28px] bg-white mt-6 p-8 rounded-lg" style={{ boxShadow: '0px 3px 6px #1DBBBE0F' }}>
-          <h2 style={{ color: "#0099FB", fontSize: '20px' }} className="font-medium">
+          <h2 style={{ color: "#0099FB"}} className="md:text-[20px] text-[18px] font-medium">
             <AiFillStar
               style={{
                 display: "inline-block",
@@ -277,13 +278,13 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
           </h2>
           <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={4}>
-              <Grid item xs={6} container rowSpacing={4}>
+              <Grid item md={6} xs={12} container rowSpacing={4}>
                 <Grid item xs={12}>
-                  <Box className="flex flex-row items-center">
-                    <label style={{ color: '#011723', fontSize: '18px' }} className="w-60 whitespace-nowrap" htmlFor="name">اسم الباقة</label>
+                  <Box className="flex md:flex-row flex-col md:items-center items-start gap-2">
+                    <label style={{ color: '#011723'}} className="md:text-[18px] text-[16px] w-60 whitespace-nowrap" htmlFor="name">اسم الباقة</label>
                     <input
                       id="name"
-                      className=" w-full px-4 py-3 outline-none rounded-lg"
+                      className="w-full md:h-[56px] h-[45px]  px-4 py-3 outline-none rounded-lg"
                       style={{ backgroundColor: "#EFF9FF", '&::placeholder': '#A7A7A7' }}
                       placeholder="أدخل اسم الباقة"
                       type="text"
@@ -291,11 +292,11 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
                   </Box>
                 </Grid>
                 <Grid item xs={12}>
-                  <Box className="flex flex-row items-center">
-                    <label style={{ color: '#011723', fontSize: '18px' }} className="w-60 whitespace-nowrap" htmlFor="month">المبلغ الشهري</label>
+                  <Box className="flex md:flex-row flex-col md:items-center items-start gap-2">
+                    <label style={{ color: '#011723' }} className="md:text-[18px] text-[16px] w-60 whitespace-nowrap" htmlFor="month">المبلغ الشهري</label>
                     <input
                       id="month"
-                      className=" w-full px-4 py-3 outline-none rounded-lg"
+                      className=" w-full md:h-[56px] h-[45px]  px-4 py-3 outline-none rounded-lg"
                       style={{ backgroundColor: "#EFF9FF", '&::placeholder': '#A7A7A7' }}
                       placeholder="350 ر.س"
                       type="text"
@@ -303,29 +304,29 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
                   </Box>
                 </Grid>
                 <Grid item xs={12}>
-                  <Box className="flex flex-row items-center">
-                    <label style={{ color: '#011723', fontSize: '18px' }} className="w-60 whitespace-nowrap" htmlFor="month">الخصم</label>
+                  <Box className="flex md:flex-row flex-col md:items-center items-start gap-2">
+                    <label style={{ color: '#011723' }} className="md:text-[18px] text-[16px] w-60 whitespace-nowrap" htmlFor="month">الخصم</label>
                     <input
                       id="month"
-                      className=" w-full px-4 py-3 outline-none rounded-lg"
+                      className=" w-full md:h-[56px] h-[45px] px-4 py-3 outline-none rounded-lg"
                       style={{ backgroundColor: "#EFF9FF", '&::placeholder': '#A7A7A7' }}
                       placeholder="أدخل مبلغ الخصم"
                       type="text"
                     />
                   </Box>
                   <div className="flex flex-row items-center mt-3">
-                    <div className="w-40"></div>
-                    <span style={{ color: '#D3D3D3' }} className="text-sm">ادخال نسبة الخصم في حال الشراء سنوياً مثال 30%</span>
+                    <div className="md:w-40 w-0"></div>
+                    <span style={{ color: '#D3D3D3' }} className="md:text-sm text-[12px]">ادخال نسبة الخصم في حال الشراء سنوياً مثال 30%</span>
                   </div>
                 </Grid>
               </Grid>
-              <Grid item xs={6} container>
+              <Grid item md={6} xs={12} container>
                 <Grid item xs={12}>
-                  <Box className="flex flex-row items-center">
-                    <label style={{ color: '#011723', fontSize: '18px' }} className="w-60 whitespace-nowrap" htmlFor="name">المبلغ السنوي</label>
+                  <Box className="flex md:flex-row flex-col md:items-center items-start gap-2">
+                    <label style={{ color: '#011723' }} className="md:text-[18px] text-[16px] w-60 whitespace-nowrap" htmlFor="name">المبلغ السنوي</label>
                     <input
                       id="name"
-                      className=" w-full px-4 py-3 outline-none rounded-lg"
+                      className="w-full md:h-[56px] h-[45px] px-4 py-3 outline-none rounded-lg"
                       style={{ backgroundColor: "#EFF9FF", '&::placeholder': '#A7A7A7' }}
                       placeholder="2500 ر.س"
                       type="text"
@@ -337,22 +338,22 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
           </Box>
         </div>
       </div>
-      <div className="w-full mt-5 flex flex-row gap-6 pb-16">
+      <div className="w-full mt-5 flex md:flex-row flex-col gap-6 pb-16">
         <AiFillStar
           style={{
             color: "red",
           }}
         ></AiFillStar>
         <Button
-          className={"w-full rounded-lg py-4 ml-10"}
-          style={{ width: '960px', height: '56px', backgroundColor: "#FFFFFF", border: '1px solid #02466A' }}
+          className={"w-full md:h-[56px] h-[45px] rounded-lg py-4 md:ml-10 ml-0"}
+          style={{ width: '960px', backgroundColor: "#FFFFFF", border: '1px solid #02466A' }}
           svg={<img src={Template} alt="template-icon" />}
           type={"outline"}
           onClick={() => {
             setChooseTemplate(true);
           }}
         >
-          <h2 style={{ color: '#02466A', fontSize: '20px' }} className="font-medium">اختر قوالب الباقة</h2>
+          <h2 style={{ color: '#02466A'}} className="md:text-[20px] text-[18px] font-medium">اختر قوالب الباقة</h2>
         </Button>
       </div>
     </div>

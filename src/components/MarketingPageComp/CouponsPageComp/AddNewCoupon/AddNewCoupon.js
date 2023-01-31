@@ -39,24 +39,24 @@ const AddNewUser = ({ cancel, couponDetails }) => {
 	}, [couponDetails]);
 
 	return (
-		<div className='absolute pl-36 top-0 right-0  z-10 pt-5 pr-24  w-full  h-full' style={{ backgroundColor: '#fafafa' }}>
-			<div className='flex justify-between items-center mb-2'>
+		<div className='absolute md:pl-36 top-0 right-0  z-10 md:pt-5 md:pr-24  w-full  h-full p-4 pt-0 md:bg-[#fafafa] bg-[#FFFFFF]'>
+			<div className='flex md:flex-row flex-col justify-between md:items-center items-start mb-2 gap-4'>
 				<div className='flex items-center gap-2'>
 					<div onClick={cancel} className={` ${styles.arrow_con}`}>
 						<GoArrowRight style={{ color: '#02466A', fontSize: '1.2rem' }} />
 					</div>
-					<h2 className='font-medium' style={{ fontSize: '18px', color: '#011723' }}>
+					<h2 className='md:text-[18px] text-[16px] font-medium' style={{ color: '#011723' }}>
 						جدول الكوبونات
 					</h2>
-					<h3 className='font-medium' style={{ fontSize: '18px', color: '#67747B' }}>
-						/ انشاء متجر جديد
+					<h3 className='md:text-[18px] text-[16px] font-medium' style={{ color: '#67747B' }}>
+						/ انشاء كوبون جديد
 					</h3>
 				</div>
-
 				<Button
+					className="md:w-[195px] w-full md:h-[56px] h-[45px] md:text-[20px] text-[18px]"
 					type={'normal'}
-					style={{ width: '195px', height: '50px', backgroundColor: couponDetails ? '#67747B' : '#B6BE34' }}
-					textStyle={{ color: '#EFF9FF', fontSize: '20px' }}
+					style={{backgroundColor: couponDetails ? '#67747B' : '#B6BE34' }}
+					textStyle={{ color: '#EFF9FF' }}
 					onClick={() => {
 						setEndActionTitle(couponDetails ? 'تم تعديل كوبون  بنجاح' : 'تم اضافة كوبون جديد بنجاح');
 						cancel();
@@ -97,7 +97,7 @@ const AddNewUser = ({ cancel, couponDetails }) => {
 					اختر نوع الخصم
 				</h2>
 				<LocalizationProvider dateAdapter={AdapterDayjs}>
-					<div className='h-[674px] flex gap-5'>
+					<div className='md:h-[674px] h-full flex md:flex-row flex-col md:gap-5 gap-6'>
 						<div style={{ boxShadow: '0px 3px 6px #00000029' }} className='bg-white flex-1 rounded-lg'>
 							<div
 								className='w-full cursor-pointer gap-2 flex items-center px-4 rounded-lg'
@@ -131,11 +131,10 @@ const AddNewUser = ({ cancel, couponDetails }) => {
 										onChange={(e) => {
 											setDiscountPercent(e.target.value);
 										}}
-										className='outline-none p-4 rounded-lg'
+										className='md:w-[376px] w-full outline-none p-4 rounded-lg'
 										disabled={!couponTypePercent}
 										style={{
 											border: couponTypePercent ? '1px solid #242424' : '1px solid #D3D3D3',
-											width: '376px',
 											color: '#D3D3D3',
 											fontSize: '14px',
 											backgroundColor: '#FFFFFF',
@@ -155,10 +154,9 @@ const AddNewUser = ({ cancel, couponDetails }) => {
 										></AiFillStar>
 									</label>
 									<div
-										className={`${couponTypePercent ? styles.date_input : styles.disabled_date_input} flex flex-row items-center justify-between outline-none p-4 rounded-lg`}
+										className={`${couponTypePercent ? styles.date_input : styles.disabled_date_input} md:w-[376px] w-full flex flex-row items-center justify-between outline-none p-4 rounded-lg`}
 										style={{
 											border: couponTypePercent ? '1px solid #242424' : '1px solid #D3D3D3',
-											width: '376px',
 											color: '#011723',
 											fontSize: '14px',
 											backgroundColor: '#FFFFFF',
@@ -194,11 +192,10 @@ const AddNewUser = ({ cancel, couponDetails }) => {
 										onChange={(e) => {
 											setNumberOfUesedFixed(e.target.value);
 										}}
-										className='outline-none p-4 rounded-lg'
+										className='md:w-[376px] w-full outline-none p-4 rounded-lg'
 										disabled={!couponTypePercent}
 										style={{
 											border: couponTypePercent ? '1px solid #242424' : '1px solid #D3D3D3',
-											width: '376px',
 											color: '#D3D3D3',
 											fontSize: '14px',
 											backgroundColor: '#FFFFFF',
@@ -238,12 +235,11 @@ const AddNewUser = ({ cancel, couponDetails }) => {
 										المبلغ الثابت
 									</label>
 									<input
-										className='outline-none p-4 rounded-lg'
+										className='md:w-[376px] w-full outline-none p-4 rounded-lg'
 										disabled={couponTypePercent}
 										style={{
 											backgroundColor: '#FFFFFF',
 											border: !couponTypePercent ? '1px solid #242424' : '1px solid #D3D3D3',
-											width: '376px',
 											color: '#D3D3D3',
 											fontSize: '14px',
 										}}
@@ -262,10 +258,9 @@ const AddNewUser = ({ cancel, couponDetails }) => {
 										></AiFillStar>
 									</label>
 									<div
-										className={`${couponTypePercent ? styles.disabled_date_input : styles.date_input} flex flex-row items-center justify-between outline-none p-4 rounded-lg`}
+										className={`${couponTypePercent ? styles.disabled_date_input : styles.date_input} md:w-[376px] w-full flex flex-row items-center justify-between outline-none p-4 rounded-lg`}
 										style={{
 											border: couponTypePercent ? '1px solid #D3D3D3' : '1px solid #242424',
-											width: '376px',
 											color: '#011723',
 											fontSize: '14px',
 											backgroundColor: '#FFFFFF',
@@ -297,12 +292,11 @@ const AddNewUser = ({ cancel, couponDetails }) => {
 										عدد مرات الاستخدام للجميع
 									</label>
 									<input
-										className='outline-none p-4 rounded-lg'
+										className='md:w-[376px] w-full outline-none p-4 rounded-lg'
 										disabled={couponTypePercent}
 										style={{
 											backgroundColor: '#FFFFFF',
 											border: !couponTypePercent ? '1px solid #242424' : '1px solid #D3D3D3',
-											width: '376px',
 											color: '#D3D3D3',
 											fontSize: '14px',
 										}}
