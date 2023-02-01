@@ -10,33 +10,32 @@ const SupportPage = () => {
 	const [showComplaintDetails, setShowComplaintDetails] = useState(false);
 	const [complaintDetails, setComplaintDetails] = useState(null);
 	return (
-		<div className='relative pt-10 pl-36 pr-8' style={{ backgroundColor: '#F7F7F7' }}>
+		<div className='relative md:pt-10 md:pl-36 md:pr-8 p-4 md:bg-[#F7F7F7] bg-[#FFFFFF]'>
 			<ChartsComp></ChartsComp>
 			<div className={'mt-8'} style={{ backgroundColor: '#FFF' }}>
 				<div className='p-4'>
-					<div className='flex justify-between'>
+					<div className='flex md:flex-row flex-col justify-between'>
 						<div>
-							<h2 className={'font-bold text-2xl mb-5'} style={{ color: '#011723' }}>
+							<h2 className={'font-bold md:text-2xl text-[18px] whitespace-nowrap md:mb-5 mb-3'} style={{ color: '#011723' }}>
 								جدول الشكاوى والاستفسارات
 							</h2>
 						</div>
-
 						<div>
-							<h3 className={' text-lg font-normal mb-2'} style={{ color: '#4D4F5C' }}>
+							<h3 className={'md:text-lg text-[16px] font-medium mb-2'} style={{ color: '#67747B' }}>
 								البحث برقم الشكوى
 							</h3>
-							<div className='mb-4'>
-								<FormControl className='flex flex-row gap-4' sx={{ minWidth: 120, flex: '1' }}>
-									<label className={`flex-1  h-14 relative `}>
+							<div className='mb-4 w-full'>
+								<FormControl className='flex flex-row gap-4  w-full' sx={{ minWidth: 120, flex: '1' }}>
+									<label className={`flex-1  w-full h-14 relative `}>
 										<input
-											className=' h-14 w-[474px] outline-0 pr-12 rounded-lg '
+											className='md:bg-[#ECFEFF] bg-[#ECFEFF00] h-14 w-[474px] outline-0 pr-12 rounded-lg '
 											placeholder=' ادخل رقم الشكوى'
 											type='text'
 											name='name'
 											onChange={() => {}}
 											style={{
 												border: '1px solid #7FFCFF',
-												backgroundColor: '#ECFEFF',
+												maxWidth:'100%'
 											}}
 										/>
 										<div className={`absolute top-1/2 right-4 -translate-y-2/4`}>
@@ -47,7 +46,6 @@ const SupportPage = () => {
 							</div>
 						</div>
 					</div>
-
 					{showComplaintDetails && (
 						<ComplaintDetails
 							complaintDetails={complaintDetails}

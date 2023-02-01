@@ -1,12 +1,17 @@
-.content{
+.content {
   background-color: #F6F6F6;
 }
+
 .content::-webkit-scrollbar {
-    display: none;
-  }
-  
+  display: none;
+}
 
-
-.back_drop{
+.back_drop {
   opacity: 0.5;
+}
+
+@media(max-width:768px) {
+  .container {
+    height: 100% !important;
+  }
 }

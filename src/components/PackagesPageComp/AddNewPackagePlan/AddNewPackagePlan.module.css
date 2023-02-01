@@ -1,20 +1,28 @@
-.arrow_con
-{
-    height: 1.5rem;
-    width: 1.5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    background-color: rgba(2, 70, 106, 0.4);
-    cursor: pointer;
+.arrow_con {
+  height: 1.5rem;
+  width: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: rgba(2, 70, 106, 0.4);
+  cursor: pointer;
 }
+
+.select :global(.MuiSelect-select){
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
 .select :global(.MuiSelect-icon) {
-    top: 15px;
-    left: 7px;
-    right: unset;
-  }
-  
-  .select :global(.MuiSelect-icon path) {
-    fill: #00CCF2;
-  }
+  top: 15px;
+  left: 7px;
+  right: unset;
+}
+
+.select :global(.MuiSelect-icon path) {
+  fill: #00CCF2;
+}

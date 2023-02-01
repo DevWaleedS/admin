@@ -1,8 +1,7 @@
 .content::-webkit-scrollbar {
-    display: none;
-  }
-  
+  display: none;
+}
 
-.back_drop{
+.back_drop {
   opacity: 0.5;
 }

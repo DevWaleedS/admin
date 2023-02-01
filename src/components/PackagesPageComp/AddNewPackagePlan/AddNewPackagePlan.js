@@ -230,8 +230,8 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
                           <div
                             className="py-1 px-3 text-slate-50 rounded-lg font-light"
                             style={{
+                              maxWidth:"fit-content",
                               backgroundColor: "#0099FB",
-                              marginRight: "5px",
                               display: "inline",
                             }}
                           >

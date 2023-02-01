@@ -164,6 +164,7 @@ function EnhancedTableHead(props) {
 						sx={{
 							width: headCell.width ? headCell.width : 'auto',
 							color: '#EFF9FF',
+							whiteSpace:'nowrap'
 						}}
 					>
 						{headCell.sort && (
@@ -228,7 +229,7 @@ function EnhancedTableToolbar(props) {
 							setActionTitle('تم تعطيل الشكاوى والاستفسارات بنجاح');
 						}} 
 					>
-						<h2 className={'font-medium'} style={{ color: '#FF9F1A' }}>
+						<h2 className={'font-medium md:text-lg text-[16px] whitespace-nowrap'} style={{ color: '#FF9F1A' }}>
 							تعطيل
 						</h2>
 						<Box
@@ -254,7 +255,7 @@ function EnhancedTableToolbar(props) {
 	
 
 			<div className='flex items-center'>
-				<h2 className='font-medium'>تحديد الكل</h2>
+				<h2 className='font-medium md:text-lg text-[16px] whitespace-nowrap'>تحديد الكل</h2>
 				<Checkbox
 					sx={{
 						pr: '0',
@@ -403,7 +404,7 @@ export default function EnhancedTable({ setUser }) {
 													}}
 												>
 													<MenuItem
-														className='text-lg font-normal'
+														className='md:text-lg text-[16px] whitespace-nowrap font-normal'
 														onClick={() => {
 															setUser(row);
 															handleClose();
@@ -418,7 +419,7 @@ export default function EnhancedTable({ setUser }) {
 														></DocumentIcon>
 														التفاصيل
 													</MenuItem>
-													<MenuItem onClick={handleClose} className='text-lg font-normal'>
+													<MenuItem onClick={handleClose} className='md:text-lg text-[16px] whitespace-nowrap'>
 														<BsTrash
 															className={`w-5 h-5 ml-2 ${styles.deleteIcon}`}
 															style={{
@@ -443,18 +444,18 @@ export default function EnhancedTable({ setUser }) {
 												</div>
 											</TableCell>
 											<TableCell align='right'>
-												<h2 className='font-normal text-lg'>{row.connectionType}</h2>
+												<h2 className='font-normal md:text-lg text-[16px] whitespace-nowrap'>{row.connectionType}</h2>
 											</TableCell>
 
 											<TableCell align='right' sx={{ display: 'flex', gap: '0.5rem', p: '24px 0' }}>
 												<img src={Gift} alt='' />
-												<h2 className='font-normal text-lg'>{row.variety}</h2>
+												<h2 className='font-normal md:text-lg text-[16px] whitespace-nowrap'>{row.variety}</h2>
 											</TableCell>
 											<TableCell align='right'>
-												<h2 className='font-normal text-lg'>{row.marketName}</h2>
+												<h2 className='font-normal md:text-lg text-[16px] whitespace-nowrap'>{row.marketName}</h2>
 											</TableCell>
 
-											<TableCell align='right' className='font-normal text-lg'>
+											<TableCell align='right' className='font-normal md:text-lg text-[16px] whitespace-nowrap'>
 												{(index + 1).toLocaleString('en-US', {
 													minimumIntegerDigits: 2,
 													useGrouping: false,
@@ -491,7 +492,7 @@ export default function EnhancedTable({ setUser }) {
 					</Table>
 				</TableContainer>
 			</Paper>
-			<div className='flex items-center justify-between'>
+			<div className='flex md:flex-row flex-col items-center justify-between gap-y-4'>
 				<div className='flex items-center gap-2 p-2 rounded-md' style={{ border: '1px solid #2D62ED' }}>
 					<div
 						id='basic-button'

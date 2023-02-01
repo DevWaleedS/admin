@@ -5,14 +5,14 @@ import ChangeBannerSec from '../../components/TemplatePageComps/MainPage/ChangeB
 
 const TemplatePage = () => {
 	return (
-		<div className={`px-4 pt-8`} style={{ backgroundColor: '#fafafa' }}>
-			<div className='pr-5 py-3 rounded font-normal text-lg ' style={{ color: '#EFF9FF', backgroundColor: '#237EAE' }}>
+		<div className={`px-4 md:pt-8 pt-0 pb-10`} style={{ backgroundColor: '#fafafa' }}>
+			<div className='md:pr-5 py-3 px-2 rounded font-normal md:text-lg text-[14px]' style={{ color: '#EFF9FF', backgroundColor: '#237EAE' }}>
 				هذه الواجهة خاصة بإعدادات الصفحة الرئيسية للموقع الإلكتروني
 			</div>
-			<div className='mt-6'>
+			<div className='md:mt-6 mt-4'>
 				<PageNavigate currentPage={'تنسيق القالب'} />
 			</div>
-			<div className={''}>
+			<div>
 				<ChangeLogoSec></ChangeLogoSec>
 				<ChangeBannerSec></ChangeBannerSec>
 			</div>

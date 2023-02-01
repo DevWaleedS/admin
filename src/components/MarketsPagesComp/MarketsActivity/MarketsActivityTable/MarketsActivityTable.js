@@ -244,7 +244,7 @@ EnhancedTableToolbar.propTypes = {
 	numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable() {
+export default function EnhancedTable({editProduct}) {
 	const [order, setOrder] = React.useState('asc');
 	const [orderBy, setOrderBy] = React.useState('calories');
 	const [selected, setSelected] = React.useState([]);
@@ -361,7 +361,7 @@ export default function EnhancedTable() {
 													></TrashICon>
 													<EditIcon
 														onClick={() => {
-															setShowAddActivity(true);
+															editProduct(row);
 														}}
 														style={{
 															cursor: 'pointer',

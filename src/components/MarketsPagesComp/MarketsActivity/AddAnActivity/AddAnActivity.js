@@ -32,7 +32,7 @@ const AddAnActivity = ({ cancel, editActivity }) => {
 			)}
 			<div className='fixed flex flex-col top-24 translate-x-2/4 right-2/4 z-20 md:rounded-md rounded-2xl overflow-hidden md:h-[36rem] h-[25rem]' style={{ width: '51.25rem',maxWidth:'90%' }}>
 				<div className='h-16 w-full flex items-center justify-between px-4' style={{ backgroundColor: '#02466A' }}>
-					<h2 className='text-slate-50 text-center md:text-[22px] text-[18px] font-medium flex-1 text-center'>اضافة نشاط جديد </h2>
+					<h2 className='text-slate-50 md:text-[22px] text-[18px] font-medium flex-1 text-center'>اضافة نشاط جديد </h2>
 					<IoMdCloseCircleOutline color={'#fff'} className={'cursor-pointer w-5 h-20 '} onClick={cancel}></IoMdCloseCircleOutline>
 				</div>
 				<div className='flex-1 md:px-44 md:pt-10 p-4' style={{ backgroundColor: '#FFFFFF' }}>
@@ -52,7 +52,7 @@ const AddAnActivity = ({ cancel, editActivity }) => {
 					<div className='flex gap-4'>
 						<Button
 							type={'normal'}
-							className={'text-center w-full mt-12 md:h-14 h-[44px] text-xl '}
+							className={'text-center w-full mt-12 md:h-14 h-[44px] text-xl'}
 							style={{ backgroundColor: '#02466A' }}
 							onClick={() => {
 								setEndActionTitle('تم إضافة نشاط جديد بنجاح');
@@ -61,7 +61,7 @@ const AddAnActivity = ({ cancel, editActivity }) => {
 						>
 							حفظ
 						</Button>
-						<Button type={'outline'} className={'text-center w-full mt-12 md:h-14 h-[44px] text-xl '} style={{ border: ' 1px solid #02466A' }} textStyle={{ color: '#02466A' }} onClick={cancel}>
+						<Button type={'outline'} className={'text-center w-full mt-12 md:h-14 h-[44px] text-xl'} style={{ border: ' 1px solid #02466A' }} textStyle={{ color: '#02466A' }} onClick={cancel}>
 							الغاء
 						</Button>
 					</div>

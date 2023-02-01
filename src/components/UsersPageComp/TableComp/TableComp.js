@@ -149,6 +149,7 @@ function EnhancedTableHead(props) {
 						sortDirection={orderBy === headCell.id ? order : false}
 						sx={{
 							width: headCell.width ? headCell.width : 'auto',
+							whiteSpace:'nowrap'
 						}}
 					>
 						{headCell.sort && (
@@ -192,6 +193,7 @@ function EnhancedTableToolbar(props) {
 	const { setNotificationTitle,setActionTitle } = NotificationStore;
 	return (
 		<Toolbar
+			className="md:gap-8 gap-4"
 			sx={{
 				pl: { sm: 2 },
 				pr: { xs: 1, sm: 1 },
@@ -199,7 +201,6 @@ function EnhancedTableToolbar(props) {
 					bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
 				}),
 				display: 'flex',
-				gap: '2rem',
 				justifyContent: 'flex-end',
 			}}
 		>
@@ -216,7 +217,7 @@ function EnhancedTableToolbar(props) {
 							setActionTitle('تم تعطيل المستخدمين بنجاح');
 						}} 
 					>
-						<h2 className={'font-semibold'} style={{ color: '#FF9F1A' }}>
+						<h2 className={'font-semibold md:text-[18px] text-[16px]'} style={{ color: '#FF9F1A' }}>
 							تعطيل
 						</h2>
 						<Box
@@ -258,7 +259,7 @@ function EnhancedTableToolbar(props) {
 								}}
 							></DeleteIcon>
 						</IconButton>
-						<h2 className={'font-semibold'} style={{ color: '#FF3838' }}>
+						<h2 className={'font-semibold md:text-[18px] text-[16px]'} style={{ color: '#FF3838' }}>
 							حذف
 						</h2>
 					</div>
@@ -266,7 +267,7 @@ function EnhancedTableToolbar(props) {
 			</div>
 
 			<div className='flex items-center'>
-				<h2 className='font-medium'>تحديد الكل</h2>
+				<h2 className='font-medium md:text-[18px] text-[16px] whitespace-nowrap'>تحديد الكل</h2>
 				<Checkbox
 					checkedIcon={<CheckedSquare />}
 					sx={{
@@ -503,14 +504,14 @@ export default function EnhancedTable({ setUser }) {
 												</div>
 											</TableCell>
 											<TableCell align='right'>
-												<h2 className='font-normal text-lg'>{row.role}</h2>
+												<h2 className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>{row.role}</h2>
 											</TableCell>
 
 											<TableCell align='right'>
-												<h2 className='font-normal text-lg'>{row.email}</h2>
+												<h2 className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>{row.email}</h2>
 											</TableCell>
 											<TableCell align='right'>
-												<h2 className='font-normal text-lg'>{row.name}</h2>
+												<h2 className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>{row.name}</h2>
 											</TableCell>
 										
 
@@ -543,7 +544,7 @@ export default function EnhancedTable({ setUser }) {
 					</Table>
 				</TableContainer>
 			</Paper>
-			<div className='flex items-center justify-between'>
+			<div className='flex md:flex-row flex-col gap-y-4 items-center justify-between'>
 				<div className='flex items-center gap-2 p-2 rounded-md' style={{ border: '1px solid #2D62ED' }}>
 					<div
 						id='basic-button'
