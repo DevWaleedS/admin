@@ -6,6 +6,7 @@ import FunctionalRoles from '../../components/UsersPageComp/FunctionalRoles/Func
 import CreateRole from '../../components/UsersPageComp/CreateRole/CreateRole';
 import EditRole from '../../components/UsersPageComp/EditRole/EditRole';
 import { AiOutlinePlus } from 'react-icons/ai';
+import PageNavigate from "../../components/PageNavigate/PageNavigate";
 
 const Users = () => {
 	const [showAddNewUser, setShowAddNewUser] = useState(false);
@@ -14,11 +15,12 @@ const Users = () => {
 	const [showEditRole, setShowEditRole] = useState(null);
 
 	return (
-		<div className='relative pl-36 '>
-			<div className='flex justify-end'>
-				<div className='flex gap-4'>
+		<div className='relative md:pl-36 p-4 pt-0'>
+			<div className='flex md:flex-row flex-col md:items-center items-start justify-between gap-y-4'>
+				<PageNavigate currentPage={"جدول المستخدمين"}/>
+				<div className='md:w-auto w-full flex flex-row items-center gap-4'>
 					<Button
-						className='h-14 w-[198px] text-lg'
+						className='md:h-14 h-[45px] md:w-[198px] w-full text-lg whitespace-nowrap'
 						type={'outline'}
 						svg={<AiOutlinePlus color='#B6BE34' className='w-5 h-5' />}
 						style={{ borderColor: '#B6BE34' }}
@@ -30,7 +32,7 @@ const Users = () => {
 						اضافة مستخدم
 					</Button>
 					<Button
-						className='h-14 w-[180px] text-xl'
+						className='md:h-14 h-[45px] md:w-[180px] w-full text-xl whitespace-nowrap'
 						onClick={() => {
 							setShowFunctionalRoles(true);
 						}}
@@ -40,7 +42,6 @@ const Users = () => {
 					</Button>
 				</div>
 			</div>
-
 			{showCreateRole && (
 				<CreateRole
 					cancel={() => {

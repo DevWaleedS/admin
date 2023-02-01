@@ -18,18 +18,18 @@ const ChangeLogoSec = () => {
 
 	return (
 		<div className='mt-8 shadow-md rounded-lg ' style={{ backgroundColor: '#FFFFFF' }}>
-			<div className='p-5 rounded-t-lg' style={{ backgroundColor: '#F7FCFF', border: '1px solid #EFEFEF' }}>
-				<h2 className='text-xl font-medium flex items-center'>
+			<div className='md:p-5 px-3 py-2 rounded-t-lg' style={{ backgroundColor: '#F7FCFF', border: '1px solid #EFEFEF' }}>
+				<h2 className='md:text-xl text-[16px] font-medium flex items-center'>
 					الشعار
-					<span className='mr-3 text-base font-normal text-[#67747B]'>(تستطيع تغيير الشعار الذي يظهر في الهيدر في الصفحة الرئيسية)</span>
+					<span className='mr-3 md:text-base text-[14px] font-normal text-[#67747B]'>(تستطيع تغيير الشعار الذي يظهر في الهيدر في الصفحة الرئيسية)</span>
 				</h2>
 			</div>
-			<div className='py-7 flex flex-col items-center'>
+			<div className='max-w-full py-7 md:px-0 px-4 flex flex-col items-center'>
 				<ImageUploading value={images} onChange={onChangeLogoImage} maxNumber={2} dataURLKey='data_url' acceptType={['jpg', 'png', 'jpeg']} disabled={true}>
 					{({ imageList, onImageUpload, onImageRemoveAll, onImageUpdate, onImageRemove, isDragging, dragProps }) => (
 						// write your building UI
 						<div
-							className='upload__image-wrapper relative '
+							className='max-w-full upload__image-wrapper relative '
 							style={{
 								width: '572px',
 

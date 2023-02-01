@@ -126,14 +126,14 @@ const PieChartSec = () => {
           return (
             <div key={idx} className="flex gap-3 ">
               <div
-                className=" h-5 w-5 rounded-full translate-y-1"
+                className="h-5 w-5 rounded-full translate-y-1"
                 style={{ backgroundColor: `${color}` }}
               ></div>
               <div>
-                <h2 className="font-medium" style={{ color: color }}>
+                <h2 className="font-medium md:text[18px] text-[16px]" style={{ color: color }}>
                   {TITLES[idx]}
                 </h2>
-                <h2 className="font-medium" style={{ color: color }}>
+                <h2 className="font-medium md:text[18px] text-[16px]" style={{ color: color }}>
                   {data[idx].value}
                 </h2>
               </div>

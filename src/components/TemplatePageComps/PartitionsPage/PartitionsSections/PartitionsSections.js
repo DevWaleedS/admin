@@ -32,7 +32,7 @@ const PartitionsSections = () => {
 		setValue(newValue);
 	};
 	return (
-		<Box className='pr-20 pt-5 pl-24' style={{ backgroundColor: '#FFFFFF' }}>
+		<Box className='md:pr-20 md:pt-5 md:pl-24 p-4' style={{ backgroundColor: '#FFFFFF' }}>
 			<TabContext value={value}>
 				<Box sx={{}}>
 					<TabList
@@ -45,12 +45,22 @@ const PartitionsSections = () => {
 								borderRadius: '0.25rem',
 								color: '#011723',
 								transition: '0.1s',
+								'@media(max-width:992px) ':{
+									width: '150px',
+									whiteSpace:'nowrap',
+								}
 							},
 							'& .MuiButtonBase-root.Mui-selected': {
 								backgroundColor: '#5EBFF2',
 								color: '#011723',
 							},
-							'& .MuiTabs-indicator': { display: 'none' },
+							'& .MuiTabs-indicator': 
+							{ 
+									display: 'none' 
+							},
+							'& .MuiTabs-flexContainer':{
+								overflow: 'auto',
+							},
 						}}
 						onChange={handleChange}
 					>
@@ -60,8 +70,8 @@ const PartitionsSections = () => {
 					</TabList>
 				</Box>
 				<Box sx={{ height: '27.5rem', mt: '2.5rem' }}>
-					<TabPanel value='1' className='pr-0'>
-						<div className='mb-5'>
+					<TabPanel value='1' className='md:pr-0 p-0'>
+						<div className='w-full mb-5'>
 							<h2 className='mb-2 text-lg font-normal' style={{ color: '#011723' }}>
 								اسم القسم
 							</h2>
@@ -134,7 +144,7 @@ const PartitionsSections = () => {
 							</Select>
 						</div>
 					</TabPanel>
-					<TabPanel value='2' className='pr-0'>
+					<TabPanel value='2' className='md:pr-0 p-0'>
 						<div className='mb-5'>
 							<h2 className='mb-2 text-lg font-normal' style={{ color: '#011723' }}>
 								اسم القسم
@@ -208,7 +218,7 @@ const PartitionsSections = () => {
 							</Select>
 						</div>
 					</TabPanel>
-					<TabPanel value='3' className='pr-0'>
+					<TabPanel value='3' className='md:pr-0 p-0'>
 						<div className='mb-5'>
 							<h2 className='mb-2 text-lg font-normal' style={{ color: '#011723' }}>
 								اسم القسم
