@@ -12,17 +12,17 @@ const SouqOtlobha = () => {
 	const [showNewProductInfo, setShowNewProductInfo] = useState(false);
 	const [editProduct, setEditProduct] = useState(null);
 	return (
-		<div className={`p-4 pl-36 `} style={{ backgroundColor: '#fafafa' }}>
-			<div className='flex items-center justify-between mb-6'>
+		<div className={`p-4 md:pl-36 pt-0`} style={{ backgroundColor: '#fafafa' }}>
+			<div className='flex md:flex-row flex-col md:items-center items-start justify-between gap-y-4 mb-5'>
 				<PageNavigate currentPage={'سوق اطلبها'} nestedPage={true} parentPage={'السوق'} />
-				<div className='flex gap-2 '>
+				<div className='md:w-auto w-full flex gap-2 '>
 					<Button
 						onClick={() => {
 							setShowFilteringOptions(!showFilteringOptions);
 						}}
 						type={'outline'}
 						img={Filter}
-						className={'rounded w-[140px] h-[56px] text-lg'}
+						className={'flex justify-center items-center md:w-[140px] w-full md:h-[56px] h-[45px] md:text-lg text-[16px] whitespace-nowrap rounded'}
 					>
 						فرز
 					</Button>
@@ -32,11 +32,12 @@ const SouqOtlobha = () => {
 							setEditProduct(false);
 						}}
 						type={'normal'}
-						img={Product}
 						color={'bTow'}
-						className={'rounded w-[180px] h-[56px] text-base font-normal'}
+						className={'flex flex-row justify-center items-center md:w-[180px] w-full md:h-[56px] h-[45px] rounded md:bg-[#1DBBBE] bg-[#EDEDEF]'}
+						textStyle={{ display: 'flex',justifyContent:'center',alignItems:'center',width:'100%',gap:'10px'}}
 					>
-						إضافة منتج جديد
+						<img className='md:invert' src={Product} alt="icon" />
+						<h2 className='md:text-lg text-[16px] md:text-[#FFFFFF] text-[#011723] whitespace-nowrap'>إضافة منتج جديد</h2>
 					</Button>
 				</div>
 			</div>

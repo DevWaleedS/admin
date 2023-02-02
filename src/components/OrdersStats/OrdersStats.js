@@ -35,18 +35,18 @@ const OrdersStatsData = [
 
 const OrdersStats = () => {
 	return (
-		<div className = 'grid gap-4 grid-cols-4 mb-6 '>
+		<div className = 'grid gap-4 lg:grid-cols-4 grid-cols-2 mb-6 '>
 			{OrdersStatsData.map((item) => (
 				<div
 					key={item.id}
 					className='bg-[#F3FCFD] shadow-[0px_3px_6px_#0000000F] rounded-lg 
-				text-center py-5 px-7'
+				text-center md:py-5 md:px-7 p-3'
 				>
-					<div className='flex items-center justify-center gap-3 '>
+					<div className='flex items-center justify-center gap-3'>
 						<span>{item.icon}</span>
-						<h4 className='text-[#02466A] font-medium  text-lg'>{item.title}</h4>
+						<h4 className='text-[#02466A] font-normal md:text-lg text-[16px] whitespace-nowrap'>{item.title}</h4>
 					</div>
-					<div className='text-[#02466A] font-medium  text-xl'>{item.num}</div>
+					<div className='text-[#02466A] font-medium md:text-[20px] text-[18px] whitespace-nowrap'>{item.num}</div>
 				</div>
 			))}
 		</div>

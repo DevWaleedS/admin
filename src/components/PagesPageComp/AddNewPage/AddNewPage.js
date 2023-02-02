@@ -34,14 +34,14 @@ const AddNewPage = ({ cancel }) => {
 	return (
 		<>
 			<BackDrop onClick={cancel} />
-			<div className='absolute  flex flex-col top-5 translate-x-2/4 add_new_page_popup  right-2/4 z-20 rounded-lg overflow-hidden' style={{ width: '72.5rem' }}>
+			<div className='absolute  flex flex-col top-5 translate-x-2/4 add_new_page_popup  right-2/4 z-20 rounded-lg overflow-hidden' style={{ width: '72.5rem',maxWidth:'90%' }}>
 				<div className='h-16 w-full flex items-center justify-between py-4 px-4 trader_alert' style={{ backgroundColor: '#1DBBBE' }}>
 					<h2 className='text-slate-50 text-xl text-center font-medium'>إنشاء صفحة </h2>
 					<IoMdCloseCircleOutline size={'1.25rem'} color={'#fff'} className={'cursor-pointer'} onClick={cancel}></IoMdCloseCircleOutline>
 				</div>
-				<div className=' p-6 rounded-b-lg' style={{ backgroundColor: '#F6F6F6' }}>
+				<div className='md:p-6 p-4 rounded-b-lg md:bg-[#F6F6F6] bg-[#F7F7F7]'>
 					<div
-						className='flex gap-4 p-4 items-center'
+						className='flex gap-4 p-4 items-center rounded-sm md:h-14 h-[45px]'
 						style={{
 							backgroundColor: '#FFFFFF',
 							border: '1px solid #D3D3D3',
@@ -50,7 +50,7 @@ const AddNewPage = ({ cancel }) => {
 						<WriteIcon fill='#ADB5B9'></WriteIcon>
 						<input className='outline-none' placeholder={'عنوان الصفحة'} type='text' name='name' />
 					</div>
-					<div className='mt-10'>
+					<div className='md:mt-10 mt-4'>
 						<Editor
 							toolbarHidden={false}
 							editorState={description.editorState}
@@ -67,14 +67,14 @@ const AddNewPage = ({ cancel }) => {
 							}}
 						/>
 					</div>
-					<div className='mt-10'>
-						<h2 className='text-xl font-semibold' style={{}}>
+					<div className='md:mt-10 mt-4'>
+						<h2 className='text-xl font-semibold'>
 							تحسينات SEO
 						</h2>
-						<div className='mt-5'>
-							<h2 className='text-lg font-medium'>عنوان صفحة تعريفية (Page Title)</h2>
+						<div className='md:mt-5 mt-3'>
+							<h2 className='md:text-lg text-[16px] font-medium'>عنوان صفحة تعريفية (Page Title)</h2>
 							<div
-								className='flex gap-4 mt-3 p-4 items-center'
+								className='md:h-14 h-[45px] flex gap-4 mt-3 p-4 items-center'
 								style={{
 									backgroundColor: '#EBEBEB',
 									border: '1px solid #D3D3D3',
@@ -84,10 +84,10 @@ const AddNewPage = ({ cancel }) => {
 								<input style={{ backgroundColor: '#EBEBEB' }} className=' flex-1   outline-none' placeholder={'عنوان صفحة تعريفية (Page Title)'} type='text' name='name' />
 							</div>
 						</div>
-						<div className='mt-5'>
-							<h2 className='text-lg font-medium'>رابط صفحة تعريفية (SEO Page URL)</h2>
+						<div className='md:mt-5 mt-3'>
+							<h2 className='md:text-lg text-[16px] font-medium'>رابط صفحة تعريفية (SEO Page URL)</h2>
 							<div
-								className='flex gap-4 mt-3 p-4 items-center'
+								className='md:h-14 h-[45px] flex gap-4 mt-3 p-4 items-center'
 								style={{
 									backgroundColor: '#EBEBEB',
 									border: '1px solid #D3D3D3',
@@ -97,10 +97,10 @@ const AddNewPage = ({ cancel }) => {
 								<input style={{ backgroundColor: '#EBEBEB' }} className=' flex-1   outline-none' placeholder={'رابط صفحة تعريفية (SEO Page URL)'} type='text' name='name' />
 							</div>
 						</div>
-						<div className='mt-5'>
-							<h2 className='text-lg font-medium'>وصف صفحة تعريفية (Page Description)</h2>
+						<div className='md:mt-5 mt-3'>
+							<h2 className='md:text-lg text-[16px] font-medium'>وصف صفحة تعريفية (Page Description)</h2>
 							<div
-								className='flex gap-4 mt-3 p-4 items-center'
+								className='md:h-14 h-[45px] flex gap-4 mt-3 p-4 items-center'
 								style={{
 									backgroundColor: '#EBEBEB',
 									border: '1px solid #D3D3D3',
@@ -111,7 +111,7 @@ const AddNewPage = ({ cancel }) => {
 							</div>
 						</div>
 					</div>
-					<div className='mt-10 flex gap-4'>
+					<div className='md:mt-10 mt-4 flex md:flex-row flex-col gap-4'>
 						<div
 							className='flex-1 rounded-lg '
 							style={{
@@ -121,7 +121,7 @@ const AddNewPage = ({ cancel }) => {
 							}}
 						>
 							<h2
-								className='py-4 px-5 text-xl font-medium '
+								className='py-4 px-5 md:text-lg text-[16px] font-medium '
 								style={{
 									color: '#011723',
 									border: '1px solid #ECECEC',
@@ -140,6 +140,9 @@ const AddNewPage = ({ cancel }) => {
 											'& .MuiTypography-root': {
 												fontSize: '18px',
 												fontWeight: '500',
+												'@media(max-width:767px)':{
+													fontSize: '16px',
+												}
 											},
 										}}
 										control={<Checkbox sx={{ '& path': { fill: '#000000' } }} />}
@@ -154,6 +157,9 @@ const AddNewPage = ({ cancel }) => {
 											'& .MuiTypography-root': {
 												fontSize: '18px',
 												fontWeight: '500',
+												'@media(max-width:767px)':{
+													fontSize: '16px',
+												}
 											},
 										}}
 										control={<Checkbox sx={{ '& path': { fill: '#000000' } }} />}
@@ -167,6 +173,9 @@ const AddNewPage = ({ cancel }) => {
 											'& .MuiTypography-root': {
 												fontSize: '18px',
 												fontWeight: '500',
+												'@media(max-width:767px)':{
+													fontSize: '16px',
+												}
 											},
 										}}
 										control={<Checkbox sx={{ '& path': { fill: '#000000' } }} />}
@@ -185,7 +194,7 @@ const AddNewPage = ({ cancel }) => {
 							}}
 						>
 							<h2
-								className='py-4 px-5 text-xl font-medium'
+								className='py-4 px-5 md:text-lg text-[16px] font-medium'
 								style={{
 									color: '#011723',
 									border: '1px solid #ECECEC',
@@ -193,18 +202,18 @@ const AddNewPage = ({ cancel }) => {
 							>
 								كلمات مفتاحية
 							</h2>
-							<div className='flex gap-4 mt-8 px-3'>
-								<Button className='h-14 font-medium text-xl' style={{ minWidth: 'fit-content' }} type={'outline'}>
+							<div className='flex gap-4 md:mt-8 md:px-3 p-3'>
+								<Button className='md:h-14 h-[45px] font-medium md:text-lg text-[16px]' style={{ minWidth: 'fit-content' }} type={'outline'}>
 									اضافة
 								</Button>
-								<input className='outline-none flex-1 rounded-lg h-14' style={{ border: '1px solid #707070' }} type='text' />
+								<input className='outline-none flex-1 rounded-lg md:h-14 h-[45px]' style={{ border: '1px solid #707070' }} type='text' />
 							</div>
 						</div>
 					</div>
-					<div className='flex my-20 items-center justify-center gap-8'>
+					<div className='flex md:my-20 my-8 items-center justify-center md:gap-8 gap-4'>
 						<Button
-							className='h-14 w-[109px]'
-							fontSize={'text-2xl font-normal'}
+							className='md:h-14 h-[45px] md:w-[109px] w-full'
+							fontSize={'md:text-2xl text-[18px] font-normal'}
 							style={{ minWidth: 'fit-content' }}
 							type={'normal'}
 							onClick={() => {
@@ -215,8 +224,8 @@ const AddNewPage = ({ cancel }) => {
 							حفظ
 						</Button>
 						<Button
-							className='h-14 w-[109px]'
-							fontSize={'text-2xl font-normal'}
+							className='md:h-14 h-[45px] md:w-[109px] w-full'
+							fontSize={'md:text-2xl text-[18px] font-normal'}
 							style={{ minWidth: 'fit-content' }}
 							type={'outline'}
 							onClick={() => {

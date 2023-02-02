@@ -4,52 +4,58 @@
 @tailwind utilities;
 
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap');
-:root
-{
-  --main-color:#02466A;
-  --sec-color:#1DBBBE;
-  --third-color:#B6BE34;
+
+:root {
+  --main-color: #02466A;
+  --sec-color: #1DBBBE;
+  --third-color: #B6BE34;
 }
-body:has(.MuiPopover-root){
+
+body:has(.MuiPopover-root) {
   overflow: auto !important;
   padding-right: 0 !important;
 }
 
-::-webkit-scrollbar, 
-::-webkit-scrollbar-track, 
-::-webkit-scrollbar-thumb  {
+::-webkit-scrollbar,
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-thumb {
   display: none;
 }
 
-body:has(.full_screen_page){
+body:has(.full_screen_page) {
   overflow-y: hidden;
 }
+
 .hide_scrollbar::-webkit-scrollbar {
   display: none;
 }
 
-.fcc{
+.fcc {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.fbc{
+
+.fbc {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-*{
+
+* {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
   font-family: 'Tajawal', sans-serif !important;
-  
+
 }
+
 body {
   margin: 0;
   font-family: 'Tajawal', sans-serif !important;
 
 }
+
 /* body:has(.back_drop){
   overflow-y:hidden ;
 } */
@@ -58,112 +64,135 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-h2
-{
+
+h2 {
   color: #011723;
-  
+
 }
+
 /* main_page */
-.main_page_date_picker .ant-picker-range-separator ,.main_page_date_picker .ant-picker-active-bar{
+.main_page_date_picker .ant-picker-range-separator,
+.main_page_date_picker .ant-picker-active-bar {
   display: none;
 }
-.ant-picker-cell.ant-picker-cell-range-start .ant-picker-cell-inner,.ant-picker-cell.ant-picker-cell-range-end .ant-picker-cell-inner
-{
+
+.ant-picker-cell.ant-picker-cell-range-start .ant-picker-cell-inner,
+.ant-picker-cell.ant-picker-cell-range-end .ant-picker-cell-inner {
   background: #0bf1d1 !important;
 }
+
 /* soqu */
 
-.MuiPopover-root ul:has(.souq_storge_category_filter_items){
+.MuiPopover-root ul:has(.souq_storge_category_filter_items) {
   padding: 0 !important;
 }
-.MuiPopover-root ul:has(.souq_storge_section_filter_items){
+
+.MuiPopover-root ul:has(.souq_storge_section_filter_items) {
   padding: 0;
 }
-.MuiPopover-paper:has(.multiple_select){
+
+.MuiPopover-paper:has(.multiple_select) {
   border-radius: 0;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 }
-.MuiPopover-root ul:has(.multiple_select){
+
+.MuiPopover-root ul:has(.multiple_select) {
   background-color: #67747B33;
 }
-.multiple_select:hover{
+
+.multiple_select:hover {
   background-color: #b4edee !important;
 }
-.multiple_select.Mui-selected{
+
+.multiple_select.Mui-selected {
   background-color: #1DBBBE !important;
 }
-.multiple_select.Mui-selected .Mui-checked{
+
+.multiple_select.Mui-selected .Mui-checked {
   color: #fff;
 }
+
 /* .MuiMenuItem-root:hover{
   background-color: #02466A !important;
 } */
-.otlobha_filtering_sec .MuiPaper-root{
+.otlobha_filtering_sec .MuiPaper-root {
   display: none !important;
 }
-.otlobha_new_product .rti--container
-{
+
+.otlobha_new_product .rti--container {
   width: 555px;
   border: 1px solid rgba(167, 167, 167, 0.5);
   padding: 1rem !important;
 }
- .rti--container:focus-within
-{
-  border: 1px solid rgba(167, 167, 167, 0.5) !important; 
+
+.rti--container:focus-within {
+  border: 1px solid rgba(167, 167, 167, 0.5) !important;
 
   box-shadow: none !important;
 }
-.rti--container:focus
-{
+
+.rti--container:focus {
   border: none !important
 }
 
 /* /////////////////// acadmic*/
-.demo-wrapper
-{
+.demo-wrapper {
   border: 1px solid #67747B33;
   border-radius: 4px;
   padding: 0.25rem;
 }
-.rdw-editor-main{
+
+.rdw-editor-main {
   height: 10rem !important;
 }
-.otlobha_acadmic .rti--container{
+
+.otlobha_acadmic .rti--container {
   border: 1px solid rgba(167, 167, 167, 0.5);
   padding: 1rem !important;
   height: 160px;
   display: block;
 
 }
-.otlobha_acadmic .rti--container .rti--input{
+
+.otlobha_acadmic .rti--container .rti--input {
   width: 5rem;
 }
-.trader_alert .demo-editor{
+
+.trader_alert .demo-editor {
   height: fit-content !important;
 }
+
 /* trader_alert */
-.trader_alert .demo-wrapper{
+.trader_alert .demo-wrapper {
   display: flex;
   flex-direction: column-reverse;
 }
- .trader_alert .demo-wrapper .public-DraftEditorPlaceholder-inner
- {
+
+.trader_alert .demo-wrapper .public-DraftEditorPlaceholder-inner {
   color: #011723;
   font-weight: 600;
   font-size: 1rem;
- }
- /* pages page  */
- .add_new_page_popup .rdw-editor-toolbar{
+}
+
+/* pages page  */
+.add_new_page_popup .rdw-editor-toolbar {
   background-color: #FAFAFA;
   border: 1px solid #FAFAFA;
- }
- .add_new_page_popup .demo-wrapper{
+}
+
+.add_new_page_popup .demo-wrapper {
   border: 1px solid #D3D3D3;
- }
- .add_new_page_popup .rdw-editor-main
- {
+}
+
+.add_new_page_popup .rdw-editor-main {
   height: 30rem !important;
   padding: 1.25rem;
   background-color: #fff;
- }
+}
+
+@media(max-width:767px) {
+  .add_new_page_popup .rdw-editor-main {
+    height: 100% !important
+  }
+}

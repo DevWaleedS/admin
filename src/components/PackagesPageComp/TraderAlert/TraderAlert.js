@@ -15,7 +15,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DataIcon } from '../../../assets/Icons/index';
 import { FiSend } from 'react-icons/fi';
 import { IoIosArrowDown } from 'react-icons/io';
-
+import { IoMdCloseCircleOutline } from 'react-icons/io';
 import { DatePicker as DateRange } from 'antd';
 
 const packagesOptions = ['تجديد الاشتراك', 'الغاء الاشتراك'];
@@ -49,7 +49,8 @@ const TraderAlert = ({ cancel, traderPackageDetails }) => {
 			<BackDrop onClick={cancel} />
 			<div className='fixed trader_alert   flex flex-col md:top-1/2 top-[55%] translate-x-2/4 -translate-y-2/4 right-2/4 z-20 rounded-lg md:overflow-hidden overflow-auto' style={{ width: '51.25rem',maxWidth:'90%', maxHeight: '77.5%' }}>
 				<div className='h-16 w-full flex items-center justify-center py-4 px-4 trader_alert' style={{ backgroundColor: '#1DBBBE' }}>
-					<h2 className='text-slate-50 text-center md:text-[22px] text-[18px] font-medium'>ارسال تنبيه للتاجر </h2>
+					<h2 className='flex-1 text-slate-50 text-center md:text-[22px] text-[18px] font-medium'>ارسال تنبيه للتاجر </h2>
+					<IoMdCloseCircleOutline size={'1.25rem'} color={'#fff'} className={'md:hidden flex cursor-pointer mr-auto'} onClick={cancel}></IoMdCloseCircleOutline>
 				</div>
 				<div className='flex-1 p-4 md:pt-10 pb-8' style={{ backgroundColor: 'rgb(246,246,246)' }}>
 					<div className='flex md:flex-row flex-col md:gap-24 gap-[18px]'>

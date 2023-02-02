@@ -32,109 +32,110 @@ const FilteringOptions = ({ showFilteringOptions, hideFilteringOptions }) => {
 	};
 
 	return (
-		<div className={` absolute top-0 w-full gap-10 pb-2 pt-4 pr-2  rounded-lg otlobha_filtering_sec duration-300 ${showFilteringOptions ? 'flex' : 'hidden'}`} style={{ backgroundColor: '#EDEDEF' }}>
-			<FormControl sx={{ minWidth: 120, flex: '1' }}>
-				<h2 className='font-medium text-lg mb-2'>التصنيف الأساسى</h2>
-
-				<Select
-					className='text-xl font-medium rounded-lg'
-					value={age}
-					IconComponent={() => {
-						return <IoIosArrowDown size={'1.3rem'} />;
-					}}
-					onChange={handleCategory}
-					displayEmpty
-					inputProps={{ 'aria-label': 'Without label' }}
-					renderValue={(selected) => {
-						if (age === '') {
-							return <h2>الكل</h2>;
-						}
-						return selected;
-					}}
-					sx={{
-						height: '3.5rem',
-						border: '1px solid rgba(29, 187, 190, 1)',
-						pl: '1rem',
-						'& .MuiOutlinedInput-notchedOutline': {
-							border: 'none',
-						},
-					}}
-				>
-					{category.map((item) => {
-						return (
+		<div className={`flex md:flex-row flex-col gap-y-4 absolute top-0 w-full gap-10 md:pb-2 md:pt-4 md:pr-2 p-3 rounded-lg otlobha_filtering_sec duration-300 ${showFilteringOptions ? 'flex' : 'hidden'}`} style={{ backgroundColor: '#EDEDEF' }}>
+			<div className='flex-1 flex flex-row items-center gap-3'>
+				<FormControl sx={{ minWidth: 120, flex: '1' }}>
+					<h2 className='font-medium text-lg mb-2'>التصنيف الأساسى</h2>
+					<Select
+						className='text-xl font-medium rounded-lg'
+						value={age}
+						IconComponent={() => {
+							return <IoIosArrowDown size={'1.3rem'} />;
+						}}
+						onChange={handleCategory}
+						displayEmpty
+						inputProps={{ 'aria-label': 'Without label' }}
+						renderValue={(selected) => {
+							if (age === '') {
+								return <h2>الكل</h2>;
+							}
+							return selected;
+						}}
+						sx={{
+							height: '3.5rem',
+							border: '1px solid rgba(29, 187, 190, 1)',
+							pl: '1rem',
+							'& .MuiOutlinedInput-notchedOutline': {
+								border: 'none',
+							},
+						}}
+					>
+						{category.map((item) => {
+							return (
+								<MenuItem
+									key={item}
+									className='souq_storge_category_filter_items'
+									sx={{
+										backgroundColor: 'rgba(211, 211, 211, 1)',
+										height: '3rem',
+										'&:hover': {},
+									}}
+									value={`${item}`}
+								>
+									{item}
+								</MenuItem>
+							);
+						})}
+					</Select>
+				</FormControl>
+				<FormControl sx={{ width: 300, flex: '1' }}>
+					<h2 className='font-medium text-lg mb-2'>القسم</h2>
+					<Select
+						className='text-xl font-medium text-[rgba(29, 187, 190, 1)] rounded-lg'
+						labelId='demo-multiple-checkbox-label'
+						id='demo-multiple-checkbox'
+						multiple
+						IconComponent={() => {
+							return <IoIosArrowDown size={'1.3rem'} fill='rgba(29, 187, 190, 1)' />;
+						}}
+						displayEmpty
+						value={personName}
+						onChange={handleSection}
+						input={<OutlinedInput label='Tag' />}
+						renderValue={(selected) => {
+							if (personName.length === 0) {
+								return <h2>الكل</h2>;
+							}
+							return selected.join(' , ');
+						}}
+						sx={{
+							height: '3.5rem',
+							border: '1px solid rgba(29, 187, 190, 1)',
+							pl: '1rem',
+							'& .MuiOutlinedInput-notchedOutline': {
+								border: 'none',
+							},
+						}}
+					>
+						{sections.map((name) => (
 							<MenuItem
-								key={item}
-								className='souq_storge_category_filter_items'
+								key={name}
+								value={name}
+								className='souq_storge_section_filter_items'
 								sx={{
-									backgroundColor: 'rgba(211, 211, 211, 1)',
-									height: '3rem',
-									'&:hover': {},
+									'&.Mui-selected': {
+										backgroundColor: 'rgba(29, 187, 190, 1)',
+									},
+									'&.Mui-selected:hover': {
+										backgroundColor: 'rgba(29, 187, 190, 1)',
+									},
+									'& .MuiButtonBase-root': {
+										color: 'rgba(0, 0, 0, 1)',
+									},
+									'& .MuiListItemText-root span': {
+										fontWeight: '500',
+									},
 								}}
-								value={`${item}`}
 							>
-								{item}
+								<Checkbox checked={personName.indexOf(name) > -1} />
+								<ListItemText primary={name} />
 							</MenuItem>
-						);
-					})}
-				</Select>
-			</FormControl>
-			<FormControl sx={{ width: 300, flex: '1' }}>
-				<h2 className='font-medium text-lg mb-2'>القسم</h2>
-				<Select
-					className='text-xl font-medium text-[rgba(29, 187, 190, 1)] rounded-lg'
-					labelId='demo-multiple-checkbox-label'
-					id='demo-multiple-checkbox'
-					multiple
-					IconComponent={() => {
-						return <IoIosArrowDown size={'1.3rem'} fill='rgba(29, 187, 190, 1)' />;
-					}}
-					displayEmpty
-					value={personName}
-					onChange={handleSection}
-					input={<OutlinedInput label='Tag' />}
-					renderValue={(selected) => {
-						if (personName.length === 0) {
-							return <h2>الكل</h2>;
-						}
-						return selected.join(' , ');
-					}}
-					sx={{
-						height: '3.5rem',
-						border: '1px solid rgba(29, 187, 190, 1)',
-						pl: '1rem',
-						'& .MuiOutlinedInput-notchedOutline': {
-							border: 'none',
-						},
-					}}
-				>
-					{sections.map((name) => (
-						<MenuItem
-							key={name}
-							value={name}
-							className='souq_storge_section_filter_items'
-							sx={{
-								'&.Mui-selected': {
-									backgroundColor: 'rgba(29, 187, 190, 1)',
-								},
-								'&.Mui-selected:hover': {
-									backgroundColor: 'rgba(29, 187, 190, 1)',
-								},
-								'& .MuiButtonBase-root': {
-									color: 'rgba(0, 0, 0, 1)',
-								},
-								'& .MuiListItemText-root span': {
-									fontWeight: '500',
-								},
-							}}
-						>
-							<Checkbox checked={personName.indexOf(name) > -1} />
-							<ListItemText primary={name} />
-						</MenuItem>
-					))}
-				</Select>
-			</FormControl>
+						))}
+					</Select>
+				</FormControl>
+			</div>
 			<div className='flex items-end'>
-				<Button onClick={hideFilteringOptions} type={'normal'} className={'w-[178px] h-14 text-xl'} style={{ backgroundColor: '#02466A' }}>
+				<Button onClick={hideFilteringOptions} type={'normal'} className={'md:w-[178px] w-full md:h-14 h-[45px] md:text-xl text-[16px] md:bg-[#02466A] bg-[#1DBBBE] '}>
 					تنفيذ الفرز
 				</Button>
 			</div>

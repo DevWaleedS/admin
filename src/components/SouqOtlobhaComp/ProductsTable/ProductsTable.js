@@ -1,4 +1,4 @@
-import { useState, useEffect,useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
 import Switch from '@mui/material/Switch';
@@ -21,7 +21,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { BiLinkAlt } from 'react-icons/bi';
 import { HiOutlineDocumentDuplicate } from 'react-icons/hi';
 import { NotificationContext } from "../../../store/NotificationProvider";
-import {Delete} from "../../../assets/Icons/index";
+import { Delete } from "../../../assets/Icons/index";
 
 const ItemCategory = (props) => {
 	const [menuButton, setMenuButton] = useState(null);
@@ -61,21 +61,22 @@ const ItemCategory = (props) => {
 	const item = props.item;
 
 	return (
-		<li className='mb-6  flex justify-between' style={{ backgroundColor: '#fff', padding: '1rem 0.5rem' }}>
+		<li className='mb-6 flex md:flex-row flex-col justify-between gap-y-4 rounded-md' style={{ backgroundColor: '#fff', padding: '1rem 0.5rem', border: '1px solid #ECECEC' }}>
 			<div className='flex'>
-				<div className='flex flex-col gap-8 px-3 items-center'>
-					<Checkbox checkedIcon={<CheckedSquare />} sx={{ display: 'inline', padding: '0' }} className='' item={id} value={id} checked={checkedList.includes(id)} onChange={handleCheckboxClick} />
-					<StarIcon className={`${showSpecial ? 'opacity-100' : 'opacity-0'}`} />
+				<div className='flex md:flex-row flex-col gap-y-2'>
+					<div className='flex md:flex-col flex-row gap-8 px-3 items-center'>
+						<Checkbox checkedIcon={<CheckedSquare />} sx={{ display: 'inline', padding: '0' }} className='' item={id} value={id} checked={checkedList.includes(id)} onChange={handleCheckboxClick} />
+						<StarIcon className={`${showSpecial ? 'opacity-100' : 'opacity-0'}`} />
+					</div>
+					<div className=''>
+						<img className='h-36 w-36 object-cover' src={img} alt='product-img' />
+					</div>
 				</div>
-
-				<div className=' '>
-					<img className='h-36 w-36 object-cover' src={img} alt='' />
-				</div>
-				<div className='flex flex-col justify-between mr-4' style={{ width: '356px' }}>
-					<div className='h-11 flex items-center' style={{ border: '1px solid #ccc', padding: '0.25rem 0.75rem' }}>
+				<div className='flex flex-col justify-between mr-4 md:w-[356px] w-full'>
+					<div className='h-11 flex items-center md:mb-0 mb-2' style={{ border: '1px solid #ccc', padding: '0.25rem 0.75rem' }}>
 						<h2>{title}</h2>
 					</div>
-					<div className='flex gap-4'>
+					<div className='flex md:flex-row flex-col md:gap-4 gap-2'>
 						<div className='flex-1'>
 							<h2>سعر الشراء</h2>
 							<div className='h-11 flex items-center mt-2' style={{ border: '1px solid #ccc' }}>
@@ -100,12 +101,12 @@ const ItemCategory = (props) => {
 					</div>
 				</div>
 			</div>
-			<div className='w-80 gap-12 flex flex-col justify-between'>
+			<div className='md:w-80 w-full md:gap-12 gap-6 flex flex-col justify-between'>
 				<div className='flex gap-4 flex-1'>
-					<div className='flex font-medium flex-1 justify-center items-center' style={{ backgroundColor: '#FFEEEE' }}>
+					<div className='flex font-medium flex-1 justify-center items-center rounded-sm min-h-[30px]' style={{ backgroundColor: '#FFEEEE', border: '1px solid #ECECEC' }}>
 						{category}
 					</div>
-					<div className='flex font-medium flex-1 justify-center items-center' style={{ backgroundColor: '#F4F5F7 ' }}>
+					<div className='flex font-medium flex-1 justify-center items-center rounded-sm min-h-[30px]' style={{ backgroundColor: '#F4F5F7 ', border: '1px solid #ECECEC' }}>
 						{section}
 					</div>
 					<div className='flex justify-center items-center'>
@@ -130,24 +131,22 @@ const ItemCategory = (props) => {
 						</Menu>
 					</div>
 				</div>
-				<div className='flex gap-4  flex-1'>
+				<div className='flex gap-4 flex-1'>
 					<div className='flex  flex-1 justify-center items-center'>
 						<Button
 							onClick={() => {
 								props.editProduct(item);
 							}}
-							className={'rounded-none font-medium'}
+							className={'md:w-[132px] w-full rounded-none font-medium'}
 							fontSize={'text-xs'}
 							type={'outline'}
 							style={{
 								height: '48px',
-								width: '132px',
 							}}
 						>
 							تفاصيل المنتج
 						</Button>
 					</div>
-
 					<div className='flex  flex-1 justify-center items-center'>
 						<MenuButton
 							id='demo-customized-button'
@@ -157,13 +156,12 @@ const ItemCategory = (props) => {
 							variant='contained'
 							disableElevation
 							onClick={handleClick}
-							className={'rounded-none font-medium'}
+							className={'md:w-[132px] w-full rounded-none font-medium'}
 							style={{
 								color: '#1DBBBE',
 								backgroundColor: '#FAFAFA',
 								border: '1px solid #1DBBBE',
 								height: '48px',
-								width: '132px',
 							}}
 							endIcon={<KeyboardArrowDownIcon fill={'#1DBBBE'} className='mr-3' />}
 						>
@@ -259,8 +257,7 @@ const ItemCategory = (props) => {
 							</MenuItem>
 						</Menu>
 					</div>
-
-					<div className='flex justify-center items-center'>
+					<div className='md:flex hidden justify-center items-center'>
 						<MoreIcon className='opacity-0' />
 					</div>
 				</div>
@@ -276,7 +273,7 @@ const ProductsTable = ({ editProduct }) => {
 	const [showProductDetails, setShowProductDetails] = useState(false);
 	const [productDetails, setProductDetails] = useState(null);
 	const NotificationStore = useContext(NotificationContext);
-    const { setNotificationTitle,setActionTitle } = NotificationStore;
+	const { setNotificationTitle, setActionTitle } = NotificationStore;
 
 	useEffect(() => {
 		const initialCategories = [
@@ -381,7 +378,7 @@ const ProductsTable = ({ editProduct }) => {
 				/>
 			)}
 			<header className='flex gap-4 items-center'>
-				<label>
+				<label className="md:text-[18px] text-[16px] font-medium whitespace-nowrap">
 					<Checkbox checkedIcon={<CheckedSquare />} checked={itemsChecked} onClick={selectItem.bind(this)} />
 					تحديد الكل
 				</label>
@@ -394,7 +391,7 @@ const ProductsTable = ({ editProduct }) => {
 							setActionTitle('تم حذف المنتجات بنجاح');
 						}}
 					>
-						<h6 style={{ fontSize: '18px', color: '#FF3838' }} className="font-medium">حذف</h6>
+						<h6 style={{ color: '#FF3838' }} className="md:text-[18px] text-[16px] font-medium">حذف</h6>
 						<img
 							src={Delete}
 							alt='delete-icon'
@@ -410,7 +407,7 @@ const ProductsTable = ({ editProduct }) => {
 							setActionTitle('تم تعطيل المنتجات بنجاح');
 						}}
 					>
-						<h6 style={{ fontSize: '18px', color: '#FF9F1A' }} className="font-medium">تعطيل</h6>
+						<h6 style={{ color: '#FF9F1A' }} className="md:text-[18px] text-[16px] font-medium">تعطيل</h6>
 						<Switch
 							onChange={() => {
 							}}

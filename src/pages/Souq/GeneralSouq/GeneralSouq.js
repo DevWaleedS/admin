@@ -15,12 +15,11 @@ const GeneralSouq = () => {
 		setShowAddApi(true);
 	};
 	return (
-		<div className={`p-4 pl-36`} style={{ backgroundColor: '#fafafa' }}>
-			<div className='flex items-center justify-between'>
+		<div className={`md:p-4 md:pl-36 p-5 pt-0 md:bg-[#fafafa] bg-[#F7F7F7]`}>
+			<div className='flex md:flex-row flex-col md:items-center items-start justify-between gap-y-4'>
 				<PageNavigate currentPage={'السوق العام'} nestedPage={true} parentPage={'السوق'} />
-
 				<Button
-					className={'flex justify-center items-center w-[180px] h-[56px] text-lg '}
+					className={'flex justify-center items-center md:w-[180px] w-full md:h-[56px] h-[45px] text-lg'}
 					type={'normal'}
 					svg={<AiOutlinePlus color='#fff' className='w-5 h-5'/>}
 					color={'white'}
@@ -40,7 +39,7 @@ const GeneralSouq = () => {
 					editDetails={editDetails}
 				></AddApi>
 			)}
-			<div className='mt-8'>
+			<div className='md:mt-8 mt-[50px]'>
 				<MarketsApis
 					edit={(url, logo, marketTitle) => {
 						handleEditing(url, logo, marketTitle);

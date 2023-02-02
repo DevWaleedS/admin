@@ -145,8 +145,8 @@ function EnhancedTableHead(props) {
 						sortDirection={orderBy === headCell.id ? order : false}
 						sx={{
 							width: headCell.width ? headCell.width : 'auto',
-
 							color: '#02466A',
+							whiteSpace:'nowrap'
 						}}
 					>
 						{headCell.sort && (
@@ -190,6 +190,7 @@ function EnhancedTableToolbar(props) {
 	const { setNotificationTitle,setActionTitle } = NotificationStore;
 	return (
 		<Toolbar
+			className='md:gap-8 gap-4'
 			sx={{
 				pl: { sm: 2 },
 				pr: { xs: 1, sm: 1 },
@@ -197,7 +198,6 @@ function EnhancedTableToolbar(props) {
 					bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
 				}),
 				display: 'flex',
-				gap: '2rem',
 				justifyContent: 'flex-end',
 			}}
 		>
@@ -230,7 +230,7 @@ function EnhancedTableToolbar(props) {
 								className={'w-5'}
 							></SwitchIcon>
 						</Box>
-						<h2 className={'font-semibold'} style={{ color: '#FF9F1A' }}>
+						<h2 className={'font-semibold md:text-[18px] text-[16px]'} style={{ color: '#FF9F1A' }}>
 							تعطيل
 						</h2>
 					</div>
@@ -256,7 +256,7 @@ function EnhancedTableToolbar(props) {
 								}}
 							></DeleteIcon>
 						</IconButton>
-						<h2 className={'font-semibold'} style={{ color: '#FF3838' }}>
+						<h2 className={'font-semibold md:text-[18px] text-[16px]'} style={{ color: '#FF3838' }}>
 							حذف
 						</h2>
 					</div>
@@ -264,7 +264,7 @@ function EnhancedTableToolbar(props) {
 			</div>
 
 			<div className='flex items-center'>
-				<h2 className='font-medium'>تحديد الكل</h2>
+				<h2 className='font-medium md:text-[18px] text-[16px] whitespace-nowrap'>تحديد الكل</h2>
 				<Checkbox
 					checkedIcon={<CheckedSquare />}
 					sx={{
@@ -473,27 +473,27 @@ export default function EnhancedTable() {
 														marginLeft: 'auto',
 													}}
 												>
-													<h2>{row.active ? 'تم النشر' : 'محظور'}</h2>
+													<h2 className='md:text-[18px] text-[16px] whitespace-nowrap'>{row.active ? 'تم النشر' : 'محظور'}</h2>
 												</div>
 											</TableCell>
 											<TableCell align='right'>
 												<div className=''>
-													<h2 className='font-normal text-lg '>{row.publishDate}</h2>
+													<h2 className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>{row.publishDate}</h2>
 												</div>
 											</TableCell>
 											<TableCell align='right'>
 												<div>
-													<h2 className='font-normal text-lg'>{row.name}</h2>
+													<h2 className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>{row.name}</h2>
 												</div>
 											</TableCell>
 
 											<TableCell align='right'>
 												<div>
-													<h2 className='font-normal text-lg'>{row.title}</h2>
+													<h2 className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>{row.title}</h2>
 												</div>
 											</TableCell>
 
-											<TableCell align='right' className='font-normal text-lg'>
+											<TableCell align='right' className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>
 												{(index + 1).toLocaleString('en-US', {
 													minimumIntegerDigits: 2,
 													useGrouping: false,
@@ -531,8 +531,8 @@ export default function EnhancedTable() {
 					</Table>
 				</TableContainer>
 			</Paper>
-			<div className='flex items-center justify-between'>
-				<div className='flex items-center gap-2 p-2 rounded-md' style={{ border: '1px solid #8D8AD3' }}>
+			<div className='flex md:flex-row flex-col items-center justify-between gap-y-4'>
+				<div className='md:h-14 h-[45px] flex items-center gap-2 p-2 rounded-md' style={{ border: '1px solid #8D8AD3' }}>
 					<div
 						id='basic-button'
 						aria-controls={open ? 'basic-menu' : undefined}
