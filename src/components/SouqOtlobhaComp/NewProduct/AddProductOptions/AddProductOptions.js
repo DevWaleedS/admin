@@ -24,7 +24,7 @@ import ActionCompleteComp from '../../../ActionCompleteComp/ActionCompleteComp';
 import Context from '../../../../store/context';
 
 const BackDrop = ({ onClick }) => {
-	return <div onClick={onClick} className='fixed back_drop top-0 left-0 h-full w-full bg-slate-900 opacity-50 z-30'></div>;
+	return <div onClick={onClick} className='fixed back_drop top-0 left-0 h-full w-full bg-[#242424] opacity-70 z-40'></div>;
 };
 
 const productOptions = [
@@ -166,9 +166,9 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 					}}
 				></ActionCompleteComp>
 			)}
-			<div className='fixed flex flex-col top-10 translate-x-2/4 right-2/4 z-40 rounded-md overflow-hidden' style={{ height: '40rem', width: '60.25rem', maxHeight: '80%' }}>
+			<div className='fixed flex flex-col top-10 translate-x-2/4 right-2/4 z-50 rounded-md overflow-hidden' style={{ height: '40rem', width: '60.25rem', maxHeight: '80%',maxWidth:'90%' }}>
 				<div className='h-16 w-full flex items-center justify-between px-4' style={{ backgroundColor: '#1DBBBE' }}>
-					<h2 className='text-slate-50 text-lg '>اضافة خيارات للمنتج - {editProduct.title}</h2>
+					<h2 className='text-slate-50 md:text-lg text-[15px]'>اضافة خيارات للمنتج - {editProduct.title}</h2>
 					<IoMdCloseCircleOutline color={'#fff'} className={'cursor-pointer w-5 h-5'} onClick={closeDetails}></IoMdCloseCircleOutline>
 				</div>
 				<div className='flex-1 overflow-scroll hide_scrollbar px-4 pt-6 pb-2' style={{ backgroundColor: '#F6F6F6' }}>
@@ -190,16 +190,16 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 						const findOptionLabels = productOptions.find((option) => option.name === item.name);
 						return (
 							<div
-								className='py-7 px-5 mt-6'
+								className='md:py-7 md:px-5 mt-6 p-4'
 								style={{
 									backgroundColor: '#EDEDEF',
 									border: '1px solid #E4E4E4',
 								}}
 							>
-								<div className='flex gap-5 mb-7' style={{}}>
-									<div className='flex-1 h-12 flex gap-5' style={{}}>
+								<div className='flex md:flex-row flex-col md:gap-5 gap-3 mb-7' style={{}}>
+									<div className='flex-1 md:h-12 flex md:flex-row flex-col md:gap-5 gap-3'>
 										<div
-											className='flex flex-1 gap-4 px-2 items-center'
+											className='md:h-12 min-h-[45px] flex flex-1 gap-4 px-2 items-center'
 											style={{
 												backgroundColor: '#FAFAFA',
 												border: '1px solid #D3D3D3',
@@ -209,7 +209,7 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 											<input style={{ backgroundColor: 'transparent' }} className=' flex-1   outline-none' placeholder={findOptionLabels.placeHolder1} type='text' name='name' />
 										</div>
 										<div
-											className='flex flex-1 gap-4 px-2  items-center'
+											className='md:h-12 min-h-[45px] flex flex-1 gap-4 px-2 items-center'
 											style={{
 												backgroundColor: '#FAFAFA',
 												border: '1px solid #D3D3D3',
@@ -231,7 +231,7 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 												}}
 												className={'font-medium'}
 												sx={{
-													height: '3.5rem',
+													height: '100%',
 													pl: '1rem',
 													width: '100%',
 
@@ -287,13 +287,11 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 										</Box>
 									</div>
 								</div>
-
 								{item.values.map(({ value, id }) => {
 									const color = item.name === 'اللون';
-
 									return (
-										<div className='flex gap-5 mb-5'>
-											<div className='flex-1 relative h-12 flex gap-5' style={{}}>
+										<div className='flex mb-5 md:flex-row flex-col md:gap-5 gap-2'>
+											<div className='flex-1 relative h-12 min-h-[45px] flex gap-5'>
 												<div
 													className='flex relative flex-1 gap-4 px-2 items-center'
 													style={{
@@ -364,8 +362,8 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 								})}
 
 								<div
-									className='fcc py-3 gap-3 mx-auto cursor-pointer'
-									style={{ width: '376px', border: '1px dashed #1DBBBE' }}
+									className='md:w-[376px] w-full flex items-center justify-center py-3 gap-3 mx-auto cursor-pointer'
+									style={{ border: '1px dashed #1DBBBE' }}
 									onClick={() => {
 										dispatch({ type: 'ADD_TO_SAME', name: item.name });
 									}}
@@ -391,7 +389,7 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 					<div className='flex items-center  gap-2 mt-10 '>
 						<Checkbox sx={{ p: 0, '& svg': { fill: '#1DBBBE' } }}></Checkbox>
 						<h2 className='font-semibold' style={{ color: '#011723' }}>
-							كميات غير محدودة{' '}
+							كميات غير محدودة
 						</h2>
 					</div>
 					<div
@@ -403,7 +401,7 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 					>
 						<div className='flex mb-5 '>
 							<label
-								className='flex rounded-md w-full overflow-hidden'
+								className='flex rounded-md w-full overflow-hidden md:h-12 h-[50px]'
 								style={{
 									backgroundColor: '#FAFAFA',
 									border: '1px solid #ADB5B9B3',
@@ -426,7 +424,7 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 						</div>
 						<div className='flex mb-5 '>
 							<label
-								className='flex rounded-md w-full overflow-hidden'
+								className='flex rounded-md w-full overflow-hidden md:h-12 h-[50px]'
 								style={{
 									backgroundColor: '#FAFAFA',
 									border: '1px solid #ADB5B9B3',
@@ -456,10 +454,10 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 								</div>
 							</label>
 						</div>
-						<div className='flex mb-5 gap-4'>
+						<div className='flex md:flex-row flex-col mb-5 gap-4'>
 							<div className='flex-1'>
 								<label
-									className='flex rounded-md w-full overflow-hidden'
+									className='flex rounded-md w-full overflow-hidden md:h-12 h-[50px]'
 									style={{
 										backgroundColor: '#FAFAFA',
 										border: '1px solid #ADB5B9B3',
@@ -492,7 +490,7 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 							</div>
 							<div className='flex-1'>
 								<div
-									className='flex h-full flex-1 gap-4 px-2 items-center'
+									className='flex md:h-12 h-[50px] flex-1 gap-4 px-2 items-center'
 									style={{
 										backgroundColor: '#FAFAFA',
 										border: '1px solid #D3D3D3',
@@ -503,10 +501,10 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 								</div>
 							</div>
 						</div>
-						<div className='flex mb-5 gap-4'>
-							<div className='flex-1 h-14'>
+						<div className='flex md:flex-row flex-col mb-5 gap-4'>
+							<div className='flex-1'>
 								<div
-									className='flex h-full flex-1 gap-4 px-2 items-center'
+									className='md:h-12 h-[50px] flex flex-1 gap-4 px-2 items-center'
 									style={{
 										backgroundColor: '#FAFAFA',
 										border: '1px solid #D3D3D3',
@@ -521,7 +519,7 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 							</div>
 							<div className='flex-1'>
 								<div
-									className='flex h-full flex-1 gap-4 pr-2 items-center'
+									className='md:h-12 flex md:flex-row flex-col flex-1 gap-4 md:pr-2 items-center'
 									style={{
 										backgroundColor: '#FAFAFA',
 										border: '1px solid #D3D3D3',
@@ -538,7 +536,7 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 											});
 										}}
 										style={{ backgroundColor: 'transparent' }}
-										className=' flex-1   outline-none'
+										className='flex-1 outline-none md:text-right text-center'
 										placeholder={'الكمية المتوفرة'}
 										type='number'
 										name='name'
@@ -559,11 +557,11 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 													return prev + 1;
 												});
 											}}
-											className='fcc cursor-pointer'
+											className='fcc min-h-[45px] cursor-pointer'
 										>
 											<AiOutlinePlus></AiOutlinePlus>
 										</div>
-										<div className='fcc'>{productStored}</div>
+										<div className='fcc min-h-[45px]'>{productStored}</div>
 										<div
 											onClick={() => {
 												setProductStored((prev) => {
@@ -573,7 +571,7 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 													return prev - 1;
 												});
 											}}
-											className='fcc cursor-pointer'
+											className='fcc min-h-[45px] cursor-pointer'
 										>
 											<AiOutlineMinus></AiOutlineMinus>
 										</div>

@@ -134,12 +134,14 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
                 <h2 style={{ color: "#0099FB" }} className="text-lg font-medium mb-3">
                   اضافة محتوى جديد للخطة
                 </h2>
-                <FormControl sx={{ width: "100%", height: '240px' }}>
+                <FormControl sx={{ width: "100%",minHeight:"240px" }}>
                   <Select
+                    className={styles.select}
                     multiple
                     displayEmpty
                     value={optionName}
                     onChange={handleChange}
+                    IconComponent={(props) => (<Arrow fill="#242424" {...props} />)}
                     input={<OutlinedInput />}
                     sx={{
                       backgroundColor: "#EFF9FF",
@@ -157,8 +159,8 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
                           <div
                             className="py-1 px-3 text-slate-50 rounded-lg font-light"
                             style={{
+                              maxWidth:"fit-content",
                               backgroundColor: "#0099FB",
-                              marginRight: "5px",
                               display: "inline",
                             }}
                           >
@@ -171,10 +173,9 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
                     inputProps={{ "aria-label": "Without label" }}
                   >
                     {packagesOptions.map((option) => (
-                      <MenuItem 
-                        key={option} 
-                        value={option} 
-                        className="souq_storge_category_filter_items"
+                      <MenuItem className="souq_storge_category_filter_items"
+                        key={option}
+                        value={option}
                         sx={{
                           padding: 0,
                           backgroundColor: "#FAFAFA",

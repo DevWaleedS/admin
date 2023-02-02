@@ -15,10 +15,10 @@ const Filtering = () => {
   };
 
   return (
-    <div className="flex gap-4 mt-10">
-      <label className={` flex-1 relative `}>
+    <div className="flex md:flex-row flex-col gap-4 md:mt-10 mt-4">
+      <label className={`flex-1 relative h-full`}>
         <input
-          className="h-full  outline-0 pr-10 rounded-lg "
+          className="h-[45px] md:h-14 md:w-[654px] w-full outline-0 pr-10 rounded-lg"
           placeholder=" ابحث عن صفحة"
           type="text"
           name="name"
@@ -27,7 +27,6 @@ const Filtering = () => {
           }}
           style={{
             border: "1px solid #8D8AD3",
-            width: "654px",
           }}
         />
         <div className={`absolute top-1/2 right-4 -translate-y-2/4`}>
@@ -68,9 +67,8 @@ const Filtering = () => {
             </h2>
           );
         }}
-        className={"rounded-lg"}
+        className={"md:h-[3.5rem] h-[45px] rounded-lg"}
         sx={{
-          height: "3.5rem",
           backgroundColor: "#fff",
           width: "100%",
           pl: "1rem",

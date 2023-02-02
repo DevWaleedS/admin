@@ -71,9 +71,13 @@ const MarketsApis = ({ edit }) => {
 								sx={{
 									height: '13.125rem',
 									mb: '5.625rem',
+									'@media(max-width:767px)':{
+										mb: '8px',
+									}
 								}}
 								item
-								xs={4}
+								md={4}
+								xs={6}
 							>
 								<Item className='flex flex-col rounded-md overflow-hidden'>
 									<a className='flex-1 p-4 flex items-center justify-center' href={url} target='_blank' rel='noreferrer'>

@@ -27,15 +27,15 @@ const BackDrop = ({ onClick }) => {
 const category = ['الكترونيات', 'ألعاب وهدايا', 'مستلزمات طبية', 'مواد غذائية'];
 const subCategories = ['جوالات', 'شاشات', 'بطاريات', 'اكسسوارات'];
 
-const formTitleClasses = 'font-medium text-xl';
+const formTitleClasses = 'font-medium md:text-xl text-[16px]';
 const formTitleStyle = { width: '315px' };
 //
 const formInputClasses = 'p-4 outline-0 rounded-md text-lg font-normal';
 const formInputStyle = {
 	width: '555px',
+	maxWidth:'100%',
 	border: '1px solid rgba(167, 167, 167, 0.5)',
 	backgroundColor: '#f6f6f6',
-	fontSize: '20px',
 	fontWight: '400',
 	color: '#ADB5B9',
 };
@@ -120,39 +120,37 @@ const NewProduct = ({ cancel, editProduct }) => {
 					editProduct={editProduct}
 				></AddProductOptions>
 			)}
-			<div className={`fixed bottom-0 left-0 bg-slate-50 z-20  otlobha_new_product ${styles.container}`} style={{ width: '1104px', height: 'calc(100% - 4rem)' }}>
+			<div className={`fixed bottom-0 left-0 bg-slate-50 z-30  otlobha_new_product ${styles.container}`} style={{ width: '1104px',maxWidth:'100%', height: 'calc(100% - 4rem)' }}>
 				<div className='flex h-full flex-col justify-between'>
 					<div
-						className='p-8'
+						className='md:p-8 p-4'
 						style={{
 							height: '135px',
 							backgroundColor: 'rgba(235, 235, 235, 1)',
 						}}
 					>
-						<h2 className='font-bold text-2xl  mb-3'>{editProduct ? 'تفاصيل المنتج' : 'اضافة منتج جديد للسوق'}</h2>
-						<h2 className='text-xl font-normal'>{editProduct ? 'تعديل بيانات المنتجات في سق اطلبها' : 'أدخل بيانات المنتج ليتم اضافته في منتجات سوق اطلبها'}</h2>
+						<h2 className='font-bold md:text-2xl text-[20px] mb-3'>{editProduct ? 'تفاصيل المنتج' : 'اضافة منتج جديد للسوق'}</h2>
+						<h2 className='md:text-xl text-[14px] font-normal'>{editProduct ? 'تعديل بيانات المنتجات في سق اطلبها' : 'أدخل بيانات المنتج ليتم اضافته في منتجات سوق اطلبها'}</h2>
 					</div>
-					<div className={`flex-1 overflow-y-scroll py-12 pr-8 bg-[#f6f6f6] ${styles.content}`}>
+					<div className={`flex-1 overflow-y-scroll md:py-12 md:pr-8 px-4 py-6 bg-[#f6f6f6] ${styles.content}`}>
 						<form action=''>
-							<div className='flex mb-8'>
+							<div className='flex md:flex-row flex-col gap-y-2 md:mb-8 mb-4'>
 								<h2 className={formTitleClasses} style={formTitleStyle}>
 									اسم المنتج
 								</h2>
-								<label>
 									<input
 										value={productName}
 										onChange={(e) => {
 											setProductName(e.target.value);
 										}}
-										className={formInputClasses}
+										className={`${formInputClasses} md:h-14 h-[45px]`}
 										style={formInputStyle}
 										placeholder='اسم المنتج'
 										type='text'
 										name='name'
 									/>
-								</label>
 							</div>
-							<div className='flex mb-8 '>
+							<div className='flex md:flex-row flex-col gap-y-2 md:mb-8 mb-4'>
 								<h2 className={formTitleClasses} style={formTitleStyle}>
 									وصف المنتج
 								</h2>
@@ -170,11 +168,11 @@ const NewProduct = ({ cancel, editProduct }) => {
 									rows='4'
 								></textarea>
 							</div>
-							<div className='flex mb-8 '>
+							<div className='flex md:flex-row flex-col gap-y-2 md:mb-8 mb-4'>
 								<h2 className={formTitleClasses} style={formTitleStyle}>
 									سعر الشراء
 								</h2>
-								<label className='flex rounded-md overflow-hidden' style={formInputStyle}>
+								<label className='md:h-14 h-[45px] flex rounded-md overflow-hidden' style={formInputStyle}>
 									<div className='p-4 flex flex-1'>
 										<img className='ml-2 opacity-50' src={Currency} alt='' />
 										<input
@@ -199,11 +197,11 @@ const NewProduct = ({ cancel, editProduct }) => {
 									</div>
 								</label>
 							</div>
-							<div className='flex mb-8 '>
+							<div className='flex md:flex-row flex-col gap-y-2 md:mb-8 mb-4'>
 								<h2 className={formTitleClasses} style={formTitleStyle}>
 									سعر البيع (مقترح)
 								</h2>
-								<label className='flex rounded-md overflow-hidden' style={formInputStyle}>
+								<label className='md:h-14 h-[45px] flex rounded-md overflow-hidden' style={formInputStyle}>
 									<div className='p-4 flex flex-1'>
 										<img className='ml-2 opacity-50' src={Currency} alt='' />
 										<input
@@ -228,7 +226,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 									</div>
 								</label>
 							</div>
-							<div className='flex mb-8'>
+							<div className='flex md:flex-row flex-col gap-y-2 md:mb-8 mb-4'>
 								<h2 className={formTitleClasses} style={formTitleStyle}>
 									كود المنتج (SKU)
 								</h2>
@@ -238,7 +236,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 										onChange={(e) => {
 											setProductCode(e.target.value);
 										}}
-										className={formInputClasses}
+										className={`${formInputClasses} md:h-14 h-[45px]`}
 										style={formInputStyle}
 										placeholder='#251'
 										type='text'
@@ -246,11 +244,11 @@ const NewProduct = ({ cancel, editProduct }) => {
 									/>
 								</label>
 							</div>
-							<div className='flex mb-8'>
+							<div className='flex md:flex-row flex-col gap-y-2 md:mb-8 mb-4'>
 								<h2 className={formTitleClasses} style={formTitleStyle}>
 									التصنيف الأساسي
 								</h2>
-								<FormControl sx={{ width: 555 }}>
+								<FormControl className='md:h-14 h-[45px] md:w-[555px] w-full'>
 									<Select
 										className={`text-lg font-normal rounded-lg ${styles.select}`}
 										value={age}
@@ -267,7 +265,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 											return selected;
 										}}
 										sx={{
-											height: '3.5rem',
+											height: '100%',
 											border: '1px solid rgba(167, 167, 167, 0.5)',
 											'& .MuiOutlinedInput-notchedOutline': {
 												border: 'none',
@@ -295,26 +293,26 @@ const NewProduct = ({ cancel, editProduct }) => {
 							</div>
 
 							{editProduct && (
-								<div className='flex mb-8'>
+								<div className='flex md:flex-row flex-col gap-y-2 md:mb-8 mb-4'>
 									<h2 className={formTitleClasses} style={formTitleStyle}>
 										رابط المنتج
 									</h2>
 									<div
-										className={`flex flex-row items-center justify-between ${formInputClasses}`} 
+										className={`md:h-14 h-[45px] flex flex-row items-center justify-between ${formInputClasses}`} 
 									style={formInputStyle}
 									>
-										<h6 style={{ color: '#02466A', fontSize: '16px' }}>https://www.cat.com/en_US/products/new/technology/equipm</h6>
+										<h6 style={{ color: '#02466A', fontSize: '16px',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap' }}>https://www.cat.com/en_US/products/new/technology/equipm</h6>
 
 										{copy ? <h6 style={{ color: '#02466A', fontSize: '16px' }}>Copied</h6> : <CopyIcon className='cursor-pointer mr-2' fill='#02466A' onClick={() => handelCopy()} />}
 									</div>
 								</div>
 							)}
 							{editProduct && (
-								<div className='flex mb-8'>
+								<div className='flex md:flex-row flex-col gap-y-2 md:mb-8 mb-4'>
 									<h2 className={formTitleClasses} style={formTitleStyle}>
 										التصنيف الفرعي
 									</h2>
-									<FormControl sx={{ width: 555 }}>
+									<FormControl className='md:h-14 h-[45px] md:w-[555px] w-full'>
 										<Select
 											className={`text-lg font-normal rounded-lg ${styles.select}`}
 											IconComponent={() => {
@@ -360,7 +358,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 								</div>
 							)}
 
-							<div className='flex mb-8'>
+							<div className='flex md:flex-row flex-col gap-y-2 md:mb-8 mb-4'>
 								<h2 className={formTitleClasses} style={formTitleStyle}>
 									صور المنتج الرئيسية
 								</h2>
@@ -369,10 +367,8 @@ const NewProduct = ({ cancel, editProduct }) => {
 										// write your building UI
 										<div>
 											<div
-												className='upload__image-wrapper relative overflow-hidden'
+												className='md:h-[220px] h-[100px] md:w-[555px] w-full upload__image-wrapper relative overflow-hidden'
 												style={{
-													width: '555px',
-
 													border: images[0] ? 'none' : '3px dashed #ccc',
 													borderRadius: '10px',
 												}}
@@ -381,9 +377,9 @@ const NewProduct = ({ cancel, editProduct }) => {
 												}}
 												{...dragProps}
 											>
-												<div className='image-item w-full cursor-pointer' style={{ height: '220px' }}>
+												<div className='image-item w-full cursor-pointer md:h-[220px] h-full'>
 													{!images[0] && (
-														<div className='flex flex-col justify-center items-center gap-6 h-full w-full'>
+														<div className='flex flex-col justify-center items-center md:gap-6 h-full w-full'>
 															<IoMdCloudUpload size={'2em'}></IoMdCloudUpload>
 															<h2 className='font-semibold'>اسحب الصورة هنا</h2>
 															<h2>(سيتم قبول الصور png & jpg)</h2>
@@ -393,7 +389,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 												</div>
 											</div>
 											{editProduct && (
-												<div className='w-28 h-28 mt-4'>
+												<div className='md:w-28 w-[60px] md:h-28 h-[58px] mt-4'>
 													<img className='object-cover w-full h-full' src={editProduct.img} alt='' />
 												</div>
 											)}
@@ -401,7 +397,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 									)}
 								</ImageUploading>
 							</div>
-							<div className='flex mb-8'>
+							<div className='flex md:flex-row flex-col gap-y-2 md:mb-8 mb-4'>
 								<h2 className={formTitleClasses} style={formTitleStyle}>
 									الصور المتعددة او الفيديو
 								</h2>
@@ -409,15 +405,12 @@ const NewProduct = ({ cancel, editProduct }) => {
 									{({ imageList, onImageUpload, onImageRemoveAll, onImageUpdate, onImageRemove, isDragging, dragProps }) => (
 										// write your building UI
 										<div
-											className='upload__image-wrapper relative flex justify-between gap-6'
-											style={{
-												width: '555px',
-											}}
+											className='md:w-[555px] w-full upload__image-wrapper relative flex justify-between gap-6'
 										>
 											{imageList.map((image, index) => {
 												return (
-													<div key={index} className='relative h-24 w-24 flex justify-center items-center cursor-pointer'>
-														<img className='object-cover h-24 w-24' src={image.data_url} alt='' />
+													<div key={index} className='relative md:h-24 h-[50px] md:w-24 w-[60px] flex justify-center items-center cursor-pointer'>
+														<img className='object-cover md:h-24 h-[50px] md:w-24 w-[60px]' src={image.data_url} alt='' />
 														<div onClick={() => onImageRemove(index)} className='absolute h-full w-full top-0 left-0 hover:bg-slate-900 hover:opacity-70 opacity-0 duration-200 flex justify-center items-center'>
 															<TiDeleteOutline style={{ fontSize: '1.5rem', color: 'red' }}></TiDeleteOutline>
 														</div>
@@ -428,14 +421,14 @@ const NewProduct = ({ cancel, editProduct }) => {
 												return (
 													<div
 														key={idx}
-														className=' h-20 w-20 flex justify-center items-center cursor-pointer'
+														className=' md:h-20 h-[50px] md:w-20 w-[60px] flex justify-center items-center cursor-pointer'
 														style={{ backgroundColor: '#FAFAFA', border: '2px dashed #237EAE', borderRadius: '4px' }}
 														onClick={() => {
 															onImageUpload();
 														}}
 													>
 														<Box sx={{ '& circle': { fill: '#ADB5B9' } }}>
-															<AddIcon className='w-5 h-5' />
+															<AddIcon className='md:w-5 md:h-5 w-4 h-4' />
 														</Box>
 													</div>
 												);
@@ -444,7 +437,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 									)}
 								</ImageUploading>
 							</div>
-							<div className='flex mb-8'>
+							<div className='flex md:flex-row flex-col gap-y-2 md:mb-8 mb-4'>
 								<h2 className={formTitleClasses} style={formTitleStyle}>
 									المخزون
 								</h2>
@@ -454,7 +447,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 										onChange={(e) => {
 											setInStore(e.target.value);
 										}}
-										className={formInputClasses}
+										className={`${formInputClasses} md:h-14 h-[45px]`}
 										style={formInputStyle}
 										placeholder='0'
 										type='text'
@@ -462,19 +455,19 @@ const NewProduct = ({ cancel, editProduct }) => {
 									/>
 								</label>
 							</div>
-							<div className='flex mb-8'>
+							<div className='flex md:flex-row flex-col gap-y-2 md:mb-8 mb-4'>
 								<h2 className={formTitleClasses} style={formTitleStyle}>
 									اضافة خيارات المنتج
 								</h2>
 								<div
-									className='fcc p-3 gap-4 border-2 border-dashed cursor-pointer rounded-lg'
+									className='md:h-14 h-[45px] fcc p-3 gap-4 border-2 border-dashed cursor-pointer rounded-lg'
 									style={formInputStyle}
 									onClick={() => {
 										setShowAddProductOptions(true);
 									}}
 								>
 									<Box sx={{ '& circle': { fill: '#ADB5B9' } }}>
-										<AddIcon></AddIcon>
+										<AddIcon className='md:w-7 md:h-7 w-5 h-5'></AddIcon>
 									</Box>
 									اضافة خيارات
 								</div>
@@ -482,17 +475,14 @@ const NewProduct = ({ cancel, editProduct }) => {
 						</form>
 					</div>
 					<div
-						className='p-8 flex justify-center gap-4'
+						className='md:h-[135px] h-[100px] md:p-8 p-4 flex justify-center items-center gap-4'
 						style={{
-							height: '135px',
 							backgroundColor: 'rgba(235, 235, 235, 1)',
 						}}
 					>
 						<Button
-							className=' text-2xl font-medium'
+							className='md:w-[186px] w-full md:h-[56px] h-[45px] md:text-2xl text-[18px] font-medium'
 							style={{
-								width: '186px',
-								height: '56px',
 								backgroundColor: '#02466A',
 							}}
 							type={'normal'}
@@ -504,11 +494,9 @@ const NewProduct = ({ cancel, editProduct }) => {
 							حفظ
 						</Button>
 						<Button
-							className='text-2xl font-medium'
+							className='md:w-[186px] w-full md:h-[56px] h-[45px] md:text-2xl text-[18px] font-medium'
 							style={{
 								borderColor: `rgba(2, 70, 106, 1)`,
-								width: '186px',
-								height: '56px',
 							}}
 							textStyle={{ color: 'rgba(2, 70, 106, 1)' }}
 							type={'outline'}
