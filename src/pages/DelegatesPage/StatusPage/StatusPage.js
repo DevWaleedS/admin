@@ -22,17 +22,17 @@ const StatusPage = () => {
 		setIsActive(event.target.value);
 	};
 	return (
-		<div className={`mt-5 px-4 pt-4 pl-36 h-full`} style={{ backgroundColor: '#F7F7F7' }}>
-			<div className='mt-6 '>
+		<div className={`mt-5 px-4 md:pt-4 md:pl-36 h-full`} style={{ backgroundColor: '#F7F7F7' }}>
+			<div className='md:mt-6'>
 				<PageNavigate nestedPage={true} parentPage={'المندوبين'} currentPage={'حالة التسجيل'} />
 			</div>
-			<div className='mt-16 px-6'>
+			<div className='mt-16 md:px-6'>
 				<div className='mb-5 '>
-					<h2 className='mb-2 font-medium text-lg' style={{ color: '#011723' }}>
-						التسجيل{' '}
+					<h2 className='mb-2 font-medium md:text-lg text-[16px]' style={{ color: '#011723' }}>
+						التسجيل
 					</h2>
 					<Select
-						className='font-normal text-lg rounded h-14'
+						className='md:h-14 h-[45px] font-normal md:text-lg text-[16px] rounded'
 						IconComponent={() => {
 							return <IoIosArrowDown size={'1rem'} />;
 						}}
@@ -47,7 +47,7 @@ const StatusPage = () => {
 							return selected;
 						}}
 						sx={{
-							height: '3.5rem',
+							height: '100%',
 							backgroundColor: '#fff',
 							width: '100%',
 							pl: '1rem',
@@ -81,11 +81,11 @@ const StatusPage = () => {
 					</Select>
 				</div>
 				<div className='mb-5 '>
-					<h2 className='mb-2 font-medium text-lg' style={{ color: '#011723' }}>
+					<h2 className='mb-2 font-medium md:text-lg text-[16px]' style={{ color: '#011723' }}>
 						التفعيل التلقائي
 					</h2>
 					<Select
-						className='font-normal text-lg rounded h-14'
+						className='md:h-14 h-[45px] font-normal md:text-lg text-[16px] rounded'
 						value={specialProduct}
 						IconComponent={() => {
 							return <IoIosArrowDown size={'1rem'} />;
@@ -100,7 +100,7 @@ const StatusPage = () => {
 							return selected;
 						}}
 						sx={{
-							height: '3.5rem',
+							height: '100%',
 							backgroundColor: '#fff',
 							width: '100%',
 							pl: '1rem',

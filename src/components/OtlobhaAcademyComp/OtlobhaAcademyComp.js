@@ -9,21 +9,19 @@ const OtlobhaAcademyComp = ({setSelectTab,EditCourse,EditLesson}) => {
   setSelectTab(selectedId);
   return (
     <div>
-      <div className="block lg:flex gap-12">
+      <div className="flex flex-row items-center md:gap-12 gap-4">
         {tabs.map((tab,index)=>(
           <div
               key={index}
-              className="flex cursor-pointer duration-200 rounded-lg justify-center items-center"
+              className="md:w-[278px] w-full md:h-[140px] h-[80px] px-3 flex cursor-pointer duration-200 rounded-lg justify-center items-center"
               style={{
-                height: "140px",
-                width: "278px",
                 backgroundColor: selectedId === tab.id ? "#B4EDEE" : "#B4EDEE33",
               }}
               onClick={() => {
                 setSelectedId(tab.id);           
               }}
             >
-              <h2 className="text-2xl font-medium" style={{ color: "#02466A" }}>
+              <h2 className="md:text-2xl text-[18px] font-medium whitespace-nowrap" style={{ color: "#02466A" }}>
                 {tab.title}
               </h2>
             </div>

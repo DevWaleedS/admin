@@ -155,15 +155,15 @@ function EnhancedTableHead(props) {
       <TableRow>
         {headCells.map((headCell) => (
           <TableCell
-            className='text-lg font-medium'
+            className='md:text-lg text-[16px] font-medium'
             key={headCell.id}
             align={headCell.numeric ? "right" : "center"}
             padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
             sx={{
               width: headCell.width ? headCell.width : "auto",
-
               color: "#02466A",
+              whiteSpace:'nowrap'
             }}
           >
             {headCell.sort && (
@@ -237,7 +237,7 @@ function EnhancedTableToolbar(props) {
               className="fcc gap-2 px-4 rounded-full"
               style={{ width: "114px", backgroundColor: "#FF38381A" }}
             >
-              <h2 className={"font-medium"} style={{ color: "#FF3838" }}>
+              <h2 className={"font-medium md:text-lg text-[16px]"} style={{ color: "#FF3838" }}>
                 حذف
               </h2>
               <IconButton>
@@ -255,7 +255,7 @@ function EnhancedTableToolbar(props) {
       </div>
 
       <div className="flex items-center">
-        <h2 className="font-medium">تحديد الكل</h2>
+        <h2 className="font-medium md:text-lg text-[16px] whitespace-nowrap">تحديد الكل</h2>
         <Checkbox
           checkedIcon={<CheckedSquare />}
           sx={{
@@ -445,6 +445,7 @@ export default function EnhancedTable() {
                           }}
                         >
                           <h2
+                            className="md:text-lg text-[16px]"
                             style={{
                               color: row.active ? '#011723' : '#67747B',
                             }}
@@ -456,19 +457,19 @@ export default function EnhancedTable() {
 
                       <TableCell align='right'>
                         <div>
-                          <h2 className='font-normal text-lg'>{row.city}</h2>
+                          <h2 className='font-normal md:text-lg text-[16px] whitespace-normal'>{row.city}</h2>
                         </div>
                       </TableCell>
 
                       <TableCell align='right'>
                         <div>
-                          <h2 className='font-normal text-lg'>{row.userName}</h2>
+                          <h2 className='font-normal md:text-lg text-[16px] whitespace-normal'>{row.userName}</h2>
                         </div>
                       </TableCell>
                       <TableCell align='right'>
-                        <h2 className='inline font-normal text-lg'>{row.name}</h2>
+                        <h2 className='inline font-normal md:text-lg text-[16px] whitespace-normal'>{row.name}</h2>
                       </TableCell>
-                      <TableCell align='right' className='font-normal text-lg'>
+                      <TableCell align='right' className='font-normal md:text-lg text-[16px] whitespace-normal'>
                         {(index + 1).toLocaleString('en-US', {
                           minimumIntegerDigits: 2,
                           useGrouping: false,
@@ -506,7 +507,7 @@ export default function EnhancedTable() {
           </Table>
         </TableContainer>
       </Paper>
-      <div className="flex items-center justify-between px-8">
+      <div className="flex md:flex-row flex-col items-center justify-between px-8 gap-y-4">
         <div
           className="flex items-center gap-2 p-2 rounded-md"
           style={{ border: "1px solid #2D62ED" }}

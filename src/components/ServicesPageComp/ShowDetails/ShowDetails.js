@@ -26,9 +26,9 @@ const ShowDetails = ({ cancel }) => {
 	return (
 		<>
 			<BackDrop />
-			<div className='fixed trader_alert flex flex-col top-1/2 translate-x-2/4 -translate-y-2/4 right-2/4 z-20 rounded-2xl overflow-hidden' style={{ width: '51.25rem', maxHeight: '662px' }}>
+			<div className='fixed trader_alert flex flex-col top-1/2 translate-x-2/4 -translate-y-2/4 right-2/4 z-20 rounded-2xl overflow-hidden' style={{ width: '51.25rem',maxWidth:'90%', maxHeight: '662px' }}>
 				<div className='h-16 w-full flex items-center justify-between py-4 px-4 trader_alert' style={{ backgroundColor: '#02466A' }}>
-					<h2 style={{ fontSize: '22px', color: '#ECFEFF' }} className='font-medium text-center flex-1'>
+					<h2 style={{ color: '#ECFEFF' }} className='font-medium md:text-[22px] text-[18px] text-center flex-1'>
 						التفاصيل
 					</h2>
 					<IoMdCloseCircleOutline
@@ -40,34 +40,34 @@ const ShowDetails = ({ cancel }) => {
 						onClick={cancel}
 					></IoMdCloseCircleOutline>
 				</div>
-				<div className='flex-1 px-[98px] py-[60px]' style={{ backgroundColor: '#FFFFFF' }}>
+				<div className='flex-1 md:px-[98px] md:py-[60px] p-0' style={{ backgroundColor: '#FFFFFF' }}>
 					<div className="flex flex-row shadow-lg">
 						<div className="flex-1 flex flex-col py-2">
 							<div
-								className="flex flex-col items-center justify-center"
-								style={{ width: '100%', height: '60px', backgroundColor: '#F2FBFF' }}>
-								<p style={{ fontSize: '18px', color: '#4D4F5C' }}>اسم المتجر</p>
+								className="md:h-[60px] h-[45px] flex flex-col items-center justify-center"
+								style={{ width: '100%',backgroundColor: '#F2FBFF' }}>
+								<p className="md:text-[18px] text-[16px]" style={{ color: '#4D4F5C' }}>اسم المتجر</p>
 							</div>
 							<div className="flex flex-col">
 								{[1, 2, 3, 4].map((_item, index) => (
 									<div key={index} className="flex flex-col items-center justify-center" style={{ width: '100%', height: '52px' }}>
-										<p style={{ fontSize: '18px', color: '#4D4F5C' }}>أمازون</p>
+										<p className="md:text-[18px] text-[16px]" style={{ color: '#4D4F5C' }}>أمازون</p>
 									</div>
 								))}
 							</div>
 						</div>
 						<div className="flex-1 flex flex-col py-2">
 							<div
-								className="flex flex-col items-center justify-center"
-								style={{ width: '100%', height: '60px', backgroundColor: '#F2FBFF' }}>
-								<p style={{ fontSize: '18px', color: '#4D4F5C' }}>نوع النشاط</p>
+								className="md:h-[60px] h-[45px] md:text-[18px] text-[16px] flex flex-col items-center justify-center"
+								style={{ width: '100%', backgroundColor: '#F2FBFF' }}>
+								<p className="md:text-[18px] text-[16px]" style={{ color: '#4D4F5C' }}>نوع النشاط</p>
 							</div>
 							<div className="flex flex-col">
 								{[1, 2, 3, 4].map((_item, index) => (
 									<div key={index} className="flex flex-col items-center justify-center" style={{ width: '100%', height: '52px' }}>
-										<div className="flex flex-row items-center gap-[12px]">
+										<div className="flex flex-row items-center md:gap-3 gap-2">
 											<img src={Gift} alt="gift-icon" />
-											<p style={{ fontSize: '18px', color: '#4D4F5C' }}>هدايا وألعاب</p>
+											<p className="md:text-[18px] text-[16px]" style={{ color: '#4D4F5C' }}>هدايا وألعاب</p>
 											<img className="cursor-pointer" src={ListMoreCategory} alt="list-more-category" onClick={handleClick} />
 											<Menu
 												className={styles.activity_menu}
@@ -78,8 +78,8 @@ const ShowDetails = ({ cancel }) => {
 												{[1, 2, 3].map((_item, index) => (
 													<MenuItem key={index} className="flex flex-row items-center justify-center gap-2" style={{ color: '#4D4F5C' }} onClick={handleClose}>
 														<div
-															className="flex flex-row items-center justify-center"
-															style={{ width: '25px', height: '25px', borderRadius: '50%', backgroundColor: '#8D8AD333' }}><img style={{ width:'15px' }} src={Stationery} alt="stationery-icon" /></div>
+															className="md:w-[25px] w-[20px] md:h-[25px] h-[20px] md:text-[18px] text-[16px] flex flex-row items-center justify-center"
+															style={{ borderRadius: '50%', backgroundColor: '#8D8AD333' }}><img style={{ width:'15px' }} src={Stationery} alt="stationery-icon" /></div>
 														قرطاسية
 													</MenuItem>
 												))}

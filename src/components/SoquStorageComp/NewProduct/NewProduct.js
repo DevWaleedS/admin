@@ -24,7 +24,7 @@ const category = ['الكترونيات', 'ألعاب وهدايا', 'مستلز
 const subCategories = ['جوالات', 'شاشات', 'بطاريات', 'اكسسوارات'];
 
 //
-const formInputClasses = 'p-4 outline-0 rounded-md text-lg font-normal';
+const formInputClasses = 'md:w-[555px] w-full md:h-[56px] h-[45px] p-4 outline-0 rounded-md text-lg font-normal';
 const formInputStyle = {
 	width: '555px',
 	border: '1px solid rgba(167, 167, 167, 0.5)',
@@ -103,25 +103,24 @@ const NewProduct = ({ cancel, editProduct }) => {
 					editProduct={editProduct}
 				></AddProductOptions>
 			)}
-			<div className={`fixed bottom-0 left-0 bg-slate-50 z-20 otlobha_new_product ${styles.add_new_product}`} style={{ width: '1104px', height: 'calc(100% - 4rem)' }}>
+			<div className={`fixed bottom-0 left-0 bg-slate-50 z-30 otlobha_new_product ${styles.add_new_product}`} style={{ width: '1104px',maxWidth:'100%', height: 'calc(100% - 4rem)' }}>
 				<div className='flex h-full flex-col justify-between'>
 					<div
-						className='p-[30px] flex flex-col gap-[10px]'
+						className='md:h-[135px] h-[110px] md:p-[30px] p-4 flex flex-col gap-[10px]'
 						style={{
-							height: '135px',
 							backgroundColor: 'rgba(235, 235, 235, 1)',
 						}}
 					>
-						<h2 style={{ fontSize: '24px', color: '#011723' }} className='font-bold'>
+						<h2 style={{ color: '#011723' }} className='font-bold md:text-[24px] text-[20px]'>
 							{editProduct ? 'تعديل المنتج' : 'اضافة منتج للمخزون'}
 						</h2>
-						<h2 style={{ fontSize: '20px', color: '#011723' }} className='font-normal'>
+						<h2 style={{ color: '#011723' }} className='font-normal md:text-[20px] text-[16px]'>
 							{editProduct ? 'تعديل بيانات المنتجات في المخزون' : 'اضافة بيانات المنتج في المخزون'}
 						</h2>
 					</div>
-					<div style={{ backgroundColor: '#F6F6F6' }} className={`flex-1 flex flex-col gap-[30px] overflow-y-scroll py-[38px] pr-[30px] ${styles.content}`}>
-						<div className='flex flex-row'>
-							<label className='font-medium' style={{ fontSize: '20px', color: '#011723', width: '315px' }}>
+					<div style={{ backgroundColor: '#F6F6F6' }} className={`flex-1 flex flex-col gap-[30px] overflow-y-scroll md:py-[38px] md:pr-[30px] px-4 py-6 ${styles.content}`}>
+						<div className='flex md:flex-row flex-col gap-y-2'>
+							<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
 								اسم المنتج
 							</label>
 							<input
@@ -130,13 +129,13 @@ const NewProduct = ({ cancel, editProduct }) => {
 									setProductName(e.target.value);
 								}}
 								className={formInputClasses}
-								style={{ width: '555px', backgroundColor: '#02466A00', border: '1px solid #A7A7A780' }}
+								style={{ backgroundColor: '#02466A00', border: '1px solid #A7A7A780' }}
 								placeholder='اسم المنتج'
 								type='text'
 							/>
 						</div>
-						<div className='flex flex-row'>
-							<label className='font-medium' style={{ fontSize: '20px', color: '#011723', width: '315px' }}>
+						<div className='flex md:flex-row flex-col gap-y-2'>
+							<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ olor: '#011723' }}>
 								وصف المنتج
 							</label>
 							<textarea
@@ -144,18 +143,18 @@ const NewProduct = ({ cancel, editProduct }) => {
 								onChange={(e) => {
 									setProductInfo(e.target.value);
 								}}
-								className={formInputClasses}
-								style={{ width: '555px', backgroundColor: '#02466A00', border: '1px solid #A7A7A780', resize: 'none' }}
+								className="md:w-[555px] w-full p-4 outline-0 rounded-md text-lg font-normal"
+								style={{ backgroundColor: '#02466A00', border: '1px solid #A7A7A780', resize: 'none' }}
 								resize={false}
 								placeholder='وصف تفاصيل المنتج'
 								rows='4'
 							></textarea>
 						</div>
-						<div className='flex flex-row'>
-							<label className=' font-medium text-xl' style={{ fontSize: '20px', color: '#011723', width: '315px' }}>
+						<div className='flex md:flex-row flex-col gap-y-2'>
+							<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
 								سعر الشراء
 							</label>
-							<div className='flex rounded-md overflow-hidden' style={formInputStyle}>
+							<div className='flex rounded-md overflow-hidden max-w-full md:h-[56px] h-[45px]' style={formInputStyle}>
 								<div className='p-4 flex flex-1'>
 									<img className='ml-2 opacity-50' src={Currency} alt='' />
 									<input
@@ -181,11 +180,11 @@ const NewProduct = ({ cancel, editProduct }) => {
 								</div>
 							</div>
 						</div>
-						<div className='flex flex-row'>
-							<label className='font-medium' style={{ fontSize: '20px', color: '#011723', width: '315px' }}>
+						<div className='flex md:flex-row flex-col gap-y-2'>
+							<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723'}}>
 								سعر البيع (مقترح)
 							</label>
-							<div className='flex rounded-md overflow-hidden' style={formInputStyle}>
+							<div className='flex rounded-md overflow-hidden max-w-full md:h-[56px] h-[45px]' style={formInputStyle}>
 								<div className='p-4 flex flex-1'>
 									<img className='ml-2 opacity-50' src={Currency} alt='' />
 									<input
@@ -211,8 +210,8 @@ const NewProduct = ({ cancel, editProduct }) => {
 								</div>
 							</div>
 						</div>
-						<div className='flex flex-row'>
-							<label className='font-medium' style={{ fontSize: '20px', color: '#011723', width: '315px' }}>
+						<div className='flex md:flex-row flex-col gap-y-2'>
+							<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
 								كود المنتج (SKU)
 							</label>
 							<input
@@ -227,11 +226,11 @@ const NewProduct = ({ cancel, editProduct }) => {
 								name='name'
 							/>
 						</div>
-						<div className='flex flex-row'>
-							<label className='font-medium' style={{ fontSize: '20px', color: '#011723', width: '315px' }}>
+						<div className='flex md:flex-row flex-col gap-y-2'>
+							<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
 								التصنيف
 							</label>
-							<FormControl sx={{ width: 555 }}>
+							<FormControl className='md:w-[555px] w-full md:h-[56px] h-[45px]'>
 								<Select
 									className={`text-lg font-normal rounded-lg ${styles.select}`}
 									value={age}
@@ -246,7 +245,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 										return selected;
 									}}
 									sx={{
-										height: '3.5rem',
+										height: '100%',
 										border: '1px solid rgba(167, 167, 167, 0.5)',
 										'& .MuiOutlinedInput-notchedOutline': {
 											border: 'none',
@@ -272,11 +271,11 @@ const NewProduct = ({ cancel, editProduct }) => {
 								</Select>
 							</FormControl>
 						</div>
-						<div className='flex flex-row'>
-							<label className='font-medium ' style={{ fontSize: '20px', color: '#011723', width: '315px' }}>
+						<div className='flex md:flex-row flex-col gap-y-2'>
+							<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723'}}>
 								التصنيف الفرعي
 							</label>
-							<FormControl sx={{ width: 555 }}>
+							<FormControl className='md:w-[555px] w-full md:h-[56px] h-[45px]'>
 								<Select
 									className={`text-lg font-normal rounded-lg ${styles.select}`}
 									IconComponent={(props) => <Arrow fill='#242424' {...props} />}
@@ -318,8 +317,8 @@ const NewProduct = ({ cancel, editProduct }) => {
 								</Select>
 							</FormControl>
 						</div>
-						<div className='flex flex-row'>
-							<label className='font-medium' style={{ fontSize: '20px', color: '#011723', width: '315px' }}>
+						<div className='flex md:flex-row flex-col gap-y-2'>
+							<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
 								صور المنتج الرئيسية
 							</label>
 							<ImageUploading value={images} onChange={onChange} maxNumber={maxNumber} dataURLKey='data_url' acceptType={['jpg', 'png', 'jpeg']}>
@@ -327,10 +326,8 @@ const NewProduct = ({ cancel, editProduct }) => {
 									// write your building UI
 									<div>
 										<div
-											className='upload__image-wrapper relative overflow-hidden'
+											className='md:w-[555px] w-full upload__image-wrapper relative overflow-hidden'
 											style={{
-												width: '555px',
-
 												border: images[0] ? 'none' : '3px dashed #ccc',
 												borderRadius: '10px',
 											}}
@@ -339,9 +336,9 @@ const NewProduct = ({ cancel, editProduct }) => {
 											}}
 											{...dragProps}
 										>
-											<div className='image-item w-full cursor-pointer' style={{ height: '220px' }}>
+											<div className='image-item w-full cursor-pointer md:h-[220px] h-[100px]'>
 												{!images[0] && (
-													<div className='flex flex-col justify-center items-center gap-3 h-full w-full'>
+													<div className='flex flex-col justify-center items-center md:gap-3 gap-1 h-full w-full'>
 														<IoMdCloudUpload size={'2em'}></IoMdCloudUpload>
 														<h2 className='font-semibold'>اسحب الصورة هنا</h2>
 														<h2>(سيتم قبول الصور png & jpg)</h2>
@@ -359,7 +356,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 								)}
 							</ImageUploading>
 						</div>
-						<div className='flex flex-row'>
+						<div className='flex md:flex-row flex-col gap-y-2'>
 							<label className='font-medium' style={{ fontSize: '20px', color: '#011723', width: '315px' }}>
 								الصور المتعددة او الفيديو
 							</label>
@@ -367,15 +364,12 @@ const NewProduct = ({ cancel, editProduct }) => {
 								{({ imageList, onImageUpload, onImageRemoveAll, onImageUpdate, onImageRemove, isDragging, dragProps }) => (
 									// write your building UI
 									<div
-										className='upload__image-wrapper relative flex justify-between gap-6'
-										style={{
-											width: '555px',
-										}}
+										className='md:w-[555px] w-full upload__image-wrapper relative flex justify-between gap-6'
 									>
 										{imageList.map((image, index) => {
 											return (
-												<div key={index} className='relative h-24 w-24 flex justify-center items-center cursor-pointer'>
-													<img className='object-cover h-24 w-24' src={image.data_url} alt='' />
+												<div key={index} className='relative md:h-24 h-[50px] md:w-24 w-[60px] flex justify-center items-center cursor-pointer'>
+													<img className='object-cover md:h-24 h-[50px] md:w-24 w-[60px]' src={image.data_url} alt='' />
 													<div onClick={() => onImageRemove(index)} className='absolute h-full w-full top-0 left-0 hover:bg-slate-900 hover:opacity-70 opacity-0 duration-200 flex justify-center items-center'>
 														<TiDeleteOutline style={{ fontSize: '1.5rem', color: 'red' }}></TiDeleteOutline>
 													</div>
@@ -386,7 +380,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 											return (
 												<div
 													key={idx}
-													className=' h-20 w-20 flex justify-center items-center cursor-pointer'
+													className='md:h-20 h-[50px] md:w-20 w-[60px] flex justify-center items-center cursor-pointer'
 													style={{ backgroundColor: '#FAFAFA', border: '2px dashed #237EAE', borderRadius: '4px' }}
 													onClick={() => {
 														onImageUpload();
@@ -402,8 +396,8 @@ const NewProduct = ({ cancel, editProduct }) => {
 								)}
 							</ImageUploading>
 						</div>
-						<div className='flex flex-row'>
-							<label className='font-medium' style={{ fontSize: '20px', color: '#011723', width: '315px' }}>
+						<div className='flex md:flex-row flex-col gap-y-2'>
+							<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
 								المخزون
 							</label>
 							<input
@@ -418,34 +412,33 @@ const NewProduct = ({ cancel, editProduct }) => {
 								name='name'
 							/>
 						</div>
-						<div className='flex mb-8'>
-							<label className='font-medium' style={{ fontSize: '20px', color: '#011723', width: '315px' }}>
+						<div className='flex md:flex-row flex-col gap-y-2 mb-8'>
+							<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723',}}>
 								اضافة خيارات المنتج
 							</label>
 							<div
-								className='fcc p-3 gap-4 border-2 border-dashed cursor-pointer rounded-lg'
+								className='md:w-[555px] w-full md:h-[56px] h-[45px] fcc p-3 gap-4 border-2 border-dashed cursor-pointer rounded-lg'
 								style={formInputStyle}
 								onClick={() => {
 									setShowAddProductOptions(true);
 								}}
 							>
 								<Box sx={{ '& circle': { fill: '#ADB5B9' } }}>
-									<AddIcon></AddIcon>
+									<AddIcon className='md:w-[24px] w-[20px]'></AddIcon>
 								</Box>
 								اضافة خيارات
 							</div>
 						</div>
 					</div>
 					<div
-						className='p-8 flex justify-center gap-4'
+						className='md:p-8 p-4 flex justify-center gap-4 md:h-[135px] h-[100px]'
 						style={{
-							height: '135px',
 							backgroundColor: 'rgba(235, 235, 235, 1)',
 						}}
 					>
 						<Button
-							className=' text-2xl font-medium'
-							style={{ width: '186px', height: '56px', backgroundColor: `#02466A` }}
+							className='md:w-[186px] w-full md:h-[56px] h-[45px] md:text-2xl text-[18px] font-medium'
+							style={{ backgroundColor: `#02466A` }}
 							textStyle={{ color: '#EFF9FF' }}
 							type={'normal'}
 							onClick={() => {
@@ -456,11 +449,9 @@ const NewProduct = ({ cancel, editProduct }) => {
 							حفظ
 						</Button>
 						<Button
-							className=' text-2xl font-medium'
+							className='md:w-[186px] w-full md:h-[56px] h-[45px] md:text-2xl text-[18px] font-medium'
 							style={{
 								borderColor: `rgba(2, 70, 106, 1)`,
-								width: '186px',
-								height: '56px',
 							}}
 							textStyle={{ color: 'rgba(2, 70, 106, 1)' }}
 							type={'outline'}

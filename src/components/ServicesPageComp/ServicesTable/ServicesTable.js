@@ -108,15 +108,15 @@ function EnhancedTableHead(props) {
         </TableCell> */}
 				{headCells.map((headCell) => (
 					<TableCell
-						className='font-medium text-lg'
+						className='font-medium md:text-[18px] text-[16px]'
 						key={headCell.id}
 						align={headCell.numeric ? 'right' : 'center'}
 						padding={headCell.disablePadding ? 'none' : 'normal'}
 						sortDirection={orderBy === headCell.id ? order : false}
 						sx={{
 							width: headCell.width ? headCell.width : 'auto',
-
 							color: '#011723',
+							whiteSpace:'nowrap'
 						}}
 					>
 						{headCell.sort && (
@@ -186,7 +186,7 @@ function EnhancedTableToolbar(props) {
 								}}
 							></DeleteIcon>
 						</IconButton>
-						<h2 className={'font-semibold'} style={{ color: '#FF3838' }}>
+						<h2 className={'font-semibold md:text-[18px] text-[16px] whitespace-nowrap'} style={{ color: '#FF3838' }}>
 							حذف
 						</h2>
 					</div>
@@ -194,7 +194,7 @@ function EnhancedTableToolbar(props) {
 			</div>
 
 			<div className='flex items-center'>
-				<h2 className='font-medium'>تحديد الكل</h2>
+				<h2 className='font-medium md:text-[18px] text-[16px] whitespace-nowrap'>تحديد الكل</h2>
 				<Checkbox
 					checkedIcon={<CheckedSquare />}
 					sx={{
@@ -324,16 +324,16 @@ export default function EnhancedTable({showdetails}) {
 											</TableCell>
 											<TableCell align='right'>
 												<div className=''>
-													<h2 dir='rtl' className='font-normal text-lg'>
+													<h2 dir='rtl' className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>
 														{row.amount}
 													</h2>
 												</div>
 											</TableCell>
 
 											<TableCell align='right'>
-												<h2 className='inline font-normal text-lg'>{row.name}</h2>
+												<h2 className='inline font-normal md:text-[18px] text-[16px] whitespace-nowrap'>{row.name}</h2>
 											</TableCell>
-											<TableCell className='font-normal text-lg' align='right'>
+											<TableCell className='font-normal md:text-[18px] text-[16px] whitespace-nowrap' align='right'>
 												{(index + 1).toLocaleString('en-US', {
 													minimumIntegerDigits: 2,
 													useGrouping: false,

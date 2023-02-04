@@ -20,7 +20,7 @@ const NotificationsPage = () => {
 	const [traderAlert, setTraderAlert] = useState(false);
 	const [traderPackageDetails, setTraderPackageDetails] = useState([]);
 	const NotificationStore = useContext(NotificationContext);
-	const { setNotificationTitle,setActionTitle } = NotificationStore;
+	const { setNotificationTitle, setActionTitle } = NotificationStore;
 	const [selected, setSelected] = React.useState([]);
 	const isSelected = (name) => selected.indexOf(name) !== -1;
 
@@ -60,8 +60,8 @@ const NotificationsPage = () => {
 					traderPackageDetails={traderPackageDetails}
 				/>
 			)}
-			<div className={`relative py-10 pl-36 pr-24`} style={{ backgroundColor: '#F7F7F7' }}>
-				<h3 style={{ fontSize: '24px', color: '#011723' }} className='font-bold'>
+			<div className={`relative md:py-10 md:pl-36 md:pr-24 p-4 pt-0`} style={{ backgroundColor: '#F7F7F7' }}>
+				<h3 style={{ color: '#011723' }} className='md:text-[24px] text-[20px] font-bold'>
 					الاشعارات
 				</h3>
 				<div className='mt-8'>
@@ -83,7 +83,7 @@ const NotificationsPage = () => {
 									'aria-label': 'select all desserts',
 								}}
 							/>
-							<label style={{ color: '#011723', fontSize: '18px' }} htmlFor='all'>
+							<label className='md:text-[18px] text-[16px]' style={{ color: '#011723' }} htmlFor='all'>
 								تحديد الكل
 							</label>
 						</div>
@@ -98,7 +98,7 @@ const NotificationsPage = () => {
 										setActionTitle('تم حذف الاشعارات بنجاح');
 									}}
 								>
-									<h6 style={{ fontSize: '18px', color: '#FF3838' }} className='font-medium'>
+									<h6 className='md:text-[18px] text-[16px] font-medium' style={{ fontSize: '18px', color: '#FF3838' }}>
 										حذف
 									</h6>
 									<img src={Delete} alt='delete-icon' />
@@ -110,8 +110,8 @@ const NotificationsPage = () => {
 						{cases.map((box, index) => {
 							const isItemSelected = isSelected(box.id);
 							return (
-								<div key={index} style={{ boxShadow: '3px 3px 6px #00000005' }} className='bg-white w-full flex flex-row items-center justify-between gap-2 px-4 py-2'>
-									<div className='w-full flex flex-row items-center gap-8'>
+								<div key={index} style={{ boxShadow: '3px 3px 6px #00000005' }} className='bg-white w-full flex md:flex-row flex-col md:items-center items-start justify-between gap-2 px-4 py-2'>
+									<div className='w-full flex flex-row items-center md:gap-8 gap-4'>
 										<Checkbox
 											checkedIcon={<CheckedSquare />}
 											sx={{
@@ -123,35 +123,42 @@ const NotificationsPage = () => {
 											checked={isItemSelected}
 											onClick={(event) => handleClick(event, box.id)}
 										/>
-										<div className='w-full flex flex-row items-center justify-between pl-20'>
+										<div className='w-full flex flex-row items-center justify-between md:pl-20'>
 											<div className='flex flex-col gap-1'>
-												<h2 style={{ fontSize: '20px', color: '#011723' }} className='font-medium whitespace-nowrap'>
+												<h2 style={{ color: '#011723' }} className='md:text-[20px] text-[18px] font-medium whitespace-nowrap'>
 													{box.name}
 												</h2>
-												{box.type === 'enquiry' ? <p style={{ fontSize: '18px', color: '#011723' }}>{box.store_name}</p> : <p style={{ fontSize: '18px', color: '#1DBBBE' }}>{box.store_name}</p>}
+												{box.type === 'enquiry' ? <p className='md:text-[18px] text-[16px]' style={{ color: '#011723' }}>{box.store_name}</p> : <p className='md:text-[18px] text-[16px]' style={{ color: '#1DBBBE' }}>{box.store_name}</p>}
 											</div>
-											<div>
-												<p style={{ fontSize: '16px', color: '#A7A7A7' }} className='font-light'>
+											<div className='md:flex hidden'>
+												<p style={{ color: '#A7A7A7' }} className='md:text-[16px] text-[14px] font-light'>
 													{box.type === 'enquiry' ? box.time : ''}
 												</p>
 											</div>
 										</div>
 									</div>
-									<div className='flex flex-row items-center gap-[26px]'>
-										{box.type === 'enquiry' ? (
-											<img className='cursor-pointer' src={CommunicationSendOutlined} alt='communication-send-outlined-icon' />
-										) : (
-											<img 	className='cursor-pointer' 
-													title='عرض الطلب' 
-													src={ShowStoreRequest} 
-													alt='show-store-request-icon' 
-													onClick={()=>{
+									<div className='md:w-auto w-full flex flex-row items-center justify-between'>
+										<div className='flex flex-row items-center gap-[26px] md:mr-0 mr-[3.5rem]'>
+											{box.type === 'enquiry' ? (
+												<img className='cursor-pointer' src={CommunicationSendOutlined} alt='communication-send-outlined-icon' />
+											) : (
+												<img className='cursor-pointer'
+													title='عرض الطلب'
+													src={ShowStoreRequest}
+													alt='show-store-request-icon'
+													onClick={() => {
 														setTraderAlert(true);
 														setTraderPackageDetails(box);
-													}}		
-											/>
-										)}
-										<img className='cursor-pointer' src={Delete} alt='delete-icon' />
+													}}
+												/>
+											)}
+											<img className='cursor-pointer' src={Delete} alt='delete-icon' />
+										</div>
+										<div className='md:hidden flex'>
+												<p style={{ color: '#A7A7A7' }} className='md:text-[16px] text-[14px] font-light'>
+													{box.type === 'enquiry' ? box.time : ''}
+												</p>
+										</div>
 									</div>
 								</div>
 							);

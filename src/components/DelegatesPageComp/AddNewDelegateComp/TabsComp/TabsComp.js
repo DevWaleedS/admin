@@ -54,15 +54,19 @@ const TabsComp = () => {
   };
 
   return (
-    <Box className="mt-16" style={{}}>
+    <Box className="md:mt-16 mt-6">
       <TabContext value={value}>
         <Box>
           <TabList
             sx={{
+              "& .MuiTabs-scroller":{
+                overflow: 'auto !important',
+              },
               "& .MuiTabs-flexContainer": {
                 gap: "1rem",
               },
               "& .MuiButtonBase-root": {
+                minWidth:'200px',
                 backgroundColor: "#C0E9FF",
                 py: "1.25rem",
                 borderRadius: "8px",
@@ -87,13 +91,9 @@ const TabsComp = () => {
           </TabList>
         </Box>
         <Box
-          sx={{
-            height: "40.5rem",
-            mt: "3.75rem",
-            pl: "7.5rem",
-          }}
+          className="md:h-[40.5rem] md:mt-[3.75rem] mt-6 md:pl-[7.5rem] pl-0"
         >
-          <TabPanel value="1" className="pr-[18px] p-0">
+          <TabPanel value="1" className="md:pr-[18px] p-0">
             <div className="flex flex-col gap-5">
               <div className="flex flex-col gap-[10px]">
                 <label style={{ color: '#67747B', fontSize: "18px" }}>
@@ -117,7 +117,7 @@ const TabsComp = () => {
                   placeholder="Abed32"
                 />
               </div>
-              <div className="flex flex-row gap-[18px]">
+              <div className="flex md:flex-row flex-col gap-[18px]">
                 <div className="w-full flex flex-col gap-[10px]">
                   <label style={{ color: '#67747B', fontSize: "18px" }}>
                     كلمة المرور
@@ -141,7 +141,7 @@ const TabsComp = () => {
                   />
                 </div>
               </div>
-              <div className="flex flex-row gap-[18px]">
+              <div className="flex md:flex-row flex-col gap-[18px]">
                 <div className="w-full flex flex-col gap-[10px]">
                   <label style={{ color: '#67747B', fontSize: "18px" }}>
                     البريد الالكترونى
@@ -253,7 +253,7 @@ const TabsComp = () => {
               </div>
             </div>
           </TabPanel>
-          <TabPanel value="2" className="pr-[18px] p-0">
+          <TabPanel value="2" className="md:pr-[18px] p-0">
             <div className="flex flex-col gap-5">
               <div className="flex flex-col gap-[10px]">
                 <label style={{ color: '#000000', fontSize: "18px" }}>
@@ -316,7 +316,7 @@ const TabsComp = () => {
               </div>
             </div>
           </TabPanel>
-          <TabPanel value="3" className="pr-[18px] p-0">
+          <TabPanel value="3" className="md:pr-[18px] p-0">
             <div className="flex flex-col gap-5">
               <div className="flex flex-col gap-[10px]">
                 <label style={{ color: '#000000', fontSize: "18px" }}>
@@ -425,7 +425,7 @@ const TabsComp = () => {
               </div>
             </div>
           </TabPanel>
-          <TabPanel value="4" className="pr-[18px] p-0">
+          <TabPanel value="4" className="md:pr-[18px] p-0">
             <div className="flex flex-col gap-[10px]">
               <label style={{ color: '#000000', fontSize: "18px" }}>
                 الحالة

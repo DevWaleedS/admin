@@ -9,12 +9,9 @@ const BackDrop = ({ onClick }) => {
 	return <div onClick={onClick} className={`fixed back_drop bottom-0 left-0  w-full bg-slate-900  z-10 ${styles.back_drop}`} style={{ height: 'calc(100% - 4rem)' }}></div>;
 };
 
-const formTitleClasses = 'font-semibold text-lg';
-const formTitleStyle = { width: '315px' };
-//
-const formInputClasses = 'p-4 outline-0 rounded-md';
+const formTitleClasses = 'md:w-[315px] w-full font-semibold md:text-lg text-[16px] md:mb-0 mb-2';
+const formInputClasses = 'md:w-[555px] w-full md:h-14 h-[45px] p-4 outline-0 rounded-md';
 const formInputStyle = {
-	width: '555px',
 	border: '1px solid #A7A7A7',
 	backgroundColor: '#F6F6F6',
 };
@@ -48,30 +45,30 @@ const NewService = ({ cancel }) => {
 	return (
 		<>
 			<BackDrop onClick={cancel}></BackDrop>
-			<div className={`fixed bottom-0 left-0 bg-[#F6F6F6] z-20 ${styles.container}`} style={{ width: '1104px', height: 'calc(100% - 4rem)' }}>
+			<div className={`fixed bottom-0 left-0 bg-[#F6F6F6] z-30 ${styles.container}`} style={{ width: '1104px',maxWidth:'100%', height: 'calc(100% - 4rem)' }}>
 				<div className='flex h-full flex-col justify-between'>
 					<div
-						className='p-8'
+						className='md:p-8 p-4'
 						style={{
 							height: '135px',
 							backgroundColor: 'rgba(235, 235, 235, 1)',
 						}}
 					>
-						<h2 className='font-semibold text-2xl  mb-3'>اضافة خدمة </h2>
-						<h2>أضف فئة المنتج الخاص بك والمعلومات الضرورية من هنا</h2>
+						<h2 className='font-semibold md:text-2xl text-[20px]  mb-3'>اضافة خدمة </h2>
+						<h2 className='font-medium md:text-[18px] text-[14px]'>أضف فئة المنتج الخاص بك والمعلومات الضرورية من هنا</h2>
 					</div>
-					<div className={`flex-1 overflow-y-scroll py-12 pr-8 ${styles.content}`}>
+					<div className={`flex-1 overflow-y-scroll md:py-12 md:pr-8 p-4 ${styles.content}`}>
 						<form action=''>
-							<div className='flex mb-8'>
-								<h2 className={formTitleClasses} style={formTitleStyle}>
+							<div className='flex md:flex-row flex-col mb-8'>
+								<h2 className={formTitleClasses}>
 									اسم الخدمة
 								</h2>
 								<label>
 									<input className={formInputClasses} style={formInputStyle} placeholder='ادخل اسم الخدمة' type='text' name='name' />
 								</label>
 							</div>
-							<div className='flex mb-8 '>
-								<h2 className={formTitleClasses} style={formTitleStyle}>
+							<div className='flex md:flex-row flex-col mb-8 '>
+								<h2 className={formTitleClasses}>
 									تفاصيل الخدمة
 								</h2>
 								{/* <textarea
@@ -84,7 +81,7 @@ const NewService = ({ cancel }) => {
                   cols="30"
                   rows="4"
                 ></textarea> */}
-								<div className={`${formInputClasses} px-6`} style={{ ...formInputStyle }}>
+								<div className={`${formInputClasses} md:h-full h-full px-6`} style={{ ...formInputStyle }}>
 									<ol className='list-decimal'>
 										<li>
 											<input className='w-full outline-none bg-[#F6F6F6]' type='text' />
@@ -99,12 +96,12 @@ const NewService = ({ cancel }) => {
 								</div>
 							</div>
 
-							<div className='flex mb-8'>
-								<h2 className={formTitleClasses} style={formTitleStyle}>
+							<div className='flex md:flex-row flex-col mb-8'>
+								<h2 className={formTitleClasses} >
 									اضافة صورة / فيديو
 								</h2>
 								<div
-									className='fcc p-3 gap-4 cursor-pointer rounded'
+									className='md:w-[555px] w-full md:h-14 h-[45px] fcc p-3 gap-4 cursor-pointer rounded'
 									style={formInputStyle}
 									// onClick={() => {
 									//   setShowAddProductOptions(true);
@@ -115,11 +112,11 @@ const NewService = ({ cancel }) => {
 									</Box>
 								</div>
 							</div>
-							<div className='flex mb-8 '>
-								<h2 className={formTitleClasses} style={formTitleStyle}>
+							<div className='flex md:flex-row flex-col mb-8 '>
+								<h2 className={formTitleClasses}>
 									سعر الخدمة
 								</h2>
-								<label className='flex rounded-md overflow-hidden' style={formInputStyle}>
+								<label className='md:w-[555px] w-full md:h-14 h-[45px] flex rounded-md overflow-hidden' style={formInputStyle}>
 									<div className='p-4 flex flex-1'>
 										<input className='flex-1 border-none outline-none bg-[#F6F6F6]' placeholder='0' type='text' name='name' />
 									</div>
@@ -137,14 +134,13 @@ const NewService = ({ cancel }) => {
 						</form>
 					</div>
 					<div
-						className='p-8 flex justify-center gap-4'
+						className='md:p-8 p-4 md:h-[135px] h-[100px] items-center flex justify-center gap-4'
 						style={{
-							height: '135px',
 							backgroundColor: 'rgba(235, 235, 235, 1)',
 						}}
 					>
 						<Button
-							className={'h-14 w-44  text-xl'}
+							className={'md:h-14 h-[45px] md:w-44 w-full text-xl'}
 							style={{ backgroundColor: `rgba(2, 70, 106, 1)` }}
 							type={'normal'}
 							onClick={() => {
@@ -159,7 +155,7 @@ const NewService = ({ cancel }) => {
 								borderColor: `rgba(2, 70, 106, 1)`,
 							}}
 							textStyle={{ color: 'rgba(2, 70, 106, 1)' }}
-							className={'h-14 w-44 text-xl'}
+							className={'md:h-14 h-[45px] md:w-44 w-full text-xl'}
 							type={'outline'}
 							onClick={cancel}
 						>

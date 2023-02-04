@@ -50,7 +50,7 @@ const AcademyLessons = ({ EditLesson }) => {
   const NotificationStore = useContext(NotificationContext);
   const { setNotificationTitle, setActionTitle } = NotificationStore;
   return (
-    <Box sx={{ flexGrow: 1, mt: "3rem" }}>
+    <Box className="md:mt-12 mt-6" sx={{ flexGrow: 1 }}>
       <Grid class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {lessons.map((lesson, idx) => {
           return (
