@@ -67,12 +67,12 @@ const AddNewLesson = ({ cancel, editLessonData }) => {
     <>
       <BackDrop onClick={cancel}></BackDrop>
       <div
-        className={`fixed bottom-0 left-0 bg-slate-50 z-20 otlobha_new_product ${styles.container}`}
-        style={{ width: "1104px", height: "calc(100% - 4rem)" }}
+        className={`fixed bottom-0 left-0 bg-slate-50 z-30 otlobha_new_product ${styles.container}`}
+        style={{ width: "1104px",maxWidth:'100%', height: "calc(100% - 4rem)" }}
       >
         <div className="flex h-full flex-col justify-between">
           <div
-            className="flex flex-col py-[30px] pr-[27px] gap-[10px]"
+            className="flex flex-col md:py-[30px] md:pr-[27px] p-4 gap-[10px]"
             style={{
               height: "135px",
               backgroundColor: "rgba(235, 235, 235, 1)",
@@ -80,31 +80,31 @@ const AddNewLesson = ({ cancel, editLessonData }) => {
           >
             {
               editLessonData ?
-                <h2 style={{ fontSize: '24px', color: '#011723' }} className="font-bold">
+                <h2 style={{ color: '#011723' }} className="md:text-[24px] text-[20px] font-bold">
                   تعديل درس
                 </h2>
                 :
-                <h2 style={{ fontSize: '24px', color: '#011723' }} className="font-bold">
+                <h2 style={{ color: '#011723' }} className="md:text-[24px] text-[20px] font-bold">
                   اضافة درس
                 </h2>
             }
             {
               editLessonData ?
-                <p style={{ fontSize: '20px', color: '#011723' }} className="font-normal">تعديل درس لقسم الشروحات في اكاديمية اطلبها</p>
+                <p style={{ color: '#011723' }} className="md:text-[20px] text-[16px] font-normal">تعديل درس لقسم الشروحات في اكاديمية اطلبها</p>
                 :
-                <p style={{ fontSize: '20px', color: '#011723' }} className="font-normal">اضف درس لقسم الشروحات في اكاديمية اطلبها</p>
+                <p style={{ color: '#011723' }} className="md:text-[20px] text-[16px] font-normal">اضف درس لقسم الشروحات في اكاديمية اطلبها</p>
             }
           </div>
           <div
             style={{ backgroundColor: '#F6F6F6' }}
-            className={`flex-1 flex flex-col gap-8 overflow-y-scroll py-8 pr-[27px] pl-[157px] ${styles.content}`}
+            className={`flex-1 flex flex-col gap-8 overflow-y-scroll md:py-8 md:pr-[27px] md:pl-[157px] p-4 ${styles.content}`}
           >
-            <div className="flex flex-row items-center">
-              <label style={{ color: '#011723', fontSize: '20px' }} className="w-80 font-medium whitespace-nowrap">
+            <div className="flex md:flex-row flex-col md:items-center items-start gap-y-4">
+              <label style={{ color: '#011723' }} className="md:w-80 w-full md:text-[20px] text-[18px] font-medium whitespace-nowrap">
                 عنوان الدرس
               </label>
               <input
-                className="w-full rounded-md px-5 py-4 outline-none"
+                className="w-full md:h-14 h-[45px] rounded-md px-5 py-4 outline-none"
                 style={{ fontSize: '20px', color: '#011723', backgroundColor: '#02466A00', border: '1px solid #A7A7A7' }}
                 placeholder="عنوان الفيديو"
                 type="text"
@@ -112,7 +112,7 @@ const AddNewLesson = ({ cancel, editLessonData }) => {
                 onChange={(e) => setData({ ...data, title: e.target.value })}
               />
             </div>
-            <div className="flex flex-row items-center">
+            <div className="flex md:flex-row flex-col md:items-center items-start gap-y-4">
               <h2
                 style={{ color: '#011723', fontSize: '20px' }}
                 className="w-80 font-medium whitespace-nowrap">
@@ -209,7 +209,7 @@ const AddNewLesson = ({ cancel, editLessonData }) => {
                   )
               }
             </div>
-            <div className="flex flex-row items-center">
+            <div className="flex md:flex-row flex-col md:items-center items-start gap-y-4">
               <label className="w-80 font-medium whitespace-nowrap" style={{ color: '#011723', fontSize: '20px' }}>
                 صورة تعريفية
               </label>
@@ -260,28 +260,26 @@ const AddNewLesson = ({ cancel, editLessonData }) => {
               </ImageUploading>
             </div>
             {editLessonData &&
-              <div className="flex flex-row items-center justify-center gap-4 pr-[15rem]">
+              <div className="flex flex-row items-center justify-center gap-4 md:pr-[15rem]">
                 <Button
-                  className="font-medium flex-row-reverse"
+                  className="md:w-[212px] w-full md:h-[56px] h-[45px] md:text-[20px] text-[16px] font-medium flex-row-reverse"
                   style={{
                     border: '2px dashed #02466A',
-                    width: '212px', height: '56px',
                     borderRadius: '4px',
                   }}
-                  textStyle={{ color: "#02466A", fontSize: '20px' }}
+                  textStyle={{ color: "#02466A" }}
                   svg={<ActionAdd fill="#02466A" />}
                   type={"outline"}
                 >
                   إعادة رفع فيديو
                 </Button>
                 <Button
-                  className="font-medium flex-row-reverse"
+                  className="md:w-[212px] w-full md:h-[56px] h-[45px] md:text-[20px] text-[16px] font-medium flex-row-reverse"
                   style={{
                     border: '1px solid #FF3838',
-                    width: '212px', height: '56px',
                     borderRadius: '4px',
                   }}
-                  textStyle={{ color: "#FF3838", fontSize: '20px' }}
+                  textStyle={{ color: "#FF3838" }}
                   svg={<DeleteIcon />}
                   type={"outline"}
                 >
@@ -289,20 +287,20 @@ const AddNewLesson = ({ cancel, editLessonData }) => {
                 </Button>
               </div>
             }
-            <div className="flex flex-row items-center">
+            <div className="flex md:flex-row flex-col md:items-center items-start gap-y-4">
               <label
                 className="w-80 font-medium whitespace-nowrap"
                 style={{ color: '#02466A', fontSize: '20px' }}>
                 رابط الدورة <span style={{ color: '#02466A', fontSize: '16px' }}>(تلقائي)</span>
               </label>
               <div
-                className="w-full flex flex-row items-center justify-between rounded-md p-4"
+                className="md:h-14 h-[45px] w-full flex flex-row items-center justify-between rounded-md gap-3 p-4"
                 style={{ backgroundColor: '#F4F5F7', border: '1px solid #67747B33' }}
               >
                 {copy ? (<h6 style={{ color: '#02466A', fontSize: '16px' }}>Copied</h6>) : (<CopyIcon className="cursor-pointer" fill="#02466A" onClick={() => handelCopy()} />)}
                 <input
-                  className="outline-none text-left"
-                  style={{ width: '100%', backgroundColor: 'transparent', color: '#02466A', fontSize: '16px' }}
+                  className="md:h-14 h-[45px] outline-none text-left"
+                  style={{ width: '100%', backgroundColor: 'transparent', color: '#02466A',whiteSpacepace:'nowrap',overflow:'hidden',textOverflow:'ellipsis' }}
                   value={data.link}
                   type="text"
                   placeholder="link"
@@ -312,9 +310,8 @@ const AddNewLesson = ({ cancel, editLessonData }) => {
             </div>
           </div>
           <div
-            className="p-8 flex justify-center gap-4"
+            className="md:h-[135px] h-[100px] md:p-8 p-4 flex items-center justify-center gap-4 md:bg-[#ebebeb] bg-[#f6f6f6]"
             style={{
-              height: "135px",
               backgroundColor: "rgba(235, 235, 235, 1)",
             }}
           >

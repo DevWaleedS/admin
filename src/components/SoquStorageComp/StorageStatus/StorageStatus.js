@@ -41,19 +41,18 @@ const INITIAL_DATA = [
 
 const StorageStatus = () => {
 	return (
-		<div className='grid  grid-cols-5 gap-6 '>
+		<div className='flex flex-row items-center flex-wrap gap-4'>
 			{INITIAL_DATA.map((item) => {
 				return (
-					<div className=' flex bg-white flex-col justify-between h-[120px] w-48 text-center py-4 px-2 shadow-[0px_3px_6px_#0000000F]' key={item.id}>
-						<h2 className='font-normal text-lg'>{item.title}</h2>
+					<div className='flex-1 flex bg-white flex-col justify-between md:h-[120px] h-[70px] md:w-48 min-w-[162px] w-full text-center md:py-4 py-2 px-2 shadow-[0px_3px_6px_#0000000F]' key={item.id}>
+						<h2 className='font-normal md:text-lg text-[15px]'>{item.title}</h2>
 						{item.icon && (
-							<div className='flex justify-center items-center gap-4  '>
-								<span className={`w-10 h-10 flex  justify-center items-center rounded-lg bg-[#D1F4DD66] ${styles.productIcon}`}>{item.icon}</span>
-
-								<h2 className='font-bold text-2xl'>{item.amount}</h2>
+							<div className='flex justify-center items-center gap-4 '>
+								<span className={`md:w-10 w-[30px] md:h-10 h-[30px] flex  justify-center items-center rounded-lg bg-[#D1F4DD66] ${styles.productIcon}`}>{item.icon}</span>
+								<h2 className='font-bold md:text-2xl text-[20px]'>{item.amount}</h2>
 							</div>
 						)}
-						{!item.icon && <h2 className='font-bold text-2xl'>{item.amount}</h2>}
+						{!item.icon && <h2 className='font-bold md:text-2xl text-[20px]'>{item.amount}</h2>}
 					</div>
 				);
 			})}

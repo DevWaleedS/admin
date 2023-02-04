@@ -18,3 +18,8 @@
 .add_new_product :global(.MuiPopover-paper){
   background-color: #D3D3D3;
 }
+@media(max-width:768px){
+  .add_new_product{
+    height: 100% !important;
+  }
+}

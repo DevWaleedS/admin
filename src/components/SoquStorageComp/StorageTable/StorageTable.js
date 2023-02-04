@@ -153,15 +153,15 @@ function EnhancedTableHead(props) {
 			<TableRow>
 				{headCells.map((headCell) => (
 					<TableCell
-						className='text-lg font-medium'
+						className='md:text-[18px] text-[16px] font-medium'
 						key={headCell.id}
 						align={headCell.numeric ? 'right' : 'center'}
 						padding={headCell.disablePadding ? 'none' : 'normal'}
 						sortDirection={orderBy === headCell.id ? order : false}
 						sx={{
 							width: headCell.width ? headCell.width : 'auto',
-							
 							color: '#02466A',
+							whiteSpace:'nowrap'
 						}}
 					>
 						{headCell.sort && (
@@ -222,7 +222,7 @@ function EnhancedTableToolbar(props) {
 						}} 
 						title='Delete'>
 						<div className='fcc gap-2 px-4 rounded-full' style={{ width: '114px', backgroundColor: '#FF38381A' }}>
-							<h2 className={'font-medium'} style={{ color: '#FF3838' }}>
+							<h2 className={'font-medium md:text-[18px] text-[16px]'} style={{ color: '#FF3838' }}>
 								حذف
 							</h2>
 							<IconButton>
@@ -240,7 +240,7 @@ function EnhancedTableToolbar(props) {
 			</div>
 
 			<div className='flex items-center'>
-				<h2 className='font-medium'>تحديد الكل</h2>
+				<h2 className='font-medium md:text-[18px] text-[16px]'>تحديد الكل</h2>
 				<Checkbox
 					checkedIcon={<CheckedSquare />}
 					sx={{
@@ -392,7 +392,7 @@ export default function EnhancedTable({ editProduct }) {
 											</TableCell>
 											<TableCell align='center'>
 												<div className=''>
-													<h2 dir='rtl' className='text-lg font-normal'>
+													<h2 dir='rtl' className='md:text-[18px] text-[16px] font-normal whitespace-nowrap'>
 														<span className='ml-1'>{row.price}</span>
 														<span>ر.س</span>
 													</h2>
@@ -400,24 +400,24 @@ export default function EnhancedTable({ editProduct }) {
 											</TableCell>
 											<TableCell align='right'>
 												<div>
-													<h2 className='text-lg font-normal'>{row.quantity}</h2>
+													<h2 className='md:text-[18px] text-[16px] font-normal whitespace-nowrap'>{row.quantity}</h2>
 												</div>
 											</TableCell>
 
 											<TableCell align='right' sx={{ display: 'flex', gap: '0.5rem', p: '24px 0' }}>
 												<img src={Gift} alt='' />
-												<h2 className='text-lg font-normal'>{row.activity}</h2>
+												<h2 className='md:text-[18px] text-[16px] font-normal whitespace-nowrap'>{row.activity}</h2>
 											</TableCell>
-											<TableCell align='right'>
+											<TableCell align='right' className='min-w-[240px]'>
 												<div className='flex items-center justify-end gap-3'>
-													<h2 className='text-lg font-normal'>{row.name}</h2>
+													<h2 className='md:text-[18px] text-[16px] font-normal whitespace-nowrap'>{row.name}</h2>
 													<img src={row.icon} alt='' />
 												</div>
 											</TableCell>
 											<TableCell align='right' className='text-lg font-normal'>
-												<h2 className='inline text-lg font-normal'>{row.sku}</h2>
+												<h2 className='inline md:text-[18px] text-[16px] font-normal whitespace-nowrap'>{row.sku}</h2>
 											</TableCell>
-											<TableCell align='right' className='font-normal text-lg '>
+											<TableCell align='right' className='md:text-[18px] text-[16px] font-normal whitespace-nowrap'>
 												{(index + 1).toLocaleString('en-US', {
 													minimumIntegerDigits: 2,
 													useGrouping: false,
@@ -455,7 +455,7 @@ export default function EnhancedTable({ editProduct }) {
 					</Table>
 				</TableContainer>
 			</Paper>
-			<div className='flex items-center justify-between'>
+			<div className='flex md:flex-row flex-col items-center justify-between gap-y-4'>
 				<div className='flex items-center gap-2 p-2 rounded-md' style={{ border: '1px solid #2D62ED' }}>
 					<div
 						id='basic-button'

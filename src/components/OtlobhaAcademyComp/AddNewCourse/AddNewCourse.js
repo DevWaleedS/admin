@@ -81,7 +81,7 @@ const AddNewCourse = ({ cancel, editData, addNewLesson }) => {
   }, [editData]);
 
   return (
-    <div className='absolute pl-[140px] pr-5 py-[43px]  top-0 right-0  z-10  pb-36  w-full otlobha_acadmic' style={{ backgroundColor: '#fafafa' }}>
+    <div className='absolute md:pl-[140px] md:pr-5 md:py-[43px] top-0 right-0 z-30 md:pb-36 w-full md:bg-[#fafafa] bg-[#FFFFFF] otlobha_acadmic'>
       {showAddUnit && (
         <AddUnit
           cancel={() => {
@@ -90,7 +90,7 @@ const AddNewCourse = ({ cancel, editData, addNewLesson }) => {
           cancelAll={cancel}
         ></AddUnit>
       )}
-      <div className="flex justify-between items-center mb-2">
+      <div className="flex justify-between items-center mb-2 md:p-0 px-4">
         <div className="flex">
           <div className={`flex items-center gap-2 `}>
             <div
@@ -100,29 +100,29 @@ const AddNewCourse = ({ cancel, editData, addNewLesson }) => {
               <GoArrowRight style={{ color: "#02466A", fontSize: "1.2rem" }} />
             </div>
 
-            <h2 style={{ fontSize: '18px' }} className="font-medium ml-4"> الرئيسية </h2>
+            <h2 className="md:text-[18px] text-[15px] font-medium md:ml-4 ml-2"> الرئيسية </h2>
           </div>
 
-          <h2 style={{ fontSize: '18px' }} className="font-medium ml-4"> / أكاديمية اطلبها </h2>
+          <h2 className="md:text-[18px] text-[15px] font-medium md:ml-4 ml-2"> / أكاديمية اطلبها </h2>
           {
             editData ?
               (
-                <h3 className="font-medium" style={{ color: "#67747B", fontSize: '18px' }}>/ تعديل دورة تدريبية</h3>
+                <h3 className="md:text-[18px] text-[15px] font-medium" style={{ color: "#67747B" }}>/ تعديل دورة تدريبية</h3>
               ) :
               (
-                <h3 className="font-medium" style={{ color: "#67747B", fontSize: '18px' }}>/ اضافة دورة تدريبية</h3>
+                <h3 className="md:text-[18px] text-[15px] font-medium" style={{ color: "#67747B"}}>/ اضافة دورة تدريبية</h3>
               )
           }
 
         </div>
       </div>
-      <div className="flex flex-col gap-5 mt-[42px] pr-[78px]">
+      <div className="flex flex-col gap-5 mt-[42px] md:pr-[78px] p-4">
         <div className="flex flex-col gap-[10px]">
-          <label style={{ color: '#011723', fontSize: '18px' }}>
+          <label className="md:text-[18px] text-[16px]" style={{ color: '#011723'}}>
             اسم الدورة التدريبية
           </label>
           <input
-            className="w-full outline-none shadow-sm rounded-lg p-4"
+            className="w-full md:h-14 h-[45px] outline-none shadow-sm rounded-lg p-4"
             style={{ backgroundColor: '#F4F5F7', border: '1px solid #67747B33' }}
             type="text"
             name="name"
@@ -131,7 +131,7 @@ const AddNewCourse = ({ cancel, editData, addNewLesson }) => {
           />
         </div>
         <div className="flex flex-col gap-[10px]">
-          <label style={{ color: '#011723', fontSize: '18px' }}>
+          <label className="md:text-[18px] text-[16px]" style={{ color: '#011723' }}>
             الوصف
           </label>
           <div
@@ -158,16 +158,16 @@ const AddNewCourse = ({ cancel, editData, addNewLesson }) => {
         </div>
 
         <div className="flex flex-col gap-[10px]">
-          <h2 style={{ color: '#011723', fontSize: '18px' }}>محاور الدورة TAGS</h2>
+          <h2 className="md:text-[18px] text-[16px]" style={{ color: '#011723' }}>محاور الدورة TAGS</h2>
           <div
             style={{ backgroundColor: "#F4F5F7", border: "1px solid #67747B33", }}
-            className="flex flex-row items-center flex-wrap gap-6 p-5 rounded-lg"
+            className="flex flex-row items-center flex-wrap md:gap-6 gap-3 md:p-5 p-3 rounded-lg"
           >
             {tags.map((tag, index) => (
               <span
                 key={index}
-                style={{ fontSize: '18px', color: '#67747B', backgroundColor: '#EBEBEB', borderRadius: '18px' }}
-                className="px-3 py-2 flex flex-row items-center gap-4"
+                style={{ color: '#67747B', backgroundColor: '#EBEBEB', borderRadius: '18px' }}
+                className="md:text-[18px] text-[16px] px-3 py-2 flex flex-row items-center gap-4"
               >
                 {tag}
                 {editData && <ClearSquare className={styles.clear_icon} />}
@@ -177,14 +177,14 @@ const AddNewCourse = ({ cancel, editData, addNewLesson }) => {
 
           </div>
         </div>
-        <div className="flex flex-col gap-[10xp]">
-          <div className="flex flex-row gap-1">
-            <h2 style={{ color: '#011723', fontSize: '18px' }}>مدة الدورة</h2>
-            <p style={{ color: '#ADB5B9', fontSize: '16px' }}>(يتم احتسابها تلقائياً بحسب مدة الفديويهات الخاصة بالدورة)</p>
+        <div className="flex flex-col gap-3">
+          <div className="flex md:flex-row flex-col gap-1">
+            <h2 className="md:text-[18px] text-[16px]" style={{ color: '#011723' }}>مدة الدورة</h2>
+            <p className="md:text-[16px] text-[14px]" style={{ color: '#ADB5B9'}}>(يتم احتسابها تلقائياً بحسب مدة الفديويهات الخاصة بالدورة)</p>
           </div>
           <div className="flex">
             <input
-              className="flex-1 p-4 outline-none rounded-tr-lg rounded-br-lg"
+              className="w-full flex-1 p-4 outline-none rounded-tr-lg rounded-br-lg"
               style={{
                 color: '#67747B',
                 backgroundColor: "#F4F5F7",
@@ -196,7 +196,7 @@ const AddNewCourse = ({ cancel, editData, addNewLesson }) => {
               onChange={(e) => setData({ ...data, minute: e.target.value })}
             />
             <input
-              className="flex-1 p-4 outline-none rounded-tl-lg rounded-bl-lg"
+              className="w-full flex-1 p-4 outline-none rounded-tl-lg rounded-bl-lg"
               style={{
                 color: '#67747B',
                 backgroundColor: "#F4F5F7",
@@ -212,19 +212,19 @@ const AddNewCourse = ({ cancel, editData, addNewLesson }) => {
         {
           editData &&
           <div className="mb-[80px] mt[33px] flex flex-col gap-4">
-            <h6 style={{ fontSize: '24px', fontWeight: '500', color: '#000000' }}>دروس الدورة</h6>
+            <h6 className="md:text-[24px] text-[20px]" style={{ fontWeight: '500', color: '#000000' }}>دروس الدورة</h6>
             <div className="flex flex-col">
               <div
-                style={{ width: '100%', height: '56px', backgroundColor: '#F4F5F7', border: '1px solid #67747B33' }}
-                className=" relative"
+                style={{ width: '100%', backgroundColor: '#F4F5F7', border: '1px solid #67747B33' }}
+                className="relative md:h-[56px] h-[45px]"
               >
                 <div
                   className="flex flex-row items-center justify-between p-4 rounded-lg cursor-pointer"
                   onClick={() => { setOpenMenu(true); setOpenMenu2(false) }}>
                   <div className="flex flex-row items-center gap-2">
-                    <h6 style={{ fontSize: '18px', fontWeight: '500', color: '#000000' }}>الوحدة الأولى</h6>
-                    <span style={{ fontSize: '18px', color: '#67747B' }}>(4 دروس)</span>
-                    <span style={{ fontSize: '18px', color: '#67747B' }}>(25 دقيقة)</span>
+                    <h6 className="md:text-[18px] text-[16px]" style={{ fontWeight: '500', color: '#000000' }}>الوحدة الأولى</h6>
+                    <span className="md:text-[18px] text-[16px]" style={{ color: '#67747B' }}>(4 دروس)</span>
+                    <span className="md:text-[18px] text-[16px]" style={{ color: '#67747B' }}>(25 دقيقة)</span>
                   </div>
                   <Arrow className={styles.arrow_icon} />
                 </div>
@@ -237,8 +237,8 @@ const AddNewCourse = ({ cancel, editData, addNewLesson }) => {
                     <div className="flex flex-row items-center justify-between">
                       <div className="flex flex-row items-center">
                         <PlayVideo />
-                        <h6 style={{ fontSize: '20px', fontWeight: '500', color: '#011723' }} className="mr-[20px] ml-[30px]">المقدمة</h6>
-                        <span style={{ fontSize: '18px', color: '#011723' }}>4:00</span>
+                        <h6 style={{ fontWeight: '500', color: '#011723' }} className="md:text-[20px] text-[18px] mr-[20px] ml-[30px]">المقدمة</h6>
+                        <span className="md:text-[18px] text-[16px]" style={{ color: '#011723' }}>4:00</span>
                       </div>
                       <DeleteIcon className="cursor-pointer"
                         onClick={() => {
@@ -251,8 +251,8 @@ const AddNewCourse = ({ cancel, editData, addNewLesson }) => {
                       <div className="flex flex-row items-center justify-between">
                         <div className="flex flex-row items-center">
                           <PlayVideo />
-                          <h6 style={{ fontSize: '20px', fontWeight: '500', color: '#011723' }} className="mr-[20px] ml-[30px]">مصطلحات تعريفيقة</h6>
-                          <span style={{ fontSize: '18px', color: '#011723' }}>10:05</span>
+                          <h6 style={{ fontWeight: '500', color: '#011723' }} className="md:text-[20px] text-[18px] mr-[20px] ml-[30px]">مصطلحات تعريفيقة</h6>
+                          <span className="md:text-[18px] text-[16px]" style={{ color: '#011723' }}>10:05</span>
                         </div>
                         <DeleteIcon className="cursor-pointer"
                           onClick={() => {
@@ -264,38 +264,38 @@ const AddNewCourse = ({ cancel, editData, addNewLesson }) => {
                     <div className="flex flex-row items-center justify-between">
                       <div className="flex flex-row items-center">
                         <PDFIcon />
-                        <h6 style={{ fontSize: '20px', fontWeight: '500', color: '#0077FF' }} className="mr-[20px] ml-[30px]">ملفات الوحدة</h6>
+                        <h6 style={{ fontWeight: '500', color: '#0077FF' }} className="md:text-[20px] text-[18px] mr-[20px] ml-[30px]">ملفات الوحدة</h6>
                       </div>
-                      <h6 style={{ fontSize: '18px', color: '#0077FF', cursor: 'pointer' }}>تحميل</h6>
+                      <h6 className="md:text-[18px] text-[16px]" style={{ color: '#0077FF', cursor: 'pointer' }}>تحميل</h6>
                     </div>
                   </div>
                 }
               </div>
               <div
                 style={{ width: '100%', height: '56px', backgroundColor: '#F4F5F7', border: '1px solid #67747B33' }}
-                className=" relative"
+                className="relative md:h-[56px] h-[45px]"
               >
                 <div
                   className="flex flex-row items-center justify-between p-4 rounded-lg cursor-pointer"
                   onClick={() => setOpenMenu2(true)}>
                   <div className="flex flex-row items-center gap-2">
-                    <h6 style={{ fontSize: '18px', fontWeight: '500', color: '#000000' }}>الوحدة الثانية</h6>
-                    <span style={{ fontSize: '18px', color: '#67747B' }}>(4 دروس)</span>
-                    <span style={{ fontSize: '18px', color: '#67747B' }}>(25 دقيقة)</span>
+                    <h6 className="md:text-[18px] text-[16px]" style={{ fontWeight: '500', color: '#000000' }}>الوحدة الثانية</h6>
+                    <span className="md:text-[18px] text-[16px]" style={{ color: '#67747B' }}>(4 دروس)</span>
+                    <span className="md:text-[18px] text-[16px]" style={{ color: '#67747B' }}>(25 دقيقة)</span>
                   </div>
                   <Arrow className={styles.arrow_icon} />
                 </div>
                 {openMenu2 &&
                   <div
                     style={{ backgroundColor: '#F4F5F7' }}
-                    className="flex flex-col gap-5 absolute z-10 left-0 top-[55px] w-full p-5"
+                    className="flex flex-col gap-5 absolute z-10 left-0 md:top-[55px] top-[45px] w-full p-5"
                     onClick={() => setOpenMenu2(false)}
                   >
                     <div className="flex flex-row items-center justify-between">
                       <div className="flex flex-row items-center">
                         <PlayVideo />
-                        <h6 style={{ fontSize: '20px', fontWeight: '500', color: '#011723' }} className="mr-[20px] ml-[30px]">المقدمة</h6>
-                        <span style={{ fontSize: '18px', color: '#011723' }}>4:00</span>
+                        <h6 style={{ fontWeight: '500', color: '#011723' }} className="md:text-[20px] text-[18px] mr-[20px] ml-[30px]">المقدمة</h6>
+                        <span className="md:text-[18px] text-[16px]" style={{ fontSize: '18px', color: '#011723' }}>4:00</span>
                       </div>
                       <DeleteIcon className="cursor-pointer"
                         onClick={() => {
@@ -307,8 +307,8 @@ const AddNewCourse = ({ cancel, editData, addNewLesson }) => {
                       <div className="flex flex-row items-center justify-between">
                         <div className="flex flex-row items-center">
                           <PlayVideo />
-                          <h6 style={{ fontSize: '20px', fontWeight: '500', color: '#011723' }} className="mr-[20px] ml-[30px]">مصطلحات تعريفيقة</h6>
-                          <span style={{ fontSize: '18px', color: '#011723' }}>10:05</span>
+                          <h6 style={{ fontWeight: '500', color: '#011723' }} className="md:text-[20px] text-[18px] mr-[20px] ml-[30px]">مصطلحات تعريفيقة</h6>
+                          <span className="md:text-[18px] text-[16px]" style={{ color: '#011723' }}>10:05</span>
                         </div>
                         <DeleteIcon className="cursor-pointer"
                           onClick={() => {
@@ -320,9 +320,9 @@ const AddNewCourse = ({ cancel, editData, addNewLesson }) => {
                     <div className="flex flex-row items-center justify-between">
                       <div className="flex flex-row items-center">
                         <PDFIcon />
-                        <h6 style={{ fontSize: '20px', fontWeight: '500', color: '#0077FF' }} className="mr-[20px] ml-[30px]">ملفات الوحدة</h6>
+                        <h6 style={{ fontWeight: '500', color: '#0077FF' }} className="md:text-[20px] text-[18px] mr-[20px] ml-[30px]">ملفات الوحدة</h6>
                       </div>
-                      <h6 style={{ fontSize: '18px', color: '#0077FF', cursor: 'pointer' }}>تحميل</h6>
+                      <h6 className="md:text-[18px] text-[16px]" style={{ color: '#0077FF', cursor: 'pointer' }}>تحميل</h6>
                     </div>
                   </div>
                 }
@@ -330,8 +330,8 @@ const AddNewCourse = ({ cancel, editData, addNewLesson }) => {
             </div>
           </div>
         }
-        <div className="flex flex-row items-center gap-16">
-          <label className="font-medium whitespace-nowrap" style={{ color: '#011723', fontSize: '18px' }}>
+        <div className="flex md:flex-row flex-col md:items-center items-start md:gap-16 gap-y-4">
+          <label className="md:text-[18px] text-[16px] font-medium whitespace-nowrap" style={{ color: '#011723' }}>
             الصورة التعريفية
           </label>
           <ImageUploading
@@ -386,19 +386,19 @@ const AddNewCourse = ({ cancel, editData, addNewLesson }) => {
           </ImageUploading>
         </div>
         <div className="flex flex-col gap-[10px]">
-          <label style={{ color: '#02466A', fontSize: '20px' }}>
+          <label className="md:text-[20px] text-[18px]" style={{ color: '#02466A'}}>
             رابط الدورة
-            <span style={{ color: '#02466A', fontSize: '16px' }}> (تلقائي) </span>
+            <span className="md:text-[16px] text-[14px]" style={{ color: '#02466A'}}> (تلقائي) </span>
           </label>
           <div
-            className="flex flex-row items-center justify-between rounded-md p-4"
+            className="flex flex-row items-center justify-between rounded-md gap-3 p-4"
             style={{ backgroundColor: '#F4F5F7', border: '1px solid #67747B33' }}
           >
             {copy ? (<h6 style={{ color: '#02466A', fontSize: '16px' }}>Copied</h6>) : (<CopyIcon className="cursor-pointer" fill="#02466A" onClick={() => handelCopy()} />)}
 
             <input
-              className="outline-none text-left"
-              style={{ width: '100%', backgroundColor: 'transparent', color: '#02466A', fontSize: '16px' }}
+              className="outline-none text-left md:text-[16px] text-[14px]"
+              style={{ width: '100%', backgroundColor: 'transparent', color: '#02466A',whiteSpacepace:'nowrap',overflow:'hidden',textOverflow:'ellipsis' }}
               value={data.link}
               type="text"
               placeholder=""
@@ -409,9 +409,9 @@ const AddNewCourse = ({ cancel, editData, addNewLesson }) => {
         {editData &&
           <div className="flex mt-10 gap-4">
             <Button
-              style={{ width: '474px', height: '64px', backgroundColor: "#02466A" }}
-              textStyle={{ color: "#EFF9FF", fontSize: '20px' }}
-              className={"flex-1"}
+              style={{ backgroundColor: "#02466A" }}
+              textStyle={{ color: "#EFF9FF" }}
+              className={"md:w-[474px] w-full md:h-[64px] h-[45px] md:text-[20px] text-[18px] flex-1"}
               type={"normal"}
               svg={<IoAddCircleSharp fontSize="1.5rem" color={"#fff"} />}
               onClick={() => {
@@ -422,8 +422,8 @@ const AddNewCourse = ({ cancel, editData, addNewLesson }) => {
             </Button>
             <Button
               style={{ borderColor: "#02466A" }}
-              textStyle={{ color: "#02466A", fontSize: '20px' }}
-              className={"flex-1"}
+              textStyle={{ color: "#02466A" }}
+              className={"md:w-[474px] w-full md:h-[64px] h-[45px] md:text-[20px] text-[18px] flex-1"}
               type={"outline"}
               svg={<IoAddCircleSharp fontSize="1.5rem" color={"#02466A"} />}
               onClick={() => {
@@ -438,9 +438,9 @@ const AddNewCourse = ({ cancel, editData, addNewLesson }) => {
           editData ?
             (
               <Button
-                style={{ width: '100%', height: '64px', backgroundColor: "#1DBBBE" }}
-                textStyle={{ color: "#EFF9FF", fontSize: '20px' }}
-                className={"flex-1"}
+                style={{ width: '100%', backgroundColor: "#1DBBBE" }}
+                textStyle={{ color: "#EFF9FF" }}
+                className={"md:h-[64px] h-[45px] md:text-[20px] text-[18px] flex-1"}
                 type={"normal"}
                 onClick={() => {
                   cancel();
@@ -452,9 +452,9 @@ const AddNewCourse = ({ cancel, editData, addNewLesson }) => {
             (
               <div className="flex mt-10 gap-4">
                 <Button
-                  style={{ width: '474px', height: '64px', backgroundColor: "#02466A" }}
-                  textStyle={{ color: "#EFF9FF", fontSize: '20px' }}
-                  className={"flex-1"}
+                  style={{ backgroundColor: "#02466A" }}
+                  textStyle={{ color: "#EFF9FF"}}
+                  className={"md:w-[474px] w-full md:h-[64px] h-[45px] md:text-[20px] text-[18px] flex-1"}
                   type={"normal"}
                   svg={<IoAddCircleSharp fontSize="1.5rem" color={"#fff"} />}
                   onClick={() => {
@@ -465,8 +465,8 @@ const AddNewCourse = ({ cancel, editData, addNewLesson }) => {
                 </Button>
                 <Button
                   style={{ borderColor: "#02466A" }}
-                  textStyle={{ color: "#02466A", fontSize: '20px' }}
-                  className={"flex-1"}
+                  textStyle={{ color: "#02466A"}}
+                  className={"md:w-[474px] w-full md:h-[64px] h-[45px] md:text-[20px] text-[18px] flex-1"}
                   type={"outline"}
                   onClick={cancel}
                 >

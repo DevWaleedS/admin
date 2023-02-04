@@ -21,19 +21,19 @@ const StorageFilter = () => {
 		setAnchorEl(null);
 	};
 	return (
-		<div className='my-8   '>
-			<div className='flex gap-4 bg-white px-4 py-8 rounded-lg'>
-				{/* <Button className={"flex gap-4"} type="outline" svg={<Filter></Filter>}>
-          فلتر
-        </Button> */}
+		<div className='md:my-8 my-7'>
+			<div className='flex md:flex-row flex-col gap-4 bg-white px-4 md:py-8 py-4 rounded-lg' style={{ boxShadow:' 0px 3px 6px #0000001A' }}>
+					{/* <Button className={"flex gap-4"} type="outline" svg={<Filter></Filter>}>
+					فلتر
+					</Button> */}
 				<div
 					id='basic-button'
 					aria-controls={open ? 'basic-menu' : undefined}
 					aria-haspopup='true'
 					aria-expanded={open ? 'true' : undefined}
 					onClick={handleRowsClick}
-					className={'rounded-lg justify-center flex gap-3  items-center cursor-pointer h-[56px]'}
-					style={{ border: '1px solid #1DBBBE', width: '150px' }}
+					className={'md:w-[150px] w-full rounded-lg justify-center flex gap-3 items-center cursor-pointer md:h-[56px] h-[45px]'}
+					style={{ border: '1px solid #1DBBBE' }}
 				>
 					<Filter color='#fff' fontSize={'1.5rem'}></Filter>
 					<h2 className='font-medium' style={{ color: '#1DBBBE' }}>
@@ -73,18 +73,20 @@ const StorageFilter = () => {
 						);
 					})}
 				</Menu>
-				<label className={`h-full w-full flex-1 relative `}>
-					<input className='w-full h-[56px] outline-0 pr-12 rounded-lg ' placeholder=' للبحث قم بإدخال رقم أو اسم المنتج' type='text' name='name' style={{ border: '1px solid rgba(29, 187, 190, 1)' }} />
+				<label className={`md:h-[56px] h-[45px] w-full flex-1 relative `}>
+					<input className='w-full md:h-[56px] h-[45px] md:text-[18px] text-[16px] outline-0 pr-12 rounded-lg ' placeholder=' للبحث قم بإدخال رقم أو اسم المنتج' type='text' name='name' style={{ border: '1px solid rgba(29, 187, 190, 1)' }} />
 					<div className={`absolute top-1/2 right-4 -translate-y-2/4`}>
 						<AiOutlineSearch color='#1DBBBE' size={'20px'}></AiOutlineSearch>
 					</div>
 				</label>
-				<Button className={''} type='normal'>
+				<div className='flex flex-row items-center gap-4'>
+				<Button className={'w-full md:h-[56px] h-[45px] md:text-[18px] text-[16px]'} type='normal'>
 					رفع ملف
 				</Button>
-				<Button style={{ backgroundColor: 'rgb(180,237,238)' }} textStyle={{ color: '#03787A' }} className={''} type='normal'>
+				<Button style={{ backgroundColor: 'rgb(180,237,238)' }} textStyle={{ color: '#03787A' }} className={'w-full md:h-[56px] h-[45px] md:text-[18px] text-[16px]'} type='normal'>
 					تصدير ملف
 				</Button>
+				</div>
 			</div>
 		</div>
 	);

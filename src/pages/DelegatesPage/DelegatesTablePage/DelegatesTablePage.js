@@ -9,13 +9,12 @@ const DelegatesTablePage = () => {
   const navigate = useNavigate();
   return (
     <div
-      className={`mt-5 px-4 pt-4 pl-36`}
-      style={{ backgroundColor: "#F7F7F7" }}
+      className={`md:mt-5 px-4 md:pt-4 md:pl-36 md:bg-[#f7f7f7] bg-[#ffffff]`}
     >
-      <div className="mt-6 flex justify-between items-center">
+      <div className="md:mt-6 flex md:flex-row flex-col justify-between md:items-center items-start gap-y-4">
         <PageNavigate currentPage={"عرض المندوبين"} />
         <Button
-          className={"flex justify-center items-center h-14 w-[234px] text-lg "}
+          className={"flex justify-center items-center md:h-14 h-[45px] md:w-[234px] w-full md:text-lg text-[16px]"}
           style={{ backgroundColor: "#02466A" }}
           type={"normal"}
           svg={<AiOutlinePlus color="#fff"  className='w-5 h-5'/>}
@@ -47,7 +46,7 @@ const DelegatesTablePage = () => {
         </label>
       </div>
 
-      <div className="mt-10" dir={"ltr"}>
+      <div className="md:mt-10 mt-4" dir={"ltr"}>
         <DelegatesPageTable></DelegatesPageTable>
       </div>
     </div>

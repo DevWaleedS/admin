@@ -12,23 +12,21 @@ const ServicesPage = () => {
 	const [showNewProductInfo, setShowNewProductInfo] = useState(false);
 	const [showDetailsModal, setShowDetailsModal] = useState(false);
 	return (
-		<div className={`p-4 pl-36`} style={{ backgroundColor: '#fafafa' }}>
-			<div className='flex items-center justify-between'>
+		<div className={`p-4 md:pl-36 pt-0`} style={{ backgroundColor: '#fafafa' }}>
+			<div className='flex md:flex-row flex-col md:items-center items-start justify-between gap-y-4'>
 				<PageNavigate currentPage={'الخدمات'} />
-				<div className='flex gap-2'>
-					<Button
-						className={'flex justify-center items-center h-14 w-44 text-xl '}
-						type={'normal'}
-						svg={<AiOutlinePlus color='#fff' className='w-5 h-5' />}
-						style={{ backgroundColor: '#02466A' }}
-						color={'white'}
-						onClick={() => {
-							setShowNewProductInfo(true);
-						}}
-					>
-						إضافة خدمة
-					</Button>
-				</div>
+				<Button
+					className={'md:h-14 h-[45px] md:w-44 w-full flex justify-center items-center text-xl'}
+					type={'normal'}
+					svg={<AiOutlinePlus color='#fff' className='w-5 h-5' />}
+					style={{ backgroundColor: '#02466A' }}
+					color={'white'}
+					onClick={() => {
+						setShowNewProductInfo(true);
+					}}
+				>
+					إضافة خدمة
+				</Button>
 			</div>
 			{showNewProductInfo && (
 				<NewService
@@ -44,7 +42,7 @@ const ServicesPage = () => {
 					}}
 				/>
 			)}
-			<div dir={'ltr'} className='mt-20'>
+			<div dir={'ltr'} className='md:mt-20 mt-5'>
 				<ServicesTable showdetails={setShowDetailsModal}></ServicesTable>
 			</div>
 		</div>

@@ -19,12 +19,10 @@ const BackDrop = ({ onClick }) => {
 };
 
 
-const formTitleClasses = "font-normal text-lg";
-const formTitleStyle = { width: "315px" };
-//
-const formInputClasses = "p-4 outline-0 rounded-md";
+const formTitleClasses = "md:w-[315px] w-full md:text-[18px] text-[16px] font-normal md:mb-0 mb-2";
+
+const formInputClasses = "md:w-[555px] w-full md:h-14 h-[45px] p-4 outline-0 rounded-md";
 const formInputStyle = {
-	width: '555px',
 	border: '1px solid rgba(167, 167, 167, 0.5)',
 	borderRadius: '8px',
 	backgroundColor: '#F6F6F6',
@@ -60,53 +58,50 @@ const AddUnit = ({ cancel, cancelAll }) => {
   return (
 			<>
 				<BackDrop onClick={cancel}></BackDrop>
-				<div className={`fixed bottom-0 left-0 bg-[#F6F6F6] z-20 otlobha_new_product ${styles.container}`} style={{ width: '1104px', height: 'calc(100% - 4rem)' }}>
+				<div className={`fixed bottom-0 left-0 bg-[#F6F6F6] z-30 otlobha_new_product ${styles.container}`} style={{ width: '1104px',maxWidth:'100%' ,height: 'calc(100% - 4rem)' }}>
 					<div className='flex h-full flex-col justify-between'>
 						<div
-							className='p-8'
+							className='md:p-8 p-4 md:h-[135px] h-[100px]'
 							style={{
-								height: '135px',
 								backgroundColor: 'rgba(235, 235, 235, 1)',
 							}}
 						>
-							<h2 className='font-bold text-2xl  mb-3'>اضافة وحدة</h2>
-							<h2 className='text-xl font-normal'>اضف وحدة جديدة للكورس</h2>
+							<h2 className='font-bold md:text-2xl text-[20px]  mb-3'>اضافة وحدة</h2>
+							<h2 className='md:text-xl text-[16px] font-normal'>اضف وحدة جديدة للكورس</h2>
 						</div>
-						<div className={`flex-1 overflow-y-scroll py-12 pr-8 ${styles.content}`}>
+						<div className={`flex-1 overflow-y-scroll md:py-12 md:pr-8 p-4 ${styles.content}`}>
 							<form action=''>
-								<div className='flex mb-8'>
-									<h2 className={formTitleClasses} style={formTitleStyle}>
+								<div className='flex md:flex-row flex-col mb-8'>
+									<h2 className={formTitleClasses}>
 										عنوان الوحدة
 									</h2>
 									<label>
-										<input className={formInputClasses} style={formInputStyle} placeholder='اسم المنتج' type='text' name='name' />
+										<input className={formInputClasses} style={formInputStyle} placeholder='عنوان الوحدة' type='text' name='name' />
 									</label>
 								</div>
 
-								<div className='flex mb-8'>
-									<h2 className={formTitleClasses} style={formTitleStyle}>
+								<div className='flex md:flex-row flex-col mb-8'>
+									<h2 className={formTitleClasses}>
 										ملفات مرفقة
 									</h2>
-									<label className='flex p-4 items-center rounded-lg' style={{ width: '555px', border: '1px solid #ccc' }} htmlFor=''>
+									<label className='md:w-[555px] w-full md:h-14 h-[45px] flex p-4 items-center rounded-lg' style={{ border: '1px solid #ccc' }} htmlFor=''>
 										<input className={`flex-1 rounded-lg ${styles.file_select}`} type='file' placeholder='asdasdasd' />
 										<div>
 											<GrAttachment></GrAttachment>
 										</div>
 									</label>
 								</div>
-								<div className='flex mb-8'>
-									<h2 className={formTitleClasses} style={formTitleStyle}>
+								<div className='flex md:flex-row flex-col mb-8'>
+									<h2 className={formTitleClasses}>
 										إضافة درس
 									</h2>
 									<div>
-										<div className='flex gap-5 mb-5' style={{ width: '555px' }}>
-											<div style={{ width: '392px' }}>
+										<div className='md:w-[555px] w-full md:h-14 h-[45px] flex gap-5 mb-5'>
+											<div className="md:w-[392px] w-full md:h-14 h-[45px]">
 												<input ref={inputRef} className='hidden rounded-lg' type='file' onChange={handleFileChange} accept='.mov,.mp4' />
 												<div
-													className='fcc p-3 gap-4  cursor-pointer rounded-lg'
+													className='md:w-[392px] w-full md:h-14 h-[45px] fcc p-3 gap-4  cursor-pointer rounded-lg'
 													style={{
-														width: '392px',
-														height: '56px',
 														backgroundColor: '#02466A00',
 														border: '1px solid #A7A7A7',
 													}}
@@ -124,32 +119,28 @@ const AddUnit = ({ cancel, cancelAll }) => {
 															>
 																<AddIcon></AddIcon>
 															</Box>
-															<h2 style={{ color: '#ADB5B9' }}>اضف درس جديد للوحدة</h2>
+															<h2 className="md:text-[18px] text-[16px]" style={{ color: '#ADB5B9' }}>اضف درس جديد للوحدة</h2>
 														</>
 													)}
-													{source && <h2 style={{ color: '#ADB5B9' }}>{source.name}</h2>}
+													{source && <h2 className="md:text-[18px] text-[16px]" style={{ color: '#ADB5B9' }}>{source.name}</h2>}
 												</div>
 											</div>
 											<div
-												className='flex-1 fcc p-3 gap-4  cursor-pointer rounded-lg'
+												className='md:w-36 w-full md:h-14 h-[45px] flex-1 fcc p-3 gap-4  cursor-pointer rounded-lg'
 												style={{
-													width: '392px',
-													height: '56px',
 													backgroundColor: '#02466A00',
 													border: '1px solid #A7A7A7',
 												}}
 											>
-												<h2 style={{ color: '#ADB5B9' }}>0 دقيقة</h2>
+												<h2 className="md:text-[18px] text-[16px] whitespace-nowrap" style={{ color: '#ADB5B9' }}>0 دقيقة</h2>
 											</div>
 										</div>
-										<div className='flex gap-5' style={{ width: '555px' }}>
-											<div style={{ width: '392px' }}>
+										<div className='md:w-[555px] w-full md:h-14 h-[45px] flex gap-5 mb-5'>
+											<div className="md:w-[392px] w-full md:h-14 h-[45px]">
 												<input ref={inputRef} className='hidden' type='file' onChange={handleFileChange} accept='.mov,.mp4' />
 												<div
-													className='fcc p-3 gap-4  cursor-pointer rounded-lg'
+													className='md:w-[392px] w-full md:h-14 h-[45px] fcc p-3 gap-4  cursor-pointer rounded-lg'
 													style={{
-														width: '392px',
-														height: '56px',
 														backgroundColor: '#02466A00',
 														border: '2px dashed #A7A7A7',
 													}}
@@ -167,22 +158,20 @@ const AddUnit = ({ cancel, cancelAll }) => {
 															>
 																<AddIcon></AddIcon>
 															</Box>
-															<h2 style={{ color: '#ADB5B9' }}>اضف درس جديد للوحدة</h2>
+															<h2 className="md:text-[18px] text-[16px]" style={{ color: '#ADB5B9' }}>اضف درس جديد للوحدة</h2>
 														</>
 													)}
-													{source && <h2 style={{ color: '#ADB5B9' }}>{source?.name}</h2>}
+													{source && <h2 className="md:text-[18px] text-[16px]" style={{ color: '#ADB5B9' }}>{source?.name}</h2>}
 												</div>
 											</div>
 											<div
-												className='flex-1 fcc p-3 gap-4  cursor-pointer rounded-lg'
+												className='md:w-36 w-full md:h-14 h-[45px] flex-1 fcc p-3 gap-4  cursor-pointer rounded-lg'
 												style={{
-													width: '392px',
-													height: '56px',
 													backgroundColor: '#02466A00',
 													border: '2px dashed #A7A7A7',
 												}}
 											>
-												<h2 style={{ color: '#ADB5B9' }}>0 دقيقة</h2>
+												<h2 className="md:text-[18px] text-[16px] whitespace-nowrap" style={{ color: '#ADB5B9' }}>0 دقيقة</h2>
 											</div>
 										</div>
 									</div>
@@ -190,14 +179,13 @@ const AddUnit = ({ cancel, cancelAll }) => {
 							</form>
 						</div>
 						<div
-							className='p-8 flex justify-center gap-4'
+							className='md:h-[135px] h-[100px] md:p-8 p-4 flex items-center justify-center gap-4'
 							style={{
-								height: '135px',
 								backgroundColor: 'rgba(235, 235, 235, 1)',
 							}}
 						>
 							<Button
-								className={'h-14 w-44 text-xl font-medium'}
+								className={'md:h-14 h-[45px] md:w-44 w-full md:text-xl text-[16px] font-medium'}
 								style={{ backgroundColor: `rgba(2, 70, 106, 1)` }}
 								type={'normal'}
 								onClick={() => {
@@ -213,7 +201,7 @@ const AddUnit = ({ cancel, cancelAll }) => {
 									borderColor: `rgba(2, 70, 106, 1)`,
 								}}
 								textStyle={{ color: 'rgba(2, 70, 106, 1)' }}
-								className={'h-14 w-44 text-xl font-medium'}
+								className={'md:h-14 h-[45px] md:w-44 w-full md:text-xl text-[16px] font-medium'}
 								type={'outline'}
 								onClick={cancel}
 							>

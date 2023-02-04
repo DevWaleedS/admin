@@ -11,10 +11,10 @@ const DelegatesTablePage = () => {
   const [valid, setValid] = useState(false);
   return (
     <div
-      className={`px-5 py-10`}
+      className={`md:px-5 md:py-10 p-4 pt-0`}
       style={{ backgroundColor: "#F7F7F7" }}
     >
-      <div className="flex justify-between items-center text-lg font-medium">
+      <div className="flex justify-between items-center md:text-lg text-[16px] font-medium">
         <PageNavigate
           nestedPage={true}
           parentPage={"عرض المندوبين"}

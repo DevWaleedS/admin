@@ -1,14 +1,17 @@
 .content::-webkit-scrollbar {
-    display: none;
-  }
-  
-.container{
+  display: none;
 }
 
-.back_drop{
+.back_drop {
   opacity: 0.5;
 }
 
 .file_select::-webkit-file-upload-button {
-    display: none;
+  display: none;
+}
+
+@media(max-width:768px) {
+  .container {
+    height: 100% !important;
   }
+}

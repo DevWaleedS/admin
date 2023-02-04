@@ -15,20 +15,19 @@ const OtlobhaAcademy = () => {
   const [selectedTab, setSelectTab] = useState();
   return (
     <div
-      className={`p-4 relative pl-36`}
-      style={{ backgroundColor: "#fafafa" }}
+      className={`p-4 relative md:pl-36 pt-0 md:bg-[#fafafa] bg-[#FFFFFF]`}
     >
-      <div className="flex items-center justify-between">
+      <div className="flex md:flex-row flex-col md:items-center items-start justify-between gap-y-4">
         <PageNavigate currentPage={"أكاديمية أطلبها"} />
-        <div className="flex gap-2">
+        <div className="md:w-auto w-full flex gap-2">
           {
             selectedTab === 1 ?
               (
                 <Button
-                  className={"flex justify-center items-center"}
+                  className={"md:w-[180px] w-full md:h-[56px] h-[45px] md:text-[20px] text-[18px] flex justify-center items-center"}
                   type={"outline"}
-                  style={{ width: '180px', height: '56px', borderColor: "#02466A" }}
-                  textStyle={{ color: "#02466A", fontSize: '20px' }}
+                  style={{ borderColor: "#02466A" }}
+                  textStyle={{ color: "#02466A"}}
                   svg={<ActionAdd fill="#02466A" />}
                   onClick={() => {
                     setNewCourseWindow(true);
@@ -40,10 +39,10 @@ const OtlobhaAcademy = () => {
               ) :
               (
                 <Button
-                  className={"flex justify-center items-center"}
+                  className={"md:w-[180px] w-full md:h-[56px] h-[45px] md:text-[20px] text-[18px] flex justify-center items-center"}
                   type={"outline"}
-                  style={{ width: '180px', height: '56px', borderColor: "#02466A" }}
-                  textStyle={{ color: "#02466A", fontSize: '20px' }}
+                  style={{ borderColor: "#02466A" }}
+                  textStyle={{ color: "#02466A" }}
                   svg={<ActionAdd fill="#02466A" />}
                   onClick={() => {
                     setNewLessonWindow(true);
@@ -74,7 +73,7 @@ const OtlobhaAcademy = () => {
           editLessonData={editLessonData}
         ></AddNewLesson>
       )}
-      <div className="mt-16">
+      <div className="md:mt-16 mt-6">
         <OtlobhaAcademyComp
           EditCourse={(data) => {
             setNewCourseWindow(true);
