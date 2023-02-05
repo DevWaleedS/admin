@@ -9,12 +9,12 @@ const cases = [{ id: 1, name: 'التسجيل مع موافقة الادارة',
 const RegistrationCasesPage = () => {
   const [data, setData] = useState([]);
   return (
-    <div className={`relative h-full py-10 pl-36 pr-5`} style={{ backgroundColor: "#F7F7F7" }}>
+    <div className={`relative h-full md:py-10 md:pl-36 md:pr-5 p-4 pt-0`} style={{ backgroundColor: "#F7F7F7" }}>
       <div
-        className="flex flex-row items-center gap-3"
+        className="flex flex-row md:items-center items-start gap-3"
       >
-        <h3 style={{ fontSize: '24px', color: '#011723' }} className="font-bold">حالات التسجيل</h3>
-        <p style={{ fontSize: '18px', color: '#67747B' }} className="font-medium">( تتيح هذه الواجهة التحكم بحالة التسجيل في الصفحة الرئيسية)</p>
+        <h3 style={{ color: '#011723' }} className="md:text-[24px] text-[20px] font-bold whitespace-nowrap">حالات التسجيل</h3>
+        <p style={{ color: '#67747B' }} className="md:text-[18px] text-[14px] font-medium">( تتيح هذه الواجهة التحكم بحالة التسجيل في الصفحة الرئيسية)</p>
       </div>
       <div className="mt-4">
         <PageNavigate

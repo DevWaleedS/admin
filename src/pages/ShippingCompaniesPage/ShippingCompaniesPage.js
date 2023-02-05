@@ -8,11 +8,11 @@ const ShippingCompaniesPage = () => {
   const [api, setApi] = useState('');
   return (
     <div
-      className="relative h-full py-[52px] pl-[238px] pr-[98px]"
+      className="relative h-full md:py-[52px] md:pl-[238px] md:pr-[98px] p-4 pt-0"
       style={{ backgroundColor: "#F7F7F7" }}
     >
-      <h3 style={{ fontSize: '24px', color: '#011723' }} className="font-bold">شركات الشحن</h3>
-      <div className="flex flex-col gap-8 mt-20">
+      <h3 style={{ color: '#011723' }} className="md:text-[24px] text-[20px] font-bold">شركات الشحن</h3>
+      <div className="flex flex-col md:gap-8 gap-4 md:mt-20 mt-6">
         {companies.map((company, index) => (
           <div key={index} className="flex flex-col gap-5">
             <div className="flex flex-row items-center gap-3">
@@ -53,13 +53,13 @@ const ShippingCompaniesPage = () => {
                 }}
                 checked={company.active}
               />
-              <h6 style={{ fontSize: '22px', color: '#011723' }} className="font-medium">{company.name}</h6>
+              <h6 style={{ color: '#011723' }} className="md:text-[22px] text-[18px] font-medium">{company.name}</h6>
             </div>
-            <div className="flex flex-row items-center gap-5">
-              <label style={{ fontSize: '22px', color: '#011723' }} className="font-medium" htmlFor="api">API</label>
+            <div className="flex md:flex-row flex-col md:items-center items-start md:gap-5 gap-3">
+              <label style={{ color: '#011723' }} className="md:text-[22px] text-[18px] font-medium" htmlFor="api">API</label>
               <input
-                style={{ color: '#ADB5B9', fontSize: '18px' }}
-                className="w-full bg-white py-4 px-5 outline-none rounded-md"
+                style={{ color: '#ADB5B9' }}
+                className="md:text-[18px] text-[16px] w-full md:h-14 h-[45px] bg-white py-4 px-5 outline-none rounded-md"
                 placeholder="api link"
                 value={api}
                 onChange={(e) => {
