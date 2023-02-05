@@ -29,15 +29,15 @@ const PaymentGatewaysPage = () => {
 
   return (
     <div
-      className="relative h-full py-12 pl-36 pr-24"
+      className="relative h-full md:py-12 md:pl-36 md:pr-24 p-4 pt-0"
       style={{ backgroundColor: "#F7F7F7" }}
     >
-      <h3 style={{ fontSize: '24px', color: '#011723' }} className="font-bold">بوابات الدفع</h3>
+      <h3 style={{ color: '#011723' }} className="md:text-[24px] text-[20px] font-bold">بوابات الدفع</h3>
 
       <div className="flex flex-row items-center gap-x-4 gap-y-10 flex-wrap mt-20">
         
         {payments.map((payment, index) => (
-          <div style={{ width:'280px',height:'120px' }} key={payment.id} className="flex flex-col items-center gap-5">
+          <div style={{ height:'120px' }} key={payment.id} className="md:w-[280px] w-full flex flex-col items-center gap-5">
             <div style={{ boxShadow: '3px 3px 6px #0000000A'}} 
                   className="w-full flex flex-row items-center justify-center bg-white p-8 rounded-sm"
             >

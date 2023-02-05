@@ -98,7 +98,7 @@ const NotificationsPage = () => {
 										setActionTitle('تم حذف الاشعارات بنجاح');
 									}}
 								>
-									<h6 className='md:text-[18px] text-[16px] font-medium' style={{ fontSize: '18px', color: '#FF3838' }}>
+									<h6 className='md:text-[18px] text-[16px] font-medium' style={{ color: '#FF3838' }}>
 										حذف
 									</h6>
 									<img src={Delete} alt='delete-icon' />
