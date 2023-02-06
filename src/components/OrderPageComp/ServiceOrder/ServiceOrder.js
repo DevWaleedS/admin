@@ -133,23 +133,24 @@ const AddCountry = ({ cancel, complaintDetails }) => {
     <>
       <BackDrop onClick={cancel}></BackDrop>
       <div
-        className={`fixed bottom-0 left-0 bg-slate-50 z-20  ${styles.container}`}
+        className={`fixed bottom-0 left-0 bg-slate-50 z-30  ${styles.container}`}
         style={{
           width: "1104px",
+          maxWidth:'100%',
           height: "calc(100% - 5rem)",
           backgroundColor: "rgba(235, 235, 235, 1)",
         }}
       >
         <div className="flex h-full flex-col justify-between ">
           <div
-            className="p-4 flex justify-between items-center pl-36 pr-16"
+            className="md:p-4 flex justify-between items-center md:pl-36 md:pr-16 p-4 pt-0"
             style={{
               height: "135px",
               backgroundColor: "rgba(235, 235, 235, 1)",
             }}
           >
             <div>
-              <h2 className="font-semibold text-2xl  mb-3">تفاصيل الطلب</h2>
+              <h2 className="font-semibold md:text-2xl text-[20px] mb-3">تفاصيل الطلب</h2>
               <div className="flex">
                 <div className={`flex items-center gap-2 `}>
                   <div
@@ -161,18 +162,18 @@ const AddCountry = ({ cancel, complaintDetails }) => {
                     />
                   </div>
 
-                  <h2 className="font-semibold ml-4"> الطلبات </h2>
+                  <h2 className="font-semibold md:text-[18px] text-[16px] md:ml-4 ml-2"> الطلبات </h2>
                 </div>
 
-                <h2 className="font-semibold ml-4"> / جدول الطلبات </h2>
+                <h2 className="font-semibold md:text-[18px] text-[16px] md:ml-4 ml-2"> / جدول الطلبات </h2>
 
-                <h3 className="font-medium" style={{ color: "#67747B" }}>
+                <h3 className="font-medium md:text-[18px] text-[16px]" style={{ color: "#67747B" }}>
                   / تفاصيل طلب خدمة
                 </h3>
               </div>
             </div>
             <div>
-              <h2 className={"font-medium"} style={{ color: "#4D4F5C" }}>
+              <h2 className={"font-medium md:text-[18px] text-[16px]"} style={{ color: "#4D4F5C" }}>
                 رقم الخدمة
               </h2>
               <div

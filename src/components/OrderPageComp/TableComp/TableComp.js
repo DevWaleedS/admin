@@ -483,15 +483,15 @@ function EnhancedTableHead(props) {
 			<TableRow>
 				{headCells.map((headCell) => (
 					<TableCell
-						className='font-medium text-lg'
+						className='font-medium md:text-[18px] text-[16px]'
 						key={headCell.id}
 						align={headCell.numeric ? 'right' : 'center'}
 						padding={headCell.disablePadding ? 'none' : 'normal'}
 						sortDirection={orderBy === headCell.id ? order : false}
 						sx={{
 							width: headCell.width ? headCell.width : 'auto',
-
 							color: '#EFF9FF',
+							whiteSpace:'nowrap',
 						}}
 					>
 						{headCell.sort && (
@@ -536,6 +536,7 @@ function EnhancedTableToolbar(props) {
 	const { setNotificationTitle,setActionTitle } = NotificationStore;
 	return (
 		<Toolbar
+			className='md:gap-8 gap-4'
 			sx={{
 				pl: { sm: 2 },
 				pr: { xs: 1, sm: 1 },
@@ -543,21 +544,20 @@ function EnhancedTableToolbar(props) {
 					bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
 				}),
 				display: 'flex',
-				gap: '2rem',
 				justifyContent: 'flex-end',
 			}}
 		>
-			<div className='fcc gap-2 px-4 rounded-full' style={{ backgroundColor: 'rgba(255, 159, 26, 0.04)' }}>
+			<div className='fcc gap-2 md:px-4 px-2 rounded-full' style={{ backgroundColor: 'rgba(255, 159, 26, 0.04)' }}>
 				{numSelected > 0 && (
 					<div
-						className='fcc gap-4 px-4 rounded-full'
-						style={{ minWidth: '114px', backgroundColor: '#FF9F1A0A' }}
+						className='md:mon-w[114px] min-w-[90px] fcc md:gap-4 gap-2 md:px-4 px-2 rounded-full'
+						style={{ backgroundColor: '#FF9F1A0A' }}
 						onClick={() => {
 							setNotificationTitle('سيتم تعطيل جميع الطلبات التي قمت بتحديدها');
 							setActionTitle('تم تعطيل الطلبات بنجاح');
 						}}
 					>
-						<h2 className={'font-medium'} style={{ color: '#FF9F1A' }}>
+						<h2 className={'font-medium md:text-[18px] text-[16px]'} style={{ color: '#FF9F1A' }}>
 							تعطيل
 						</h2>
 						<Box
@@ -588,8 +588,8 @@ function EnhancedTableToolbar(props) {
 							onClick();
 						}}
 						title='Delete'>
-						<div className='fcc gap-2 px-4 rounded-full' style={{ width: '114px', backgroundColor: '#FF38381A' }}>
-							<h2 className={'font-medium'} style={{ color: '#FF3838' }}>
+						<div className='md:w-[114px] w-[100px] fcc gap-2 md:px-4 px-2 rounded-full' style={{ backgroundColor: '#FF38381A' }}>
+							<h2 className={'font-medium md:text-[18px] text-[16px]'} style={{ color: '#FF3838' }}>
 								حذف
 							</h2>
 							<IconButton>
@@ -607,7 +607,7 @@ function EnhancedTableToolbar(props) {
 			</div>
 
 			<div className='flex items-center'>
-				<h2 className='font-medium'>تحديد الكل</h2>
+				<h2 className='font-medium md:text-[18px] text-[14px] whitespace-nowrap'>تحديد الكل</h2>
 				<Checkbox
 					checkedIcon={<CheckedSquare />}
 					sx={{
@@ -724,7 +724,6 @@ export default function EnhancedTable({ setUser }) {
 				sx={{
 					width: '100%',
 					mb: '1rem',
-
 					backgroundColor: 'transparent',
 					boxShadow: 'none',
 				}}
@@ -780,20 +779,20 @@ export default function EnhancedTable({ setUser }) {
 														width: '131px',
 													}}
 												>
-													<h2 className='font-normal text-base text-slate-50'>{row.state}</h2>
+													<h2 className='font-normal md:text-[18px] text-[14px] whitespace-nowrap text-slate-50'>{row.state}</h2>
 													<div className={`w-4 h-4 flex items-center justify-center ${styles.icons}`}>{findStateChanges?.icon}</div>
 												</div>
 											</TableCell>
 
 											<TableCell align='right' className='items-center' sx={{ display: 'flex', gap: '0.5rem', p: '24px 0' }}>
 												{newMarket && <NewIcon width='1.25rem'></NewIcon>}
-												<h2 className='font-normal text-lg'>{row.orderType}</h2>
+												<h2 className='font-normal md:text-[18px] text-[14px] whitespace-nowrap'>{row.orderType}</h2>
 											</TableCell>
 											<TableCell align='right'>
-												<h2 className='font-normal text-lg'>{row.orderNumber}</h2>
+												<h2 className='font-normal md:text-[18px] text-[14px] whitespace-nowrap'>{row.orderNumber}</h2>
 											</TableCell>
 
-											<TableCell align='right' className='font-normal text-lg'>
+											<TableCell align='right' className='font-normal md:text-[18px] text-[14px] whitespace-nowrap'>
 												{(index + 1).toLocaleString('en-US', {
 													minimumIntegerDigits: 2,
 													useGrouping: false,

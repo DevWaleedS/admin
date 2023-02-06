@@ -11,57 +11,57 @@ const InputsComps = () => {
 		setImages(imageList);
 	};
 	return (
-		<div className='mt-10 pr-24 pl-40 pb-24'>
-			<div className='mb-5'>
-				<h2 className='font-medium' style={{ fontSize: '18px' }}>
+		<div className='md:mt-10 mt-6 md:pr-24 md:pl-40 md:pb-24 p-4'>
+			<div className='md:mb-5 mb-3'>
+				<h2 className='md:text-[18px] text-[16px] font-medium'>
 					اسم المنصة
 				</h2>
 				<label htmlFor=''>
-					<input className='outline-none w-full h-14 p-3 mt-3 rounded' style={{ border: 'none' }} type='text' placeholder='ادخل اسم المنصة' />
+					<input className='outline-none w-full md:h-14 h-[45px] p-3 mt-3 rounded' style={{ border: 'none' }} type='text' placeholder='ادخل اسم المنصة' />
 				</label>
 			</div>
-			<div className='mb-5'>
-				<h2 className='font-medium' style={{ fontSize: '18px' }}>
+			<div className='md:mb-5 mb-3'>
+				<h2 className='md:text-[18px] text-[16px] font-medium'>
 					وصف المنصة
 				</h2>
 				<label htmlFor=''>
-					<input className='outline-none w-full h-14 p-3 mt-3 rounded' style={{ border: 'none' }} type='text' placeholder='اكتب وصف للمنصة' />
+					<input className='outline-none w-full md:h-14 h-[45px] p-3 mt-3 rounded' style={{ border: 'none' }} type='text' placeholder='اكتب وصف للمنصة' />
 				</label>
 			</div>
-			<div className='mb-5'>
-				<h2 className='font-medium' style={{ fontSize: '18px' }}>
+			<div className='md:mb-5 mb-3'>
+				<h2 className='md:text-[18px] text-[16px] font-medium'>
 					رابط المنصة
 				</h2>
 				<label htmlFor=''>
-					<input className='outline-none w-full h-14 p-3 mt-3 rounded' style={{ border: 'none' }} type='text' placeholder='www.sample.com' />
+					<input className='outline-none w-full md:h-14 h-[45px] p-3 mt-3 rounded' style={{ border: 'none' }} type='text' placeholder='www.sample.com' />
 				</label>
 			</div>
-			<div className='mb-5'>
-				<h2 className='font-medium' style={{ fontSize: '18px' }}>
+			<div className='md:mb-5 mb-3'>
+				<h2 className='md:text-[18px] text-[16px] font-medium'>
 					البريد الالكتروني
 				</h2>
 				<label htmlFor=''>
-					<input className='outline-none w-full h-14 p-3 mt-3 rounded' style={{ border: 'none' }} type='email' placeholder='www.sample.com' />
+					<input className='outline-none w-full md:h-14 h-[45px] p-3 mt-3 rounded' style={{ border: 'none' }} type='email' placeholder='www.sample.com' />
 				</label>
 			</div>
-			<div className='mb-5'>
-				<h2 className='font-medium' style={{ fontSize: '18px' }}>
+			<div className='md:mb-5 mb-3'>
+				<h2 className='md:text-[18px] text-[16px] font-medium'>
 					العنوان
 				</h2>
 				<label htmlFor=''>
-					<input className='outline-none w-full h-14 p-3 mt-3 rounded' style={{ border: 'none' }} type='text' placeholder='ادخل العنوان والاقامة' />
+					<input className='outline-none w-full md:h-14 h-[45px] p-3 mt-3 rounded' style={{ border: 'none' }} type='text' placeholder='ادخل العنوان والاقامة' />
 				</label>
 			</div>
-			<div className='mb-5'>
-				<h2 className='font-medium' style={{ fontSize: '18px' }}>
+			<div className='md:mb-5 mb-3'>
+				<h2 className='md:text-[18px] text-[16px] font-medium'>
 					رقم الهاتف
 				</h2>
 				<label htmlFor=''>
-					<input className='outline-none w-full h-14 p-3 mt-3 rounded' style={{ border: 'none' }} type='tel' placeholder='966515131515' />
+					<input className='outline-none w-full md:h-14 h-[45px] p-3 mt-3 rounded' style={{ border: 'none' }} type='tel' placeholder='966515131515' />
 				</label>
 			</div>
-			<div className='mb-5'>
-				<h2 className='font-medium' style={{ fontSize: '18px' }}>
+			<div className='md:mb-5 mb-3'>
+				<h2 className='md:text-[18px] text-[16px] font-medium'>
 					الشعار
 				</h2>
 				<label htmlFor=''>
@@ -69,7 +69,7 @@ const InputsComps = () => {
 						{({ onImageUpload, dragProps }) => (
 							// write your building UI
 							<div
-								className='upload__image-wrapper relative  flex items-center overflow-hidden  outline-none w-full h-14 p-3 mt-3 rounded bg-white'
+								className='upload__image-wrapper relative  flex items-center overflow-hidden  outline-none w-full md:h-14 h-[45px] p-3 mt-3 rounded bg-white'
 								style={{
 									border: 'none',
 								}}

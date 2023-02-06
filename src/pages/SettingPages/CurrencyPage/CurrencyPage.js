@@ -9,11 +9,11 @@ import { AiOutlinePlus } from "react-icons/ai";
 const CurrencyPage = () => {
   const [showAddCurrency, setShowAddCurrency] = useState(false);
   return (
-			<div className={`px-4 pt-6 pl-36 pb-20`} style={{ backgroundColor: '#F7F7F7' }}>
-				<div className='flex justify-between items-center'>
+			<div className={`md:px-4 md:pt-6 md:pl-36 md:pb-20 p-4 pt-0`} style={{ backgroundColor: '#F7F7F7' }}>
+				<div className='flex md:flex-row flex-col md:items-center items-start justify-between gap-y-4'>
 					<PageNavigate nestedPage={true} parentPage={'الاعدادات'} currentPage={'العملات'} />
 					<Button
-						className='h-14 w-[213px]'
+						className='md:h-14 h-[45px] md:w-[213px] w-full md:text-[22px] text-[18px]'
 						svg={<AiOutlinePlus color='#fff' className='w-5 h-5'/>}
 						type={'normal'}
 						style={{ backgroundColor: '#B6BE34' }}
@@ -32,7 +32,7 @@ const CurrencyPage = () => {
 						}}
 					></AddNewCurrency>
 				)}
-				<div className='mt-16' dir='ltr'>
+				<div className='md:mt-16 mt-6' dir='ltr'>
 					<TableComp></TableComp>
 				</div>
 			</div>

@@ -13,20 +13,19 @@ const OrdersPage = () => {
   const [complaintDetails, setComplaintDetails] = useState(null);
   
   return (
-			<div className='relative pt-10 pl-36 h-full pr-8' style={{ backgroundColor: '#F7F7F7' }}>
+			<div className='relative md:pt-10 md:pl-36 h-fit md:pr-8 p-4 pt-0' style={{ backgroundColor: '#F7F7F7' }}>
 				<ChartsComp></ChartsComp>
 				<div className={'mt-8'} style={{ backgroundColor: '#FFF' }}>
-					<div className='p-4'>
-						<div className='fbc'>
-							<h2 className={'font-bold text-2xl '} style={{ color: '#011723' }}>
+					<div className='md:p-4 p-0'>
+						<div className='flex md:flex-row flex-col md:items-center items-start justify-between gap-y-4 md:p-0 p-3 mb-4'>
+							<h2 className={'font-bold md:text-2xl text-[18px] whitespace-nowrap'} style={{ color: '#011723' }}>
 								جدول الطلبات
 							</h2>
-
-							<div className='mb-4'>
-								<FormControl className='flex flex-row gap-4' sx={{ minWidth: 120, flex: '1' }}>
-									<label className={`flex-1  h-14 relative `}>
+							<div style={{ maxWidth:'100%' }}>
+								<FormControl className='w-full flex flex-row gap-4' sx={{ minWidth: 120,maxWidth:'100%', flex: '1' }}>
+									<label className={`w-full flex-1 md:h-14 h-[45px] relative `}>
 										<input
-											className=' h-full outline-0 pr-12 rounded-lg bg-[#FFFFFF00]'
+											className='h-full outline-0 pr-12 rounded-lg bg-[#FFFFFF00]'
 											placeholder=' ادخل رقم الطلب'
 											type='text'
 											name='name'
@@ -35,6 +34,7 @@ const OrdersPage = () => {
 											}}
 											style={{
 												width: '376px',
+												maxWidth:'100%',
 												border: '1px solid #A7A7A7',
 												
 											}}
@@ -46,7 +46,6 @@ const OrdersPage = () => {
 								</FormControl>
 							</div>
 						</div>
-
 						{showNewMarketDetails && (
 							<NewMarket
 								complaintDetails={complaintDetails}

@@ -28,22 +28,22 @@ const SocialMediaActivity = ({ openAddLink }) => {
 
   return (
     <div
-      className="mt-8 shadow-md rounded-lg "
+      className="md:mt-8 mt-4 shadow-md rounded-lg"
       style={{ backgroundColor: "#FFFFFF" }}
     >
       <div
-        className="px-3 py-5 rounded-t-lg flex justify-between items-center"
+        className="md:px-3 md:py-5 p-4 rounded-t-lg flex md:flex-row flex-col justify-between items-center"
         style={{ backgroundColor: "#F7FCFF", border: "1px solid #EFEFEF" }}
       >
-        <h2 className="text-xl font-semibold flex items-center">
+        <h2 className="md:text-[22px] text-[18px] font-semibold flex items-center whitespace-nowrap">
           التواصل الاجتماعي
-          <span className="mr-3 text-base font-normal">
+          <span className="mr-3 md:text-[16px] text-[14px] font-normal whitespace-pre-line">
             (تستطيع تفعيل وتعطيل وإضافة صفحات منصات التواصل الاجتماعي)
           </span>
         </h2>
       </div>
-      <div className="py-7 flex flex-col items-center ">
-        <div style={{ width: "572px" }}>
+      <div className="md:py-7 py-0 flex flex-col items-center ">
+        <div style={{ width: '572px',maxWidth:'100%' }}>
           <div
             className="w-full p-8 flex justify-between items-center rounded"
             style={{ border: "1px solid #E3E3E3" }}
@@ -53,7 +53,7 @@ const SocialMediaActivity = ({ openAddLink }) => {
                 <FaceBIcon></FaceBIcon>
               </Box>
 
-              <h2 className="font-medium" style={{ color: "#011723" }}>
+              <h2 className="font-medium md:text-[18px] text-[16px]" style={{ color: "#011723" }}>
                 فيسبوك
               </h2>
             </div>
@@ -90,7 +90,7 @@ const SocialMediaActivity = ({ openAddLink }) => {
                 <InstaIcon width={"25px"}></InstaIcon>
               </Box>
 
-              <h2 className="font-medium" style={{ color: "#011723" }}>
+              <h2 className="font-medium md:text-[18px] text-[16px]" style={{ color: "#011723" }}>
                 انستجرام
               </h2>
             </div>
@@ -127,7 +127,7 @@ const SocialMediaActivity = ({ openAddLink }) => {
                 <TwitterIcon width={"25px"}></TwitterIcon>
               </Box>
 
-              <h2 className="font-medium" style={{ color: "#011723" }}>
+              <h2 className="font-medium md:text-[18px] text-[16px]" style={{ color: "#011723" }}>
                 تويتر
               </h2>
             </div>
@@ -164,7 +164,7 @@ const SocialMediaActivity = ({ openAddLink }) => {
                 <TiktokIcon width={"25px"}></TiktokIcon>
               </Box>
 
-              <h2 className="font-medium" style={{ color: "#011723" }}>
+              <h2 className="font-medium md:text-[18px] text-[16px]" style={{ color: "#011723" }}>
                 تيك توك
               </h2>
             </div>
@@ -205,7 +205,7 @@ const SocialMediaActivity = ({ openAddLink }) => {
                 ></MdOutlineAddCircle>
               </Box>
 
-              <h2 className="font-medium" style={{ color: "#011723" }}>
+              <h2 className="font-medium md:text-[18px] text-[16px]" style={{ color: "#011723" }}>
                 إضافة رابط جديد
               </h2>
             </div>
