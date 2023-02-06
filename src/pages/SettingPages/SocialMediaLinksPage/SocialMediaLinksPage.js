@@ -6,8 +6,8 @@ import AddNewLink from "../../../components/SettingComp/SocialMediaLinksPageComp
 const SocialMediaLinksPage = () => {
   const [showAddNewLink, setShowAddNewLink] = useState(false);
   return (
-    <div className={`px-4 pt-6`} style={{ backgroundColor: "#F7F7F7" }}>
-      <h2 className="text-2xl font-semibold mb-5">صفحات التواصل الاجتماعي </h2>
+    <div className={`md:px-4 md:pt-6 p-4 pt-0`} style={{ backgroundColor: "#F7F7F7" }}>
+      <h2 className="md:text-2xl text-[20px] font-bold mb-3">صفحات التواصل الاجتماعي </h2>
       <PageNavigate
         nestedPage={true}
         parentPage={"الاعدادات"}

@@ -6,13 +6,13 @@ import GraphSec from "./GraphSec/GraphSec";
 
 const ChartsComp = () => {
   return (
-    <div className="flex gap-4" style={{ height: "190px" }}>
+    <div className="md:h-[190px] h-fit flex md:flex-row flex-col gap-4">
       <div
-        className="h-full rounded-lg shadow-lg py-2 px-5 "
-        style={{ width: "376px", backgroundColor: "#DDE199" }}
+        className="md:w-[376px] w-full h-full rounded-lg shadow-lg py-2 px-5 "
+        style={{ backgroundColor: "#DDE199" }}
       >
         <div>
-          <h2 className="text-[28px] font-bold" style={{ color: "#02466A" }}>
+          <h2 className="md:text-[28px] text-[24px] font-bold" style={{ color: "#02466A" }}>
             76
           </h2>
           <h3 className='text-base font-normal'>طلب متجر جديد</h3>

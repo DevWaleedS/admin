@@ -8,15 +8,15 @@ const CountriesPages = () => {
 	const [showAddNewCountry, setShowAddNewCountry] = useState(false);
 	const [editData, setEditData] = useState(null);
 	return (
-		<div className={`px-4 pt-8 mt-5 pl-36 pr-24 `} style={{ backgroundColor: '#fafafa' }}>
-			<div className='flex justify-between'>
-				<h2 className='text-2xl font-bold'>جدول الدول</h2>
+		<div className={`md:px-4 md:pt-8 md:mt-5 md:pl-36 md:pr-24 p-4 pt-0`} style={{ backgroundColor: '#fafafa' }}>
+			<div className='flex md:flex-row flex-col md:items-center items-start justify-between gap-y-4'>
+				<h2 className='md:text-2xl text-[20px] font-bold'>جدول الدول</h2>
 				<Button
-					className='h-14 w-[213px]'
+					className='md:h-14 h-[45px] md:w-[213px] w-full md:text-[22px] text-[18px]'
 					svg={<AiOutlinePlus color='#fff' className='w-5 h-5' />}
 					type={'normal'}
 					style={{ backgroundColor: '#B6BE34' }}
-					fontSize={'text-2xl font-light'}
+					fontSize={'font-medium'}
 					onClick={() => {
 						setShowAddNewCountry(true);
 						setEditData(null);
@@ -25,7 +25,6 @@ const CountriesPages = () => {
 					اضافة دولة
 				</Button>
 			</div>
-
 			{showAddNewCountry && (
 				<AddCountry
 					cancel={() => {

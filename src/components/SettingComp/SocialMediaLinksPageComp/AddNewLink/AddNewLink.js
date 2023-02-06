@@ -53,13 +53,13 @@ const AddNewLink = ({ cancel }) => {
       <BackDrop onClick={cancel} />
       <div
         className="absolute  flex flex-col top-28 translate-x-2/4 add_new_page_popup  right-2/4 z-20 rounded-lg overflow-hidden"
-        style={{ width: "1062px" }}
+        style={{ width: "1062px",maxWidth:'90%' }}
       >
         <div
           className="h-16 w-full flex items-center justify-between py-4 px-4 trader_alert"
           style={{ backgroundColor: "#F7FCFF" }}
         >
-          <h2 className=" text-xl text-center">اضافة رابط سوشيال ميديا </h2>
+          <h2 className="md:text-[20px] text-[18px] text-center">اضافة رابط سوشيال ميديا </h2>
           <IoMdCloseCircleOutline
             size={"1.25rem"}
             color={"#fff"}
@@ -69,7 +69,7 @@ const AddNewLink = ({ cancel }) => {
         </div>
 
         <div
-          className=" p-6 rounded-b-lg"
+          className="md:p-6 p-4 rounded-b-lg"
           style={{ backgroundColor: "#FFFFFF" }}
         >
           <div className="py-7 flex flex-col items-center">
@@ -92,10 +92,8 @@ const AddNewLink = ({ cancel }) => {
               }) => (
                 // write your building UI
                 <div
-                  className="upload__image-wrapper relative "
+                  className="md:w-[572px] w-full upload__image-wrapper relative "
                   style={{
-                    width: "572px",
-
                     // border: images[0] ? "none" : "1px dashed #ccc",
                     // borderRadius: "10px",
                   }}
@@ -141,13 +139,13 @@ const AddNewLink = ({ cancel }) => {
               )}
             </ImageUploading>
           </div>
-          <div className="mt-10 mx-auto" style={{ width: "572px" }}>
+          <div className="md:w-[572px] w-full mt-10 mx-auto">
             <div className="mt-5">
-              <h2 className="text-lg font-medium">
+              <h2 className="md:text-[18px] text-[16px] font-medium">
                 اسم منصة التواصل الاجتماعي
               </h2>
               <div
-                className="flex gap-4 mt-3 p-5 items-center"
+                className="md:h-14 h-[45px] flex gap-4 mt-3 p-5 items-center"
                 style={{
                   backgroundColor: "#EBEBEB",
                   border: "1px solid #D3D3D3",
@@ -155,7 +153,7 @@ const AddNewLink = ({ cancel }) => {
               >
                 <input
                   style={{ backgroundColor: "transparent" }}
-                  className=" flex-1   outline-none"
+                  className="flex-1 outline-none"
                   placeholder={"ادخل اسم المنصة"}
                   type="text"
                   name="name"
@@ -163,9 +161,9 @@ const AddNewLink = ({ cancel }) => {
               </div>
             </div>
             <div className="mt-5">
-              <h2 className="text-lg font-medium">ادخل اسم المنصة</h2>
+              <h2 className="md:text-[18px] text-[16px] font-medium">ادخل اسم المنصة</h2>
               <div
-                className="flex gap-4 mt-3 p-5 items-center"
+                className="md:h-14 h-[45px] flex gap-4 mt-3 p-5 items-center"
                 style={{
                   backgroundColor: "#EBEBEB",
                   border: "1px solid #D3D3D3",
@@ -181,7 +179,7 @@ const AddNewLink = ({ cancel }) => {
               </div>
             </div>
           </div>
-          <div className="mt-10   mx-auto" style={{ width: "572px" }}>
+          <div className="md:w-[572px] w-full mt-10 mx-auto">
             <div className="flex gap-5">
               <FormGroup>
                 <FormControlLabel
@@ -196,17 +194,18 @@ const AddNewLink = ({ cancel }) => {
                 />
               </FormGroup>
               <div>
-                <h2>اظهار في المكان المخصص في الموقع</h2>
-                <p style={{ color: "#67747B" }}>
+                <h2 className="md:text-[18px] text-[16px] font-medium">اظهار في المكان المخصص في الموقع</h2>
+                <p className="md:text-[16px] text-[14px]" style={{ color: "#67747B" }}>
                   عند تعطيل هذا الخيار لن تظهر ايقونة صفحة التواصل الاجتماعي هذه
                   في الفوتر
                 </p>
               </div>
             </div>
           </div>
-          <div className="flex my-20 items-center justify-center gap-8">
+          <div className="flex md:my-20 my-10 items-center justify-center gap-8">
             <Button
-              fontSize={"text-2xl font-normal font-light"}
+              onClick={cancel}
+              className="md:h-14 h-[45px] md:w-[286px] w-full md:text-xl md:text-[18px] font-medium"
               style={{ minWidth: "fit-content", backgroundColor: "#02466A" }}
               type={"normal"}
             >

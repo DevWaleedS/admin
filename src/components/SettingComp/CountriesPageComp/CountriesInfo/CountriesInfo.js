@@ -10,16 +10,15 @@ const UsersTable = ({ setData }) => {
   return (
 			<div className='mt-3'>
 				<div className='mb-4'>
-					<FormControl className='flex flex-row gap-4' sx={{ minWidth: 120, flex: '1' }}>
-						<label className={`flex-1  h-14 relative `}>
+					<FormControl className='flex flex-row gap-4' sx={{ minWidth: 120,maxWidth:'100%', flex: '1' }}>
+						<label className={`flex-1 md:h-14 h-[45px] relative `}>
 							<input
-								className=' h-full outline-0 pr-12 rounded-lg  text-lg font-normal '
+								className='md:w-[376px] w-full h-full outline-0 pr-12 rounded-lg text-lg font-normal'
 								placeholder=' ابحث عن دولة'
 								type='text'
 								name='name'
 								onChange={() => {}}
 								style={{
-									width: '376px',
 									border: '1px solid #A7A7A7',
 									backgroundColor: '#FFFFFF00',
 								}}
@@ -31,7 +30,7 @@ const UsersTable = ({ setData }) => {
 					</FormControl>
 				</div>
 
-				<div dir={'ltr'} className={'mt-12'}>
+				<div dir={'ltr'} className={'md:mt-12 mt-6'}>
 					<TableComp
 						setDataRow={(data) => {
 							setData(data);

@@ -58,7 +58,7 @@ const PieChartSec = () => {
 		},
 	};
 	return (
-		<div className='flex gap-2 justify-between w-full'>
+		<div className='flex md:flex-row flex-col items-center gap-2 justify-between w-full'>
 			<div className='flex-1'>
 				<Pie {...config} />
 			</div>

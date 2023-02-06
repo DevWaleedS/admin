@@ -1,18 +1,24 @@
 .content::-webkit-scrollbar {
-    display: none;
-  }
-  
+  display: none;
+}
 
-.back_drop{
+
+.back_drop {
   opacity: 0.5;
 }
-.arrow_con
-{
-    height: 1.5rem;
-    width: 1.5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    background-color: #02466A1A;
+
+.arrow_con {
+  height: 1.5rem;
+  width: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: #02466A1A;
+}
+
+@media(max-width:768px) {
+  .container {
+    height: 100% !important;
+  }
 }

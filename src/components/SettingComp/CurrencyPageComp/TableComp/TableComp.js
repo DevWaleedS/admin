@@ -101,7 +101,7 @@ function EnhancedTableHead(props) {
 			<TableRow>
 				{headCells.map((headCell) => (
 					<TableCell
-						className='text-lg font-medium'
+						className='md:text-[18px] text-[16px] font-medium'
 						key={headCell.id}
 						align={headCell.numeric ? 'right' : 'center'}
 						padding={headCell.disablePadding ? 'none' : 'normal'}
@@ -109,6 +109,7 @@ function EnhancedTableHead(props) {
 						sx={{
 							width: headCell.width ? headCell.width : 'auto',
 							color: '#02466A',
+							whiteSpace:'nowrap'
 						}}
 					>
 						{headCell.sort && (
@@ -174,7 +175,7 @@ function EnhancedTableToolbar(props) {
 							setActionTitle('تم تعطيل العملات بنجاح');
 						}} 
 					>
-						<h2 className={'font-medium'} style={{ color: '#FF9F1A' }}>
+						<h2 className={'font-medium md:text-[18px] text-[16px]'} style={{ color: '#FF9F1A' }}>
 							تعطيل
 						</h2>
 						<Box
@@ -198,7 +199,7 @@ function EnhancedTableToolbar(props) {
 			</div>
 
 			<div className='flex items-center'>
-				<h2 className='font-medium'>تحديد الكل</h2>
+				<h2 className='font-medium md:text-[18px] text-[16px]'>تحديد الكل</h2>
 				<Checkbox
 					checkedIcon={<CheckedSquare />}
 					sx={{
@@ -343,7 +344,7 @@ export default function EnhancedTable({ setDataRow }) {
 											</TableCell>
 
 											<TableCell align='right'>
-												<h2 style={{ color: '#4D4F5C' }} className='font-normal text-lg'>
+												<h2 style={{ color: '#4D4F5C' }} className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>
 													{row.currencyName}
 												</h2>
 											</TableCell>
@@ -351,7 +352,7 @@ export default function EnhancedTable({ setDataRow }) {
 											<TableCell align='right'>
 												<DollarIcon fill='#02466A' className='w-6 h-6' style={{ marginLeft: 'auto' }}></DollarIcon>
 											</TableCell>
-											<TableCell align='right' className='font-normal text-lg'>
+											<TableCell align='right' className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>
 												{(index + 1).toLocaleString('en-US', {
 													minimumIntegerDigits: 2,
 													useGrouping: false,
@@ -388,7 +389,7 @@ export default function EnhancedTable({ setDataRow }) {
 					</Table>
 				</TableContainer>
 			</Paper>
-			<div className='flex items-center justify-between'>
+			<div className='flex md:flex-row flex-col items-center justify-between gap-y-4'>
 				<div className='flex items-center gap-2 p-2 rounded-md' style={{ border: '1px solid rgba(182, 190, 52, 1)' }}>
 					<div
 						id='basic-button'

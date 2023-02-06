@@ -118,7 +118,7 @@ StyledTreeItem.propTypes = {
 	labelText: PropTypes.string.isRequired,
 };
 
-const SideBar = ({openSidebar}) => {
+const SideBar = ({openSidebar,closeSidebar}) => {
 	const [expanded, setExpanded] = useState(['1']);
 	const handleExpanding = (id) => () => {
 		setExpanded([id]);
@@ -216,11 +216,11 @@ const SideBar = ({openSidebar}) => {
 					},
 				}}
 			>
-				<Link className='single_link' to={'/'}>
+				<Link className='single_link' onClick={()=>{closeSidebar();}} to={'/'}>
 					<StyledTreeItem nodeId='1' onClick={handleExpanding('1')} labelText='الرئيسية' svg={<Dashboard style={{ height: '1.2rem', zIndex: '10' }} />} />
 				</Link>
 				<StyledTreeItem nodeId='2' onClick={handleExpanding('2')} labelText='السوق' svg={<Market style={{ height: '1.2rem', zIndex: '10' }} />}>
-					<Link to={'/سوق_اطلبها'}>
+					<Link onClick={()=>{closeSidebar();}} to={'/سوق_اطلبها'}>
 						<StyledTreeItem
 							className='pr-5'
 							nodeId='33'
@@ -228,7 +228,7 @@ const SideBar = ({openSidebar}) => {
 							svg={<GiPlainCircle style={{ position: 'absolute', right: '-10px', height: '1rem', width: '1rem', zIndex: '10' }} />}
 						></StyledTreeItem>
 					</Link>
-					<Link to={'/السوق_العام'}>
+					<Link to={'/السوق_العام'} onClick={()=>{closeSidebar();}}>
 						<StyledTreeItem
 							className='pr-5'
 							nodeId='34'
@@ -236,12 +236,12 @@ const SideBar = ({openSidebar}) => {
 							svg={<GiPlainCircle style={{ position: 'absolute', right: '-10px', height: '1rem', width: '1rem', zIndex: '10' }} />}
 						></StyledTreeItem>
 					</Link>
-					<Link to={'/المخزون'}>
+					<Link to={'/المخزون'} onClick={()=>{closeSidebar();}}>
 						<StyledTreeItem className='pr-5' nodeId='35' labelText='المخزون' svg={<GiPlainCircle style={{ position: 'absolute', right: '-10px', height: '1rem', width: '1rem', zIndex: '10' }} />} />
 					</Link>
 				</StyledTreeItem>
 
-				<Link to={'/المتاجر'}>
+				<Link to={'/المتاجر'} onClick={()=>{closeSidebar();}}>
 					<StyledTreeItem
 						onClick={handleExpanding('4')}
 						sx={{
@@ -253,7 +253,7 @@ const SideBar = ({openSidebar}) => {
 						labelText='المتاجر'
 						svg={<Store style={{ height: '1.2rem', zIndex: '10' }} />}
 					>
-						<Link to={'/نشاط_المتاجر'}>
+						<Link to={'/نشاط_المتاجر'} onClick={()=>{closeSidebar();}}>
 							<StyledTreeItem
 								className='pr-5'
 								svg={<GiPlainCircle style={{ position: 'absolute', right: '-10px', height: '1rem', width: '1rem', zIndex: '10' }} />}
@@ -262,13 +262,13 @@ const SideBar = ({openSidebar}) => {
 							></StyledTreeItem>
 						</Link>
 
-						<Link to={'/عرض_المتاجر'}>
+						<Link to={'/عرض_المتاجر'} onClick={()=>{closeSidebar();}}>
 							<StyledTreeItem className='pr-5' svg={<GiPlainCircle style={{ position: 'absolute', right: '-10px', height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='6' labelText='المتاجر' />
 						</Link>
-						<Link to={'/المنتجات'}>
+						<Link to={'/المنتجات'} onClick={()=>{closeSidebar();}}>
 							<StyledTreeItem className='pr-5' svg={<GiPlainCircle style={{ position: 'absolute', right: '-10px', height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='7' labelText='المنتجات' />
 						</Link>
-						<Link to={'/التوثيق'}>
+						<Link to={'/التوثيق'} onClick={()=>{closeSidebar();}}>
 							<StyledTreeItem
 								className='pr-5'
 								svg={<GiPlainCircle style={{ position: 'absolute', right: '-10px', height: '1rem', width: '1rem', zIndex: '10' }} />}
@@ -280,7 +280,7 @@ const SideBar = ({openSidebar}) => {
 					</StyledTreeItem>
 				</Link>
 
-				<Link to={'/الباقات'}>
+				<Link to={'/الباقات'} onClick={()=>{closeSidebar();}}>
 					<StyledTreeItem
 						sx={{
 							'& .MuiCollapse-root': {
@@ -292,19 +292,19 @@ const SideBar = ({openSidebar}) => {
 						labelText='الباقات'
 						svg={<Price style={{ height: '1.2rem', zIndex: '10' }} />}
 					>
-						<Link to={'/الاشتراكات_الحالية'}>
+						<Link to={'/الاشتراكات_الحالية'} onClick={()=>{closeSidebar();}}>
 							<StyledTreeItem nodeId='10' svg={<DolarIcon style={{ height: '1.2rem', zIndex: '10' }} />} labelText='الاشتراكات الحالية' />
 						</Link>
 					</StyledTreeItem>
 				</Link>
 
-				<Link className='single_link' to={'/الخدمات'}>
+				<Link className='single_link' to={'/الخدمات'} onClick={()=>{closeSidebar();}}>
 					<StyledTreeItem nodeId='11' onClick={handleExpanding('')} labelText='الخدمات' svg={<Category style={{ height: '1.2rem', zIndex: '10' }} />}></StyledTreeItem>
 				</Link>
-				<Link className='single_link' to={'/أكاديمية_اطلبها'}>
+				<Link className='single_link' to={'/أكاديمية_اطلبها'} onClick={()=>{closeSidebar();}}>
 					<StyledTreeItem nodeId='12' onClick={handleExpanding('')} labelText='أكاديمية أطلبها' svg={<Graduation style={{ height: '1.2rem', zIndex: '10' }} />}></StyledTreeItem>
 				</Link>
-				<Link to={'/القالب'}>
+				<Link to={'/القالب'} onClick={()=>{closeSidebar();}}>
 					<StyledTreeItem
 						sx={{
 							'& .MuiCollapse-root': {
@@ -316,18 +316,18 @@ const SideBar = ({openSidebar}) => {
 						onClick={handleExpanding('13')}
 						svg={<Template style={{ height: '1.2rem', zIndex: '10' }} />}
 					>
-						<Link to={'/السلايدر'}>
+						<Link to={'/السلايدر'} onClick={()=>{closeSidebar();}}>
 							<StyledTreeItem className='pr-5' svg={<GiPlainCircle style={{ position: 'absolute', right: '-10px', height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='14' labelText='السلايدر' />
 						</Link>
-						<Link to={'/التقسيم'}>
+						<Link to={'/التقسيم'} onClick={()=>{closeSidebar();}}>
 							<StyledTreeItem className='pr-5' svg={<GiPlainCircle style={{ position: 'absolute', right: '-10px', height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='15' labelText='التقسيم' />
 						</Link>
 					</StyledTreeItem>
 				</Link>
-				<Link className='single_link' to={'/الصفحات'}>
+				<Link className='single_link' to={'/الصفحات'} onClick={()=>{closeSidebar();}}>
 					<StyledTreeItem nodeId='16' labelText='الصفحات' onClick={handleExpanding('')} svg={<Pages style={{ height: '1.2rem', zIndex: '10' }} />}></StyledTreeItem>
 				</Link>
-				<Link className='single_link' to={'/جدول_المستخدمين'}>
+				<Link className='single_link' to={'/جدول_المستخدمين'} onClick={()=>{closeSidebar();}}>
 					<StyledTreeItem nodeId='17' labelText='المستخدمين' onClick={handleExpanding('')} svg={<User style={{ height: '1.2rem', zIndex: '10' }} />}></StyledTreeItem>
 				</Link>
 				<StyledTreeItem
@@ -341,7 +341,7 @@ const SideBar = ({openSidebar}) => {
 					onClick={handleExpanding('18')}
 					svg={<Marketing style={{ height: '1.2rem', zIndex: '10' }} />}
 				>
-					<Link to={'/كوبونات_الخصم'}>
+					<Link to={'/كوبونات_الخصم'} onClick={()=>{closeSidebar();}}>
 						<StyledTreeItem className='pr-5' svg={<GiPlainCircle style={{ position: 'absolute', right: '-10px', height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='19' labelText='كوبونات الخصم' />
 					</Link>
 				</StyledTreeItem>
@@ -356,10 +356,10 @@ const SideBar = ({openSidebar}) => {
 					onClick={handleExpanding('20')}
 					svg={<SalesMan style={{ height: '1.2rem', zIndex: '10' }} />}
 				>
-					<Link to={'/عرض_المناديب'}>
+					<Link to={'/عرض_المناديب'} onClick={()=>{closeSidebar();}}>
 						<StyledTreeItem className='pr-5' svg={<GiPlainCircle style={{ position: 'absolute', right: '-10px', height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='21' labelText='عرض المناديب' />
 					</Link>
-					<Link to={'/حالة_تسجيل_المندوبين'}>
+					<Link to={'/حالة_تسجيل_المندوبين'} onClick={()=>{closeSidebar();}}>
 						<StyledTreeItem className='pr-5' svg={<GiPlainCircle style={{ position: 'absolute', right: '-10px', height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='22' labelText='حالة التسجيل' />
 					</Link>
 				</StyledTreeItem>
@@ -374,26 +374,26 @@ const SideBar = ({openSidebar}) => {
 					onClick={handleExpanding('23')}
 					svg={<Category style={{ height: '1.2rem', zIndex: '10' }} />}
 				>
-					<Link to={'/تصنيفات_السوق'}>
+					<Link to={'/تصنيفات_السوق'} onClick={()=>{closeSidebar();}}>
 						<StyledTreeItem className='pr-5' svg={<GiPlainCircle style={{ position: 'absolute', right: '-10px', height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='24' labelText='تصنيفات السوق' />
 					</Link>
-					<Link to={'/تصنيفات_المتاجر'}>
+					<Link to={'/تصنيفات_المتاجر'} onClick={()=>{closeSidebar();}}>
 						<StyledTreeItem className='pr-5' svg={<GiPlainCircle style={{ position: 'absolute', right: '-10px', height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='25' labelText='تصنيفات المتاجر' />
 					</Link>
 				</StyledTreeItem>
-				<Link className='single_link' to={'/الطلبات'}>
+				<Link className='single_link' to={'/الطلبات'} onClick={()=>{closeSidebar();}}>
 					<StyledTreeItem nodeId='26' labelText='الطلبات' onClick={handleExpanding('')} svg={<Order style={{ height: '1.2rem', zIndex: '10' }} />}></StyledTreeItem>
 				</Link>
-				<Link className='single_link' to={'/'}>
+				<Link className='single_link' to={'/'} onClick={()=>{closeSidebar();}}>
 					<StyledTreeItem nodeId='27' labelText='المحفظة' onClick={handleExpanding('')} svg={<Wallet style={{ height: '1.2rem', zIndex: '10' }} />}></StyledTreeItem>
 				</Link>
-				<Link className='single_link' to={'/الدعم_الفنى'}>
+				<Link className='single_link' to={'/الدعم_الفنى'} onClick={()=>{closeSidebar();}}>
 					<StyledTreeItem nodeId='28' labelText='الدعم الفنى' onClick={handleExpanding('')} svg={<Support style={{ height: '1.2rem', zIndex: '10' }} />}></StyledTreeItem>
 				</Link>
-				<Link className='single_link' to={'/شركات_الشحن'}>
+				<Link className='single_link' to={'/شركات_الشحن'} onClick={()=>{closeSidebar();}}>
 					<StyledTreeItem nodeId='29' labelText='شركات الشحن' onClick={handleExpanding('')} svg={<Shipping style={{ height: '1.2rem', zIndex: '10' }} />}></StyledTreeItem>
 				</Link>
-				<Link className='single_link' to={'/بوابات_الدفع'}>
+				<Link className='single_link' to={'/بوابات_الدفع'} onClick={()=>{closeSidebar();}}>
 					<StyledTreeItem nodeId='30' labelText='بوابات الدفع' onClick={handleExpanding('')} svg={<PaymentGateway style={{ height: '1.2rem', zIndex: '10' }} />}></StyledTreeItem>
 				</Link>
 				<StyledTreeItem
@@ -407,7 +407,7 @@ const SideBar = ({openSidebar}) => {
 					onClick={handleExpanding('31')}
 					svg={<Setting style={{ height: '1.2rem', zIndex: '10' }} />}
 				>
-					<Link to={'/الاعدادت_الأساسية'}>
+					<Link to={'/الاعدادت_الأساسية'} onClick={()=>{closeSidebar();}}>
 						<StyledTreeItem
 							className='pr-5'
 							svg={<GiPlainCircle style={{ position: 'absolute', right: '-10px', height: '1rem', width: '1rem', zIndex: '10' }} />}
@@ -415,22 +415,22 @@ const SideBar = ({openSidebar}) => {
 							labelText='الاعدادات الأساسية'
 						/>
 					</Link>
-					<Link to={'/الدول'}>
+					<Link to={'/الدول'} onClick={()=>{closeSidebar();}}>
 						<StyledTreeItem svg={<CityIcon style={{ height: '1.2rem', zIndex: '10' }} />} nodeId='36' labelText='الدول' />
 					</Link>
-					<Link to={'/المدن'}>
+					<Link to={'/المدن'} onClick={()=>{closeSidebar();}}>
 						<StyledTreeItem svg={<CityIcon style={{ height: '1.2rem', zIndex: '10' }} />} nodeId='37' labelText='المدن' />
 					</Link>
-					<Link to={'/العملات'}>
+					<Link to={'/العملات'} onClick={()=>{closeSidebar();}}>
 						<StyledTreeItem svg={<DolarIcon style={{ height: '1.2rem', zIndex: '10' }} />} nodeId='40' labelText='العملات' />
 					</Link>
-					<Link to={'/البريد'}>
+					<Link to={'/البريد'} onClick={()=>{closeSidebar();}}>
 						<StyledTreeItem svg={<EmailIcon style={{ height: '1.2rem', zIndex: '10' }} />} nodeId='41' labelText='البريد' />
 					</Link>
-					<Link to={'/التقارير'}>
+					<Link to={'/التقارير'} onClick={()=>{closeSidebar();}}>
 						<StyledTreeItem svg={<ReportIcon style={{ height: '1.2rem', zIndex: '10' }} />} nodeId='42' labelText='التقارير' />
 					</Link>
-					<Link to={'/التواصل_الاجتماعى'}>
+					<Link to={'/التواصل_الاجتماعى'} onClick={()=>{closeSidebar();}}>
 						<StyledTreeItem
 							className='pr-5'
 							svg={<GiPlainCircle style={{ position: 'absolute', right: '-10px', height: '1rem', width: '1rem', zIndex: '10' }} />}
@@ -438,10 +438,10 @@ const SideBar = ({openSidebar}) => {
 							labelText='التواصل الإجتماعى'
 						/>
 					</Link>
-					<Link to={'/حالات_التسجيل'}>
+					<Link to={'/حالات_التسجيل'} onClick={()=>{closeSidebar();}}>
 						<StyledTreeItem className='pr-5' svg={<GiPlainCircle style={{ position: 'absolute', right: '-10px', height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='44' labelText='حالة التسجيل' />
 					</Link>
-					<Link to={'/الاشعارات'}>
+					<Link to={'/الاشعارات'} onClick={()=>{closeSidebar();}}>
 						<StyledTreeItem className='pr-5' svg={<GiPlainCircle style={{ position: 'absolute', right: '-10px', height: '1rem', width: '1rem', zIndex: '10' }} />} nodeId='45' labelText='الاشعارات' />
 					</Link>
 				</StyledTreeItem>

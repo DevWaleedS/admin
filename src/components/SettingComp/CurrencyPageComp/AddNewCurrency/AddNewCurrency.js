@@ -25,12 +25,10 @@ const BackDrop = ({ onClick }) => {
 };
 const category = ["الكترونيات", "ألعاب وهدايا", "مستلزمات طبية", "مواد غذائية"];
 
-const formTitleClasses = "font-normal text-lg";
-const formTitleStyle = { width: "315px" };
+const formTitleClasses = 'md:w-[315px] w-full font-normal md:text-[18px] text-[16px] md:mb-0 mb-2';
 //
-const formInputClasses = "p-4 outline-0 rounded-md";
+const formInputClasses = "md:w-[555px] w-full md:h-14 h-[45px] p-4 outline-0 rounded-md";
 const formInputStyle = {
-  width: "555px",
   border: "1px solid #A7A7A7",
   backgroundColor: '#fffff',
 };
@@ -60,25 +58,24 @@ const AddNewCurrency = ({ cancel, data }) => {
     <>
       <BackDrop onClick={cancel}></BackDrop>
       <div
-        className={`fixed bottom-0 left-0 bg-[#F6F6F6] z-20 ${styles.container}`}
-        style={{ width: "1104px", height: "calc(100% - 5rem)" }}
+        className={`fixed bottom-0 left-0 bg-[#F6F6F6] z-30 ${styles.container}`}
+        style={{ width: '1104px',maxWidth:'100%', height: 'calc(100% - 5rem)' }}
       >
         <div className="flex h-full flex-col justify-between">
           <div
-            className="p-8 flex"
+            className="md:h-[135px] h-[100px] md:p-8 p-4"
             style={{
-              height: "135px",
               backgroundColor: "rgba(235, 235, 235, 1)",
             }}
           >
-            <h2 className="font-semibold text-2xl  mb-3">اضافة عملة جديدة</h2>
+            <h2 className="font-bold md:text-2xl text-[20px] mb-3">اضافة عملة جديدة</h2>
           </div>
           <div
-            className={`flex-1 overflow-y-scroll py-12 pr-8 ${styles.content}`}
+            className={`flex-1 overflow-y-scroll md:py-12 md:pr-8 p-4 ${styles.content}`}
           >
             <form action="">
-              <div className="flex mb-8 items-center">
-                <h2 className={formTitleClasses} style={formTitleStyle}>
+              <div className="flex md:flex-row flex-col md:mb-8 mb-4 md:items-center items-start">
+                <h2 className={formTitleClasses}>
                   <AiFillStar
                     style={{
                       display: "inline-block",
@@ -106,10 +103,8 @@ const AddNewCurrency = ({ cancel, data }) => {
                   }) => (
                     // write your building UI
                     <div
-                      className="upload__image-wrapper relative overflow-hidden"
+                      className="md:w-[555px] w-full md:h-[56px] h-[45px] upload__image-wrapper relative overflow-hidden"
                       style={{
-                        width: "555px",
-                        height: "56px",
                         border: "1px solid #A7A7A7",
                         borderRadius: "8px",
                         backgroundColor: "#fff"
@@ -139,8 +134,8 @@ const AddNewCurrency = ({ cancel, data }) => {
                   )}
                 </ImageUploading>
               </div>
-              <div className="flex mb-8 items-center">
-                <h2 className={formTitleClasses} style={formTitleStyle}>
+              <div className="flex md:flex-row flex-col md:mb-8 mb-4 md:items-center items-start">
+                <h2 className={formTitleClasses}>
                   <AiFillStar
                     style={{
                       display: "inline-block",
@@ -150,7 +145,6 @@ const AddNewCurrency = ({ cancel, data }) => {
                   ></AiFillStar>
                   اسم العملة (AR)
                 </h2>
-                <label>
                   <input
                     value={arabicCountryName}
                     onChange={(e) => {
@@ -162,11 +156,9 @@ const AddNewCurrency = ({ cancel, data }) => {
                     type="text"
                     name="name"
                   />
-                </label>
               </div>
-
-              <div className="flex mb-8 items-center">
-                <h2 className={formTitleClasses} style={formTitleStyle}>
+              <div className="flex md:flex-row flex-col md:mb-8 mb-4 md:items-center items-start">
+                <h2 className={formTitleClasses}>
                   <AiFillStar
                     style={{
                       display: "inline-block",
@@ -176,7 +168,6 @@ const AddNewCurrency = ({ cancel, data }) => {
                   ></AiFillStar>
                   اسم العملة (EN)
                 </h2>
-                <label>
                   <input
                     value={englishCountryName}
                     onChange={(e) => {
@@ -188,19 +179,17 @@ const AddNewCurrency = ({ cancel, data }) => {
                     type="text"
                     name="name"
                   />
-                </label>
               </div>
             </form>
           </div>
           <div
-            className="p-8 flex justify-center gap-4"
+            className="md:h-[135px] h-[100px] md:p-8 p-4 flex items-center justify-center gap-4"
             style={{
-              height: "135px",
               backgroundColor: "rgba(235, 235, 235, 1)",
             }}
           >
             <Button
-              className={"h-14 w-44 text-xl "}
+              className={"md:h-14 h-[45px] md:w-44 w-full md:text-xl md:text-[18px]"}
               style={{ backgroundColor: `rgba(2, 70, 106, 1)` }}
               type={"normal"}
               onClick={() => {
@@ -211,7 +200,7 @@ const AddNewCurrency = ({ cancel, data }) => {
               حفظ
             </Button>
             <Button
-              className={"h-14 w-44 text-xl"}
+              className={"md:h-14 h-[45px] md:w-44 w-full md:text-xl md:text-[18px]"}
               style={{ backgroundColor: `rgba(2, 70, 106, 1)` }}
               type={"normal"}
               onClick={cancel}
