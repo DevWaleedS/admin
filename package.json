@@ -38,7 +38,7 @@
 		"react-icons": "^4.6.0",
 		"react-images-uploading": "^3.1.7",
 		"react-router-dom": "^6.4.3",
-		"react-scripts": "5.0.1",
+		"react-scripts": "^5.0.1",
 		"react-simple-maps": "^3.0.0",
 		"react-star-ratings": "^2.3.0",
 		"react-tag-input-component": "^2.0.2",
