@@ -212,7 +212,7 @@ const SocialMediaActivity = ({ openAddLink }) => {
           </div>
         </div>
         <Button
-          className={"mx-auto mt-9"}
+          className={"mx-auto my-8"}
           fontSize={"text-2xl font-thin"}
           style={{ backgroundColor: "#02466A" }}
           type={"normal"}
