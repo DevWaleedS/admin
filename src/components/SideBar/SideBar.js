@@ -241,7 +241,7 @@ const SideBar = ({openSidebar,closeSidebar}) => {
 					</Link>
 				</StyledTreeItem>
 
-				<Link to={'/المتاجر'} onClick={()=>{closeSidebar();}}>
+				<Link to={'/المتاجر'}>
 					<StyledTreeItem
 						onClick={handleExpanding('4')}
 						sx={{
@@ -280,7 +280,7 @@ const SideBar = ({openSidebar,closeSidebar}) => {
 					</StyledTreeItem>
 				</Link>
 
-				<Link to={'/الباقات'} onClick={()=>{closeSidebar();}}>
+				<Link to={'/الباقات'}>
 					<StyledTreeItem
 						sx={{
 							'& .MuiCollapse-root': {
@@ -304,7 +304,7 @@ const SideBar = ({openSidebar,closeSidebar}) => {
 				<Link className='single_link' to={'/أكاديمية_اطلبها'} onClick={()=>{closeSidebar();}}>
 					<StyledTreeItem nodeId='12' onClick={handleExpanding('')} labelText='أكاديمية أطلبها' svg={<Graduation style={{ height: '1.2rem', zIndex: '10' }} />}></StyledTreeItem>
 				</Link>
-				<Link to={'/القالب'} onClick={()=>{closeSidebar();}}>
+				<Link to={'/القالب'}>
 					<StyledTreeItem
 						sx={{
 							'& .MuiCollapse-root': {
