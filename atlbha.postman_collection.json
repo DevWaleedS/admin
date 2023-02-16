@@ -428,12 +428,12 @@
 												},
 												{
 													"key": "email",
-													"value": "roqia@gmail.comfbbh",
+													"value": "ww@gmail.com",
 													"type": "default"
 												},
 												{
 													"key": "store_email",
-													"value": "rawfdduddffddssffea@gmail.comdjhhyy",
+													"value": "wwww@gmail.com",
 													"type": "default"
 												},
 												{
@@ -500,6 +500,16 @@
 													"key": "periodtype",
 													"value": "6months",
 													"type": "default"
+												},
+												{
+													"key": "status",
+													"value": "active",
+													"type": "text"
+												},
+												{
+													"key": "image",
+													"type": "file",
+													"src": "/C:/Users/Lenovo/Pictures/1.png"
 												}
 											]
 										},
@@ -536,7 +546,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "https://backend.atlbha.com/api/Admin/store/1",
+											"raw": "https://backend.atlbha.com/api/Admin/store/47",
 											"protocol": "https",
 											"host": [
 												"backend",
@@ -547,7 +557,7 @@
 												"api",
 												"Admin",
 												"store",
-												"1"
+												"47"
 											]
 										}
 									},
@@ -566,10 +576,10 @@
 												}
 											]
 										},
-										"method": "POST",
+										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "https://backend.atlbha.com/api/Admin/changeStoreStatus/3",
+											"raw": "https://backend.atlbha.com/api/Admin/changeStoreStatus?id[]=2&id[]=4",
 											"protocol": "https",
 											"host": [
 												"backend",
@@ -579,8 +589,17 @@
 											"path": [
 												"api",
 												"Admin",
-												"changeStoreStatus",
-												"3"
+												"changeStoreStatus"
+											],
+											"query": [
+												{
+													"key": "id[]",
+													"value": "2"
+												},
+												{
+													"key": "id[]",
+													"value": "4"
+												}
 											]
 										}
 									},
@@ -602,7 +621,7 @@
 										"method": "DELETE",
 										"header": [],
 										"url": {
-											"raw": "https://backend.atlbha.com/api/Admin/store/3",
+											"raw": "https://backend.atlbha.com/api/Admin/store/46",
 											"protocol": "https",
 											"host": [
 												"backend",
@@ -613,7 +632,7 @@
 												"api",
 												"Admin",
 												"store",
-												"3"
+												"46"
 											]
 										}
 									},
@@ -632,10 +651,10 @@
 												}
 											]
 										},
-										"method": "POST",
+										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "https://backend.atlbha.com/api/Admin/specialStatus/1",
+											"raw": "https://backend.atlbha.com/api/Admin/specialStatus/46",
 											"protocol": "https",
 											"host": [
 												"backend",
@@ -646,7 +665,480 @@
 												"api",
 												"Admin",
 												"specialStatus",
+												"46"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "product",
+							"item": [
+								{
+									"name": "index",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5ODY2ZTJmOC05YWQ2LTQ3Y2QtYWZlMi0xY2E3YjQ5N2RkNjciLCJqdGkiOiJlY2MyMjE0MTlhZWY3ZWYxZjAxODBiNmQzYjJjZmE5N2I5MWFmY2FmZGRlMWNjMDcwMTFmMDkwOTBmOTY1ZjFlNjlhMmY2MjRjOTc4Zjk4OCIsImlhdCI6MTY3NTY3NjY4Ni44MzQ1Mzg5MzY2MTQ5OTAyMzQzNzUsIm5iZiI6MTY3NTY3NjY4Ni44MzQ1NDEwODIzODIyMDIxNDg0Mzc1LCJleHAiOjE3MDcyMTI2ODYuODI3NzI5OTQwNDE0NDI4NzEwOTM3NSwic3ViIjoiMiIsInNjb3BlcyI6W119.BfxuTy2PFNKwPDL7yrK0xSsNV8nhkPfg63spqPdL4BvTJMhrhiyNT-aUUAdHD_VMMBo5LqYYRzYhcUtMinI_vxkN1-sX8q33CbYQ3dNcCxXJxM80UbO5yuZB_I8GFrNfRlDHsXiytW-Do9cs-WcL0HfDDxunCXl0Bl9FaqzU4wb1kolt8zOZmfqGK8AJsdk5zoKl_GPaIIY4oGjl9oZ3pnAfZcTGzV4tWwNPgWP6Wif_0TJ592UK5alJh3RU7DLqq46cmBKP2laRQtDoUVMmCRD17UsTrFVtoEMg79Yw8xDyLxLflpQUwqs5mcikJoGXGoIX53vQBmpNwTljHb4GcDCkOkXKL8s-LncG2tpmrOlFGT1BWqLmsFez71Y2ODOCWzf3RphG4oi-BLcg7r6JDqEu2fvwWn3rSXMRJMfpoFKNQ8Wb4jNPZH9lbmreYk_xrF7xNaiIWwiLwZaXfIxLmtDiaibX2L6tDRBY-z0IME5_4OKpQRQbSFk3ncT-u5QQ_ka7kq9ipiUyk7Uo1DKO3kiBpl1T_dFbKfEwwzzz3x74aX9HrwEK-zAhOInmYHoybwnTmUMqzNUdmPZi0nW8UXjtUnJOQQtsiq4qyZ9Yr06G0wqFSnw9THRWIDV5hw28DXWmDHr5FeuoL6okk501fqR_puYWJ3_iCXSnw8ZC6P4",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://backend.atlbha.com/api/Admin/product",
+											"protocol": "https",
+											"host": [
+												"backend",
+												"atlbha",
+												"com"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"product"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "changeProductStatus",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5ODY2ZTJmOC05YWQ2LTQ3Y2QtYWZlMi0xY2E3YjQ5N2RkNjciLCJqdGkiOiJlY2MyMjE0MTlhZWY3ZWYxZjAxODBiNmQzYjJjZmE5N2I5MWFmY2FmZGRlMWNjMDcwMTFmMDkwOTBmOTY1ZjFlNjlhMmY2MjRjOTc4Zjk4OCIsImlhdCI6MTY3NTY3NjY4Ni44MzQ1Mzg5MzY2MTQ5OTAyMzQzNzUsIm5iZiI6MTY3NTY3NjY4Ni44MzQ1NDEwODIzODIyMDIxNDg0Mzc1LCJleHAiOjE3MDcyMTI2ODYuODI3NzI5OTQwNDE0NDI4NzEwOTM3NSwic3ViIjoiMiIsInNjb3BlcyI6W119.BfxuTy2PFNKwPDL7yrK0xSsNV8nhkPfg63spqPdL4BvTJMhrhiyNT-aUUAdHD_VMMBo5LqYYRzYhcUtMinI_vxkN1-sX8q33CbYQ3dNcCxXJxM80UbO5yuZB_I8GFrNfRlDHsXiytW-Do9cs-WcL0HfDDxunCXl0Bl9FaqzU4wb1kolt8zOZmfqGK8AJsdk5zoKl_GPaIIY4oGjl9oZ3pnAfZcTGzV4tWwNPgWP6Wif_0TJ592UK5alJh3RU7DLqq46cmBKP2laRQtDoUVMmCRD17UsTrFVtoEMg79Yw8xDyLxLflpQUwqs5mcikJoGXGoIX53vQBmpNwTljHb4GcDCkOkXKL8s-LncG2tpmrOlFGT1BWqLmsFez71Y2ODOCWzf3RphG4oi-BLcg7r6JDqEu2fvwWn3rSXMRJMfpoFKNQ8Wb4jNPZH9lbmreYk_xrF7xNaiIWwiLwZaXfIxLmtDiaibX2L6tDRBY-z0IME5_4OKpQRQbSFk3ncT-u5QQ_ka7kq9ipiUyk7Uo1DKO3kiBpl1T_dFbKfEwwzzz3x74aX9HrwEK-zAhOInmYHoybwnTmUMqzNUdmPZi0nW8UXjtUnJOQQtsiq4qyZ9Yr06G0wqFSnw9THRWIDV5hw28DXWmDHr5FeuoL6okk501fqR_puYWJ3_iCXSnw8ZC6P4",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://backend.atlbha.com/api/Admin/productchangeSatusall?id[0]=6",
+											"protocol": "https",
+											"host": [
+												"backend",
+												"atlbha",
+												"com"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"productchangeSatusall"
+											],
+											"query": [
+												{
+													"key": "id[1]",
+													"value": "1",
+													"disabled": true
+												},
+												{
+													"key": "id[0]",
+													"value": "6"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5ODY2ZTJmOC05YWQ2LTQ3Y2QtYWZlMi0xY2E3YjQ5N2RkNjciLCJqdGkiOiJlY2MyMjE0MTlhZWY3ZWYxZjAxODBiNmQzYjJjZmE5N2I5MWFmY2FmZGRlMWNjMDcwMTFmMDkwOTBmOTY1ZjFlNjlhMmY2MjRjOTc4Zjk4OCIsImlhdCI6MTY3NTY3NjY4Ni44MzQ1Mzg5MzY2MTQ5OTAyMzQzNzUsIm5iZiI6MTY3NTY3NjY4Ni44MzQ1NDEwODIzODIyMDIxNDg0Mzc1LCJleHAiOjE3MDcyMTI2ODYuODI3NzI5OTQwNDE0NDI4NzEwOTM3NSwic3ViIjoiMiIsInNjb3BlcyI6W119.BfxuTy2PFNKwPDL7yrK0xSsNV8nhkPfg63spqPdL4BvTJMhrhiyNT-aUUAdHD_VMMBo5LqYYRzYhcUtMinI_vxkN1-sX8q33CbYQ3dNcCxXJxM80UbO5yuZB_I8GFrNfRlDHsXiytW-Do9cs-WcL0HfDDxunCXl0Bl9FaqzU4wb1kolt8zOZmfqGK8AJsdk5zoKl_GPaIIY4oGjl9oZ3pnAfZcTGzV4tWwNPgWP6Wif_0TJ592UK5alJh3RU7DLqq46cmBKP2laRQtDoUVMmCRD17UsTrFVtoEMg79Yw8xDyLxLflpQUwqs5mcikJoGXGoIX53vQBmpNwTljHb4GcDCkOkXKL8s-LncG2tpmrOlFGT1BWqLmsFez71Y2ODOCWzf3RphG4oi-BLcg7r6JDqEu2fvwWn3rSXMRJMfpoFKNQ8Wb4jNPZH9lbmreYk_xrF7xNaiIWwiLwZaXfIxLmtDiaibX2L6tDRBY-z0IME5_4OKpQRQbSFk3ncT-u5QQ_ka7kq9ipiUyk7Uo1DKO3kiBpl1T_dFbKfEwwzzz3x74aX9HrwEK-zAhOInmYHoybwnTmUMqzNUdmPZi0nW8UXjtUnJOQQtsiq4qyZ9Yr06G0wqFSnw9THRWIDV5hw28DXWmDHr5FeuoL6okk501fqR_puYWJ3_iCXSnw8ZC6P4",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://backend.atlbha.com/api/Admin/productdeleteall?id[0]=6",
+											"protocol": "https",
+											"host": [
+												"backend",
+												"atlbha",
+												"com"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"productdeleteall"
+											],
+											"query": [
+												{
+													"key": "id[1]",
+													"value": "1",
+													"disabled": true
+												},
+												{
+													"key": "id[0]",
+													"value": "6"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "show",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5ODY2ZTJmOC05YWQ2LTQ3Y2QtYWZlMi0xY2E3YjQ5N2RkNjciLCJqdGkiOiJlY2MyMjE0MTlhZWY3ZWYxZjAxODBiNmQzYjJjZmE5N2I5MWFmY2FmZGRlMWNjMDcwMTFmMDkwOTBmOTY1ZjFlNjlhMmY2MjRjOTc4Zjk4OCIsImlhdCI6MTY3NTY3NjY4Ni44MzQ1Mzg5MzY2MTQ5OTAyMzQzNzUsIm5iZiI6MTY3NTY3NjY4Ni44MzQ1NDEwODIzODIyMDIxNDg0Mzc1LCJleHAiOjE3MDcyMTI2ODYuODI3NzI5OTQwNDE0NDI4NzEwOTM3NSwic3ViIjoiMiIsInNjb3BlcyI6W119.BfxuTy2PFNKwPDL7yrK0xSsNV8nhkPfg63spqPdL4BvTJMhrhiyNT-aUUAdHD_VMMBo5LqYYRzYhcUtMinI_vxkN1-sX8q33CbYQ3dNcCxXJxM80UbO5yuZB_I8GFrNfRlDHsXiytW-Do9cs-WcL0HfDDxunCXl0Bl9FaqzU4wb1kolt8zOZmfqGK8AJsdk5zoKl_GPaIIY4oGjl9oZ3pnAfZcTGzV4tWwNPgWP6Wif_0TJ592UK5alJh3RU7DLqq46cmBKP2laRQtDoUVMmCRD17UsTrFVtoEMg79Yw8xDyLxLflpQUwqs5mcikJoGXGoIX53vQBmpNwTljHb4GcDCkOkXKL8s-LncG2tpmrOlFGT1BWqLmsFez71Y2ODOCWzf3RphG4oi-BLcg7r6JDqEu2fvwWn3rSXMRJMfpoFKNQ8Wb4jNPZH9lbmreYk_xrF7xNaiIWwiLwZaXfIxLmtDiaibX2L6tDRBY-z0IME5_4OKpQRQbSFk3ncT-u5QQ_ka7kq9ipiUyk7Uo1DKO3kiBpl1T_dFbKfEwwzzz3x74aX9HrwEK-zAhOInmYHoybwnTmUMqzNUdmPZi0nW8UXjtUnJOQQtsiq4qyZ9Yr06G0wqFSnw9THRWIDV5hw28DXWmDHr5FeuoL6okk501fqR_puYWJ3_iCXSnw8ZC6P4",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://backend.atlbha.com/api/Admin/product/6",
+											"protocol": "https",
+											"host": [
+												"backend",
+												"atlbha",
+												"com"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"product",
+												"6"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "addProductNote",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5ODY2ZTJmOC05YWQ2LTQ3Y2QtYWZlMi0xY2E3YjQ5N2RkNjciLCJqdGkiOiJlY2MyMjE0MTlhZWY3ZWYxZjAxODBiNmQzYjJjZmE5N2I5MWFmY2FmZGRlMWNjMDcwMTFmMDkwOTBmOTY1ZjFlNjlhMmY2MjRjOTc4Zjk4OCIsImlhdCI6MTY3NTY3NjY4Ni44MzQ1Mzg5MzY2MTQ5OTAyMzQzNzUsIm5iZiI6MTY3NTY3NjY4Ni44MzQ1NDEwODIzODIyMDIxNDg0Mzc1LCJleHAiOjE3MDcyMTI2ODYuODI3NzI5OTQwNDE0NDI4NzEwOTM3NSwic3ViIjoiMiIsInNjb3BlcyI6W119.BfxuTy2PFNKwPDL7yrK0xSsNV8nhkPfg63spqPdL4BvTJMhrhiyNT-aUUAdHD_VMMBo5LqYYRzYhcUtMinI_vxkN1-sX8q33CbYQ3dNcCxXJxM80UbO5yuZB_I8GFrNfRlDHsXiytW-Do9cs-WcL0HfDDxunCXl0Bl9FaqzU4wb1kolt8zOZmfqGK8AJsdk5zoKl_GPaIIY4oGjl9oZ3pnAfZcTGzV4tWwNPgWP6Wif_0TJ592UK5alJh3RU7DLqq46cmBKP2laRQtDoUVMmCRD17UsTrFVtoEMg79Yw8xDyLxLflpQUwqs5mcikJoGXGoIX53vQBmpNwTljHb4GcDCkOkXKL8s-LncG2tpmrOlFGT1BWqLmsFez71Y2ODOCWzf3RphG4oi-BLcg7r6JDqEu2fvwWn3rSXMRJMfpoFKNQ8Wb4jNPZH9lbmreYk_xrF7xNaiIWwiLwZaXfIxLmtDiaibX2L6tDRBY-z0IME5_4OKpQRQbSFk3ncT-u5QQ_ka7kq9ipiUyk7Uo1DKO3kiBpl1T_dFbKfEwwzzz3x74aX9HrwEK-zAhOInmYHoybwnTmUMqzNUdmPZi0nW8UXjtUnJOQQtsiq4qyZ9Yr06G0wqFSnw9THRWIDV5hw28DXWmDHr5FeuoL6okk501fqR_puYWJ3_iCXSnw8ZC6P4",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "product_id",
+													"value": "2",
+													"type": "default"
+												},
+												{
+													"key": "store_id",
+													"value": "1",
+													"type": "default"
+												},
+												{
+													"key": "subject",
+													"value": "ملاحظه",
+													"type": "default"
+												},
+												{
+													"key": "details",
+													"value": "ملاحظه",
+													"type": "default"
+												}
+											]
+										},
+										"url": {
+											"raw": "https://backend.atlbha.com/api/Admin/addProductNote",
+											"protocol": "https",
+											"host": [
+												"backend",
+												"atlbha",
+												"com"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"addProductNote"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Verification",
+							"item": [
+								{
+									"name": "index",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5ODY2ZTJmOC05YWQ2LTQ3Y2QtYWZlMi0xY2E3YjQ5N2RkNjciLCJqdGkiOiJiMmMxM2JkYWMxMzY4YzU3NGFiZTRlNjdkZWUwZjc0ODYyNmVmZjdmODI2Y2UzZWU4Y2Q0OTJlZmJhZDUwMWZiODJiNGE1N2YyYjYzYmYwYyIsImlhdCI6MTY3NTg3OTc1NC40NjMxNjkwOTc5MDAzOTA2MjUsIm5iZiI6MTY3NTg3OTc1NC40NjMxNzEwMDUyNDkwMjM0Mzc1LCJleHAiOjE3MDc0MTU3NTQuNDU1MzU4OTgyMDg2MTgxNjQwNjI1LCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.gUH1NpL3wjSS1hdTnkyM0ZQtwSdt8KugiPuaILyD3CzNQy_9vku3N20y8FoiJVPAP_HcOJ7ZRUwjIzv_cvRB7DLaCarjZiXRUfPMvki9fxfvGGaao-EImySNKZ2uMAPNtygjfzmLkGVtdwPsqzHDShLu6PwJsAR5CsSD2SCCJFew0_yCB5RhuzrwEPrAqXBf6JT5xMAZXQGlWkWFnnoT5dr-lcQbsdQWbkNpHwQIzrI5bqc4Wx2nbYp1GsqMvamkjnMNbFbLdy1KzXYVPpI0se38RFz-1z4MXFFZXkedCo9-tPwnYOScNAcEd0baUnaIUoRqjMB9azZYTf1-gwJOr2oOBxcPoBxKA12Yc1x0LPt5QOJSDAO0nFivMRi5Ln1nGykWV7NDd312QdN7KpRZViOM9-mpTlbaZnF9Dt5tdyFwAH7o1_mAQR7qzis2hb5IYVHt5LME6-5A9w3e9064sHAX-m3SU9zfELdBJGG4pVEqratXE17zeRDdRwG7eXLldT1qS8aTLcKmyh5zsEBzUvDnvzGn1FajfkyTSre-fxfzt93WPxO7DoRwkHXf1UjzsmNbx7hjlR42WsyBDSAEn2AYZbzNYD0FZ_df-7JEm_Fl82KbTTyssaDn4WZwX-RAN5wyazi2i4QwiKbgDy8x1tL0ZGknUc7Kzp-nNkaGZjU",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://backend.atlbha.com/api/Admin/verification",
+											"protocol": "https",
+											"host": [
+												"backend",
+												"atlbha",
+												"com"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"verification"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "acceptVerification",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5ODY2ZTJmOC05YWQ2LTQ3Y2QtYWZlMi0xY2E3YjQ5N2RkNjciLCJqdGkiOiJlY2MyMjE0MTlhZWY3ZWYxZjAxODBiNmQzYjJjZmE5N2I5MWFmY2FmZGRlMWNjMDcwMTFmMDkwOTBmOTY1ZjFlNjlhMmY2MjRjOTc4Zjk4OCIsImlhdCI6MTY3NTY3NjY4Ni44MzQ1Mzg5MzY2MTQ5OTAyMzQzNzUsIm5iZiI6MTY3NTY3NjY4Ni44MzQ1NDEwODIzODIyMDIxNDg0Mzc1LCJleHAiOjE3MDcyMTI2ODYuODI3NzI5OTQwNDE0NDI4NzEwOTM3NSwic3ViIjoiMiIsInNjb3BlcyI6W119.BfxuTy2PFNKwPDL7yrK0xSsNV8nhkPfg63spqPdL4BvTJMhrhiyNT-aUUAdHD_VMMBo5LqYYRzYhcUtMinI_vxkN1-sX8q33CbYQ3dNcCxXJxM80UbO5yuZB_I8GFrNfRlDHsXiytW-Do9cs-WcL0HfDDxunCXl0Bl9FaqzU4wb1kolt8zOZmfqGK8AJsdk5zoKl_GPaIIY4oGjl9oZ3pnAfZcTGzV4tWwNPgWP6Wif_0TJ592UK5alJh3RU7DLqq46cmBKP2laRQtDoUVMmCRD17UsTrFVtoEMg79Yw8xDyLxLflpQUwqs5mcikJoGXGoIX53vQBmpNwTljHb4GcDCkOkXKL8s-LncG2tpmrOlFGT1BWqLmsFez71Y2ODOCWzf3RphG4oi-BLcg7r6JDqEu2fvwWn3rSXMRJMfpoFKNQ8Wb4jNPZH9lbmreYk_xrF7xNaiIWwiLwZaXfIxLmtDiaibX2L6tDRBY-z0IME5_4OKpQRQbSFk3ncT-u5QQ_ka7kq9ipiUyk7Uo1DKO3kiBpl1T_dFbKfEwwzzz3x74aX9HrwEK-zAhOInmYHoybwnTmUMqzNUdmPZi0nW8UXjtUnJOQQtsiq4qyZ9Yr06G0wqFSnw9THRWIDV5hw28DXWmDHr5FeuoL6okk501fqR_puYWJ3_iCXSnw8ZC6P4",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://backend.atlbha.com/api/Admin/acceptVerification/1",
+											"protocol": "https",
+											"host": [
+												"backend",
+												"atlbha",
+												"com"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"acceptVerification",
 												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "rejectVerification",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5ODY2ZTJmOC05YWQ2LTQ3Y2QtYWZlMi0xY2E3YjQ5N2RkNjciLCJqdGkiOiJlY2MyMjE0MTlhZWY3ZWYxZjAxODBiNmQzYjJjZmE5N2I5MWFmY2FmZGRlMWNjMDcwMTFmMDkwOTBmOTY1ZjFlNjlhMmY2MjRjOTc4Zjk4OCIsImlhdCI6MTY3NTY3NjY4Ni44MzQ1Mzg5MzY2MTQ5OTAyMzQzNzUsIm5iZiI6MTY3NTY3NjY4Ni44MzQ1NDEwODIzODIyMDIxNDg0Mzc1LCJleHAiOjE3MDcyMTI2ODYuODI3NzI5OTQwNDE0NDI4NzEwOTM3NSwic3ViIjoiMiIsInNjb3BlcyI6W119.BfxuTy2PFNKwPDL7yrK0xSsNV8nhkPfg63spqPdL4BvTJMhrhiyNT-aUUAdHD_VMMBo5LqYYRzYhcUtMinI_vxkN1-sX8q33CbYQ3dNcCxXJxM80UbO5yuZB_I8GFrNfRlDHsXiytW-Do9cs-WcL0HfDDxunCXl0Bl9FaqzU4wb1kolt8zOZmfqGK8AJsdk5zoKl_GPaIIY4oGjl9oZ3pnAfZcTGzV4tWwNPgWP6Wif_0TJ592UK5alJh3RU7DLqq46cmBKP2laRQtDoUVMmCRD17UsTrFVtoEMg79Yw8xDyLxLflpQUwqs5mcikJoGXGoIX53vQBmpNwTljHb4GcDCkOkXKL8s-LncG2tpmrOlFGT1BWqLmsFez71Y2ODOCWzf3RphG4oi-BLcg7r6JDqEu2fvwWn3rSXMRJMfpoFKNQ8Wb4jNPZH9lbmreYk_xrF7xNaiIWwiLwZaXfIxLmtDiaibX2L6tDRBY-z0IME5_4OKpQRQbSFk3ncT-u5QQ_ka7kq9ipiUyk7Uo1DKO3kiBpl1T_dFbKfEwwzzz3x74aX9HrwEK-zAhOInmYHoybwnTmUMqzNUdmPZi0nW8UXjtUnJOQQtsiq4qyZ9Yr06G0wqFSnw9THRWIDV5hw28DXWmDHr5FeuoL6okk501fqR_puYWJ3_iCXSnw8ZC6P4",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://backend.atlbha.com/api/Admin/rejectVerification/1",
+											"protocol": "https",
+											"host": [
+												"backend",
+												"atlbha",
+												"com"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"rejectVerification",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "addStoreNote",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5ODY2ZTJmOC05YWQ2LTQ3Y2QtYWZlMi0xY2E3YjQ5N2RkNjciLCJqdGkiOiJlY2MyMjE0MTlhZWY3ZWYxZjAxODBiNmQzYjJjZmE5N2I5MWFmY2FmZGRlMWNjMDcwMTFmMDkwOTBmOTY1ZjFlNjlhMmY2MjRjOTc4Zjk4OCIsImlhdCI6MTY3NTY3NjY4Ni44MzQ1Mzg5MzY2MTQ5OTAyMzQzNzUsIm5iZiI6MTY3NTY3NjY4Ni44MzQ1NDEwODIzODIyMDIxNDg0Mzc1LCJleHAiOjE3MDcyMTI2ODYuODI3NzI5OTQwNDE0NDI4NzEwOTM3NSwic3ViIjoiMiIsInNjb3BlcyI6W119.BfxuTy2PFNKwPDL7yrK0xSsNV8nhkPfg63spqPdL4BvTJMhrhiyNT-aUUAdHD_VMMBo5LqYYRzYhcUtMinI_vxkN1-sX8q33CbYQ3dNcCxXJxM80UbO5yuZB_I8GFrNfRlDHsXiytW-Do9cs-WcL0HfDDxunCXl0Bl9FaqzU4wb1kolt8zOZmfqGK8AJsdk5zoKl_GPaIIY4oGjl9oZ3pnAfZcTGzV4tWwNPgWP6Wif_0TJ592UK5alJh3RU7DLqq46cmBKP2laRQtDoUVMmCRD17UsTrFVtoEMg79Yw8xDyLxLflpQUwqs5mcikJoGXGoIX53vQBmpNwTljHb4GcDCkOkXKL8s-LncG2tpmrOlFGT1BWqLmsFez71Y2ODOCWzf3RphG4oi-BLcg7r6JDqEu2fvwWn3rSXMRJMfpoFKNQ8Wb4jNPZH9lbmreYk_xrF7xNaiIWwiLwZaXfIxLmtDiaibX2L6tDRBY-z0IME5_4OKpQRQbSFk3ncT-u5QQ_ka7kq9ipiUyk7Uo1DKO3kiBpl1T_dFbKfEwwzzz3x74aX9HrwEK-zAhOInmYHoybwnTmUMqzNUdmPZi0nW8UXjtUnJOQQtsiq4qyZ9Yr06G0wqFSnw9THRWIDV5hw28DXWmDHr5FeuoL6okk501fqR_puYWJ3_iCXSnw8ZC6P4",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "store_id",
+													"value": "1",
+													"type": "default"
+												},
+												{
+													"key": "subject",
+													"value": "ملاحظه",
+													"type": "default"
+												},
+												{
+													"key": "details",
+													"value": "ملاحظه",
+													"type": "default"
+												}
+											]
+										},
+										"url": {
+											"raw": "https://backend.atlbha.com/api/Admin/addStoreNote",
+											"protocol": "https",
+											"host": [
+												"backend",
+												"atlbha",
+												"com"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"addStoreNote"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "verification_update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5ODY2ZTJmOC05YWQ2LTQ3Y2QtYWZlMi0xY2E3YjQ5N2RkNjciLCJqdGkiOiJlY2MyMjE0MTlhZWY3ZWYxZjAxODBiNmQzYjJjZmE5N2I5MWFmY2FmZGRlMWNjMDcwMTFmMDkwOTBmOTY1ZjFlNjlhMmY2MjRjOTc4Zjk4OCIsImlhdCI6MTY3NTY3NjY4Ni44MzQ1Mzg5MzY2MTQ5OTAyMzQzNzUsIm5iZiI6MTY3NTY3NjY4Ni44MzQ1NDEwODIzODIyMDIxNDg0Mzc1LCJleHAiOjE3MDcyMTI2ODYuODI3NzI5OTQwNDE0NDI4NzEwOTM3NSwic3ViIjoiMiIsInNjb3BlcyI6W119.BfxuTy2PFNKwPDL7yrK0xSsNV8nhkPfg63spqPdL4BvTJMhrhiyNT-aUUAdHD_VMMBo5LqYYRzYhcUtMinI_vxkN1-sX8q33CbYQ3dNcCxXJxM80UbO5yuZB_I8GFrNfRlDHsXiytW-Do9cs-WcL0HfDDxunCXl0Bl9FaqzU4wb1kolt8zOZmfqGK8AJsdk5zoKl_GPaIIY4oGjl9oZ3pnAfZcTGzV4tWwNPgWP6Wif_0TJ592UK5alJh3RU7DLqq46cmBKP2laRQtDoUVMmCRD17UsTrFVtoEMg79Yw8xDyLxLflpQUwqs5mcikJoGXGoIX53vQBmpNwTljHb4GcDCkOkXKL8s-LncG2tpmrOlFGT1BWqLmsFez71Y2ODOCWzf3RphG4oi-BLcg7r6JDqEu2fvwWn3rSXMRJMfpoFKNQ8Wb4jNPZH9lbmreYk_xrF7xNaiIWwiLwZaXfIxLmtDiaibX2L6tDRBY-z0IME5_4OKpQRQbSFk3ncT-u5QQ_ka7kq9ipiUyk7Uo1DKO3kiBpl1T_dFbKfEwwzzz3x74aX9HrwEK-zAhOInmYHoybwnTmUMqzNUdmPZi0nW8UXjtUnJOQQtsiq4qyZ9Yr06G0wqFSnw9THRWIDV5hw28DXWmDHr5FeuoL6okk501fqR_puYWJ3_iCXSnw8ZC6P4",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "activity_id[0]",
+													"value": "2",
+													"type": "default"
+												},
+												{
+													"key": "link",
+													"value": "https://.google.com",
+													"type": "default"
+												},
+												{
+													"key": "store_name",
+													"value": "نون update",
+													"type": "text"
+												},
+												{
+													"key": "store_id",
+													"value": "1",
+													"type": "default"
+												},
+												{
+													"key": "file",
+													"type": "file",
+													"src": "/C:/Users/Lenovo/Downloads/20230105_Job Advertisement_ICT Supervisor.pdf"
+												},
+												{
+													"key": "name",
+													"value": "store_none",
+													"type": "default"
+												}
+											]
+										},
+										"url": {
+											"raw": "https://backend.atlbha.com/api/Admin/verification_update",
+											"protocol": "https",
+											"host": [
+												"backend",
+												"atlbha",
+												"com"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"verification_update"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "deleteall",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5ODY2ZTJmOC05YWQ2LTQ3Y2QtYWZlMi0xY2E3YjQ5N2RkNjciLCJqdGkiOiJlY2MyMjE0MTlhZWY3ZWYxZjAxODBiNmQzYjJjZmE5N2I5MWFmY2FmZGRlMWNjMDcwMTFmMDkwOTBmOTY1ZjFlNjlhMmY2MjRjOTc4Zjk4OCIsImlhdCI6MTY3NTY3NjY4Ni44MzQ1Mzg5MzY2MTQ5OTAyMzQzNzUsIm5iZiI6MTY3NTY3NjY4Ni44MzQ1NDEwODIzODIyMDIxNDg0Mzc1LCJleHAiOjE3MDcyMTI2ODYuODI3NzI5OTQwNDE0NDI4NzEwOTM3NSwic3ViIjoiMiIsInNjb3BlcyI6W119.BfxuTy2PFNKwPDL7yrK0xSsNV8nhkPfg63spqPdL4BvTJMhrhiyNT-aUUAdHD_VMMBo5LqYYRzYhcUtMinI_vxkN1-sX8q33CbYQ3dNcCxXJxM80UbO5yuZB_I8GFrNfRlDHsXiytW-Do9cs-WcL0HfDDxunCXl0Bl9FaqzU4wb1kolt8zOZmfqGK8AJsdk5zoKl_GPaIIY4oGjl9oZ3pnAfZcTGzV4tWwNPgWP6Wif_0TJ592UK5alJh3RU7DLqq46cmBKP2laRQtDoUVMmCRD17UsTrFVtoEMg79Yw8xDyLxLflpQUwqs5mcikJoGXGoIX53vQBmpNwTljHb4GcDCkOkXKL8s-LncG2tpmrOlFGT1BWqLmsFez71Y2ODOCWzf3RphG4oi-BLcg7r6JDqEu2fvwWn3rSXMRJMfpoFKNQ8Wb4jNPZH9lbmreYk_xrF7xNaiIWwiLwZaXfIxLmtDiaibX2L6tDRBY-z0IME5_4OKpQRQbSFk3ncT-u5QQ_ka7kq9ipiUyk7Uo1DKO3kiBpl1T_dFbKfEwwzzz3x74aX9HrwEK-zAhOInmYHoybwnTmUMqzNUdmPZi0nW8UXjtUnJOQQtsiq4qyZ9Yr06G0wqFSnw9THRWIDV5hw28DXWmDHr5FeuoL6okk501fqR_puYWJ3_iCXSnw8ZC6P4",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://backend.atlbha.com/api/Admin/verificationdeleteall?id[0]=1",
+											"protocol": "https",
+											"host": [
+												"backend",
+												"atlbha",
+												"com"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"verificationdeleteall"
+											],
+											"query": [
+												{
+													"key": "id[0]",
+													"value": "1"
+												}
 											]
 										}
 									},
@@ -687,6 +1179,604 @@
 											"key": "year",
 											"value": "2023"
 										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "package",
+					"item": [
+						{
+							"name": "packages",
+							"item": [
+								{
+									"name": "index",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5ODY2ZTJmOC05YWQ2LTQ3Y2QtYWZlMi0xY2E3YjQ5N2RkNjciLCJqdGkiOiJlY2MyMjE0MTlhZWY3ZWYxZjAxODBiNmQzYjJjZmE5N2I5MWFmY2FmZGRlMWNjMDcwMTFmMDkwOTBmOTY1ZjFlNjlhMmY2MjRjOTc4Zjk4OCIsImlhdCI6MTY3NTY3NjY4Ni44MzQ1Mzg5MzY2MTQ5OTAyMzQzNzUsIm5iZiI6MTY3NTY3NjY4Ni44MzQ1NDEwODIzODIyMDIxNDg0Mzc1LCJleHAiOjE3MDcyMTI2ODYuODI3NzI5OTQwNDE0NDI4NzEwOTM3NSwic3ViIjoiMiIsInNjb3BlcyI6W119.BfxuTy2PFNKwPDL7yrK0xSsNV8nhkPfg63spqPdL4BvTJMhrhiyNT-aUUAdHD_VMMBo5LqYYRzYhcUtMinI_vxkN1-sX8q33CbYQ3dNcCxXJxM80UbO5yuZB_I8GFrNfRlDHsXiytW-Do9cs-WcL0HfDDxunCXl0Bl9FaqzU4wb1kolt8zOZmfqGK8AJsdk5zoKl_GPaIIY4oGjl9oZ3pnAfZcTGzV4tWwNPgWP6Wif_0TJ592UK5alJh3RU7DLqq46cmBKP2laRQtDoUVMmCRD17UsTrFVtoEMg79Yw8xDyLxLflpQUwqs5mcikJoGXGoIX53vQBmpNwTljHb4GcDCkOkXKL8s-LncG2tpmrOlFGT1BWqLmsFez71Y2ODOCWzf3RphG4oi-BLcg7r6JDqEu2fvwWn3rSXMRJMfpoFKNQ8Wb4jNPZH9lbmreYk_xrF7xNaiIWwiLwZaXfIxLmtDiaibX2L6tDRBY-z0IME5_4OKpQRQbSFk3ncT-u5QQ_ka7kq9ipiUyk7Uo1DKO3kiBpl1T_dFbKfEwwzzz3x74aX9HrwEK-zAhOInmYHoybwnTmUMqzNUdmPZi0nW8UXjtUnJOQQtsiq4qyZ9Yr06G0wqFSnw9THRWIDV5hw28DXWmDHr5FeuoL6okk501fqR_puYWJ3_iCXSnw8ZC6P4",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://backend.atlbha.com/api/Admin/package",
+											"protocol": "https",
+											"host": [
+												"backend",
+												"atlbha",
+												"com"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"package"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "add",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5ODY2ZTJmOC05YWQ2LTQ3Y2QtYWZlMi0xY2E3YjQ5N2RkNjciLCJqdGkiOiJlY2MyMjE0MTlhZWY3ZWYxZjAxODBiNmQzYjJjZmE5N2I5MWFmY2FmZGRlMWNjMDcwMTFmMDkwOTBmOTY1ZjFlNjlhMmY2MjRjOTc4Zjk4OCIsImlhdCI6MTY3NTY3NjY4Ni44MzQ1Mzg5MzY2MTQ5OTAyMzQzNzUsIm5iZiI6MTY3NTY3NjY4Ni44MzQ1NDEwODIzODIyMDIxNDg0Mzc1LCJleHAiOjE3MDcyMTI2ODYuODI3NzI5OTQwNDE0NDI4NzEwOTM3NSwic3ViIjoiMiIsInNjb3BlcyI6W119.BfxuTy2PFNKwPDL7yrK0xSsNV8nhkPfg63spqPdL4BvTJMhrhiyNT-aUUAdHD_VMMBo5LqYYRzYhcUtMinI_vxkN1-sX8q33CbYQ3dNcCxXJxM80UbO5yuZB_I8GFrNfRlDHsXiytW-Do9cs-WcL0HfDDxunCXl0Bl9FaqzU4wb1kolt8zOZmfqGK8AJsdk5zoKl_GPaIIY4oGjl9oZ3pnAfZcTGzV4tWwNPgWP6Wif_0TJ592UK5alJh3RU7DLqq46cmBKP2laRQtDoUVMmCRD17UsTrFVtoEMg79Yw8xDyLxLflpQUwqs5mcikJoGXGoIX53vQBmpNwTljHb4GcDCkOkXKL8s-LncG2tpmrOlFGT1BWqLmsFez71Y2ODOCWzf3RphG4oi-BLcg7r6JDqEu2fvwWn3rSXMRJMfpoFKNQ8Wb4jNPZH9lbmreYk_xrF7xNaiIWwiLwZaXfIxLmtDiaibX2L6tDRBY-z0IME5_4OKpQRQbSFk3ncT-u5QQ_ka7kq9ipiUyk7Uo1DKO3kiBpl1T_dFbKfEwwzzz3x74aX9HrwEK-zAhOInmYHoybwnTmUMqzNUdmPZi0nW8UXjtUnJOQQtsiq4qyZ9Yr06G0wqFSnw9THRWIDV5hw28DXWmDHr5FeuoL6okk501fqR_puYWJ3_iCXSnw8ZC6P4",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "name",
+													"value": "package4",
+													"type": "default"
+												},
+												{
+													"key": "monthly_price",
+													"value": "45.7",
+													"type": "default"
+												},
+												{
+													"key": "yearly_price",
+													"value": "100",
+													"type": "default"
+												},
+												{
+													"key": "discount",
+													"value": "20",
+													"type": "default"
+												},
+												{
+													"key": "plan[]",
+													"value": "1",
+													"type": "default"
+												},
+												{
+													"key": "template[]",
+													"value": "1",
+													"type": "default"
+												}
+											]
+										},
+										"url": {
+											"raw": "https://backend.atlbha.com/api/Admin/package",
+											"protocol": "https",
+											"host": [
+												"backend",
+												"atlbha",
+												"com"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"package"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "update",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5ODY2ZTJmOC05YWQ2LTQ3Y2QtYWZlMi0xY2E3YjQ5N2RkNjciLCJqdGkiOiJlY2MyMjE0MTlhZWY3ZWYxZjAxODBiNmQzYjJjZmE5N2I5MWFmY2FmZGRlMWNjMDcwMTFmMDkwOTBmOTY1ZjFlNjlhMmY2MjRjOTc4Zjk4OCIsImlhdCI6MTY3NTY3NjY4Ni44MzQ1Mzg5MzY2MTQ5OTAyMzQzNzUsIm5iZiI6MTY3NTY3NjY4Ni44MzQ1NDEwODIzODIyMDIxNDg0Mzc1LCJleHAiOjE3MDcyMTI2ODYuODI3NzI5OTQwNDE0NDI4NzEwOTM3NSwic3ViIjoiMiIsInNjb3BlcyI6W119.BfxuTy2PFNKwPDL7yrK0xSsNV8nhkPfg63spqPdL4BvTJMhrhiyNT-aUUAdHD_VMMBo5LqYYRzYhcUtMinI_vxkN1-sX8q33CbYQ3dNcCxXJxM80UbO5yuZB_I8GFrNfRlDHsXiytW-Do9cs-WcL0HfDDxunCXl0Bl9FaqzU4wb1kolt8zOZmfqGK8AJsdk5zoKl_GPaIIY4oGjl9oZ3pnAfZcTGzV4tWwNPgWP6Wif_0TJ592UK5alJh3RU7DLqq46cmBKP2laRQtDoUVMmCRD17UsTrFVtoEMg79Yw8xDyLxLflpQUwqs5mcikJoGXGoIX53vQBmpNwTljHb4GcDCkOkXKL8s-LncG2tpmrOlFGT1BWqLmsFez71Y2ODOCWzf3RphG4oi-BLcg7r6JDqEu2fvwWn3rSXMRJMfpoFKNQ8Wb4jNPZH9lbmreYk_xrF7xNaiIWwiLwZaXfIxLmtDiaibX2L6tDRBY-z0IME5_4OKpQRQbSFk3ncT-u5QQ_ka7kq9ipiUyk7Uo1DKO3kiBpl1T_dFbKfEwwzzz3x74aX9HrwEK-zAhOInmYHoybwnTmUMqzNUdmPZi0nW8UXjtUnJOQQtsiq4qyZ9Yr06G0wqFSnw9THRWIDV5hw28DXWmDHr5FeuoL6okk501fqR_puYWJ3_iCXSnw8ZC6P4",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n                 \"name\": \"updatepackage1\",\r\n                \"monthly_price\": 69,\r\n                \"yearly_price\": 89,\r\n                \"discount\": 7,  \r\n                \"plan\":[1],\r\n                \"template\":[1]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://backend.atlbha.com/api/Admin/package/3",
+											"protocol": "https",
+											"host": [
+												"backend",
+												"atlbha",
+												"com"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"package",
+												"3"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "show",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5ODY2ZTJmOC05YWQ2LTQ3Y2QtYWZlMi0xY2E3YjQ5N2RkNjciLCJqdGkiOiJlY2MyMjE0MTlhZWY3ZWYxZjAxODBiNmQzYjJjZmE5N2I5MWFmY2FmZGRlMWNjMDcwMTFmMDkwOTBmOTY1ZjFlNjlhMmY2MjRjOTc4Zjk4OCIsImlhdCI6MTY3NTY3NjY4Ni44MzQ1Mzg5MzY2MTQ5OTAyMzQzNzUsIm5iZiI6MTY3NTY3NjY4Ni44MzQ1NDEwODIzODIyMDIxNDg0Mzc1LCJleHAiOjE3MDcyMTI2ODYuODI3NzI5OTQwNDE0NDI4NzEwOTM3NSwic3ViIjoiMiIsInNjb3BlcyI6W119.BfxuTy2PFNKwPDL7yrK0xSsNV8nhkPfg63spqPdL4BvTJMhrhiyNT-aUUAdHD_VMMBo5LqYYRzYhcUtMinI_vxkN1-sX8q33CbYQ3dNcCxXJxM80UbO5yuZB_I8GFrNfRlDHsXiytW-Do9cs-WcL0HfDDxunCXl0Bl9FaqzU4wb1kolt8zOZmfqGK8AJsdk5zoKl_GPaIIY4oGjl9oZ3pnAfZcTGzV4tWwNPgWP6Wif_0TJ592UK5alJh3RU7DLqq46cmBKP2laRQtDoUVMmCRD17UsTrFVtoEMg79Yw8xDyLxLflpQUwqs5mcikJoGXGoIX53vQBmpNwTljHb4GcDCkOkXKL8s-LncG2tpmrOlFGT1BWqLmsFez71Y2ODOCWzf3RphG4oi-BLcg7r6JDqEu2fvwWn3rSXMRJMfpoFKNQ8Wb4jNPZH9lbmreYk_xrF7xNaiIWwiLwZaXfIxLmtDiaibX2L6tDRBY-z0IME5_4OKpQRQbSFk3ncT-u5QQ_ka7kq9ipiUyk7Uo1DKO3kiBpl1T_dFbKfEwwzzz3x74aX9HrwEK-zAhOInmYHoybwnTmUMqzNUdmPZi0nW8UXjtUnJOQQtsiq4qyZ9Yr06G0wqFSnw9THRWIDV5hw28DXWmDHr5FeuoL6okk501fqR_puYWJ3_iCXSnw8ZC6P4",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://backend.atlbha.com/api/Admin/package/3",
+											"protocol": "https",
+											"host": [
+												"backend",
+												"atlbha",
+												"com"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"package",
+												"3"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "changePackageStatus",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5ODY2ZTJmOC05YWQ2LTQ3Y2QtYWZlMi0xY2E3YjQ5N2RkNjciLCJqdGkiOiJlY2MyMjE0MTlhZWY3ZWYxZjAxODBiNmQzYjJjZmE5N2I5MWFmY2FmZGRlMWNjMDcwMTFmMDkwOTBmOTY1ZjFlNjlhMmY2MjRjOTc4Zjk4OCIsImlhdCI6MTY3NTY3NjY4Ni44MzQ1Mzg5MzY2MTQ5OTAyMzQzNzUsIm5iZiI6MTY3NTY3NjY4Ni44MzQ1NDEwODIzODIyMDIxNDg0Mzc1LCJleHAiOjE3MDcyMTI2ODYuODI3NzI5OTQwNDE0NDI4NzEwOTM3NSwic3ViIjoiMiIsInNjb3BlcyI6W119.BfxuTy2PFNKwPDL7yrK0xSsNV8nhkPfg63spqPdL4BvTJMhrhiyNT-aUUAdHD_VMMBo5LqYYRzYhcUtMinI_vxkN1-sX8q33CbYQ3dNcCxXJxM80UbO5yuZB_I8GFrNfRlDHsXiytW-Do9cs-WcL0HfDDxunCXl0Bl9FaqzU4wb1kolt8zOZmfqGK8AJsdk5zoKl_GPaIIY4oGjl9oZ3pnAfZcTGzV4tWwNPgWP6Wif_0TJ592UK5alJh3RU7DLqq46cmBKP2laRQtDoUVMmCRD17UsTrFVtoEMg79Yw8xDyLxLflpQUwqs5mcikJoGXGoIX53vQBmpNwTljHb4GcDCkOkXKL8s-LncG2tpmrOlFGT1BWqLmsFez71Y2ODOCWzf3RphG4oi-BLcg7r6JDqEu2fvwWn3rSXMRJMfpoFKNQ8Wb4jNPZH9lbmreYk_xrF7xNaiIWwiLwZaXfIxLmtDiaibX2L6tDRBY-z0IME5_4OKpQRQbSFk3ncT-u5QQ_ka7kq9ipiUyk7Uo1DKO3kiBpl1T_dFbKfEwwzzz3x74aX9HrwEK-zAhOInmYHoybwnTmUMqzNUdmPZi0nW8UXjtUnJOQQtsiq4qyZ9Yr06G0wqFSnw9THRWIDV5hw28DXWmDHr5FeuoL6okk501fqR_puYWJ3_iCXSnw8ZC6P4",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://backend.atlbha.com/api/Admin/changePackageStatus/3",
+											"protocol": "https",
+											"host": [
+												"backend",
+												"atlbha",
+												"com"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"changePackageStatus",
+												"3"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Current Subscription",
+							"item": [
+								{
+									"name": "index",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5ODY2ZTJmOC05YWQ2LTQ3Y2QtYWZlMi0xY2E3YjQ5N2RkNjciLCJqdGkiOiJlY2MyMjE0MTlhZWY3ZWYxZjAxODBiNmQzYjJjZmE5N2I5MWFmY2FmZGRlMWNjMDcwMTFmMDkwOTBmOTY1ZjFlNjlhMmY2MjRjOTc4Zjk4OCIsImlhdCI6MTY3NTY3NjY4Ni44MzQ1Mzg5MzY2MTQ5OTAyMzQzNzUsIm5iZiI6MTY3NTY3NjY4Ni44MzQ1NDEwODIzODIyMDIxNDg0Mzc1LCJleHAiOjE3MDcyMTI2ODYuODI3NzI5OTQwNDE0NDI4NzEwOTM3NSwic3ViIjoiMiIsInNjb3BlcyI6W119.BfxuTy2PFNKwPDL7yrK0xSsNV8nhkPfg63spqPdL4BvTJMhrhiyNT-aUUAdHD_VMMBo5LqYYRzYhcUtMinI_vxkN1-sX8q33CbYQ3dNcCxXJxM80UbO5yuZB_I8GFrNfRlDHsXiytW-Do9cs-WcL0HfDDxunCXl0Bl9FaqzU4wb1kolt8zOZmfqGK8AJsdk5zoKl_GPaIIY4oGjl9oZ3pnAfZcTGzV4tWwNPgWP6Wif_0TJ592UK5alJh3RU7DLqq46cmBKP2laRQtDoUVMmCRD17UsTrFVtoEMg79Yw8xDyLxLflpQUwqs5mcikJoGXGoIX53vQBmpNwTljHb4GcDCkOkXKL8s-LncG2tpmrOlFGT1BWqLmsFez71Y2ODOCWzf3RphG4oi-BLcg7r6JDqEu2fvwWn3rSXMRJMfpoFKNQ8Wb4jNPZH9lbmreYk_xrF7xNaiIWwiLwZaXfIxLmtDiaibX2L6tDRBY-z0IME5_4OKpQRQbSFk3ncT-u5QQ_ka7kq9ipiUyk7Uo1DKO3kiBpl1T_dFbKfEwwzzz3x74aX9HrwEK-zAhOInmYHoybwnTmUMqzNUdmPZi0nW8UXjtUnJOQQtsiq4qyZ9Yr06G0wqFSnw9THRWIDV5hw28DXWmDHr5FeuoL6okk501fqR_puYWJ3_iCXSnw8ZC6P4",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://backend.atlbha.com/api/Admin/subscriptions",
+											"protocol": "https",
+											"host": [
+												"backend",
+												"atlbha",
+												"com"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"subscriptions"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "deleteall",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5ODY2ZTJmOC05YWQ2LTQ3Y2QtYWZlMi0xY2E3YjQ5N2RkNjciLCJqdGkiOiJlY2MyMjE0MTlhZWY3ZWYxZjAxODBiNmQzYjJjZmE5N2I5MWFmY2FmZGRlMWNjMDcwMTFmMDkwOTBmOTY1ZjFlNjlhMmY2MjRjOTc4Zjk4OCIsImlhdCI6MTY3NTY3NjY4Ni44MzQ1Mzg5MzY2MTQ5OTAyMzQzNzUsIm5iZiI6MTY3NTY3NjY4Ni44MzQ1NDEwODIzODIyMDIxNDg0Mzc1LCJleHAiOjE3MDcyMTI2ODYuODI3NzI5OTQwNDE0NDI4NzEwOTM3NSwic3ViIjoiMiIsInNjb3BlcyI6W119.BfxuTy2PFNKwPDL7yrK0xSsNV8nhkPfg63spqPdL4BvTJMhrhiyNT-aUUAdHD_VMMBo5LqYYRzYhcUtMinI_vxkN1-sX8q33CbYQ3dNcCxXJxM80UbO5yuZB_I8GFrNfRlDHsXiytW-Do9cs-WcL0HfDDxunCXl0Bl9FaqzU4wb1kolt8zOZmfqGK8AJsdk5zoKl_GPaIIY4oGjl9oZ3pnAfZcTGzV4tWwNPgWP6Wif_0TJ592UK5alJh3RU7DLqq46cmBKP2laRQtDoUVMmCRD17UsTrFVtoEMg79Yw8xDyLxLflpQUwqs5mcikJoGXGoIX53vQBmpNwTljHb4GcDCkOkXKL8s-LncG2tpmrOlFGT1BWqLmsFez71Y2ODOCWzf3RphG4oi-BLcg7r6JDqEu2fvwWn3rSXMRJMfpoFKNQ8Wb4jNPZH9lbmreYk_xrF7xNaiIWwiLwZaXfIxLmtDiaibX2L6tDRBY-z0IME5_4OKpQRQbSFk3ncT-u5QQ_ka7kq9ipiUyk7Uo1DKO3kiBpl1T_dFbKfEwwzzz3x74aX9HrwEK-zAhOInmYHoybwnTmUMqzNUdmPZi0nW8UXjtUnJOQQtsiq4qyZ9Yr06G0wqFSnw9THRWIDV5hw28DXWmDHr5FeuoL6okk501fqR_puYWJ3_iCXSnw8ZC6P4",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://backend.atlbha.com/api/Admin/subscriptionsdeleteall?id[0]=1&id[1]=2",
+											"protocol": "https",
+											"host": [
+												"backend",
+												"atlbha",
+												"com"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"subscriptionsdeleteall"
+											],
+											"query": [
+												{
+													"key": "id[0]",
+													"value": "1"
+												},
+												{
+													"key": "id[1]",
+													"value": "2"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "subscriptionschangeSatusall",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5ODY2ZTJmOC05YWQ2LTQ3Y2QtYWZlMi0xY2E3YjQ5N2RkNjciLCJqdGkiOiJlY2MyMjE0MTlhZWY3ZWYxZjAxODBiNmQzYjJjZmE5N2I5MWFmY2FmZGRlMWNjMDcwMTFmMDkwOTBmOTY1ZjFlNjlhMmY2MjRjOTc4Zjk4OCIsImlhdCI6MTY3NTY3NjY4Ni44MzQ1Mzg5MzY2MTQ5OTAyMzQzNzUsIm5iZiI6MTY3NTY3NjY4Ni44MzQ1NDEwODIzODIyMDIxNDg0Mzc1LCJleHAiOjE3MDcyMTI2ODYuODI3NzI5OTQwNDE0NDI4NzEwOTM3NSwic3ViIjoiMiIsInNjb3BlcyI6W119.BfxuTy2PFNKwPDL7yrK0xSsNV8nhkPfg63spqPdL4BvTJMhrhiyNT-aUUAdHD_VMMBo5LqYYRzYhcUtMinI_vxkN1-sX8q33CbYQ3dNcCxXJxM80UbO5yuZB_I8GFrNfRlDHsXiytW-Do9cs-WcL0HfDDxunCXl0Bl9FaqzU4wb1kolt8zOZmfqGK8AJsdk5zoKl_GPaIIY4oGjl9oZ3pnAfZcTGzV4tWwNPgWP6Wif_0TJ592UK5alJh3RU7DLqq46cmBKP2laRQtDoUVMmCRD17UsTrFVtoEMg79Yw8xDyLxLflpQUwqs5mcikJoGXGoIX53vQBmpNwTljHb4GcDCkOkXKL8s-LncG2tpmrOlFGT1BWqLmsFez71Y2ODOCWzf3RphG4oi-BLcg7r6JDqEu2fvwWn3rSXMRJMfpoFKNQ8Wb4jNPZH9lbmreYk_xrF7xNaiIWwiLwZaXfIxLmtDiaibX2L6tDRBY-z0IME5_4OKpQRQbSFk3ncT-u5QQ_ka7kq9ipiUyk7Uo1DKO3kiBpl1T_dFbKfEwwzzz3x74aX9HrwEK-zAhOInmYHoybwnTmUMqzNUdmPZi0nW8UXjtUnJOQQtsiq4qyZ9Yr06G0wqFSnw9THRWIDV5hw28DXWmDHr5FeuoL6okk501fqR_puYWJ3_iCXSnw8ZC6P4",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://backend.atlbha.com/api/Admin/subscriptionschangeSatusall?id[0]=7&id[1]=8",
+											"protocol": "https",
+											"host": [
+												"backend",
+												"atlbha",
+												"com"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"subscriptionschangeSatusall"
+											],
+											"query": [
+												{
+													"key": "id[0]",
+													"value": "7"
+												},
+												{
+													"key": "id[1]",
+													"value": "8"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "addAlert",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5ODY2ZTJmOC05YWQ2LTQ3Y2QtYWZlMi0xY2E3YjQ5N2RkNjciLCJqdGkiOiJlY2MyMjE0MTlhZWY3ZWYxZjAxODBiNmQzYjJjZmE5N2I5MWFmY2FmZGRlMWNjMDcwMTFmMDkwOTBmOTY1ZjFlNjlhMmY2MjRjOTc4Zjk4OCIsImlhdCI6MTY3NTY3NjY4Ni44MzQ1Mzg5MzY2MTQ5OTAyMzQzNzUsIm5iZiI6MTY3NTY3NjY4Ni44MzQ1NDEwODIzODIyMDIxNDg0Mzc1LCJleHAiOjE3MDcyMTI2ODYuODI3NzI5OTQwNDE0NDI4NzEwOTM3NSwic3ViIjoiMiIsInNjb3BlcyI6W119.BfxuTy2PFNKwPDL7yrK0xSsNV8nhkPfg63spqPdL4BvTJMhrhiyNT-aUUAdHD_VMMBo5LqYYRzYhcUtMinI_vxkN1-sX8q33CbYQ3dNcCxXJxM80UbO5yuZB_I8GFrNfRlDHsXiytW-Do9cs-WcL0HfDDxunCXl0Bl9FaqzU4wb1kolt8zOZmfqGK8AJsdk5zoKl_GPaIIY4oGjl9oZ3pnAfZcTGzV4tWwNPgWP6Wif_0TJ592UK5alJh3RU7DLqq46cmBKP2laRQtDoUVMmCRD17UsTrFVtoEMg79Yw8xDyLxLflpQUwqs5mcikJoGXGoIX53vQBmpNwTljHb4GcDCkOkXKL8s-LncG2tpmrOlFGT1BWqLmsFez71Y2ODOCWzf3RphG4oi-BLcg7r6JDqEu2fvwWn3rSXMRJMfpoFKNQ8Wb4jNPZH9lbmreYk_xrF7xNaiIWwiLwZaXfIxLmtDiaibX2L6tDRBY-z0IME5_4OKpQRQbSFk3ncT-u5QQ_ka7kq9ipiUyk7Uo1DKO3kiBpl1T_dFbKfEwwzzz3x74aX9HrwEK-zAhOInmYHoybwnTmUMqzNUdmPZi0nW8UXjtUnJOQQtsiq4qyZ9Yr06G0wqFSnw9THRWIDV5hw28DXWmDHr5FeuoL6okk501fqR_puYWJ3_iCXSnw8ZC6P4",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "type",
+													"value": "now",
+													"type": "text"
+												},
+												{
+													"key": "message",
+													"value": "message1",
+													"type": "text"
+												},
+												{
+													"key": "store_id",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "subject",
+													"value": "subject",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "https://backend.atlbha.com/api/Admin/addAlert",
+											"protocol": "https",
+											"host": [
+												"backend",
+												"atlbha",
+												"com"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"addAlert"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Selector",
+					"item": [
+						{
+							"name": "cities",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5ODY2ZTJmOC05YWQ2LTQ3Y2QtYWZlMi0xY2E3YjQ5N2RkNjciLCJqdGkiOiJlY2MyMjE0MTlhZWY3ZWYxZjAxODBiNmQzYjJjZmE5N2I5MWFmY2FmZGRlMWNjMDcwMTFmMDkwOTBmOTY1ZjFlNjlhMmY2MjRjOTc4Zjk4OCIsImlhdCI6MTY3NTY3NjY4Ni44MzQ1Mzg5MzY2MTQ5OTAyMzQzNzUsIm5iZiI6MTY3NTY3NjY4Ni44MzQ1NDEwODIzODIyMDIxNDg0Mzc1LCJleHAiOjE3MDcyMTI2ODYuODI3NzI5OTQwNDE0NDI4NzEwOTM3NSwic3ViIjoiMiIsInNjb3BlcyI6W119.BfxuTy2PFNKwPDL7yrK0xSsNV8nhkPfg63spqPdL4BvTJMhrhiyNT-aUUAdHD_VMMBo5LqYYRzYhcUtMinI_vxkN1-sX8q33CbYQ3dNcCxXJxM80UbO5yuZB_I8GFrNfRlDHsXiytW-Do9cs-WcL0HfDDxunCXl0Bl9FaqzU4wb1kolt8zOZmfqGK8AJsdk5zoKl_GPaIIY4oGjl9oZ3pnAfZcTGzV4tWwNPgWP6Wif_0TJ592UK5alJh3RU7DLqq46cmBKP2laRQtDoUVMmCRD17UsTrFVtoEMg79Yw8xDyLxLflpQUwqs5mcikJoGXGoIX53vQBmpNwTljHb4GcDCkOkXKL8s-LncG2tpmrOlFGT1BWqLmsFez71Y2ODOCWzf3RphG4oi-BLcg7r6JDqEu2fvwWn3rSXMRJMfpoFKNQ8Wb4jNPZH9lbmreYk_xrF7xNaiIWwiLwZaXfIxLmtDiaibX2L6tDRBY-z0IME5_4OKpQRQbSFk3ncT-u5QQ_ka7kq9ipiUyk7Uo1DKO3kiBpl1T_dFbKfEwwzzz3x74aX9HrwEK-zAhOInmYHoybwnTmUMqzNUdmPZi0nW8UXjtUnJOQQtsiq4qyZ9Yr06G0wqFSnw9THRWIDV5hw28DXWmDHr5FeuoL6okk501fqR_puYWJ3_iCXSnw8ZC6P4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://backend.atlbha.com/api/Admin/selector/cities",
+									"protocol": "https",
+									"host": [
+										"backend",
+										"atlbha",
+										"com"
+									],
+									"path": [
+										"api",
+										"Admin",
+										"selector",
+										"cities"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Templates",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5ODY2ZTJmOC05YWQ2LTQ3Y2QtYWZlMi0xY2E3YjQ5N2RkNjciLCJqdGkiOiJlY2MyMjE0MTlhZWY3ZWYxZjAxODBiNmQzYjJjZmE5N2I5MWFmY2FmZGRlMWNjMDcwMTFmMDkwOTBmOTY1ZjFlNjlhMmY2MjRjOTc4Zjk4OCIsImlhdCI6MTY3NTY3NjY4Ni44MzQ1Mzg5MzY2MTQ5OTAyMzQzNzUsIm5iZiI6MTY3NTY3NjY4Ni44MzQ1NDEwODIzODIyMDIxNDg0Mzc1LCJleHAiOjE3MDcyMTI2ODYuODI3NzI5OTQwNDE0NDI4NzEwOTM3NSwic3ViIjoiMiIsInNjb3BlcyI6W119.BfxuTy2PFNKwPDL7yrK0xSsNV8nhkPfg63spqPdL4BvTJMhrhiyNT-aUUAdHD_VMMBo5LqYYRzYhcUtMinI_vxkN1-sX8q33CbYQ3dNcCxXJxM80UbO5yuZB_I8GFrNfRlDHsXiytW-Do9cs-WcL0HfDDxunCXl0Bl9FaqzU4wb1kolt8zOZmfqGK8AJsdk5zoKl_GPaIIY4oGjl9oZ3pnAfZcTGzV4tWwNPgWP6Wif_0TJ592UK5alJh3RU7DLqq46cmBKP2laRQtDoUVMmCRD17UsTrFVtoEMg79Yw8xDyLxLflpQUwqs5mcikJoGXGoIX53vQBmpNwTljHb4GcDCkOkXKL8s-LncG2tpmrOlFGT1BWqLmsFez71Y2ODOCWzf3RphG4oi-BLcg7r6JDqEu2fvwWn3rSXMRJMfpoFKNQ8Wb4jNPZH9lbmreYk_xrF7xNaiIWwiLwZaXfIxLmtDiaibX2L6tDRBY-z0IME5_4OKpQRQbSFk3ncT-u5QQ_ka7kq9ipiUyk7Uo1DKO3kiBpl1T_dFbKfEwwzzz3x74aX9HrwEK-zAhOInmYHoybwnTmUMqzNUdmPZi0nW8UXjtUnJOQQtsiq4qyZ9Yr06G0wqFSnw9THRWIDV5hw28DXWmDHr5FeuoL6okk501fqR_puYWJ3_iCXSnw8ZC6P4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://backend.atlbha.com/api/Admin/selector/templates",
+									"protocol": "https",
+									"host": [
+										"backend",
+										"atlbha",
+										"com"
+									],
+									"path": [
+										"api",
+										"Admin",
+										"selector",
+										"templates"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "plans",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5ODY2ZTJmOC05YWQ2LTQ3Y2QtYWZlMi0xY2E3YjQ5N2RkNjciLCJqdGkiOiJlY2MyMjE0MTlhZWY3ZWYxZjAxODBiNmQzYjJjZmE5N2I5MWFmY2FmZGRlMWNjMDcwMTFmMDkwOTBmOTY1ZjFlNjlhMmY2MjRjOTc4Zjk4OCIsImlhdCI6MTY3NTY3NjY4Ni44MzQ1Mzg5MzY2MTQ5OTAyMzQzNzUsIm5iZiI6MTY3NTY3NjY4Ni44MzQ1NDEwODIzODIyMDIxNDg0Mzc1LCJleHAiOjE3MDcyMTI2ODYuODI3NzI5OTQwNDE0NDI4NzEwOTM3NSwic3ViIjoiMiIsInNjb3BlcyI6W119.BfxuTy2PFNKwPDL7yrK0xSsNV8nhkPfg63spqPdL4BvTJMhrhiyNT-aUUAdHD_VMMBo5LqYYRzYhcUtMinI_vxkN1-sX8q33CbYQ3dNcCxXJxM80UbO5yuZB_I8GFrNfRlDHsXiytW-Do9cs-WcL0HfDDxunCXl0Bl9FaqzU4wb1kolt8zOZmfqGK8AJsdk5zoKl_GPaIIY4oGjl9oZ3pnAfZcTGzV4tWwNPgWP6Wif_0TJ592UK5alJh3RU7DLqq46cmBKP2laRQtDoUVMmCRD17UsTrFVtoEMg79Yw8xDyLxLflpQUwqs5mcikJoGXGoIX53vQBmpNwTljHb4GcDCkOkXKL8s-LncG2tpmrOlFGT1BWqLmsFez71Y2ODOCWzf3RphG4oi-BLcg7r6JDqEu2fvwWn3rSXMRJMfpoFKNQ8Wb4jNPZH9lbmreYk_xrF7xNaiIWwiLwZaXfIxLmtDiaibX2L6tDRBY-z0IME5_4OKpQRQbSFk3ncT-u5QQ_ka7kq9ipiUyk7Uo1DKO3kiBpl1T_dFbKfEwwzzz3x74aX9HrwEK-zAhOInmYHoybwnTmUMqzNUdmPZi0nW8UXjtUnJOQQtsiq4qyZ9Yr06G0wqFSnw9THRWIDV5hw28DXWmDHr5FeuoL6okk501fqR_puYWJ3_iCXSnw8ZC6P4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://backend.atlbha.com/api/Admin/selector/plans",
+									"protocol": "https",
+									"host": [
+										"backend",
+										"atlbha",
+										"com"
+									],
+									"path": [
+										"api",
+										"Admin",
+										"selector",
+										"plans"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Countries",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5ODY2ZTJmOC05YWQ2LTQ3Y2QtYWZlMi0xY2E3YjQ5N2RkNjciLCJqdGkiOiJlY2MyMjE0MTlhZWY3ZWYxZjAxODBiNmQzYjJjZmE5N2I5MWFmY2FmZGRlMWNjMDcwMTFmMDkwOTBmOTY1ZjFlNjlhMmY2MjRjOTc4Zjk4OCIsImlhdCI6MTY3NTY3NjY4Ni44MzQ1Mzg5MzY2MTQ5OTAyMzQzNzUsIm5iZiI6MTY3NTY3NjY4Ni44MzQ1NDEwODIzODIyMDIxNDg0Mzc1LCJleHAiOjE3MDcyMTI2ODYuODI3NzI5OTQwNDE0NDI4NzEwOTM3NSwic3ViIjoiMiIsInNjb3BlcyI6W119.BfxuTy2PFNKwPDL7yrK0xSsNV8nhkPfg63spqPdL4BvTJMhrhiyNT-aUUAdHD_VMMBo5LqYYRzYhcUtMinI_vxkN1-sX8q33CbYQ3dNcCxXJxM80UbO5yuZB_I8GFrNfRlDHsXiytW-Do9cs-WcL0HfDDxunCXl0Bl9FaqzU4wb1kolt8zOZmfqGK8AJsdk5zoKl_GPaIIY4oGjl9oZ3pnAfZcTGzV4tWwNPgWP6Wif_0TJ592UK5alJh3RU7DLqq46cmBKP2laRQtDoUVMmCRD17UsTrFVtoEMg79Yw8xDyLxLflpQUwqs5mcikJoGXGoIX53vQBmpNwTljHb4GcDCkOkXKL8s-LncG2tpmrOlFGT1BWqLmsFez71Y2ODOCWzf3RphG4oi-BLcg7r6JDqEu2fvwWn3rSXMRJMfpoFKNQ8Wb4jNPZH9lbmreYk_xrF7xNaiIWwiLwZaXfIxLmtDiaibX2L6tDRBY-z0IME5_4OKpQRQbSFk3ncT-u5QQ_ka7kq9ipiUyk7Uo1DKO3kiBpl1T_dFbKfEwwzzz3x74aX9HrwEK-zAhOInmYHoybwnTmUMqzNUdmPZi0nW8UXjtUnJOQQtsiq4qyZ9Yr06G0wqFSnw9THRWIDV5hw28DXWmDHr5FeuoL6okk501fqR_puYWJ3_iCXSnw8ZC6P4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://backend.atlbha.com/api/Admin/selector/countries",
+									"protocol": "https",
+									"host": [
+										"backend",
+										"atlbha",
+										"com"
+									],
+									"path": [
+										"api",
+										"Admin",
+										"selector",
+										"countries"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "packages",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5ODY2ZTJmOC05YWQ2LTQ3Y2QtYWZlMi0xY2E3YjQ5N2RkNjciLCJqdGkiOiJlY2MyMjE0MTlhZWY3ZWYxZjAxODBiNmQzYjJjZmE5N2I5MWFmY2FmZGRlMWNjMDcwMTFmMDkwOTBmOTY1ZjFlNjlhMmY2MjRjOTc4Zjk4OCIsImlhdCI6MTY3NTY3NjY4Ni44MzQ1Mzg5MzY2MTQ5OTAyMzQzNzUsIm5iZiI6MTY3NTY3NjY4Ni44MzQ1NDEwODIzODIyMDIxNDg0Mzc1LCJleHAiOjE3MDcyMTI2ODYuODI3NzI5OTQwNDE0NDI4NzEwOTM3NSwic3ViIjoiMiIsInNjb3BlcyI6W119.BfxuTy2PFNKwPDL7yrK0xSsNV8nhkPfg63spqPdL4BvTJMhrhiyNT-aUUAdHD_VMMBo5LqYYRzYhcUtMinI_vxkN1-sX8q33CbYQ3dNcCxXJxM80UbO5yuZB_I8GFrNfRlDHsXiytW-Do9cs-WcL0HfDDxunCXl0Bl9FaqzU4wb1kolt8zOZmfqGK8AJsdk5zoKl_GPaIIY4oGjl9oZ3pnAfZcTGzV4tWwNPgWP6Wif_0TJ592UK5alJh3RU7DLqq46cmBKP2laRQtDoUVMmCRD17UsTrFVtoEMg79Yw8xDyLxLflpQUwqs5mcikJoGXGoIX53vQBmpNwTljHb4GcDCkOkXKL8s-LncG2tpmrOlFGT1BWqLmsFez71Y2ODOCWzf3RphG4oi-BLcg7r6JDqEu2fvwWn3rSXMRJMfpoFKNQ8Wb4jNPZH9lbmreYk_xrF7xNaiIWwiLwZaXfIxLmtDiaibX2L6tDRBY-z0IME5_4OKpQRQbSFk3ncT-u5QQ_ka7kq9ipiUyk7Uo1DKO3kiBpl1T_dFbKfEwwzzz3x74aX9HrwEK-zAhOInmYHoybwnTmUMqzNUdmPZi0nW8UXjtUnJOQQtsiq4qyZ9Yr06G0wqFSnw9THRWIDV5hw28DXWmDHr5FeuoL6okk501fqR_puYWJ3_iCXSnw8ZC6P4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://backend.atlbha.com/api/Admin/selector/packages",
+									"protocol": "https",
+									"host": [
+										"backend",
+										"atlbha",
+										"com"
+									],
+									"path": [
+										"api",
+										"Admin",
+										"selector",
+										"packages"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "activities",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5ODY2ZTJmOC05YWQ2LTQ3Y2QtYWZlMi0xY2E3YjQ5N2RkNjciLCJqdGkiOiJlY2MyMjE0MTlhZWY3ZWYxZjAxODBiNmQzYjJjZmE5N2I5MWFmY2FmZGRlMWNjMDcwMTFmMDkwOTBmOTY1ZjFlNjlhMmY2MjRjOTc4Zjk4OCIsImlhdCI6MTY3NTY3NjY4Ni44MzQ1Mzg5MzY2MTQ5OTAyMzQzNzUsIm5iZiI6MTY3NTY3NjY4Ni44MzQ1NDEwODIzODIyMDIxNDg0Mzc1LCJleHAiOjE3MDcyMTI2ODYuODI3NzI5OTQwNDE0NDI4NzEwOTM3NSwic3ViIjoiMiIsInNjb3BlcyI6W119.BfxuTy2PFNKwPDL7yrK0xSsNV8nhkPfg63spqPdL4BvTJMhrhiyNT-aUUAdHD_VMMBo5LqYYRzYhcUtMinI_vxkN1-sX8q33CbYQ3dNcCxXJxM80UbO5yuZB_I8GFrNfRlDHsXiytW-Do9cs-WcL0HfDDxunCXl0Bl9FaqzU4wb1kolt8zOZmfqGK8AJsdk5zoKl_GPaIIY4oGjl9oZ3pnAfZcTGzV4tWwNPgWP6Wif_0TJ592UK5alJh3RU7DLqq46cmBKP2laRQtDoUVMmCRD17UsTrFVtoEMg79Yw8xDyLxLflpQUwqs5mcikJoGXGoIX53vQBmpNwTljHb4GcDCkOkXKL8s-LncG2tpmrOlFGT1BWqLmsFez71Y2ODOCWzf3RphG4oi-BLcg7r6JDqEu2fvwWn3rSXMRJMfpoFKNQ8Wb4jNPZH9lbmreYk_xrF7xNaiIWwiLwZaXfIxLmtDiaibX2L6tDRBY-z0IME5_4OKpQRQbSFk3ncT-u5QQ_ka7kq9ipiUyk7Uo1DKO3kiBpl1T_dFbKfEwwzzz3x74aX9HrwEK-zAhOInmYHoybwnTmUMqzNUdmPZi0nW8UXjtUnJOQQtsiq4qyZ9Yr06G0wqFSnw9THRWIDV5hw28DXWmDHr5FeuoL6okk501fqR_puYWJ3_iCXSnw8ZC6P4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://backend.atlbha.com/api/Admin/selector/activities",
+									"protocol": "https",
+									"host": [
+										"backend",
+										"atlbha",
+										"com"
+									],
+									"path": [
+										"api",
+										"Admin",
+										"selector",
+										"activities"
 									]
 								}
 							},
