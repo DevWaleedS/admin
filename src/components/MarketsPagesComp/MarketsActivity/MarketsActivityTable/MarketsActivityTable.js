@@ -19,36 +19,38 @@ import MenuItem from '@mui/material/MenuItem';
 import { visuallyHidden } from '@mui/utils';
 import EditActivity from '../EditActivity/EditActivity';
 import { NotificationContext } from "../../../../store/NotificationProvider";
+import Context from '../../../../store/context';
 import { MdOutlineKeyboardArrowDown, MdOutlineArrowBackIosNew, MdOutlineArrowForwardIos } from 'react-icons/md';
-
 import { ReactComponent as EditIcon } from '../../../../assets/Icons/editt 2.svg';
 import { ReactComponent as TrashICon } from '../../../../assets/Icons/icon-24-delete.svg';
+import useFetch from '../../../../hooks/useFetch';
+import axios from "axios";
 
-function createData(id,name, count, opened, daysLeft, rate) {
-	return {
-		id,
-		name,
-		count,
-		opened,
-		daysLeft,
-		rate,
-	};
-}
+// function createData(id,name, count, opened, daysLeft, rate) {
+// 	return {
+// 		id,
+// 		name,
+// 		count,
+// 		opened,
+// 		daysLeft,
+// 		rate,
+// 	};
+// }
 
-const rows = [
-	createData(1,'ملابس', '  ( متجر 30 ) ', true, 90, 4.3),
-	createData(2,'حلويات', '( متجر 17 ) ', false, 67, 2.2),
-	createData(3,'الكتروينيات', '( متجر 50 )', false, 7, 4.3, 2.2),
-	createData(4,'موبيليا', ' ( متجر 20 )', true, 7, 2.2),
-	createData(5,'ملابس', ' ( متجر 30 )', false, 75, 4.3),
-	createData(6,'حلويات', '( متجر 17 )', false, 5, 2.2),
-	createData(7,'الكتروينيات', ' ( متجر 12 )', true, 75, 4.3),
-	createData(8,'موبيليا', ' ( متجر 10 )', false, 75, 2.2),
-	createData(9,'ملابس', '( متجر 50 )', false, 7, 4.3),
-	createData(10,'ماركت6', ' ( متجر 50 )', true, 75, 2.2),
-	createData(11,'ماركت5', ' ( متجر 60 )', false, 75, 4.3),
+// const rows = [
+// 	createData(1,'ملابس', '  ( متجر 30 ) ', true, 90, 4.3),
+// 	createData(2,'حلويات', '( متجر 17 ) ', false, 67, 2.2),
+// 	createData(3,'الكتروينيات', '( متجر 50 )', false, 7, 4.3, 2.2),
+// 	createData(4,'موبيليا', ' ( متجر 20 )', true, 7, 2.2),
+// 	createData(5,'ملابس', ' ( متجر 30 )', false, 75, 4.3),
+// 	createData(6,'حلويات', '( متجر 17 )', false, 5, 2.2),
+// 	createData(7,'الكتروينيات', ' ( متجر 12 )', true, 75, 4.3),
+// 	createData(8,'موبيليا', ' ( متجر 10 )', false, 75, 2.2),
+// 	createData(9,'ملابس', '( متجر 50 )', false, 7, 4.3),
+// 	createData(10,'ماركت6', ' ( متجر 50 )', true, 75, 2.2),
+// 	createData(11,'ماركت5', ' ( متجر 60 )', false, 75, 4.3),
 
-];
+// ];
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
@@ -67,15 +69,15 @@ function getComparator(order, orderBy) {
 // This method is created for cross-browser compatibility, if you don't
 // need to support IE11, you can use Array.prototype.sort() directly
 function stableSort(array, comparator) {
-	const stabilizedThis = array.map((el, index) => [el, index]);
-	stabilizedThis.sort((a, b) => {
+	const stabilizedThis = array?.map((el, index) => [el, index]);
+	stabilizedThis?.sort((a, b) => {
 		const order = comparator(a[0], b[0]);
 		if (order !== 0) {
 			return order;
 		}
 		return a[1] - b[1];
 	});
-	return stabilizedThis.map((el) => el[0]);
+	return stabilizedThis?.map((el) => el[0]);
 }
 
 const headCells = [
@@ -85,33 +87,6 @@ const headCells = [
 		disablePadding: false,
 		label: 'الإجراء',
 		width: '5rem',
-	},
-	{
-		id: 'daysLeft',
-		numeric: false,
-		disablePadding: false,
-		label: 'المدة المتبقية',
-		sort: true,
-	},
-	{
-		id: 'rate',
-		numeric: false,
-		disablePadding: false,
-		label: 'التقييم',
-	},
-	{
-		id: 'opened',
-		numeric: true,
-		disablePadding: false,
-		label: 'الحالة',
-		sort: true,
-	},
-	{
-		id: 'activity',
-		numeric: true,
-		disablePadding: false,
-		label: 'اسم النشاط',
-		sort: true,
 	},
 	{
 		id: 'name',
@@ -245,14 +220,18 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function EnhancedTable({editProduct}) {
+	const token = localStorage.getItem('token');
+	const {fetchedData,loading,error} = useFetch('https://backend.atlbha.com/api/Admin/activity');
 	const [order, setOrder] = React.useState('asc');
 	const [orderBy, setOrderBy] = React.useState('calories');
 	const [selected, setSelected] = React.useState([]);
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
-	const [data, setData] = React.useState(rows);
+	const [data, setData] = React.useState(fetchedData?.data?.activities || []);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [showAddActivity, setShowAddActivity] = React.useState(false);
+	const contextStore = useContext(Context);
+	const { setEndActionTitle } = contextStore;
 	const open = Boolean(anchorEl);
 	const rowsPerPagesCount = [5, 10, 25, 50, 100];
 	const handleRowsClick = (event) => {
@@ -309,7 +288,7 @@ export default function EnhancedTable({editProduct}) {
 	const isSelected = (name) => selected.indexOf(name) !== -1;
 
 	// Avoid a layout jump when reaching the last page with empty rows.
-	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 	const allRows = () => {
 		const num = Math.ceil(data.length / rowsPerPage);
 		const arr = [];
@@ -318,6 +297,23 @@ export default function EnhancedTable({editProduct}) {
 		}
 		return arr;
 	};
+
+	const deleteActivity = (id) =>{
+		axios
+		.get(`https://backend.atlbha.com/api/Admin/activitydeleteall?id[]=${id}`, {
+		  headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${token}`,
+		  },
+		})
+		.then((res) => {
+		  if (res?.data?.success === true && res?.data?.status===200) {
+				setEndActionTitle(res?.data?.message?.ar);
+		  } else {
+				setEndActionTitle(res?.data?.message?.ar);
+		  }
+		});
+	}
 	return (
 		<Box sx={{ width: '100%', mt: '0rem' }}>
 			<Paper sx={{ width: '100%', mb: 2 }}>
@@ -327,8 +323,8 @@ export default function EnhancedTable({editProduct}) {
 						<TableBody>
 							{/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.sort(getComparator(order, orderBy)).slice() */}
-							{stableSort(data, getComparator(order, orderBy))
-								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+							{stableSort(fetchedData?.data?.activities, getComparator(order, orderBy))
+								?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 								.map((row) => {
 									const isItemSelected = isSelected(row.id);
 									const labelId = `enhanced-table-checkbox-${row.id}`;
@@ -347,12 +343,7 @@ export default function EnhancedTable({editProduct}) {
 											<TableCell id={labelId} className="flex flex-row items-center border-none">
 												<div className='flex items-center gap-2'>
 													<TrashICon
-														onClick={() => {
-															const findIndex = data.findIndex((item) => item.id === row.id);
-															const arr = [...data];
-															arr.splice(findIndex, 1);
-															setData(arr);
-														}}
+														onClick={()=>deleteActivity(row.id)}
 														style={{
 															cursor: 'pointer',
 															color: 'red',
@@ -379,7 +370,7 @@ export default function EnhancedTable({editProduct}) {
 											</TableCell>
 											<TableCell className="border-none">
 												<div className='flex items-center'>
-													<p className='text-[#ADB5B9] text-base font-normal mr-3'>{row.count}</p>
+													<p className='text-[#ADB5B9] text-base font-normal mr-3'>({row.storeCount} متجر )</p>
 													<h2 className='font-medium text-lg'>{row.name}</h2>
 													<Checkbox
 														sx={{

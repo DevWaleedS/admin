@@ -2,14 +2,15 @@ import React, { useContext, useEffect, useState } from 'react';
 import { IoMdCloseCircleOutline } from 'react-icons/io';
 import Button from '../../../../UI/Button/Button';
 import Context from '../../../../store/context';
+import axios from "axios";
 
 const BackDrop = ({ onClick }) => {
 	return <div onClick={onClick} className={`fixed opacity-5 back_drop top-0 left-0 h-full w-full bg-slate-900  z-10 `}></div>;
 };
 
 const EditActivity = ({ cancel, Product }) => {
+	const token = localStorage.getItem('token');
 	const contextStore = useContext(Context);
- 
 	const [showAddActivity, setShowAddActivity] = useState(false);
 	const [activiyName, setActitviyName] = useState('الكترونيات');
 	const { setEndActionTitle } = contextStore;
@@ -18,6 +19,29 @@ const EditActivity = ({ cancel, Product }) => {
 			setActitviyName(Product.name);
 		}
 	}, [Product]);
+
+	const updateActivity = () =>{
+		const data = {
+			name: activiyName,
+		};
+		axios
+		.put(`https://backend.atlbha.com/api/Admin/activity/${Product?.id}`, data, {
+		  headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${token}`,
+		  },
+		})
+		.then((res) => {
+		  if (res?.data?.success === true && res?.data?.status===200) {
+				setEndActionTitle(res?.data?.message?.ar);
+				cancel();
+		  } else {
+				setEndActionTitle(res?.data?.message?.ar);
+				cancel();
+		  }
+		});
+	}
+
 	return (
 		<>
 			<BackDrop onClick={cancel} />
@@ -53,10 +77,7 @@ const EditActivity = ({ cancel, Product }) => {
 							type={'normal'}
 							className={'text-center w-full mt-12 md:h-14 h-[44px] text-xl'}
 							style={{ backgroundColor: '#02466A' }}
-							onClick={() => {
-								setEndActionTitle('تم تعديل النشاط بنجاح');
-								cancel();
-							}}
+							onClick={updateActivity}
 						>
 							حفظ
 						</Button>
