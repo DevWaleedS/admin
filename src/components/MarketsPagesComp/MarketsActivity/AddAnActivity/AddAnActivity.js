@@ -3,12 +3,14 @@ import { IoMdCloseCircleOutline } from 'react-icons/io';
 import Button from '../../../../UI/Button/Button';
 import Context from '../../../../store/context';
 import styles from './AddAnActivity.module.css';
+import axios from "axios";
 
 const BackDrop = ({ onClick }) => {
 	return <div onClick={onClick} className={`fixed opacity-25 back_drop top-0 left-0 h-full w-full bg-slate-900  z-10 `}></div>;
 };
 
 const AddAnActivity = ({ cancel, editActivity }) => {
+	const token = localStorage.getItem('token');
 	const contextStore = useContext(Context);
 	const [showAddActivity, setShowAddActivity] = useState(false);
 	const [activiyName, setActitviyName] = useState('');
@@ -19,6 +21,29 @@ const AddAnActivity = ({ cancel, editActivity }) => {
 			setActitviyName(editActivity.title);
 		}
 	}, [editActivity]);
+
+	const addActivity = () =>{
+		const data = {
+			name: activiyName,
+		};
+		axios
+		.post("https://backend.atlbha.com/api/Admin/activity", data, {
+		  headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${token}`,
+		  },
+		})
+		.then((res) => {
+		  if (res?.data?.success === true && res?.data?.status===200) {
+				setEndActionTitle(res?.data?.message?.ar);
+				cancel();
+		  } else {
+				setEndActionTitle(res?.data?.message?.ar);
+				cancel();
+		  }
+		});
+	}
+
 	return (
 		<>
 			<BackDrop onClick={cancel} />
@@ -54,10 +79,7 @@ const AddAnActivity = ({ cancel, editActivity }) => {
 							type={'normal'}
 							className={'text-center w-full mt-12 md:h-14 h-[44px] text-xl'}
 							style={{ backgroundColor: '#02466A' }}
-							onClick={() => {
-								setEndActionTitle('تم إضافة نشاط جديد بنجاح');
-								cancel();
-							}}
+							onClick={addActivity}
 						>
 							حفظ
 						</Button>
