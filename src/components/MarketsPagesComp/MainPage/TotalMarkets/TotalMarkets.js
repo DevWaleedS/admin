@@ -1,5 +1,6 @@
-import React from "react";
-import { Store } from "../../../../assets/Icons/index";
+import axios from 'axios';
+import React, { useEffect } from 'react';
+import { Store } from '../../../../assets/Icons/index';
 
 const TotalMarkets = ({marketsInfo}) => {
   return (
