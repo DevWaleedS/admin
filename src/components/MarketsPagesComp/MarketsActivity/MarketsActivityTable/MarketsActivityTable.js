@@ -1,4 +1,4 @@
-import React,{useContext} from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -23,34 +23,8 @@ import Context from '../../../../store/context';
 import { MdOutlineKeyboardArrowDown, MdOutlineArrowBackIosNew, MdOutlineArrowForwardIos } from 'react-icons/md';
 import { ReactComponent as EditIcon } from '../../../../assets/Icons/editt 2.svg';
 import { ReactComponent as TrashICon } from '../../../../assets/Icons/icon-24-delete.svg';
-import useFetch from '../../../../hooks/useFetch';
 import axios from "axios";
-
-// function createData(id,name, count, opened, daysLeft, rate) {
-// 	return {
-// 		id,
-// 		name,
-// 		count,
-// 		opened,
-// 		daysLeft,
-// 		rate,
-// 	};
-// }
-
-// const rows = [
-// 	createData(1,'ملابس', '  ( متجر 30 ) ', true, 90, 4.3),
-// 	createData(2,'حلويات', '( متجر 17 ) ', false, 67, 2.2),
-// 	createData(3,'الكتروينيات', '( متجر 50 )', false, 7, 4.3, 2.2),
-// 	createData(4,'موبيليا', ' ( متجر 20 )', true, 7, 2.2),
-// 	createData(5,'ملابس', ' ( متجر 30 )', false, 75, 4.3),
-// 	createData(6,'حلويات', '( متجر 17 )', false, 5, 2.2),
-// 	createData(7,'الكتروينيات', ' ( متجر 12 )', true, 75, 4.3),
-// 	createData(8,'موبيليا', ' ( متجر 10 )', false, 75, 2.2),
-// 	createData(9,'ملابس', '( متجر 50 )', false, 7, 4.3),
-// 	createData(10,'ماركت6', ' ( متجر 50 )', true, 75, 2.2),
-// 	createData(11,'ماركت5', ' ( متجر 60 )', false, 75, 4.3),
-
-// ];
+import CircularLoading from '../../../../UI/CircularLoading/CircularLoading';
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
@@ -95,7 +69,7 @@ const headCells = [
 		label: 'اسم المتجر',
 	},
 	{
-		id: 'name',
+		id: 'number',
 		numeric: true,
 		disablePadding: false,
 		label: 'م',
@@ -151,9 +125,9 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
-	const { numSelected, onClick, rowCount, onSelectAllClick } = props;
+	const { numSelected, rowCount, onSelectAllClick } = props;
 	const NotificationStore = useContext(NotificationContext);
-	const { setNotificationTitle,setActionTitle } = NotificationStore;
+	const { setNotificationTitle } = NotificationStore;
 	return (
 		<Toolbar
 			sx={{
@@ -169,10 +143,7 @@ function EnhancedTableToolbar(props) {
 		>
 			<div className='flex gap-8 items-center'>
 				{numSelected > 0 && (
-					<Tooltip title='Delete' onClick={()=>{
-							setNotificationTitle('سيتم حذف جميع الانشطة التي قمت بتحديدها');
-							setActionTitle('تم حذف الانشطة بنجاح');
-					}}>
+					<Tooltip title='Delete' onClick={() => setNotificationTitle('سيتم حذف جميع الانشطة التي قمت بتحديدها')}>
 						<div className='flex flex-row items-center gap-2 px-2 rounded-full' style={{ width: '134px' }}>
 							<h2 className={'font-medium md:text-[16px] text-[14px]'} style={{ color: '#FF3838' }}>
 								حذف الكل
@@ -190,7 +161,7 @@ function EnhancedTableToolbar(props) {
 					</Tooltip>
 				)}
 
-				
+
 			</div>
 
 			<div className='flex items-center'>
@@ -219,15 +190,15 @@ EnhancedTableToolbar.propTypes = {
 	numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable({editProduct}) {
+export default function EnhancedTable({ fetchedData,loading,reload,setReload,editProduct }) {
 	const token = localStorage.getItem('token');
-	const {fetchedData,loading,error} = useFetch('https://backend.atlbha.com/api/Admin/activity');
+	const NotificationStore = useContext(NotificationContext);
+	const { confirm, setConfirm } = NotificationStore;
 	const [order, setOrder] = React.useState('asc');
 	const [orderBy, setOrderBy] = React.useState('calories');
 	const [selected, setSelected] = React.useState([]);
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
-	const [data, setData] = React.useState(fetchedData?.data?.activities || []);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [showAddActivity, setShowAddActivity] = React.useState(false);
 	const contextStore = useContext(Context);
@@ -241,23 +212,14 @@ export default function EnhancedTable({editProduct}) {
 		setAnchorEl(null);
 	};
 
-	
+
 
 	const handleSelectAllClick = (event) => {
 		if (event.target.checked) {
-			const newSelected = data.map((n) => n.id);
+			const newSelected = fetchedData?.data?.activities?.map((n) => n.id);
 			setSelected(newSelected);
 			return;
 		}
-		setSelected([]);
-	};
-	const deleteItems = () => {
-		const array = [...data];
-		selected.forEach((item) => {
-			const findIndex = array.findIndex((i) => item === i.id);
-			array.splice(findIndex, 1);
-		});
-		setData(array);
 		setSelected([]);
 	};
 
@@ -288,9 +250,9 @@ export default function EnhancedTable({editProduct}) {
 	const isSelected = (name) => selected.indexOf(name) !== -1;
 
 	// Avoid a layout jump when reaching the last page with empty rows.
-	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
+	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - fetchedData?.data?.activities?.length) : 0;
 	const allRows = () => {
-		const num = Math.ceil(data.length / rowsPerPage);
+		const num = Math.ceil(fetchedData?.data?.activities?.length / rowsPerPage);
 		const arr = [];
 		for (let index = 0; index < num; index++) {
 			arr.push(index + 1);
@@ -298,107 +260,143 @@ export default function EnhancedTable({editProduct}) {
 		return arr;
 	};
 
-	const deleteActivity = (id) =>{
+	const deleteActivity = (id) => {
 		axios
-		.get(`https://backend.atlbha.com/api/Admin/activitydeleteall?id[]=${id}`, {
-		  headers: {
-			"Content-Type": "application/json",
-			Authorization: `Bearer ${token}`,
-		  },
-		})
-		.then((res) => {
-		  if (res?.data?.success === true && res?.data?.status===200) {
-				setEndActionTitle(res?.data?.message?.ar);
-		  } else {
-				setEndActionTitle(res?.data?.message?.ar);
-		  }
-		});
+			.get(`https://backend.atlbha.com/api/Admin/activitydeleteall?id[]=${id}`, {
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+					setReload(!reload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+					setReload(!reload);
+				}
+			});
 	}
+	useEffect(() => {
+		if (confirm) {
+			axios
+				.get(`https://backend.atlbha.com/api/Admin/activitydeleteall?id[]=${selected.map((item)=>[item])}`, {
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+					},
+				})
+				.then((res) => {
+					if (res?.data?.success === true && res?.data?.status === 200) {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					} else {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					}
+			});
+			setConfirm(false);
+		}
+	}, [confirm]);
+
+
 	return (
 		<Box sx={{ width: '100%', mt: '0rem' }}>
 			<Paper sx={{ width: '100%', mb: 2 }}>
-				<EnhancedTableToolbar onClick={deleteItems} numSelected={selected.length} rowCount={data.length} onSelectAllClick={handleSelectAllClick} />
+				<EnhancedTableToolbar numSelected={selected?.length} rowCount={fetchedData?.data?.activities?.length} onSelectAllClick={handleSelectAllClick} />
 				<TableContainer>
 					<Table className='md:min-w-[750px] min-w-full' aria-labelledby='tableTitle' size={'medium'}>
 						<TableBody>
-							{/* if you don't need to support IE11, you can replace the `stableSort` call with:
-                 rows.sort(getComparator(order, orderBy)).slice() */}
-							{stableSort(fetchedData?.data?.activities, getComparator(order, orderBy))
-								?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-								.map((row) => {
-									const isItemSelected = isSelected(row.id);
-									const labelId = `enhanced-table-checkbox-${row.id}`;
+							{loading ?
+								(
+									<TableRow>
+										<TableCell colSpan={3}>
+											<CircularLoading />
+										</TableCell>
+									</TableRow>
+								)
+								:
+								(
+									<>
+										{stableSort(fetchedData?.data?.activities, getComparator(order, orderBy))
+											?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+											.map((row) => {
+												const isItemSelected = isSelected(row.id);
+												const labelId = `enhanced-table-checkbox-${row.id}`;
 
-									return (
-										<TableRow
-											hover
-											role='checkbox'
-											aria-checked={isItemSelected}
-											tabIndex={-1}
-											key={row.id}
-											selected={isItemSelected}
-											className='flex flex-row justify-between'
-											style={{ borderBottom:'1px solid #e0e0e0' }}
-										>
-											<TableCell id={labelId} className="flex flex-row items-center border-none">
-												<div className='flex items-center gap-2'>
-													<TrashICon
-														onClick={()=>deleteActivity(row.id)}
-														style={{
-															cursor: 'pointer',
-															color: 'red',
-															fontSize: '1rem',
-														}}
-													></TrashICon>
-													<EditIcon
-														onClick={() => {
-															editProduct(row);
-														}}
-														style={{
-															cursor: 'pointer',
-															fontSize: '1rem',
-														}}
-													/>
-													{showAddActivity && (
-														<EditActivity
-															cancel={() => {
-																setShowAddActivity(false);
-															}}
-														></EditActivity>
-													)}
-												</div>
-											</TableCell>
-											<TableCell className="border-none">
-												<div className='flex items-center'>
-													<p className='text-[#ADB5B9] text-base font-normal mr-3'>({row.storeCount} متجر )</p>
-													<h2 className='font-medium text-lg'>{row.name}</h2>
-													<Checkbox
-														sx={{
-															color: '#1DBBBE',
-															'& .MuiSvgIcon-root': {
-																color: '#011723',
-															},
-														}}
-														checked={isItemSelected}
-														onClick={(event) => handleClick(event, row.id)}
-														inputProps={{
-															'aria-labelledby': labelId,
-														}}
-													/>
-												</div>
-											</TableCell>
-										</TableRow>
-									);
-								})}
-							{emptyRows > 0 && (
-								<TableRow
-									style={{
-										height: 53 * emptyRows,
-									}}
-								>
-									<TableCell colSpan={6} />
-								</TableRow>
-							)}
+												return (
+													<TableRow
+														hover
+														role='checkbox'
+														aria-checked={isItemSelected}
+														tabIndex={-1}
+														key={row.id}
+														selected={isItemSelected}
+														className='flex flex-row justify-between'
+														style={{ borderBottom: '1px solid #e0e0e0' }}
+													>
+														<TableCell id={labelId} className="flex flex-row items-center border-none">
+															<div className='flex items-center gap-2'>
+																<TrashICon
+																	onClick={() => deleteActivity(row.id)}
+																	style={{
+																		cursor: 'pointer',
+																		color: 'red',
+																		fontSize: '1rem',
+																	}}
+																></TrashICon>
+																<EditIcon
+																	onClick={() => {
+																		editProduct(row);
+																	}}
+																	style={{
+																		cursor: 'pointer',
+																		fontSize: '1rem',
+																	}}
+																/>
+																{showAddActivity && (
+																	<EditActivity
+																		cancel={() => {
+																			setShowAddActivity(false);
+																		}}
+																	></EditActivity>
+																)}
+															</div>
+														</TableCell>
+														<TableCell className="border-none">
+															<div className='flex items-center'>
+																<p className='text-[#ADB5B9] text-base font-normal mr-3'>({row.storeCount} متجر )</p>
+																<h2 className='font-medium text-lg'>{row.name}</h2>
+																<Checkbox
+																	sx={{
+																		color: '#1DBBBE',
+																		'& .MuiSvgIcon-root': {
+																			color: '#011723',
+																		},
+																	}}
+																	checked={isItemSelected}
+																	onClick={(event) => handleClick(event, row.id)}
+																	inputProps={{
+																		'aria-labelledby': labelId,
+																	}}
+																/>
+															</div>
+														</TableCell>
+													</TableRow>
+												);
+											})}
+										{emptyRows > 0 && (
+											<TableRow
+												style={{
+													height: 53 * emptyRows,
+												}}
+											>
+												<TableCell colSpan={6}>لاتوجد بيانات</TableCell>
+											</TableRow>
+										)}
+									</>
+								)}
 						</TableBody>
 					</Table>
 				</TableContainer>

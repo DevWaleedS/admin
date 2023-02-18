@@ -16,52 +16,90 @@ import { ReactComponent as Password } from '../../../../assets/Icons/show passwo
 import { ReactComponent as Arrow } from '../../../../assets/Icons/icon-24-chevron_down.svg';
 import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
+import useFetch from '../../../../hooks/useFetch';
 
 const BackDrop = ({ onClick }) => {
 	return <div onClick={onClick} className={`fixed back_drop bottom-0 left-0  w-full bg-slate-900  z-10 ${styles.back_drop}`} style={{ height: 'calc(100% - 4rem)' }}></div>;
 };
-const cities = ['الرياض', 'جدة', 'الدمام'];
-const plans = ['التاجر (مجانية)', 'التاجر المحترف (مدفوع)', 'العلامة التجارية (مدفوع)'];
-const planeTime = ['سنوي', 'شهري (6 شهور)'];
-const activityType = ['ملابس', 'حلويات', 'الكترونيات', 'موبيليا'];
-const conditions = ['مفعل', 'غير مفعل'];
+const planeTime = [{id:1,name:'سنوي',name_en:'year'},{id:2,name:'شهري (6 شهور)',name_en:'6months'}];
+const conditions = [{id:1,name:'مفعل',name_en:'active'},{id:2,name:'غير مفعل',name_en:'not_active'}];
 
-const AddNewMarket = ({ cancel }) => {
+const AddNewMarket = ({ cancel,reload,setReload }) => {
 	const contextStore = useContext(Context);
 	const { setEndActionTitle } = contextStore;
-	const [storeCity, setStoreCity] = useState('');
-	const [ownerCity, setOwerCity] = useState('');
-	const [planSelected, setPlanSelected] = useState('');
-	const [planTimeSelected, setPlanTimeSelected] = useState('');
-	const [conditionsSelected, setConditionsSelected] = useState('');
 	const [images, setImages] = useState([]);
-	const [multiImages, setMultiImages] = useState([]);
+	const [storeInfo,setStoreInfo] = useState({
+		store_name:'',
+		domain:'',
+		store_email:'',
+		phonenumber:'',
+		package_id:'',
+		activity_ids:[],
+		country_id:'',
+		city_id:'',
+		periodtype:'',
+	});
+	const [personInfo,setPersonInfo] = useState({
+		name:'',
+		user_name:'',
+		email:'',
+		password:'',
+		userphonenumber:'',
+		user_country_id:'',
+		user_city_id:'',
+		status:'',
+		image:'',
+
+	});
+	const { fetchedData:countryList } = useFetch('https://backend.atlbha.com/api/Admin/selector/countries');
+	const { fetchedData:citiesList } = useFetch('https://backend.atlbha.com/api/Admin/selector/cities');
+	const { fetchedData:packagesList } = useFetch('https://backend.atlbha.com/api/Admin/selector/packages');
+	const { fetchedData:activitiesList } = useFetch('https://backend.atlbha.com/api/Admin/selector/activities');
+	const [planTimeSelected, setPlanTimeSelected] = useState('');
 	const [openActivity, setOpenActivity] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
-	console.log(multiImages);
-
-	const emptyMultiImages = [];
-	for (let index = 0; index < 5 - multiImages.length; index++) {
-		emptyMultiImages.push(index);
-	}
-	console.log(images);
-	const maxNumber = 2;
 	const onChange = (imageList, addUpdateIndex) => {
 		// data for submit
 		setImages(imageList);
 	};
 
-	const [activity, setActivity] = React.useState([]);
+	//const [activity, setActivity] = React.useState([]);
 
-	const handleActivity = (event) => {
-		const {
-			target: { value },
-		} = event;
-		setActivity(
-			// On autofill we get a stringified value.
-			typeof value === 'string' ? value.split(',') : value
-		);
-	};
+	// const handleActivity = (event) => {
+	// 	const {
+	// 		target: { value },
+	// 	} = event;
+	// 	setActivity(
+	// 		// On autofill we get a stringified value.
+	// 		typeof value === 'string' ? value.split(',') : value
+	// 	);
+	// };
+
+	const addMarket = ()=> {
+		const data = {
+			name:personInfo?.name,
+			store_name:storeInfo?.store_name,
+			email:personInfo?.email,
+			store_email:storeInfo?.store_email,
+			password:personInfo?.password,
+			phonenumber:storeInfo?.phonenumber,
+			userphonenumber:personInfo?.userphonenumber,
+			package_id:storeInfo?.package_id,
+			country_id:storeInfo?.country_id,
+			city_id:storeInfo?.city_id,
+			activity_id:storeInfo?.activity_ids,
+			user_country_id:personInfo?.user_country_id,
+			user_city_id:personInfo?.user_city_id,
+			user_name:personInfo?.user_name,
+			domain:storeInfo?.store_name,
+			periodtype:storeInfo?.periodtype,
+			status:personInfo?.status,
+			image:images[0]?.file?.name || '',
+		}
+		console.log(data);
+		setEndActionTitle('تم انشاء متجر جديد بنجاح');
+		//cancel();
+	}
 
 	return (
 		<>
@@ -104,7 +142,7 @@ const AddNewMarket = ({ cancel }) => {
 									></AiFillStar>
 									اسم المتجر
 								</label>
-								<input className='w-[555px] md:h-[56px] h-[44px] max-w-full py-4 px-5 rounded-md outline-none' style={{ backgroundColor: '#EFF0F0', border: '1px solid #F0F0F0' }} placeholder='حروف عربية او انجليزية' type='text' />
+								<input value={storeInfo?.store_name} onChange={(e)=>{setStoreInfo({...storeInfo,store_name:e.target.value})}} className='w-[555px] md:h-[56px] h-[44px] max-w-full py-4 px-5 rounded-md outline-none' style={{ backgroundColor: '#EFF0F0', border: '1px solid #F0F0F0' }} placeholder='حروف عربية او انجليزية' type='text' />
 							</div>
 							<div className='flex md:flex-row flex-col md:items-center items-start gap-2'>
 								<label className='md:text-[18px] text-[16px] w-[315px]'>
@@ -117,7 +155,7 @@ const AddNewMarket = ({ cancel }) => {
 									></AiFillStar>
 									الدومين
 								</label>
-								<input className='w-[555px] md:h-[56px] h-[44px] max-w-full py-4 px-5 rounded-md outline-none' style={{ backgroundColor: '#EFF0F0', border: '1px solid #F0F0F0' }} placeholder='ادخل حروف انجليزية فقط' type='text' />
+								<input value={storeInfo?.domain} onChange={(e)=>{setStoreInfo({...storeInfo,domain:e.target.value})}} className='w-[555px] md:h-[56px] h-[44px] max-w-full py-4 px-5 rounded-md outline-none' style={{ backgroundColor: '#EFF0F0', border: '1px solid #F0F0F0' }} placeholder='ادخل حروف انجليزية فقط' type='text' />
 							</div>
 							<div className='flex md:flex-row flex-col md:items-center items-start gap-2'>
 								<label className='md:text-[18px] text-[16px] w-[315px]'>
@@ -130,29 +168,24 @@ const AddNewMarket = ({ cancel }) => {
 									></AiFillStar>
 									البريد الإلكتروني
 								</label>
-								<input className='w-[555px] md:h-[56px] h-[44px] max-w-full py-4 px-5 rounded-md outline-none' style={{ backgroundColor: '#EFF0F0', border: '1px solid #F0F0F0' }} placeholder='sample@gmail.com' type='email' />
+								<input value={storeInfo?.store_email} onChange={(e)=>{setStoreInfo({...storeInfo,store_email:e.target.value})}} className='w-[555px] md:h-[56px] h-[44px] max-w-full py-4 px-5 rounded-md outline-none' style={{ backgroundColor: '#EFF0F0', border: '1px solid #F0F0F0' }} placeholder='sample@gmail.com' type='email' />
 							</div>
 							<div className='flex md:flex-row flex-col md:items-center items-start gap-2'>
 								<label className='md:text-[18px] text-[16px] w-[315px]'>الدولة</label>
-								<div className='w-[555px] md:h-[56px] h-[44px] max-w-full py-4 px-5 rounded-md outline-none flex items-center' style={{ backgroundColor: '#EFF0F0', border: '1px solid #F0F0F0' }}>
-									<p style={{ color: '#011723', fontSize: '18px' }}>المملكة العربية السعودية</p>
-								</div>
-							</div>
-							<div className='flex md:flex-row flex-col md:items-center items-start gap-2'>
-								<label className='md:text-[18px] text-[16px] w-[315px]'>المدينة</label>
 								<FormControl className='w-[555px] md:h-[56px] h-[44px] max-w-full'>
 									<Select
 										className={styles.select}
-										value={storeCity}
-										onChange={(e) => setStoreCity(e.target.value)}
+										value={storeInfo?.country_id}
+										onChange={(e)=>{setStoreInfo({...storeInfo,country_id:e.target.value})}}
 										displayEmpty
 										IconComponent={(props) => <Arrow fill='#242424' {...props} />}
 										inputProps={{ 'aria-label': 'Without label' }}
 										renderValue={(selected) => {
-											if (storeCity === '') {
-												return <h2>اختر المدينة</h2>;
+											if (storeInfo?.country_id === '') {
+												return <h2>اختر الدولة</h2>;
 											}
-											return selected;
+											const result = countryList?.data?.countries?.filter((item)=>item?.id === parseInt(selected));
+											return result[0]?.name;
 										}}
 										sx={{
 											height: '3.5rem',
@@ -164,7 +197,7 @@ const AddNewMarket = ({ cancel }) => {
 											},
 										}}
 									>
-										{cities.map((item, idx) => {
+										{countryList?.data?.countries?.map((item, idx) => {
 											return (
 												<MenuItem
 													key={idx}
@@ -174,9 +207,55 @@ const AddNewMarket = ({ cancel }) => {
 														height: '3rem',
 														'&:hover': {},
 													}}
-													value={`${item}`}
+													value={`${item?.id}`}
 												>
-													{item}
+													{item?.name}
+												</MenuItem>
+											);
+										})}
+									</Select>
+								</FormControl>
+							</div>
+							<div className='flex md:flex-row flex-col md:items-center items-start gap-2'>
+								<label className='md:text-[18px] text-[16px] w-[315px]'>المدينة</label>
+								<FormControl className='w-[555px] md:h-[56px] h-[44px] max-w-full'>
+									<Select
+										className={styles.select}
+										value={storeInfo?.city_id}
+										onChange={(e)=>{setStoreInfo({...storeInfo,city_id:e.target.value})}}
+										displayEmpty
+										IconComponent={(props) => <Arrow fill='#242424' {...props} />}
+										inputProps={{ 'aria-label': 'Without label' }}
+										renderValue={(selected) => {
+											if (storeInfo?.city_id === '') {
+												return <h2>اختر المدينة</h2>;
+											}
+											const result = citiesList?.data?.cities?.filter((item)=>item?.id === parseInt(selected));
+											return result[0]?.name;
+										}}
+										sx={{
+											height: '3.5rem',
+											backgroundColor: '#EFF0F0',
+											border: '1px solid #F0F0F0',
+											borderRadius: '8px',
+											'& .MuiOutlinedInput-notchedOutline': {
+												border: 'none',
+											},
+										}}
+									>
+										{citiesList?.data?.cities?.map((item, idx) => {
+											return (
+												<MenuItem
+													key={idx}
+													className='souq_storge_category_filter_items'
+													sx={{
+														backgroundColor: '#EFF9FF',
+														height: '3rem',
+														'&:hover': {},
+													}}
+													value={`${item?.id}`}
+												>
+													{item?.name}
 												</MenuItem>
 											);
 										})}
@@ -188,7 +267,7 @@ const AddNewMarket = ({ cancel }) => {
 								<div className='w-[555px] md:h-[56px] h-[44px] max-w-full py-4 px-5 rounded-md flex flex-row items-center justify-between' style={{ backgroundColor: '#EFF0F0', border: '1px solid #F0F0F0' }}>
 									<div className='flex flex-row items-center'>
 										<PhoneIcon className={styles.icon} />
-										<input className='w-full outline-none' style={{ backgroundColor: 'transparent' }} placeholder='5419515123' type='text' />
+										<input value={storeInfo?.phonenumber} onChange={(e)=>{setStoreInfo({...storeInfo,phonenumber:e.target.value})}} className='w-full outline-none' style={{ backgroundColor: 'transparent' }} placeholder='5419515123' type='text' />
 									</div>
 									<p style={{ fontSize: '18px', color: '#011723' }}>966</p>
 								</div>
@@ -207,16 +286,17 @@ const AddNewMarket = ({ cancel }) => {
 								<FormControl className='w-[555px] md:h-[56px] h-[44px] max-w-full'>
 									<Select
 										className={styles.select}
-										value={planSelected}
-										onChange={(e) => setPlanSelected(e.target.value)}
+										value={storeInfo?.package_id}
+										onChange={(e)=>{setStoreInfo({...storeInfo,package_id:e.target.value})}}
 										displayEmpty
 										IconComponent={(props) => <Arrow fill='#242424' {...props} />}
 										inputProps={{ 'aria-label': 'Without label' }}
 										renderValue={(selected) => {
-											if (planSelected === '') {
+											if (storeInfo?.package_id === '') {
 												return <h2>اختر نوع الخطة</h2>;
 											}
-											return selected;
+											const result = packagesList?.data?.packages?.filter((item)=>item?.id === parseInt(selected));
+											return result[0]?.name;
 										}}
 										sx={{
 											height: '3.5rem',
@@ -228,7 +308,7 @@ const AddNewMarket = ({ cancel }) => {
 											},
 										}}
 									>
-										{plans.map((item, idx) => {
+										{packagesList?.data?.packages?.map((item, idx) => {
 											return (
 												<MenuItem
 													key={idx}
@@ -238,9 +318,9 @@ const AddNewMarket = ({ cancel }) => {
 														height: '3rem',
 														'&:hover': {},
 													}}
-													value={`${item}`}
+													value={`${item?.id}`}
 												>
-													{item}
+													{item?.name}
 												</MenuItem>
 											);
 										})}
@@ -261,16 +341,17 @@ const AddNewMarket = ({ cancel }) => {
 								<FormControl className='w-[555px] md:h-[56px] h-[44px] max-w-full'>
 									<Select
 										className={styles.select}
-										value={planTimeSelected}
-										onChange={(e) => setPlanTimeSelected(e.target.value)}
+										value={storeInfo?.periodtype}
+										onChange={(e)=>{setStoreInfo({...storeInfo,periodtype:e.target.value})}}
 										displayEmpty
 										IconComponent={(props) => <Arrow fill='#242424' {...props} />}
 										inputProps={{ 'aria-label': 'Without label' }}
 										renderValue={(selected) => {
-											if (planTimeSelected === '') {
+											if (storeInfo?.periodtype === '') {
 												return <h2>اختيار مدة الاشتراك</h2>;
 											}
-											return selected;
+											const result = planeTime?.filter((item)=>item?.name_en === selected);
+											return result[0]?.name;
 										}}
 										sx={{
 											height: '3.5rem',
@@ -292,9 +373,9 @@ const AddNewMarket = ({ cancel }) => {
 														height: '3rem',
 														'&:hover': {},
 													}}
-													value={`${item}`}
+													value={`${item?.name_en}`}
 												>
-													{item}
+													{item?.name}
 												</MenuItem>
 											);
 										})}
@@ -322,9 +403,12 @@ const AddNewMarket = ({ cancel }) => {
 										onClick={(e) => {
 											setOpenActivity(true);
 										}}
-										value={activity}
-										onChange={handleActivity}
-										renderValue={(selected) => (activity.length === 0 ? 'نشاط المتجر' : selected.join(' , '))}
+										value={storeInfo?.activity_ids}
+										onChange={(e)=>{setStoreInfo({...storeInfo,activity_ids:e.target.value})}}
+										renderValue={
+											(selected) => 
+											(storeInfo?.activity_ids.length === 0 ? 'نشاط المتجر' 
+											: selected.join(' , '))}
 										sx={{
 											height: '3.5rem',
 											backgroundColor: '#EFF0F0',
@@ -335,10 +419,10 @@ const AddNewMarket = ({ cancel }) => {
 											},
 										}}
 									>
-										{activityType.map((name) => (
-											<MenuItem className='souq_storge_category_filter_items multiple_select' key={name} value={name}>
-												<Checkbox checked={activity.indexOf(name) > -1} />
-												<ListItemText primary={name} />
+										{activitiesList?.data?.activities?.map((item,index) => (
+											<MenuItem className='souq_storge_category_filter_items multiple_select' key={index} value={item?.id}>
+												<Checkbox checked={storeInfo?.activity_ids.indexOf(item?.id) > -1} />
+												<ListItemText primary={item?.name} />
 											</MenuItem>
 										))}
 										<button
@@ -364,51 +448,46 @@ const AddNewMarket = ({ cancel }) => {
 								<label className='md:text-[18px] text-[16px] w-[315px]'>الإسم الكامل</label>
 								<div className='w-[555px] md:h-[56px] h-[44px] max-w-full py-4 px-5 rounded-md flex flex-row items-center justify-between' style={{ backgroundColor: '#EFF0F0', border: '1px solid #F0F0F0' }}>
 									<UserIcon className={styles.icon} />
-									<input className='w-full outline-none' style={{ backgroundColor: 'transparent' }} placeholder='خالد محمد' type='text' />
+									<input value={personInfo?.name} onChange={(e)=>{setPersonInfo({...personInfo,name:e.target.value})}} className='w-full outline-none' style={{ backgroundColor: 'transparent' }} placeholder='خالد محمد' type='text' />
 								</div>
 							</div>
 							<div className='flex md:flex-row flex-col md:items-center items-start gap-2'>
 								<label className='md:text-[18px] text-[16px] w-[315px]'>اسم المستخدم</label>
 								<div className='w-[555px] md:h-[56px] h-[44px] max-w-full py-4 px-5 rounded-md flex flex-row items-center justify-between' style={{ backgroundColor: '#EFF0F0', border: '1px solid #F0F0F0' }}>
 									<UserIcon className={styles.icon} />
-									<input className='w-full outline-none' style={{ backgroundColor: 'transparent' }} placeholder='K22' type='text' />
+									<input value={personInfo?.user_name} onChange={(e)=>{setPersonInfo({...personInfo,user_name:e.target.value})}} className='w-full outline-none' style={{ backgroundColor: 'transparent' }} placeholder='K22' type='text' />
 								</div>
 							</div>
 							<div className='flex md:flex-row flex-col md:items-center items-start gap-2'>
 								<label className='md:text-[18px] text-[16px] w-[315px]'>البريد الإلكتروني</label>
 								<div className='w-[555px] md:h-[56px] h-[44px] max-w-full py-4 px-5 rounded-md flex flex-row items-center justify-between' style={{ backgroundColor: '#EFF0F0', border: '1px solid #F0F0F0' }}>
 									<EmailIcon className={styles.icon} />
-									<input className='w-full outline-none' style={{ backgroundColor: 'transparent' }} placeholder='khaled@gmail.com' type='email' />
+									<input value={personInfo?.email} onChange={(e)=>{setPersonInfo({...personInfo,email:e.target.value})}} className='w-full outline-none' style={{ backgroundColor: 'transparent' }} placeholder='khaled@gmail.com' type='email' />
 								</div>
 							</div>
 							<div className='flex md:flex-row flex-col md:items-center items-start gap-2'>
 								<label className='md:text-[18px] text-[16px] w-[315px]'>كلمة المرور</label>
 								<div className='w-[555px] md:h-[56px] h-[44px] max-w-full py-4 px-5 rounded-md flex flex-row items-center justify-between' style={{ backgroundColor: '#EFF0F0', border: '1px solid #F0F0F0' }}>
-									<input className='w-full outline-none' style={{ backgroundColor: 'transparent' }} value='12345678' type={showPassword ? 'text' : 'password'} />
+									<input value={personInfo?.password} onChange={(e)=>{setPersonInfo({...personInfo,password:e.target.value})}} className='w-full outline-none' style={{ backgroundColor: 'transparent' }} type={showPassword ? 'text' : 'password'} />
 									<Password className={styles.password} onClick={() => setShowPassword(!showPassword)} />
 								</div>
 							</div>
 							<div className='flex md:flex-row flex-col md:items-center items-start gap-2'>
 								<label className='md:text-[18px] text-[16px] w-[315px]'>الدولة</label>
-								<div className='w-[555px] md:h-[56px] h-[44px] max-w-full py-4 px-5 rounded-md outline-none flex items-center' style={{ backgroundColor: '#EFF0F0', border: '1px solid #F0F0F0' }}>
-									<p style={{ color: '#011723', fontSize: '18px' }}>المملكة العربية السعودية</p>
-								</div>
-							</div>
-							<div className='flex md:flex-row flex-col md:items-center items-start gap-2'>
-								<label className='md:text-[18px] text-[16px] w-[315px]'>المدينة</label>
 								<FormControl className='w-[555px] md:h-[56px] h-[44px] max-w-full'>
 									<Select
 										className={styles.select}
-										value={ownerCity}
-										onChange={(e) => setOwerCity(e.target.value)}
+										value={personInfo?.user_country_id} 
+										onChange={(e)=>{setPersonInfo({...personInfo,user_country_id:e.target.value})}}
 										displayEmpty
 										IconComponent={(props) => <Arrow fill='#242424' {...props} />}
 										inputProps={{ 'aria-label': 'Without label' }}
 										renderValue={(selected) => {
-											if (ownerCity === '') {
-												return <h2>اختر المدينة</h2>;
+											if (personInfo?.user_country_id === '') {
+												return <h2>اختر الدولة</h2>;
 											}
-											return selected;
+											const result = countryList?.data?.countries?.filter((item)=>item?.id === parseInt(selected));
+											return result[0]?.name;
 										}}
 										sx={{
 											height: '3.5rem',
@@ -420,7 +499,7 @@ const AddNewMarket = ({ cancel }) => {
 											},
 										}}
 									>
-										{cities.map((item, idx) => {
+										{countryList?.data?.countries?.map((item, idx) => {
 											return (
 												<MenuItem
 													key={idx}
@@ -430,9 +509,55 @@ const AddNewMarket = ({ cancel }) => {
 														height: '3rem',
 														'&:hover': {},
 													}}
-													value={`${item}`}
+													value={`${item?.id}`}
 												>
-													{item}
+													{item?.name}
+												</MenuItem>
+											);
+										})}
+									</Select>
+								</FormControl>
+							</div>
+							<div className='flex md:flex-row flex-col md:items-center items-start gap-2'>
+								<label className='md:text-[18px] text-[16px] w-[315px]'>المدينة</label>
+								<FormControl className='w-[555px] md:h-[56px] h-[44px] max-w-full'>
+									<Select
+										className={styles.select}
+										value={personInfo?.user_city_id} 
+										onChange={(e)=>{setPersonInfo({...personInfo,user_city_id:e.target.value})}}
+										displayEmpty
+										IconComponent={(props) => <Arrow fill='#242424' {...props} />}
+										inputProps={{ 'aria-label': 'Without label' }}
+										renderValue={(selected) => {
+											if (personInfo?.user_city_id === '') {
+												return <h2>اختر المدينة</h2>;
+											}
+											const result = citiesList?.data?.cities?.filter((item)=>item?.id === parseInt(selected));
+											return result[0]?.name;
+										}}
+										sx={{
+											height: '3.5rem',
+											backgroundColor: '#EFF0F0',
+											border: '1px solid #F0F0F0',
+											borderRadius: '8px',
+											'& .MuiOutlinedInput-notchedOutline': {
+												border: 'none',
+											},
+										}}
+									>
+										{citiesList?.data?.cities?.map((item, idx) => {
+											return (
+												<MenuItem
+													key={idx}
+													className='souq_storge_category_filter_items'
+													sx={{
+														backgroundColor: '#EFF9FF',
+														height: '3rem',
+														'&:hover': {},
+													}}
+													value={`${item?.id}`}
+												>
+													{item?.name}
 												</MenuItem>
 											);
 										})}
@@ -444,14 +569,14 @@ const AddNewMarket = ({ cancel }) => {
 								<div className='w-[555px] md:h-[56px] h-[44px] max-w-full py-4 px-5 rounded-md flex flex-row items-center justify-between' style={{ backgroundColor: '#EFF0F0', border: '1px solid #F0F0F0' }}>
 									<div className='flex flex-row items-center'>
 										<PhoneIcon className={styles.icon} />
-										<input className='w-full outline-none' style={{ backgroundColor: 'transparent' }} placeholder='5419515123' type='text' />
+										<input value={personInfo?.userphonenumber} onChange={(e)=>{setPersonInfo({...personInfo,userphonenumber:e.target.value})}} className='w-full outline-none' style={{ backgroundColor: 'transparent' }} placeholder='5419515123' type='text' />
 									</div>
 									<p style={{ fontSize: '18px', color: '#011723' }}>966</p>
 								</div>
 							</div>
 							<div className='flex md:flex-row flex-col md:items-center items-start gap-2'>
 								<h2 className='md:text-[18px] text-[16px] w-[315px]'>الصورة الشخصية</h2>
-								<ImageUploading value={images} onChange={onChange} maxNumber={maxNumber} dataURLKey='data_url' acceptType={['jpg', 'png', 'jpeg']}>
+								<ImageUploading value={images} onChange={onChange} maxNumber={1} dataURLKey='data_url' acceptType={['jpg', 'png', 'jpeg']}>
 									{({ imageList, onImageUpload, dragProps }) => (
 										// write your building UI
 										<div className='w-[555px] md:h-[56px] h-[44px] max-w-full'>
@@ -501,16 +626,17 @@ const AddNewMarket = ({ cancel }) => {
 								<FormControl className='w-[555px] md:h-[56px] h-[44px] max-w-full'>
 									<Select
 										className={styles.select}
-										value={conditionsSelected}
-										onChange={(e) => setConditionsSelected(e.target.value)}
+										value={personInfo?.status} 
+										onChange={(e)=>{setPersonInfo({...personInfo,status:e.target.value})}}
 										displayEmpty
 										IconComponent={(props) => <Arrow fill='#242424' {...props} />}
 										inputProps={{ 'aria-label': 'Without label' }}
 										renderValue={(selected) => {
-											if (conditionsSelected === '') {
+											if (personInfo?.status === '') {
 												return <h2>اختر الحالة</h2>;
 											}
-											return selected;
+											const result = conditions?.filter((item)=>item?.name_en === selected);
+											return result[0]?.name;
 										}}
 										sx={{
 											height: '3.5rem',
@@ -532,9 +658,9 @@ const AddNewMarket = ({ cancel }) => {
 														height: '3rem',
 														'&:hover': {},
 													}}
-													value={`${item}`}
+													value={`${item?.name_en}`}
 												>
-													{item}
+													{item?.name}
 												</MenuItem>
 											);
 										})}
@@ -555,11 +681,7 @@ const AddNewMarket = ({ cancel }) => {
 							style={{ backgroundColor: `rgba(2, 70, 106, 1)` }}
 							textStyle={{ color: '#EFF9FF', fontSize: '22px' }}
 							type={'normal'}
-							onClick={() => {
-								setEndActionTitle('تم انشاء متجر جديد بنجاح');
-								cancel();
-							}}
-						>
+							onClick={addMarket}>
 							حفظ واعتماد
 						</Button>
 					</div>

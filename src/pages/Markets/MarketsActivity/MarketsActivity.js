@@ -6,8 +6,10 @@ import { IoIosAdd } from 'react-icons/io';
 import MarketsActivityTable from '../../../components/MarketsPagesComp/MarketsActivity/MarketsActivityTable/MarketsActivityTable';
 import AddAnActivity from '../../../components/MarketsPagesComp/MarketsActivity/AddAnActivity/AddAnActivity';
 import EditActivity from '../../../components/MarketsPagesComp/MarketsActivity/EditActivity/EditActivity';
+import useFetch from '../../../hooks/useFetch';
 
 const MarketsActivity = () => {
+	const { fetchedData, loading, reload, setReload } = useFetch('https://backend.atlbha.com/api/Admin/activity');
 	const [showAddActivity, setShowAddActivity] = useState(false);
 	const [editProduct, setEditProduct] = useState(null);
 	return (
@@ -28,6 +30,8 @@ const MarketsActivity = () => {
 			</div>
 			{showAddActivity && (
 				<AddAnActivity
+					reload={reload}
+					setReload={setReload}
 					cancel={() => {
 						setShowAddActivity(false);
 					}}
@@ -36,6 +40,8 @@ const MarketsActivity = () => {
 			)}
 			{editProduct && (
 				<EditActivity
+					reload={reload}
+					setReload={setReload}
 					cancel={() => {
 						setEditProduct(null);
 					}}
@@ -45,6 +51,10 @@ const MarketsActivity = () => {
 			<h2 className='md:mt-12 mt-5 mb-6 text-xl font-medium'>الأنشطة المضافة</h2>
 			<div dir='ltr'>
 				<MarketsActivityTable
+					fetchedData={fetchedData}
+					loading={loading}
+					reload={reload}
+					setReload={setReload}
 					editProduct={(item) => {
 						setEditProduct(item);
 					}}

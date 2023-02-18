@@ -7,11 +7,11 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { IoIosArrowDown } from "react-icons/io";
 
-const IncreaseRateChart = () => {
+const IncreaseRateChart = ({ chartInfo,getYear}) => {
   const [year, setYear] = React.useState(new Date().getFullYear());
-
   const handleChange = (event) => {
     setYear(event.target.value);
+    getYear(event.target.value);
   };
   const array = [];
   const thisYear = new Date().getFullYear();
@@ -87,7 +87,7 @@ const IncreaseRateChart = () => {
           </FormControl>
         </Box>
       </div>
-      <IncreaseRateChartPiece></IncreaseRateChartPiece>
+      <IncreaseRateChartPiece chartInfo={chartInfo} />
     </div>
   );
 };

@@ -14,7 +14,6 @@ import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import Switch from '@mui/material/Switch';
 import { visuallyHidden } from '@mui/utils';
-import { Gift } from '../../../../assets/Icons/index';
 import { BsStarFill, BsStarHalf } from 'react-icons/bs';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -24,32 +23,9 @@ import { ReactComponent as BsTrash } from '../../../../assets/Icons/icon-24-dele
 import { MdOutlineKeyboardArrowDown, MdOutlineArrowBackIosNew, MdOutlineArrowForwardIos } from 'react-icons/md';
 import { ReactComponent as SortIcon } from '../../../../assets/Icons/icon-24-sort.svg';
 import { NotificationContext } from '../../../../store/NotificationProvider';
-
-function createData(id, name, activity, opened, daysLeft, rate) {
-	return {
-		id,
-		name,
-		activity,
-		opened,
-		daysLeft,
-		rate,
-	};
-}
-
-const rows = [
-	createData(1,'أمازون', 'هدايا وألعاب', true, 90, 4.3),
-	createData(2,'صحتى', 'مستلزمات طبية', false, 67, 2.2),
-	createData(3,'تسعة', 'الكترونيات', false, 7, 4.3, 2.2),
-	createData(4,'ماركت14', 'هدايا وألعاب', true, 7, 2.2),
-	createData(5,'ماركت13', 'مستلزمات طبية', false, 75, 4.3),
-	createData(6,'ماركت12', 'الكترونيات', false, 5, 2.2),
-	createData(7,'ماركت11', 'هدايا وألعاب', true, 75, 4.3),
-	createData(8,'ماركت10', 'مستلزمات طبية', false, 75, 2.2),
-	createData(9,'ماركت9', 'الكترونيات', false, 7, 4.3),
-	createData(10,'ماركت6', 'هدايا وألعاب', true, 75, 2.2),
-	createData(11,'ماركت5', 'مستلزمات طبية', false, 75, 4.3),
-
-];
+import Context from '../../../../store/context';
+import CircularLoading from '../../../../UI/CircularLoading/CircularLoading';
+import axios from "axios";
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
@@ -68,15 +44,15 @@ function getComparator(order, orderBy) {
 // This method is created for cross-browser compatibility, if you don't
 // need to support IE11, you can use Array.prototype.sort() directly
 function stableSort(array, comparator) {
-	const stabilizedThis = array.map((el, id) => [el, id]);
-	stabilizedThis.sort((a, b) => {
+	const stabilizedThis = array?.map((el, id) => [el, id]);
+	stabilizedThis?.sort((a, b) => {
 		const order = comparator(a[0], b[0]);
 		if (order !== 0) {
 			return order;
 		}
 		return a[1] - b[1];
 	});
-	return stabilizedThis.map((el) => el[0]);
+	return stabilizedThis?.map((el) => el[0]);
 }
 
 const headCells = [
@@ -121,7 +97,7 @@ const headCells = [
 		label: 'اسم المتجر',
 	},
 	{
-		id: 'name',
+		id: 'number',
 		numeric: true,
 		disablePadding: false,
 		label: 'م',
@@ -147,7 +123,7 @@ function EnhancedTableHead(props) {
 						sx={{
 							width: headCell.width ? headCell.width : 'auto',
 							color: '#02466A',
-							whiteSpace:'nowrap'
+							whiteSpace: 'nowrap'
 						}}
 					>
 						{headCell.sort && (
@@ -188,8 +164,8 @@ EnhancedTableHead.propTypes = {
 function EnhancedTableToolbar(props) {
 	const { numSelected, rowCount, onSelectAllClick } = props;
 	const NotificationStore = useContext(NotificationContext);
-	const { setNotificationTitle,setActionTitle } = NotificationStore;
-	
+	const { setNotificationTitle, setActionTitle } = NotificationStore;
+
 	return (
 		<Toolbar
 			sx={{
@@ -205,13 +181,13 @@ function EnhancedTableToolbar(props) {
 		>
 			<div className='fcc gap-2 px-4 rounded-full' style={{ backgroundColor: 'rgba(255, 159, 26, 0.04)' }}>
 				{numSelected > 0 && (
-					<div 
-						className='fcc gap-4 px-4 rounded-full' 
+					<div
+						className='fcc gap-4 px-4 rounded-full'
 						style={{ minWidth: '114px', backgroundColor: '#FF9F1A0A' }}
-						onClick={()=>{
+						onClick={() => {
 							setNotificationTitle('سيتم إيقاف تنشيط جميع المتاجر التي قمت بتحديدها');
 							setActionTitle('تم إيقاف تنشيط المتاجر بنجاح');
-						}} 
+						}}
 					>
 						<h2 className={'font-medium whitespace-nowrap'} style={{ color: '#FF9F1A' }}>
 							نشط/ غير نشط
@@ -263,15 +239,18 @@ EnhancedTableToolbar.propTypes = {
 	numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable() {
+export default function EnhancedTable({ fetchedData, loading, reload, setReload }) {
+	const token = localStorage.getItem('token');
 	const [order, setOrder] = React.useState('asc');
 	const [orderBy, setOrderBy] = React.useState('calories');
 	const [selected, setSelected] = React.useState([]);
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
-	const [data, setData] = React.useState(rows);
+	const [data, setData] = React.useState(fetchedData?.data?.stores || []);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
+	const contextStore = useContext(Context);
+	const { setEndActionTitle } = contextStore;
 
 	const rowsPerPagesCount = [10, 20, 30, 50, 100];
 	const handleRowsClick = (event) => {
@@ -289,19 +268,10 @@ export default function EnhancedTable() {
 
 	const handleSelectAllClick = (event) => {
 		if (event.target.checked) {
-			const newSelected = data.map((n) => n.id);
+			const newSelected = fetchedData?.data?.stores?.map((n) => n.id);
 			setSelected(newSelected);
 			return;
 		}
-		setSelected([]);
-	};
-	const deleteItems = () => {
-		const array = [...data];
-		selected.forEach((item, id) => {
-			const findIndex = array.findIndex((i) => item === i.id);
-			array.splice(findIndex, 1);
-		});
-		setData(array);
 		setSelected([]);
 	};
 
@@ -322,7 +292,7 @@ export default function EnhancedTable() {
 		setSelected(newSelected);
 	};
 
-	
+
 	const handleChangeRowsPerPage = (event) => {
 		setRowsPerPage(parseInt(event.target.value, 10));
 		setPage(0);
@@ -331,164 +301,203 @@ export default function EnhancedTable() {
 	const isSelected = (name) => selected.indexOf(name) !== -1;
 
 	// Avoid a layout jump when reaching the last page with empty rows.
-	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - fetchedData?.data?.stores?.length) : 0;
 
 	const allRows = () => {
-		const num = Math.ceil(data.length / rowsPerPage);
+		const num = Math.ceil(fetchedData?.data?.stores?.length / rowsPerPage);
 		const arr = [];
 		for (let index = 0; index < num; index++) {
 			arr.push(index + 1);
 		}
 		return arr;
 	};
+
+	const changeStoreStatus = (id) => {
+		axios
+			.get(`https://backend.atlbha.com/api/Admin/changeStoreStatus?id[]=${id}`, {
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+					setReload(!reload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+					setReload(!reload);
+				}
+			});
+	}
+
+	const deleteStore = (id) => {
+		axios
+			.delete(`https://backend.atlbha.com/api/Admin/store/${id}`, {
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+					setReload(!reload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+					setReload(!reload);
+				}
+			});
+	}
+
+
 	return (
 		<Box sx={{ width: '100%' }}>
-			<Paper sx={{ width: '100%', mb: 2,boxShadow:'none' }}>
-				<EnhancedTableToolbar onClick={deleteItems} numSelected={selected.length} rowCount={data.length} onSelectAllClick={handleSelectAllClick} />
+			<Paper sx={{ width: '100%', mb: 2, boxShadow: 'none' }}>
+				<EnhancedTableToolbar numSelected={selected?.length} rowCount={fetchedData?.data?.stores?.length} onSelectAllClick={handleSelectAllClick} />
 				<TableContainer>
 					<Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={'medium'}>
-						<EnhancedTableHead numSelected={selected.length} order={order} orderBy={orderBy} onSelectAllClick={handleSelectAllClick} onRequestSort={handleRequestSort} rowCount={data.length} />
+						<EnhancedTableHead numSelected={selected?.length} order={order} orderBy={orderBy} onSelectAllClick={handleSelectAllClick} onRequestSort={handleRequestSort} rowCount={fetchedData?.data?.stores?.length} />
 						<TableBody>
-					
-							{stableSort(data, getComparator(order, orderBy))
-								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-								.map((row, index) => {
-									const isItemSelected = isSelected(row.id);
-									const labelId = `enhanced-table-checkbox-${index}`;
+							{loading ?
+								(
+									<TableRow>
+										<TableCell colSpan={7}>
+											<CircularLoading />
+										</TableCell>
+									</TableRow>
+								)
+								:
+								(
+									<>
+										{stableSort(fetchedData?.data?.stores, getComparator(order, orderBy))
+											?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+											.map((row, index) => {
+												const isItemSelected = isSelected(row.id);
+												const labelId = `enhanced-table-checkbox-${index}`;
 
-									return (
-										<TableRow
-											hover
-											
-											role='checkbox'
-											aria-checked={isItemSelected}
-											tabIndex={-1}
-											key={row.id}
-											selected={isItemSelected}
-										>
-											<TableCell component='th' id={labelId} scope='row'>
-												<div className='flex items-center gap-2'>
-													<BsTrash
-														onClick={() => {
-															const findIndex = data.findIndex((item) => item.id === row.id);
-															const arr = [...data];
-															arr.splice(findIndex, 1);
-															setData(arr);
-														}}
-														style={{
-															cursor: 'pointer',
-															color: 'red',
-															fontSize: '1rem',
-														}}
-													></BsTrash>
-													<Switch
-														onChange={() => {
-															const findIndex = data.findIndex((item) => item.id === row.id);
-															const arr = [...data];
-															arr[findIndex].opened = !arr[findIndex].opened;
-															setData(arr);
-														}}
-													
-														sx={{
-															width: '50px',
-															'& .MuiSwitch-thumb': {
-																width: '11px',
-																height: '11px',
-															},
-															'& .MuiSwitch-switchBase': {
-																padding: '6px',
-																top: '9px',
-																left: '9px',
-															},
-															'& .MuiSwitch-switchBase.Mui-checked': {
-																left: '-1px',
-															},
-															'& .Mui-checked .MuiSwitch-thumb': {
-																backgroundColor: '#FFFFFF',
-															},
-															'& .MuiSwitch-track': {
-																height: '16px',
-																borderRadius: '20px',
-															},
-															'&.MuiSwitch-root .Mui-checked+.MuiSwitch-track': {
-																backgroundColor: '#3AE374',
+												return (
+													<TableRow
+														hover
 
-																opacity: 1,
-															},
-														}}
-														checked={row.opened}
-													/>
-												</div>
-											</TableCell>
-											<TableCell align='right'>
-												<div >
-													<h2 dir='rtl' className='font-normal text-lg '>
-														<span className='ml-1'>{row.daysLeft}</span>
-														<span>يوم</span>
-													</h2>
-												</div>
-											</TableCell>
-											<TableCell align='right'>
-												<div className='flex ml-auto justify-between items-center py-1 px-3 w-16 h-6 rounded-md' style={{ backgroundColor: 'rgb(164,161,251)' }}>
-													<h2 className='font-normal text-lg' style={{ color: '#fff' }}>
-														{row.rate}
-													</h2>
-													{row.rate > 3 ? <BsStarFill color='#fff' /> : <BsStarHalf color='#fff' />}
-												</div>
-											</TableCell>
+														role='checkbox'
+														aria-checked={isItemSelected}
+														tabIndex={-1}
+														key={row.id}
+														selected={isItemSelected}
+													>
+														<TableCell component='th' id={labelId} scope='row'>
+															<div className='flex items-center gap-2'>
+																<BsTrash
+																	onClick={() => deleteStore(row?.id)}
+																	style={{
+																		cursor: 'pointer',
+																		color: 'red',
+																		fontSize: '1rem',
+																	}}
+																></BsTrash>
+																<Switch
+																	onChange={() => changeStoreStatus(row?.id)}
+																	sx={{
+																		width: '50px',
+																		'& .MuiSwitch-thumb': {
+																			width: '11px',
+																			height: '11px',
+																		},
+																		'& .MuiSwitch-switchBase': {
+																			padding: '6px',
+																			top: '9px',
+																			left: '9px',
+																		},
+																		'& .MuiSwitch-switchBase.Mui-checked': {
+																			left: '-1px',
+																		},
+																		'& .Mui-checked .MuiSwitch-thumb': {
+																			backgroundColor: '#FFFFFF',
+																		},
+																		'& .MuiSwitch-track': {
+																			height: '16px',
+																			borderRadius: '20px',
+																		},
+																		'&.MuiSwitch-root .Mui-checked+.MuiSwitch-track': {
+																			backgroundColor: '#3AE374',
 
-											<TableCell align='center'>
-												<div
-													className='w-20 h-full py-1 rounded-xl'
-													style={{
-														backgroundColor: row.opened ? 'rgba(58, 227, 116, 0.4)' : '#D3D3D3',
-														marginLeft: 'auto',
-													}}
-												>
-													<h2>{row.opened ? 'نشط' : 'غير نشط'}</h2>
-												</div>
-											</TableCell>
-											<TableCell align='right' sx={{ display: 'flex', gap: '0.5rem', p: '24px 0' }}>
-												<img src={Gift} alt='' />
-												<h2 className='font-normal text-lg whitespace-nowrap'>{row.activity}</h2>
-											</TableCell>
-											<TableCell align='right'>
-												<h2 className='inline font-normal text-lg'>{row.name}</h2>
-											</TableCell>
-											<TableCell align='right' className='font-normal text-lg '>
-												{(index + 1).toLocaleString('en-US', {
-													minimumIntegerDigits: 2,
-													useGrouping: false,
-												})}
-											</TableCell>
-											<TableCell padding='none' align={'right'}>
-												<Checkbox
-													checkedIcon={<CheckedSquare />}
-													sx={{
-														color: '#1DBBBE',
-														'& .MuiSvgIcon-root': {
-															color: '#ADB5B9',
-														},
-													}}
-													checked={isItemSelected}
-													onClick={(event) => handleClick(event, row.id)}
-													inputProps={{
-														'aria-labelledby': labelId,
-													}}
-												/>
-											</TableCell>
-										</TableRow>
-									);
-								})}
-							{emptyRows > 0 && (
-								<TableRow
-									style={{
-										height: 53 * emptyRows,
-									}}
-								>
-									<TableCell colSpan={6} />
-								</TableRow>
-							)}
+																			opacity: 1,
+																		},
+																	}}
+																	checked={row?.status === 'active' ? true : false}
+																/>
+															</div>
+														</TableCell>
+														<TableCell align='right'>
+															<div >
+																<h2 dir='rtl' className='font-normal text-lg '>
+																	<span className='ml-1'>{row?.left}</span>
+																</h2>
+															</div>
+														</TableCell>
+														<TableCell align='right'>
+															<div className='flex ml-auto justify-between items-center py-1 px-3 w-16 h-6 rounded-md' style={{ backgroundColor: 'rgb(164,161,251)' }}>
+																<h2 className='font-normal text-lg' style={{ color: '#fff' }}>
+																	{row?.rate}
+																</h2>
+																{row?.rate > 3 ? <BsStarFill color='#fff' /> : <BsStarHalf color='#fff' />}
+															</div>
+														</TableCell>
+
+														<TableCell align='center'>
+															<div
+																className='w-20 h-full py-1 rounded-xl'
+																style={{
+																	backgroundColor: row.status==='active' ? 'rgba(58, 227, 116, 0.4)' : '#D3D3D3',
+																	marginLeft: 'auto',
+																}}
+															>
+																<h2>{row?.status==='active' ? 'نشط' : 'غير نشط'}</h2>
+															</div>
+														</TableCell>
+														<TableCell align='right' sx={{ display: 'flex', gap: '0.5rem', p: '24px 0' }}>
+															<h2 className='font-normal text-lg whitespace-nowrap'>{row?.activity?.[0]?.name}</h2>
+														</TableCell>
+														<TableCell align='right'>
+															<h2 className='inline font-normal text-lg'>{row?.store_name}</h2>
+														</TableCell>
+														<TableCell align='right' className='font-normal text-lg '>
+															{(index + 1).toLocaleString('en-US', {
+																minimumIntegerDigits: 2,
+																useGrouping: false,
+															})}
+														</TableCell>
+														<TableCell padding='none' align={'right'}>
+															<Checkbox
+																checkedIcon={<CheckedSquare />}
+																sx={{
+																	color: '#1DBBBE',
+																	'& .MuiSvgIcon-root': {
+																		color: '#ADB5B9',
+																	},
+																}}
+																checked={isItemSelected}
+																onClick={(event) => handleClick(event, row?.id)}
+																inputProps={{
+																	'aria-labelledby': labelId,
+																}}
+															/>
+														</TableCell>
+													</TableRow>
+												);
+											})}
+										{emptyRows > 0 && (
+											<TableRow
+												style={{
+													height: 53 * emptyRows,
+												}}
+											>
+												<TableCell colSpan={6} />
+											</TableRow>
+										)}
+									</>
+								)}
 						</TableBody>
 					</Table>
 				</TableContainer>

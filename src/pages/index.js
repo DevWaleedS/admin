@@ -1,3 +1,6 @@
+// Login
+export { default as Login } from "./Login/Login";
+// MainPage
 export { default as MainPage } from "./MainPage/MainPage";
 // Souq
 export { default as SouqOtlobha } from "./Souq/SouqOtlobha/SouqOtlobha";

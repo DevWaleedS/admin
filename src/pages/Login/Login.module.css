@@ -1,0 +1,28 @@
+.login_page{
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f5fd;
+    padding: 20px;
+}
+.input{
+    width: 100%;
+    color: #000000;
+    border: 1px solid #dddddd;
+    padding: 8px 20px;
+    outline: none;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+.input::placeholder{
+    color: #797979;
+}
+.input:hover{
+    border-color: #02466A;
+}
+input:focus{
+    border-color: #02466A;
+}

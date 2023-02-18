@@ -8,82 +8,70 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const data = [
-  {
-    name: "Jan",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: "Feb",
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: "Mar",
-    uv: 2000,
-    pv: 800,
-    amt: 2290,
-  },
-  {
-    name: "Apr",
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: "May",
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: "Jun",
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: "Jul",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: "Aug",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: "Sep",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: "Oct",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: "Nov",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: "Dec",
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
+const IncreaseRateChartPiece = ({chartInfo}) => {
+  const data = [
+    {
+      name: "Jan",
+      uv: chartInfo?.[1]?.active,
+      pv: chartInfo?.[1]?.not_active,
+    },
+    {
+      name: "Feb",
+      uv: chartInfo?.[2]?.active,
+      pv: chartInfo?.[2]?.not_active,
+    },
+    {
+      name: "Mar",
+      uv: chartInfo?.[3]?.active,
+      pv: chartInfo?.[3]?.not_active,
+    },
+    {
+      name: "Apr",
+      uv: chartInfo?.[4]?.active,
+      pv: chartInfo?.[4]?.not_active,
+    },
+    {
+      name: "May",
+      uv: chartInfo?.[5]?.active,
+      pv: chartInfo?.[5]?.not_active,
+    },
+    {
+      name: "Jun",
+      uv: chartInfo?.[6]?.active,
+      pv: chartInfo?.[6]?.not_active,
+    },
+    {
+      name: "Jul",
+      uv: chartInfo?.[7]?.active,
+      pv: chartInfo?.[7]?.not_active,
+    },
+    {
+      name: "Aug",
+      uv: chartInfo?.[8]?.active,
+      pv: chartInfo?.[8]?.not_active,
+    },
+    {
+      name: "Sep",
+      uv: chartInfo?.[9]?.active,
+      pv: chartInfo?.[9]?.not_active,
+    },
+    {
+      name: "Oct",
+      uv: chartInfo?.[10]?.active,
+      pv: chartInfo?.[10]?.not_active,    
+    },
+    {
+      name: "Nov",
+      uv: chartInfo?.[11]?.active,
+      pv: chartInfo?.[11]?.not_active,
+    },
+    {
+      name: "Dec",
+      uv: chartInfo?.[12]?.active,
+      pv: chartInfo?.[12]?.not_active,
+    },
+  ];
 
-const IncreaseRateChartPiece = () => {
   return (
     <div className="md:mt-[2.5rem] mt-1" style={{ width: "100%", height: 200 }}>
       <ResponsiveContainer>
@@ -105,7 +93,7 @@ const IncreaseRateChartPiece = () => {
             orientation="left"
             tickMargin={30}
             tickFormatter={(e) => {
-              return `$${e / 1000}k`;
+              return `${e > 999 ? `${e * 1}K` : e}`;
             }}
           />
           <YAxis
@@ -115,12 +103,12 @@ const IncreaseRateChartPiece = () => {
             orientation="right"
             tickMargin={30}
             tickFormatter={(e) => {
-              return `$${e / 1000}k`;
+              return `${e > 999 ? `${e * 1}K` : e}`;
             }}
           />
 
-          <Bar yAxisId="left" dataKey="pv" fill="#B6BE34" barSize={6} />
-          <Bar yAxisId="right" dataKey="uv" fill="#b6be3480" barSize={6} />
+          <Bar yAxisId="left" dataKey="uv" fill="#B6BE34" barSize={6} />
+          <Bar yAxisId="right" dataKey="pv" fill="#b6be3480" barSize={6} />
         </BarChart>
       </ResponsiveContainer>
     </div>

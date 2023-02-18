@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import styles from "./TraderAlert.module.css";
 import Button from "../../../../UI/Button/Button";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import { FiSend } from "react-icons/fi";
+import Context from '../../../../store/context';
+import axios from "axios";
+
 const BackDrop = ({ onClick }) => {
   return (
     <div
@@ -14,7 +17,10 @@ const BackDrop = ({ onClick }) => {
   );
 };
 
-const TraderAlert = ({ cancel, traderPackageDetails }) => {
+const TraderAlert = ({ cancel, traderPackageDetails,reload,setReload }) => {
+  const token = localStorage.getItem('token');
+	const contextStore = useContext(Context);
+  const { setEndActionTitle } = contextStore;
   const [subject,setSubject] = useState("");
   const [description, setDescription] = useState({
     htmlValue: "<h1></h1>\n",
@@ -25,13 +31,40 @@ const TraderAlert = ({ cancel, traderPackageDetails }) => {
     const editorStateInHtml = draftToHtml(
       convertToRaw(editorValue.getCurrentContent())
     );
-    console.log(editorStateInHtml);
-
     setDescription({
       htmlValue: editorStateInHtml,
       editorState: editorValue,
     });
   };
+
+  const addProductNote = () => {
+		const data = {
+			product_id: traderPackageDetails?.id,
+      store_id:traderPackageDetails?.store?.id,
+      subject:subject,
+      details:description?.htmlValue
+		};
+    console.log(data);
+		// axios
+		// 	.post("https://backend.atlbha.com/api/Admin/addProductNote", data, {
+		// 		headers: {
+		// 			"Content-Type": "application/json",
+		// 			Authorization: `Bearer ${token}`,
+		// 		},
+		// 	})
+		// 	.then((res) => {
+		// 		if (res?.data?.success === true && res?.data?.status === 200) {
+		// 			setEndActionTitle(res?.data?.message?.ar);
+		// 			cancel();
+		// 			setReload(!reload);
+		// 		} else {
+		// 			setEndActionTitle(res?.data?.message?.ar);
+		// 			cancel();
+		// 			setReload(!reload);
+		// 		}
+		// 	});
+	}
+
   return (
     <>
       <BackDrop onClick={cancel} />
@@ -53,7 +86,7 @@ const TraderAlert = ({ cancel, traderPackageDetails }) => {
             <h2 style={{ color:'#011723' }} className="md:text-[20px] text-[16px] font-medium">
             إلى
             </h2>
-            <span style={{ color:'#67747B' }} className="md:text-[20px] text-[16px] font-medium">{traderPackageDetails.store}</span>
+            <span style={{ color:'#67747B' }} className="md:text-[20px] text-[16px] font-medium">{traderPackageDetails?.store?.store_name}</span>
           </div>
           <textarea
             style={{ color:'#67747B'}}
@@ -93,7 +126,7 @@ const TraderAlert = ({ cancel, traderPackageDetails }) => {
           </div>
           <div className="flex gap-5 justify-center">
             <Button
-              onClick={cancel}
+              onClick={addProductNote}
               type={"normal"}
               className={"md:text-[20px] text-[18px] text-center mt-12"}
               style={{ backgroundColor: "#02466A" }}
