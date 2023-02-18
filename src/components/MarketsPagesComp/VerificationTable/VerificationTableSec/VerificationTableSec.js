@@ -33,42 +33,13 @@ import {
   Stationery
 } from "../../../../assets/Icons/index";
 import { NotificationContext } from "../../../../store/NotificationProvider";
+import useFetch from '../../../../hooks/useFetch';
+import CircularLoading from '../../../../UI/CircularLoading/CircularLoading';
 
 const newRequest = { title: "طلب جديد", class: "#1DBBBE66" };
 const inProgress = { title: "جاري التوثيق", class: "#FFDD0066" };
 const finished = { title: "تم التوثيق", class: "#3AE374" };
 
-function createData(id,store,activity,opened,date) {
-  return {
-    id,
-    store,
-    activity,
-    opened,
-    date,
-  };
-}
-
-const rows = [
-  createData(1,"صحتي","مستلزمات طبية",newRequest,"21/12/2022"),
-  createData(2,"أمازون","هدايا وألعاب",inProgress,"20/12/2022"),
-  createData(3,"نون","هدايا وألعاب",finished,"18/12/2022"),
-  createData(4,"صحتي","مستلزمات طبية",inProgress,"21/12/2022"),
-  createData(5,"أمازون","هدايا وألعاب",finished,"20/12/2022"),
-  createData(6,"نون","هدايا وألعاب",finished,"18/12/2022"),
-  createData(7,"صحتي","مستلزمات طبية",newRequest,"21/12/2022"),
-  createData(8,"أمازون","هدايا وألعاب",inProgress,"20/12/2022"),
-  createData(9,"نون","هدايا وألعاب",finished,"18/12/2022"),
-  createData(10,"صحتي","مستلزمات طبية",newRequest,"21/12/2022"),
-  createData(11,"أمازون","هدايا وألعاب",inProgress,"20/12/2022"),
-  createData(12,"نون","هدايا وألعاب",finished,"18/12/2022"),
-  createData(13,"أمازون","هدايا وألعاب",newRequest,"18/12/2022"),
-  createData(14,"صحتي","مستلزمات طبية",inProgress,"21/12/2022"),
-  createData(15,"أمازون","هدايا وألعاب",finished,"20/12/2022"),
-  createData(16,"نون","هدايا وألعاب",finished,"18/12/2022"),
-  createData(17,"صحتي","مستلزمات طبية",newRequest,"21/12/2022"),
-  createData(18,"أمازون","هدايا وألعاب",inProgress,"20/12/2022"),
-  createData(19,"نون","هدايا وألعاب",finished,"18/12/2022"),
-];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -89,15 +60,15 @@ function getComparator(order, orderBy) {
 // This method is created for cross-browser compatibility, if you don't
 // need to support IE11, you can use Array.prototype.sort() directly
 function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
+  const stabilizedThis = array?.map((el, index) => [el, index]);
+  stabilizedThis?.sort((a, b) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) {
       return order;
     }
     return a[1] - b[1];
   });
-  return stabilizedThis.map((el) => el[0]);
+  return stabilizedThis?.map((el) => el[0]);
 }
 
 const headCells = [
@@ -273,12 +244,13 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function EnhancedTable({ openTraderAlert,openVerificationData,openEidtVerificationData }) {
+  const { fetchedData, loading, error } = useFetch('https://backend.atlbha.com/api/Admin/verification');
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [data, setData] = React.useState(rows);
+  const [data, setData] = React.useState(fetchedData?.data?.stores || []);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [activityAnchorEl, setActivityAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -358,7 +330,7 @@ export default function EnhancedTable({ openTraderAlert,openVerificationData,ope
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data?.length) : 0;
 
   const allRows = () => {
     const num = Math.ceil(data.length / rowsPerPage);
@@ -392,121 +364,131 @@ export default function EnhancedTable({ openTraderAlert,openVerificationData,ope
               rowCount={data.length}
             />
             <TableBody>
-              {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-                 rows.sort(getComparator(order, orderBy)).slice() */}
-              {stableSort(data, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.id);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-
-                  return (
-                    <TableRow
-                      hover
-                      //   onClick={(event) => handleClick(event, row.name)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.id}
-                      selected={isItemSelected}
-                    >
-                      <TableCell id={labelId} className="min-w-[7rem]">
-                        <div className="flex items-center gap-2">
-                          <img src={Delete} alt="delete-icon" 
-                            onClick={() => {
-                              const findIndex = data.findIndex(
-                                (item) => item.id === row.id
-                              );
-                              const arr = [...data];
-                              arr.splice(findIndex, 1);
-                              setData(arr);
-                            }}
+            {loading ?
+              (
+                <TableRow>
+                  <TableCell colSpan={6}>
+                    <CircularLoading />
+                  </TableCell>
+                </TableRow>
+              )
+              :
+              (
+                <>
+                {stableSort(fetchedData?.data?.stores, getComparator(order, orderBy))
+                  ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    const isItemSelected = isSelected(row.id);
+                    const labelId = `enhanced-table-checkbox-${index}`;
+  
+                    return (
+                      <TableRow
+                        hover
+                        //   onClick={(event) => handleClick(event, row.name)}
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={row.id}
+                        selected={isItemSelected}
+                      >
+                        <TableCell id={labelId} className="min-w-[7rem]">
+                          <div className="flex items-center gap-2">
+                            <img src={Delete} alt="delete-icon" 
+                              onClick={() => {
+                                const findIndex = data.findIndex(
+                                  (item) => item.id === row.id
+                                );
+                                const arr = [...data];
+                                arr.splice(findIndex, 1);
+                                setData(arr);
+                              }}
+                              style={{
+                                cursor: "pointer",
+                                color: "red",
+                                fontSize: "1rem",
+                              }}
+                            />
+                            <img className="cursor-pointer" src={SendNote} alt="send-note-icon" onClick={() => {openTraderAlert(row);}}/>
+                            <img className="cursor-pointer" src={EditButton} alt="edit-icon" onClick={() => {openEidtVerificationData(row);}}/>
+                          </div>
+                        </TableCell>
+                        <TableCell align="right">
+                            <h2 className="md:text-[18px] text-[16px]" style={{ color:'#4D4F5C' }}>
+                              {row.date}
+                            </h2>
+                        </TableCell>
+                        <TableCell align="center">
+                          <div
+                            className="w-24 h-full py-1 rounded-xl"
                             style={{
-                              cursor: "pointer",
-                              color: "red",
-                              fontSize: "1rem",
+                              backgroundColor: row?.verification_status,
+                              marginLeft: "auto",
+                            }}
+                          >
+                            <h2 style={{ color: '#4D4F5C',fontSize:'16px' }}>{row?.verification_status}</h2>
+                          </div>
+                        </TableCell>
+                        <TableCell align="right" className="min-w-[14rem]">
+                          <div className="flex flex-row items-center justify-end gap-3">
+                            {/*<img className="cursor-pointer" src={ListMoreCategory} alt="list-more-category" onClick={activityHandleClick}/>
+                            <Menu
+                                className={styles.activity_menu}
+                                anchorEl={activityAnchorEl}
+                                open={activityOpen}
+                                onClose={activityHandleClose}
+                            >
+                                {[1,2,3].map((_item,index)=>(
+                                <MenuItem key={index} className="flex flex-row items-center justify-center gap-2" style={{ color:'#4D4F5C' }} onClick={activityHandleClose}>
+                                    <div
+                                      className="flex flex-row items-center justify-center"
+                                      style={{ width:'30px',height:'30px',borderRadius:'50%',backgroundColor:'#8D8AD333' }}><img src={Stationery} alt="stationery-icon" /></div>
+                                      قرطاسية
+                                </MenuItem>
+                                ))}
+                                </Menu>*/}
+                            <h2 style={{ color: '#4D4F5C',fontSize:'16px' }} className="inline whitespace-nowrap">{row?.activity?.[0]?.name}</h2>
+                          </div>
+                        </TableCell>
+                        <TableCell align="right">
+                          <h2 style={{ color: '#4D4F5C',fontSize:'18px',cursor:'pointer'}} onClick={() => {openVerificationData(row);}}>{row.store_name}</h2>
+                        </TableCell>
+                        <TableCell align="right" style={{ color: '#4D4F5C',fontSize:'18px' }}>
+                          {(index + 1).toLocaleString("en-US", {
+                            minimumIntegerDigits: 2,
+                            useGrouping: false,
+                          })}
+                        </TableCell>
+                        <TableCell padding="none" align={"right"}>
+                          <Checkbox
+                            checkedIcon={<CheckedSquare />}
+                            sx={{
+                              color: "#1DBBBE",
+                              "& .MuiSvgIcon-root": {
+                                color: "#ADB5B9",
+                              },
+                            }}
+                            checked={isItemSelected}
+                            onClick={(event) => handleClick(event, row.id)}
+                            inputProps={{
+                              "aria-labelledby": labelId,
                             }}
                           />
-                          <img className="cursor-pointer" src={SendNote} alt="send-note-icon" onClick={() => {openTraderAlert(row);}}/>
-                          <img className="cursor-pointer" src={EditButton} alt="edit-icon" onClick={() => {openEidtVerificationData(row);}}/>
-                        </div>
-                      </TableCell>
-                      <TableCell align="right">
-                          <h2 className="md:text-[18px] text-[16px]" style={{ color:'#4D4F5C' }}>
-                            {row.date}
-                          </h2>
-                      </TableCell>
-                      <TableCell align="center">
-                        <div
-                          className="w-24 h-full py-1 rounded-xl"
-                          style={{
-                            backgroundColor: row.opened.class,
-                            marginLeft: "auto",
-                          }}
-                        >
-                          <h2 style={{ color: '#4D4F5C',fontSize:'16px' }}>{row.opened.title}</h2>
-                        </div>
-                      </TableCell>
-                      <TableCell align="right" className="min-w-[14rem]">
-                        <div className="flex flex-row items-center justify-end gap-3">
-                          <img className="cursor-pointer" src={ListMoreCategory} alt="list-more-category" onClick={activityHandleClick}/>
-                          <Menu
-                              className={styles.activity_menu}
-                              anchorEl={activityAnchorEl}
-                              open={activityOpen}
-                              onClose={activityHandleClose}
-                          >
-                              {[1,2,3].map((_item,index)=>(
-                              <MenuItem key={index} className="flex flex-row items-center justify-center gap-2" style={{ color:'#4D4F5C' }} onClick={activityHandleClose}>
-                                  <div
-                                    className="flex flex-row items-center justify-center"
-                                    style={{ width:'30px',height:'30px',borderRadius:'50%',backgroundColor:'#8D8AD333' }}><img src={Stationery} alt="stationery-icon" /></div>
-                                    قرطاسية
-                              </MenuItem>
-                              ))}
-                          </Menu>
-                          <h2 style={{ color: '#4D4F5C',fontSize:'16px' }} className="inline whitespace-nowrap">{row.activity}</h2>
-                          {row.activity === 'مستلزمات طبية' ? (<img src={Clinic} alt="clinic-icon" />) : (<img src={Gift} alt="gift-icon" />)}
-                          
-                        </div>
-                      </TableCell>
-                      <TableCell align="right">
-                        <h2 style={{ color: '#4D4F5C',fontSize:'18px',cursor:'pointer'}} onClick={() => {openVerificationData(row);}}>{row.store}</h2>
-                      </TableCell>
-                      <TableCell align="right" style={{ color: '#4D4F5C',fontSize:'18px' }}>
-                        {(index + 1).toLocaleString("en-US", {
-                          minimumIntegerDigits: 2,
-                          useGrouping: false,
-                        })}
-                      </TableCell>
-                      <TableCell padding="none" align={"right"}>
-                        <Checkbox
-                          checkedIcon={<CheckedSquare />}
-                          sx={{
-                            color: "#1DBBBE",
-                            "& .MuiSvgIcon-root": {
-                              color: "#ADB5B9",
-                            },
-                          }}
-                          checked={isItemSelected}
-                          onClick={(event) => handleClick(event, row.id)}
-                          inputProps={{
-                            "aria-labelledby": labelId,
-                          }}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: 53 * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                {emptyRows > 0 && (
+                  <TableRow
+                    style={{
+                      height: 53 * emptyRows,
+                    }}
+                  >
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+                </>
               )}
+              
             </TableBody>
           </Table>
         </TableContainer>

@@ -18,9 +18,10 @@ const BackDrop = () => {
 };
 const DeleteModal = ({ cancelEarly }) => {
   const NotificationProvider = useContext(NotificationContext);
-  const { notificationTitle, setNotificationTitle,actionTitle } = NotificationProvider;
+  const { notificationTitle, setNotificationTitle,actionTitle,setConfirm } = NotificationProvider;
   const contextStore = useContext(Context);
   const { setEndActionTitle } = contextStore;
+
   return (
     <>
       <BackDrop />
@@ -43,11 +44,11 @@ const DeleteModal = ({ cancelEarly }) => {
               style={{ backgroundColor: "#02466A" }}
               textStyle={{ color: "#EFF9FF", fontSize: '20px' }}
               className={"md:w-[156px] w-[135px] md:h-[56px] h-[45px] rounded-lg px-4"}
-              onClick={() => {
-                setEndActionTitle(actionTitle);
+              onClick={()=>{
                 setNotificationTitle(null);
-              }}
-            >
+                setConfirm(true);
+                setEndActionTitle(actionTitle);
+              }}>
               تأكيد
             </Button>
             <Button
@@ -57,6 +58,7 @@ const DeleteModal = ({ cancelEarly }) => {
               className={"md:w-[156px] w-[135px] md:h-[56px] h-[45px] rounded-lg px-4"}
               onClick={() => {
                 setNotificationTitle(null);
+                setConfirm(false);
               }}
             >
               الغاء

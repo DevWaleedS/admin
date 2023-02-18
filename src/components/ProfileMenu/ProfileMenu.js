@@ -1,4 +1,5 @@
 import React,{useState} from "react";
+import { useNavigate } from "react-router-dom";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import styles from "./ProfileMenu.module.css";
 import {
@@ -18,6 +19,7 @@ const BackDrop = ({ closeMenu }) => {
 };
 
 const ProfileMenu = () => {
+    const navigate = useNavigate();
     const [open,setOpen] = useState(false);
     const [user,setUser] = useState({
         name: 'خالد عبد الرحمن محمد',
@@ -30,6 +32,10 @@ const ProfileMenu = () => {
     const [showMyProfile , setShowMyProfile] = useState(false);
     const [editUser, setEditUser] = useState(false);
 
+    const Logout = ()=> {
+        localStorage.removeItem("token");
+        navigate("/login");
+    }
     return (
             <div className="relative h-full order-last md:order-first">
                     <div
@@ -73,7 +79,7 @@ const ProfileMenu = () => {
                                     }}/>
                                 )}
                             </div>
-                            <div className="flex flex-row gap-4 px-6">
+                            <div className="flex flex-row gap-4 px-6 cursor-pointer" onClick={Logout}>
                                 <img src={SignOut} alt='sign-out-icon' />
                                 <span className="whitespace-nowrap">تسجيل الخروج</span>
                             </div>

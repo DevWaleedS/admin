@@ -8,7 +8,7 @@ const BackDrop = ({ onClick }) => {
 	return <div onClick={onClick} className={`fixed opacity-5 back_drop top-0 left-0 h-full w-full bg-slate-900  z-10 `}></div>;
 };
 
-const EditActivity = ({ cancel, Product }) => {
+const EditActivity = ({ cancel, Product, reload, setReload }) => {
 	const token = localStorage.getItem('token');
 	const contextStore = useContext(Context);
 	const [showAddActivity, setShowAddActivity] = useState(false);
@@ -20,26 +20,28 @@ const EditActivity = ({ cancel, Product }) => {
 		}
 	}, [Product]);
 
-	const updateActivity = () =>{
+	const updateActivity = () => {
 		const data = {
 			name: activiyName,
 		};
 		axios
-		.put(`https://backend.atlbha.com/api/Admin/activity/${Product?.id}`, data, {
-		  headers: {
-			"Content-Type": "application/json",
-			Authorization: `Bearer ${token}`,
-		  },
-		})
-		.then((res) => {
-		  if (res?.data?.success === true && res?.data?.status===200) {
-				setEndActionTitle(res?.data?.message?.ar);
-				cancel();
-		  } else {
-				setEndActionTitle(res?.data?.message?.ar);
-				cancel();
-		  }
-		});
+			.put(`https://backend.atlbha.com/api/Admin/activity/${Product?.id}`, data, {
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setReload(!reload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setReload(!reload);
+				}
+			});
 	}
 
 	return (
@@ -53,7 +55,7 @@ const EditActivity = ({ cancel, Product }) => {
 					editProduct={Product}
 				></EditActivity>
 			)}
-			<div dir='rtl' className='fixed flex flex-col top-24 translate-x-2/4 right-2/4 z-20 md:rounded-md rounded-2xl overflow-hidden md:h-[36rem] h-[25rem]' style={{ width: '51.25rem',maxWidth:'90%' }}>
+			<div dir='rtl' className='fixed flex flex-col top-24 translate-x-2/4 right-2/4 z-20 md:rounded-md rounded-2xl overflow-hidden md:h-[36rem] h-[25rem]' style={{ width: '51.25rem', maxWidth: '90%' }}>
 				<div className='h-16 w-full flex items-center justify-between px-4' style={{ backgroundColor: '#02466A' }}>
 					<h2 className='text-slate-50 md:text-[22px] text-[18px] font-medium flex-1 text-center'>تعديل نشاط - الكترونيات   </h2>
 					<IoMdCloseCircleOutline color={'#fff'} className={'cursor-pointer w-5 h-20 '} onClick={cancel}></IoMdCloseCircleOutline>
