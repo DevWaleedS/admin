@@ -6,6 +6,7 @@ import Logo from '../../assets/images/Login_Logo.svg';
 import Context from '../../store/context';
 import axios from "axios";
 
+
 const MainPage = () => {
     const token = localStorage.getItem("token");
     const [username, setUserName] = useState("");
