@@ -397,7 +397,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
 															<div className=''>
 																<h2 dir='rtl' className='font-normal text-lg'>
 																	<span className='ml-1'>{row?.left}</span>
-																	<span>ايام</span>
+																	<span>يوم</span>
 																</h2>
 															</div>
 														</TableCell>
