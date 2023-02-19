@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { IoMdCloseCircleOutline } from 'react-icons/io';
 import Button from '../../../../UI/Button/Button';
 import Context from '../../../../store/context';
+import ImageUploading from 'react-images-uploading';
 import styles from './AddAnActivity.module.css';
 import axios from "axios";
 
@@ -15,6 +16,12 @@ const AddAnActivity = ({ cancel, editActivity, reload, setReload }) => {
 	const [showAddActivity, setShowAddActivity] = useState(false);
 	const [activiyName, setActitviyName] = useState('');
 	const { setEndActionTitle } = contextStore;
+	const [images, setImages] = useState([]);
+
+	const onChange = (imageList, addUpdateIndex) => {
+		// data for submit
+		setImages(imageList);
+	};
 
 	useEffect(() => {
 		if (editActivity) {
@@ -26,6 +33,9 @@ const AddAnActivity = ({ cancel, editActivity, reload, setReload }) => {
 		const data = {
 			name: activiyName,
 		};
+		let formData = new FormData();
+		formData.append('icon',images[0]?.file || '');
+		formData.append('data',data);
 		axios
 			.post("https://backend.atlbha.com/api/Admin/activity", data, {
 				headers: {
@@ -34,7 +44,7 @@ const AddAnActivity = ({ cancel, editActivity, reload, setReload }) => {
 				},
 			})
 			.then((res) => {
-				if (res?.data?.success === true && res?.data?.status === 200) {
+				if (res?.data?.success === true && res?.data?.data?.status === 200) {
 					setEndActionTitle(res?.data?.message?.ar);
 					cancel();
 					setReload(!reload);
@@ -76,6 +86,46 @@ const AddAnActivity = ({ cancel, editActivity, reload, setReload }) => {
 							}}
 						/>
 					</label>
+					<div className='flex flex-col gap-2'>
+						<h2 className='font-normal text-lg'>الايقونة</h2>
+						<ImageUploading value={images} onChange={onChange} maxNumber={1} dataURLKey='data_url' acceptType={['jpg', 'png', 'jpeg','svg']}>
+							{({ imageList, onImageUpload, dragProps }) => (
+								// write your building UI
+								<div className='w-[555px] md:h-[56px] h-[44px] max-w-full'>
+									<div
+										className='upload__image-wrapper relative overflow-hidden'
+										style={{
+											border: images[0] ? 'none' : '3px solid #F0F0F0',
+											borderRadius: '10px',
+										}}
+										onClick={() => {
+											onImageUpload();
+										}}
+										{...dragProps}
+									>
+										<div className='image-item w-full flex cursor-pointer md:h-[56px] h-[44px]' style={{ backgroundColor: '#EFF0F0' }}>
+											{!images[0] && (
+												<div className='flex flex-row justify-between items-center py-4 pr-5 h-full w-full'>
+													<h2 style={{ color: '#7C7C7C' }}>( اختر صورة فقط png & jpg,svg )</h2>
+													<div className='flex flex-col justify-center items-center md:px-10 px-5 rounded-lg' style={{ height: '56px', backgroundColor: '#A7A7A7', color: '#ffffff' }}>
+														استعراض
+													</div>
+												</div>
+											)}
+											{images[0] && (
+												<div className='flex flex-row justify-between items-center py-4 pr-5 h-full w-full'>
+													<h2 style={{ color: '#7C7C7C' }}>{images[0].file.name}</h2>
+													<div className='flex flex-col justify-center items-center md:px-10 px-5 rounded-lg' style={{ height: '56px', backgroundColor: '#A7A7A7', color: '#ffffff' }}>
+														استعراض
+													</div>
+												</div>
+											)}
+										</div>
+									</div>
+								</div>
+							)}
+						</ImageUploading>
+					</div>
 					<div className='flex gap-4'>
 						<Button
 							type={'normal'}

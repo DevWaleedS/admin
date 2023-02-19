@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
+import styles from "./MarketsTableSec.module.css";
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -26,6 +27,10 @@ import { NotificationContext } from '../../../../store/NotificationProvider';
 import Context from '../../../../store/context';
 import CircularLoading from '../../../../UI/CircularLoading/CircularLoading';
 import axios from "axios";
+import {
+	ListMoreCategory,
+	Stationery
+} from "../../../../assets/Icons/index";
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
@@ -164,7 +169,7 @@ EnhancedTableHead.propTypes = {
 function EnhancedTableToolbar(props) {
 	const { numSelected, rowCount, onSelectAllClick } = props;
 	const NotificationStore = useContext(NotificationContext);
-	const { setNotificationTitle, setActionTitle } = NotificationStore;
+	const { setNotificationTitle } = NotificationStore;
 
 	return (
 		<Toolbar
@@ -184,11 +189,7 @@ function EnhancedTableToolbar(props) {
 					<div
 						className='fcc gap-4 px-4 rounded-full'
 						style={{ minWidth: '114px', backgroundColor: '#FF9F1A0A' }}
-						onClick={() => {
-							setNotificationTitle('سيتم إيقاف تنشيط جميع المتاجر التي قمت بتحديدها');
-							setActionTitle('تم إيقاف تنشيط المتاجر بنجاح');
-						}}
-					>
+						onClick={() => setNotificationTitle('سيتم إيقاف تنشيط جميع المتاجر التي قمت بتحديدها')}>
 						<h2 className={'font-medium whitespace-nowrap'} style={{ color: '#FF9F1A' }}>
 							نشط/ غير نشط
 						</h2>
@@ -231,7 +232,7 @@ function EnhancedTableToolbar(props) {
 					}}
 				/>
 			</div>
-		</Toolbar>
+		</Toolbar >
 	);
 }
 
@@ -246,11 +247,14 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload 
 	const [selected, setSelected] = React.useState([]);
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
-	const [data, setData] = React.useState(fetchedData?.data?.stores || []);
+	const [activityAnchorEl, setActivityAnchorEl] = React.useState(null);
+	const activityOpen = Boolean(activityAnchorEl);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
 	const contextStore = useContext(Context);
 	const { setEndActionTitle } = contextStore;
+	const NotificationStore = useContext(NotificationContext);
+	const { confirm, setConfirm } = NotificationStore;
 
 	const rowsPerPagesCount = [10, 20, 30, 50, 100];
 	const handleRowsClick = (event) => {
@@ -258,6 +262,14 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload 
 	};
 	const handleClose = () => {
 		setAnchorEl(null);
+	};
+
+	const activityHandleClick = (event) => {
+		setActivityAnchorEl(event.currentTarget);
+	};
+
+	const activityHandleClose = () => {
+		setActivityAnchorEl(null);
 	};
 
 	const handleRequestSort = (event, property) => {
@@ -350,6 +362,29 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload 
 			});
 	}
 
+	useEffect(() => {
+		if (confirm) {
+			const queryParams = selected.map(id => `id[]=${id}`).join('&');
+			axios
+				.get(`https://backend.atlbha.com/api/Admin/changeStoreStatus?${queryParams}`, {
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+					},
+				})
+				.then((res) => {
+					if (res?.data?.success === true && res?.data?.data?.status === 200) {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					} else {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					}
+				});
+			setConfirm(false);
+		}
+	}, [confirm]);
+
 
 	return (
 		<Box sx={{ width: '100%' }}>
@@ -379,7 +414,6 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload 
 												return (
 													<TableRow
 														hover
-
 														role='checkbox'
 														aria-checked={isItemSelected}
 														tabIndex={-1}
@@ -425,7 +459,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload 
 																			opacity: 1,
 																		},
 																	}}
-																	checked={row?.status === 'active' ? true : false}
+																	checked={row?.status === 'نشط' ? true : false}
 																/>
 															</div>
 														</TableCell>
@@ -433,6 +467,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload 
 															<div >
 																<h2 dir='rtl' className='font-normal text-lg '>
 																	<span className='ml-1'>{row?.left}</span>
+																	<span>يوم</span>
 																</h2>
 															</div>
 														</TableCell>
@@ -449,15 +484,38 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload 
 															<div
 																className='w-20 h-full py-1 rounded-xl'
 																style={{
-																	backgroundColor: row.status==='active' ? 'rgba(58, 227, 116, 0.4)' : '#D3D3D3',
+																	backgroundColor: row.status === 'نشط' ? 'rgba(58, 227, 116, 0.4)' : '#D3D3D3',
 																	marginLeft: 'auto',
 																}}
 															>
-																<h2>{row?.status==='active' ? 'نشط' : 'غير نشط'}</h2>
+																<h2>{row?.status}</h2>
 															</div>
 														</TableCell>
 														<TableCell align='right' sx={{ display: 'flex', gap: '0.5rem', p: '24px 0' }}>
-															<h2 className='font-normal text-lg whitespace-nowrap'>{row?.activity?.[0]?.name}</h2>
+															<div className='flex flex-row items-center justify-end gap-3'>
+																{
+																	row?.activity?.length > 1 &&
+																	(
+																		<>
+																			<img className='cursor-pointer' src={ListMoreCategory} alt='list-more-category' onClick={activityHandleClick} />
+																			<Menu className={styles.activity_menu} anchorEl={activityAnchorEl} open={activityOpen} onClose={activityHandleClose}>
+																				{row?.activity?.map((item, index) => (
+																					<MenuItem key={index} className='flex flex-row items-center justify-center gap-2' style={{ color: '#4D4F5C' }} onClick={activityHandleClose}>
+																						<div className='flex flex-row items-center justify-center md:w-[30px] w-[20px] md:h-[30px] h-[20px] p-[0.2rem]' style={{ borderRadius: '50%', backgroundColor: '#8D8AD333' }}>
+																							<img src={item?.icon} alt={item?.name} />
+																						</div>
+																						{item?.name}
+																					</MenuItem>
+																				))}
+																			</Menu>
+																		</>
+																	)
+																}
+																<h2 style={{ color: '#4D4F5C' }} className='md:text-[16px] text-[14px] inline whitespace-nowrap font-normal'>
+																	{row?.activity?.[0]?.name}
+																</h2>
+																<img src={row?.activity?.[0]?.icon} alt={row?.activity?.[0]?.name} className="w-[20px] h-[20px] rounded-full" />
+															</div>
 														</TableCell>
 														<TableCell align='right'>
 															<h2 className='inline font-normal text-lg'>{row?.store_name}</h2>

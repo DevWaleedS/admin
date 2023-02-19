@@ -305,7 +305,7 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable({ fetchedData,loading,reload,setReload,openProductDetails, openTraderAlert }) {
+export default function EnhancedTable({ fetchedData, loading, reload, setReload, openProductDetails, openTraderAlert }) {
   const token = localStorage.getItem('token');
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -316,7 +316,7 @@ export default function EnhancedTable({ fetchedData,loading,reload,setReload,ope
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [activityAnchorEl, setActivityAnchorEl] = React.useState(null);
   const contextStore = useContext(Context);
-	const { setEndActionTitle } = contextStore;
+  const { setEndActionTitle } = contextStore;
   const open = Boolean(anchorEl);
   const activityOpen = Boolean(activityAnchorEl);
   const rowsPerPagesCount = [10, 20, 30, 50, 100];
@@ -352,42 +352,60 @@ export default function EnhancedTable({ fetchedData,loading,reload,setReload,ope
   };
   const deleteProduct = (id) => {
     axios
-			.get(`https://backend.atlbha.com/api/Admin/productdeleteall?id[]=${id}`, {
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${token}`,
-				},
-			})
-			.then((res) => {
-				if (res?.data?.success === true && res?.data?.status === 200) {
-					setEndActionTitle(res?.data?.message?.ar);
-					setReload(!reload);
-				} else {
-					setEndActionTitle(res?.data?.message?.ar);
-					setReload(!reload);
-				}
-			});
+      .get(`https://backend.atlbha.com/api/Admin/productdeleteall?id[]=${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res?.data?.success === true && res?.data?.status === 200) {
+          setEndActionTitle(res?.data?.message?.ar);
+          setReload(!reload);
+        } else {
+          setEndActionTitle(res?.data?.message?.ar);
+          setReload(!reload);
+        }
+      });
   };
 
-  const changeProductStatus = (id) =>{
+  const changeProductStatus = (id) => {
     axios
-			.get(`https://backend.atlbha.com/api/Admin/productchangeSatusall?id[]=${id}`, {
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${token}`,
-				},
-			})
-			.then((res) => {
-				if (res?.data?.success === true && res?.data?.status === 200) {
-					setEndActionTitle(res?.data?.message?.ar);
-					setReload(!reload);
-				} else {
-					setEndActionTitle(res?.data?.message?.ar);
-					setReload(!reload);
-				}
-			});
+      .get(`https://backend.atlbha.com/api/Admin/productchangeSatusall?id[]=${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res?.data?.success === true && res?.data?.status === 200) {
+          setEndActionTitle(res?.data?.message?.ar);
+          setReload(!reload);
+        } else {
+          setEndActionTitle(res?.data?.message?.ar);
+          setReload(!reload);
+        }
+      });
   }
 
+  const changeProductSpecialStatus = (id) =>{
+    axios
+      .get(`https://backend.atlbha.com/api/Admin/productchangeSpecial/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res?.data?.success === true && res?.data?.status === 200) {
+          setEndActionTitle(res?.data?.message?.ar);
+          setReload(!reload);
+        } else {
+          setEndActionTitle(res?.data?.message?.ar);
+          setReload(!reload);
+        }
+      });
+  }
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
@@ -485,7 +503,7 @@ export default function EnhancedTable({ fetchedData,loading,reload,setReload,ope
                                   }}
                                 />
                                 <Switch
-                                  onChange={()=>changeProductStatus(row?.id)}
+                                  onChange={() => changeProductStatus(row?.id)}
                                   sx={{
                                     width: '50px',
 
@@ -514,7 +532,7 @@ export default function EnhancedTable({ fetchedData,loading,reload,setReload,ope
                                       opacity: 1,
                                     },
                                   }}
-                                  checked={row?.status==='active' ? true : false }
+                                  checked={row?.status === 'نشط' ? true : false}
                                 />
                                 <img
                                   className='cursor-pointer'
@@ -533,16 +551,11 @@ export default function EnhancedTable({ fetchedData,loading,reload,setReload,ope
                             </TableCell>
                             <TableCell align='right'>
                               <div className='flex flex-row items-center gap-1 py-1 px-3 md:w-16 w-24 h-6 rounded-md'>
-                                <h2 style={{ color: row.special ? '#3AE374' : '#ADB5B9' }} className='md:text-[16px] text-[14px] min-w-[50px] whitespace-nowrap'>
-                                  {row.special ? 'مميز' : 'غير مميز'}
+                                <h2 style={{ color: row.special === 'مميز' ? '#3AE374' : '#ADB5B9' }} className='md:text-[16px] text-[14px] min-w-[50px] whitespace-nowrap'>
+                                  {row?.special}
                                 </h2>
                                 <Switch
-                                  onChange={() => {
-                                    const findIndex = data.findIndex((item) => item.id === row.id);
-                                    const arr = [...data];
-                                    arr[findIndex].special = !arr[findIndex].special;
-                                    setData(arr);
-                                  }}
+                                  onChange={() => changeProductSpecialStatus(row?.id)}
                                   className=''
                                   sx={{
                                     width: '50px',
@@ -572,37 +585,45 @@ export default function EnhancedTable({ fetchedData,loading,reload,setReload,ope
                                       opacity: 1,
                                     },
                                   }}
-                                  checked={row.special}
+                                  checked={row?.special === 'مميز' ? true : false}
                                 />
                               </div>
                             </TableCell>
                             <TableCell className="min-w-[200px]" align='right'>
                               <div className='flex flex-row items-center justify-end gap-3'>
-                                {/*<img className='cursor-pointer' src={ListMoreCategory} alt='list-more-category' onClick={activityHandleClick} />
-                                <Menu className={styles.activity_menu} anchorEl={activityAnchorEl} open={activityOpen} onClose={activityHandleClose}>
-                                  {row?.subcategory?.map((item, index) => (
-                                    <MenuItem key={index} className='flex flex-row items-center justify-center gap-2' style={{ color: '#4D4F5C' }} onClick={activityHandleClose}>
-                                      <div className='flex flex-row items-center justify-center md:w-[30px] w-[20px] md:h-[30px] h-[20px] p-[0.2rem]' style={{ borderRadius: '50%', backgroundColor: '#8D8AD333' }}>
-                                        <img src={item?.icon} alt='stationery-icon' />
-                                      </div>
-                                      {item?.name}
-                                    </MenuItem>
-                                  ))}
-                                  </Menu>*/}
+                                {
+                                  row?.activity?.length > 1 &&
+                                  (
+                                    <>
+                                      <img className='cursor-pointer' src={ListMoreCategory} alt='list-more-category' onClick={activityHandleClick} />
+                                      <Menu className={styles.activity_menu} anchorEl={activityAnchorEl} open={activityOpen} onClose={activityHandleClose}>
+                                        {row?.store?.activity?.map((item, index) => (
+                                          <MenuItem key={index} className='flex flex-row items-center justify-center gap-2' style={{ color: '#4D4F5C' }} onClick={activityHandleClose}>
+                                            <div className='flex flex-row items-center justify-center md:w-[30px] w-[20px] md:h-[30px] h-[20px] p-[0.2rem]' style={{ borderRadius: '50%', backgroundColor: '#8D8AD333' }}>
+                                              <img src={item?.icon} alt={item?.name} />
+                                            </div>
+                                            {item?.name}
+                                          </MenuItem>
+                                        ))}
+                                      </Menu>
+                                    </>
+                                  )
+                                }
                                 <h2 style={{ color: '#4D4F5C' }} className='md:text-[16px] text-[14px] inline whitespace-nowrap font-normal'>
-                                  {row?.subcategory?.[0]?.name}
+                                  {row?.store?.activity?.[0]?.name}
                                 </h2>
+                                <img src={row?.store?.activity?.[0]?.icon} alt={row?.store?.activity?.[0]?.name} className="w-[20px] h-[20px] rounded-full" />
                               </div>
                             </TableCell>
                             <TableCell align='center'>
                               <div
                                 className='w-20 h-full py-1 rounded-xl'
                                 style={{
-                                  backgroundColor: row?.status==='active' ? 'rgba(58, 227, 116, 0.4)' : '#D3D3D3',
+                                  backgroundColor: row?.status === 'نشط' ? 'rgba(58, 227, 116, 0.4)' : '#D3D3D3',
                                   marginLeft: 'auto',
                                 }}
                               >
-                                <h2 className="md:text-[16px] text-[14px]" style={{ color: row?.status==='active' ? '#011723' : '#67747B' }}>{row?.status==='active' ? 'نشط' : 'غير نشط'}</h2>
+                                <h2 className="md:text-[16px] text-[14px]" style={{ color: row?.status === 'نشط' ? '#011723' : '#67747B' }}>{row?.status}</h2>
                               </div>
                             </TableCell>
                             <TableCell align='right'>

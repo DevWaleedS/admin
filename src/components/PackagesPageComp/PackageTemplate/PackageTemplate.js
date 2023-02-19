@@ -44,6 +44,7 @@ const template = [{id:1,name: 'القالب الأول'},{id:2,name: 'القال
 ]
 const PackageTemplate = ({ cancel }) => {
   const [templateSelected,setTemplateSelected] = useState([]);
+  
   return (
     <>
       <BackDrop onClick={cancel} />

@@ -16,6 +16,8 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import { Template } from '../../../assets/Icons/index';
 import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
+import useFetch from '../../../hooks/useFetch';
+import axios from "axios";
 
 const packagesOptions = [
   "100 منتج",
@@ -37,10 +39,20 @@ const MenuProps = {
   },
 };
 
-const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) => {
+const AddNewPackagePlan = ({ reload, setReload, cancel, setChooseTemplate, editPackageDetails }) => {
+  const { fetchedData: planList } = useFetch('https://backend.atlbha.com/api/Admin/selector/plans');
+  const token = localStorage.getItem('token');
   const contextStore = useContext(Context);
   const { setEndActionTitle } = contextStore;
   const [packageOption, setPackageOption] = useState("");
+  const [datapackage, setDataPackage] = useState({
+    name: '',
+    monthly_price: '',
+    yearly_price: '',
+    discount: '',
+    plan: [],
+    template: [],
+  })
   const [optionName, setOptionName] = React.useState([]);
   console.log(editPackageDetails);
   const handleChange = (event) => {
@@ -52,31 +64,56 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
       typeof value === "string" ? value.split(",") : value
     );
   };
+
   const handleCategory = (event) => {
     setPackageOption(event.target.value);
   };
+  const AddPackagePlan = () => {
+    const data = {
+      name: datapackage?.name,
+      monthly_price: datapackage?.monthly_price,
+      yearly_price: datapackage?.yearly_price,
+      discount: datapackage?.discount,
+      plan: datapackage?.plan,
+      template: datapackage?.template,
+    };
+    console.log(data);
+    // axios
+    //   .post("https://backend.atlbha.com/api/Admin/package", data, {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //   })
+    //   .then((res) => {
+    //     if (res?.data?.success === true && res?.data?.data?.status === 200) {
+    //       setEndActionTitle(res?.data?.message?.ar);
+    //       cancel();
+    //       setReload(!reload);
+    //     } else {
+    //       setEndActionTitle(res?.data?.message?.ar);
+    //       cancel();
+    //       setReload(!reload);
+    //     }
+    //   });
+  }
   return (
     <div
       className="absolute md:pb-20 md:py-[40px] md:pl-[102px] md:pr-4 p-4 pt-0 top-0 right-0  z-10  w-full "
-      style={{ backgroundColor: "#fafafa",height:"100%" }}
+      style={{ backgroundColor: "#fafafa", height: "100%" }}
     >
       <div className="flex md:flex-row flex-col justify-between md:items-center items-start gap-4 mb-2">
         <div className="flex items-center gap-2">
           <div onClick={cancel} className={` ${styles.arrow_con}`}>
             <GoArrowRight style={{ color: "#02466A", fontSize: "1.2rem" }} />
           </div>
-          <h2 className='md:text-lg text-[16px] font-medium whitespace-nowrap' style={{  color: '#011723' }}>الباقات والأسعار</h2>
+          <h2 className='md:text-lg text-[16px] font-medium whitespace-nowrap' style={{ color: '#011723' }}>الباقات والأسعار</h2>
         </div>
         <Button
           className="md:w-[180px] w-full md:h-[56px] h-[45px] md:text-[22px] text-[18px]"
           style={{ color: '#011723', whiteSpace: 'nowrap', }}
           onClick={() => {
-            setEndActionTitle(
-              editPackageDetails
-                ? "تم تعديل الباقة بنجاح"
-                : "تم اضافة باقة جديدة بنجاح"
-            );
-            cancel();
+            editPackageDetails ? setEndActionTitle("تم تعديل الباقة بنجاح") : AddPackagePlan();
           }}
           type={"normal"}
         >
@@ -98,10 +135,11 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
             <h3 className="mb-3 font-medium" style={{ color: "#67747B", fontSize: "20px" }}>
               الخطة الحالية
             </h3>
-            {editPackageDetails.map((bool, idx) => {
-              if (bool) {
+            {editPackageDetails?.plans?.map((plan, index) => {
+              if (plan?.selected) {
                 return (
                   <div
+                    key={index}
                     style={{
                       backgroundColor: "#0BF1D1",
                       marginLeft: "14px",
@@ -115,7 +153,7 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
                         color: "#011723",
                       }}
                     >
-                      {packagesOptions[idx]}
+                      {plan?.name}
                     </h2>
                     <MdClear
                       className="cursor-pointer"
@@ -134,13 +172,13 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
                 <h2 style={{ color: "#0099FB" }} className="text-lg font-medium mb-3">
                   اضافة محتوى جديد للخطة
                 </h2>
-                <FormControl sx={{ width: "100%",minHeight:"240px" }}>
+                <FormControl sx={{ width: "100%", minHeight: "240px" }}>
                   <Select
                     className={styles.select}
                     multiple
                     displayEmpty
-                    value={optionName}
-                    onChange={handleChange}
+                    value={datapackage?.plan}
+                    onChange={(e) => { setDataPackage({ ...datapackage, plan: e.target.value }) }}
                     IconComponent={(props) => (<Arrow fill="#242424" {...props} />)}
                     input={<OutlinedInput />}
                     sx={{
@@ -155,16 +193,17 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
                       }
 
                       return selected.map((item) => {
+                        const result = planList?.data?.plans?.filter((p) => p?.id === parseInt(item))
                         return (
                           <div
                             className="py-1 px-3 text-slate-50 rounded-lg font-light"
                             style={{
-                              maxWidth:"fit-content",
+                              maxWidth: "fit-content",
                               backgroundColor: "#0099FB",
                               display: "inline",
                             }}
                           >
-                            {item}
+                            {result[0]?.name}
                           </div>
                         );
                       });
@@ -172,10 +211,10 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
                     MenuProps={MenuProps}
                     inputProps={{ "aria-label": "Without label" }}
                   >
-                    {packagesOptions.map((option) => (
+                    {planList?.data?.plans?.map((option, index) => (
                       <MenuItem className="souq_storge_category_filter_items"
-                        key={option}
-                        value={option}
+                        key={index}
+                        value={option?.id}
                         sx={{
                           padding: 0,
                           backgroundColor: "#FAFAFA",
@@ -185,8 +224,8 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
                           },
                         }}
                       >
-                        <Checkbox checked={optionName.indexOf(option) > -1} />
-                        <ListItemText primary={option} />
+                        <Checkbox checked={datapackage?.plan?.indexOf(option?.id) > -1} />
+                        <ListItemText primary={option?.name} />
                       </MenuItem>
                     ))}
                   </Select>
@@ -211,8 +250,8 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
                     className={styles.select}
                     multiple
                     displayEmpty
-                    value={optionName}
-                    onChange={handleChange}
+                    value={datapackage?.plan}
+                    onChange={(e) => { setDataPackage({ ...datapackage, plan: e.target.value }) }}
                     IconComponent={(props) => (<Arrow fill="#242424" {...props} />)}
                     input={<OutlinedInput />}
                     sx={{
@@ -227,16 +266,17 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
                       }
 
                       return selected.map((item) => {
+                        const result = planList?.data?.plans?.filter((p) => p?.id === parseInt(item))
                         return (
                           <div
                             className="py-1 px-3 text-slate-50 rounded-lg font-light"
                             style={{
-                              maxWidth:"fit-content",
+                              maxWidth: "fit-content",
                               backgroundColor: "#0099FB",
                               display: "inline",
                             }}
                           >
-                            {item}
+                            {result[0]?.name}
                           </div>
                         );
                       });
@@ -244,10 +284,10 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
                     MenuProps={MenuProps}
                     inputProps={{ "aria-label": "Without label" }}
                   >
-                    {packagesOptions.map((option) => (
+                    {planList?.data?.plans?.map((option, index) => (
                       <MenuItem className="souq_storge_category_filter_items"
-                        key={option}
-                        value={option}
+                        key={index}
+                        value={option?.id}
                         sx={{
                           padding: 0,
                           backgroundColor: "#FAFAFA",
@@ -257,8 +297,8 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
                           },
                         }}
                       >
-                        <Checkbox checked={optionName.indexOf(option) > -1} />
-                        <ListItemText primary={option} />
+                        <Checkbox checked={datapackage?.plan?.indexOf(option?.id) > -1} />
+                        <ListItemText primary={option?.name} />
                       </MenuItem>
                     ))}
                   </Select>
@@ -267,7 +307,7 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
             )
         }
         <div className="flex flex-col gap-[28px] bg-white mt-6 p-8 rounded-lg" style={{ boxShadow: '0px 3px 6px #1DBBBE0F' }}>
-          <h2 style={{ color: "#0099FB"}} className="md:text-[20px] text-[18px] font-medium">
+          <h2 style={{ color: "#0099FB" }} className="md:text-[20px] text-[18px] font-medium">
             <AiFillStar
               style={{
                 display: "inline-block",
@@ -282,13 +322,15 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
               <Grid item md={6} xs={12} container rowSpacing={4}>
                 <Grid item xs={12}>
                   <Box className="flex md:flex-row flex-col md:items-center items-start gap-2">
-                    <label style={{ color: '#011723'}} className="md:text-[18px] text-[16px] w-60 whitespace-nowrap" htmlFor="name">اسم الباقة</label>
+                    <label style={{ color: '#011723' }} className="md:text-[18px] text-[16px] w-60 whitespace-nowrap" htmlFor="name">اسم الباقة</label>
                     <input
                       id="name"
                       className="w-full md:h-[56px] h-[45px]  px-4 py-3 outline-none rounded-lg"
                       style={{ backgroundColor: "#EFF9FF", '&::placeholder': '#A7A7A7' }}
                       placeholder="أدخل اسم الباقة"
                       type="text"
+                      value={datapackage?.name}
+                      onChange={(e) => { setDataPackage({ ...datapackage, name: e.target.value }) }}
                     />
                   </Box>
                 </Grid>
@@ -301,6 +343,8 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
                       style={{ backgroundColor: "#EFF9FF", '&::placeholder': '#A7A7A7' }}
                       placeholder="350 ر.س"
                       type="text"
+                      value={datapackage?.monthly_price}
+                      onChange={(e) => { setDataPackage({ ...datapackage, monthly_price: e.target.value }) }}
                     />
                   </Box>
                 </Grid>
@@ -313,6 +357,8 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
                       style={{ backgroundColor: "#EFF9FF", '&::placeholder': '#A7A7A7' }}
                       placeholder="أدخل مبلغ الخصم"
                       type="text"
+                      value={datapackage?.discount}
+                      onChange={(e) => { setDataPackage({ ...datapackage, discount: e.target.value }) }}
                     />
                   </Box>
                   <div className="flex flex-row items-center mt-3">
@@ -331,6 +377,8 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
                       style={{ backgroundColor: "#EFF9FF", '&::placeholder': '#A7A7A7' }}
                       placeholder="2500 ر.س"
                       type="text"
+                      value={datapackage?.yearly_price}
+                      onChange={(e) => { setDataPackage({ ...datapackage, yearly_price: e.target.value }) }}
                     />
                   </Box>
                 </Grid>
@@ -354,7 +402,7 @@ const AddNewPackagePlan = ({ cancel, setChooseTemplate, editPackageDetails }) =>
             setChooseTemplate(true);
           }}
         >
-          <h2 style={{ color: '#02466A'}} className="md:text-[20px] text-[18px] font-medium">اختر قوالب الباقة</h2>
+          <h2 style={{ color: '#02466A' }} className="md:text-[20px] text-[18px] font-medium">اختر قوالب الباقة</h2>
         </Button>
       </div>
     </div>

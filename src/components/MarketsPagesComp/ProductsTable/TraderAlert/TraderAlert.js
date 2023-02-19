@@ -44,25 +44,24 @@ const TraderAlert = ({ cancel, traderPackageDetails,reload,setReload }) => {
       subject:subject,
       details:description?.htmlValue
 		};
-    console.log(data);
-		// axios
-		// 	.post("https://backend.atlbha.com/api/Admin/addProductNote", data, {
-		// 		headers: {
-		// 			"Content-Type": "application/json",
-		// 			Authorization: `Bearer ${token}`,
-		// 		},
-		// 	})
-		// 	.then((res) => {
-		// 		if (res?.data?.success === true && res?.data?.status === 200) {
-		// 			setEndActionTitle(res?.data?.message?.ar);
-		// 			cancel();
-		// 			setReload(!reload);
-		// 		} else {
-		// 			setEndActionTitle(res?.data?.message?.ar);
-		// 			cancel();
-		// 			setReload(!reload);
-		// 		}
-		// 	});
+		axios
+			.post("https://backend.atlbha.com/api/Admin/addProductNote", data, {
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setReload(!reload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setReload(!reload);
+				}
+			});
 	}
 
   return (

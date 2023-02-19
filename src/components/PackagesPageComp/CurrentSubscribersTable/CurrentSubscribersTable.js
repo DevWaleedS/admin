@@ -1,4 +1,4 @@
-import React,{useContext} from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -24,40 +24,8 @@ import { NotificationContext } from "../../../store/NotificationProvider";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { MdOutlineKeyboardArrowDown, MdOutlineArrowBackIosNew, MdOutlineArrowForwardIos } from 'react-icons/md';
-
+import CircularLoading from '../../../UI/CircularLoading/CircularLoading';
 import { Gift } from '../../../assets/Icons/index';
-
-
-const trader = { title: 'تاجر', class: 'rgba(164, 161, 251, 0.4)' };
-const proTrader = { title: 'تاجر محترف', class: '#00CCF266' };
-const privateBrand = { title: 'براند خاص', class: '#B6BE3466' };
-
-function createData(name, packageType, daysLeft, packageLength) {
-	return {
-		name,
-		packageType,
-		daysLeft,
-		packageLength,
-	};
-}
-
-const rows = [
-	createData('أمازون', trader, 90, '3 شهور'),
-	createData('صحتى', proTrader, 67, '6 شهور'),
-	createData('تسعة', privateBrand, 7, 'سنوى'),
-	createData('أمfازون', trader, 90, '3 شهور'),
-	createData('صحfتى', proTrader, 67, '6 شهور'),
-	createData('تسعfة', privateBrand, 7, 'سنوى'),
-	createData('أمازوfن', trader, 90, '3 شهور'),
-	createData('league', proTrader, 67, '6 شهور'),
-	createData('تfسعة', privateBrand, 7, 'سنوى'),
-	createData('أمازfون', trader, 90, '3 شهور'),
-	createData('صحfdتى', proTrader, 67, '6 شهور'),
-	createData('تسfعة', privateBrand, 7, 'سنوى'),
-	createData('starbucjs', trader, 90, '3 شهور'),
-	createData('صfdحتى', proTrader, 67, '6 شهور'),
-	createData('تسdعة', privateBrand, 7, 'سنوى'),
-];
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
@@ -76,15 +44,15 @@ function getComparator(order, orderBy) {
 // This method is created for cross-browser compatibility, if you don't
 // need to support IE11, you can use Array.prototype.sort() directly
 function stableSort(array, comparator) {
-	const stabilizedThis = array.map((el, index) => [el, index]);
-	stabilizedThis.sort((a, b) => {
+	const stabilizedThis = array?.map((el, index) => [el, index]);
+	stabilizedThis?.sort((a, b) => {
 		const order = comparator(a[0], b[0]);
 		if (order !== 0) {
 			return order;
 		}
 		return a[1] - b[1];
 	});
-	return stabilizedThis.map((el) => el[0]);
+	return stabilizedThis?.map((el) => el[0]);
 }
 
 const headCells = [
@@ -103,20 +71,20 @@ const headCells = [
 		sort: true,
 	},
 	{
-		id: 'rate',
+		id: 'periodtype',
 		numeric: true,
 		disablePadding: false,
 		label: 'مدة الاشتراك',
 		sort: true,
 	},
 	{
-		id: 'opened',
+		id: 'store_name',
 		numeric: true,
 		disablePadding: false,
 		label: 'اسم المتجر',
 	},
 	{
-		id: 'activity',
+		id: 'package_name',
 		numeric: true,
 		disablePadding: false,
 		label: 'نوع الباقة',
@@ -124,7 +92,7 @@ const headCells = [
 	},
 
 	{
-		id: 'name',
+		id: 'number',
 		numeric: true,
 		disablePadding: false,
 		label: 'م',
@@ -142,14 +110,14 @@ function EnhancedTableHead(props) {
 			<TableRow>
 				{headCells.map((headCell) => (
 					<TableCell
-					className='text-lg font-medium '
+						className='text-lg font-medium '
 						key={headCell.id}
 						align={headCell.numeric ? 'right' : 'center'}
 						padding={headCell.disablePadding ? 'none' : 'normal'}
 						sortDirection={orderBy === headCell.id ? order : false}
 						sx={{
 							width: headCell.width ? headCell.width : 'auto',
-						
+
 							color: '#02466A',
 						}}
 					>
@@ -192,7 +160,7 @@ EnhancedTableHead.propTypes = {
 function EnhancedTableToolbar(props) {
 	const { numSelected, onClick, rowCount, onSelectAllClick } = props;
 	const NotificationStore = useContext(NotificationContext);
-	const { setNotificationTitle,setActionTitle } = NotificationStore;
+	const { setNotificationTitle, setActionTitle } = NotificationStore;
 	return (
 		<Toolbar
 			sx={{
@@ -214,10 +182,10 @@ function EnhancedTableToolbar(props) {
 							width: '114px',
 							backgroundColor: 'rgba(255, 159, 26, 0.04)',
 						}}
-						onClick={()=>{
+						onClick={() => {
 							setNotificationTitle('سيتم تعطيل جميع الاشتراكات التي قمت بتحديدها');
 							setActionTitle('تم تعطيل الاشتراكات بنجاح');
-						}} 
+						}}
 					>
 						<h2 className={'font-semibold'} style={{ color: '#FF9F1A' }}>
 							تعطيل
@@ -247,10 +215,10 @@ function EnhancedTableToolbar(props) {
 							width: '114px',
 							backgroundColor: 'rgba(255, 56, 56, 0.1)',
 						}}
-						onClick={()=>{
+						onClick={() => {
 							setNotificationTitle('سيتم حذف جميع الاشتراكات التي قمت بتحديدها');
 							setActionTitle('تم حذف الاشتراكات بنجاح');
-						}} 
+						}}
 					>
 						<h2 className={'font-semibold'} style={{ color: '#FF3838' }}>
 							حذف
@@ -295,13 +263,12 @@ EnhancedTableToolbar.propTypes = {
 	numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable({ openTraderAlert }) {
+export default function EnhancedTable({ fetchedData, loading, reload, setReload, openTraderAlert }) {
 	const [order, setOrder] = React.useState('asc');
 	const [orderBy, setOrderBy] = React.useState('calories');
 	const [selected, setSelected] = React.useState([]);
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
-	const [data, setData] = React.useState(rows);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
 
@@ -321,20 +288,14 @@ export default function EnhancedTable({ openTraderAlert }) {
 
 	const handleSelectAllClick = (event) => {
 		if (event.target.checked) {
-			const newSelected = data.map((n) => n.name);
+			const newSelected = fetchedData?.data?.stores?.map((n) => n.name);
 			setSelected(newSelected);
 			return;
 		}
 		setSelected([]);
 	};
 	const deleteItems = () => {
-		const array = [...data];
-		selected.forEach((item, idx) => {
-			const findIndex = array.findIndex((i) => item === i.name);
-			array.splice(findIndex, 1);
-		});
-		setData(array);
-		setSelected([]);
+		
 	};
 
 	const handleClick = (event, name) => {
@@ -364,10 +325,10 @@ export default function EnhancedTable({ openTraderAlert }) {
 	const isSelected = (name) => selected.indexOf(name) !== -1;
 
 	// Avoid a layout jump when reaching the last page with empty rows.
-	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - fetchedData?.data?.stores?.length) : 0;
 
 	const allRows = () => {
-		const num = Math.ceil(data.length / rowsPerPage);
+		const num = Math.ceil(fetchedData?.data?.stores?.length / rowsPerPage);
 		const arr = [];
 		for (let index = 0; index < num; index++) {
 			arr.push(index + 1);
@@ -378,98 +339,110 @@ export default function EnhancedTable({ openTraderAlert }) {
 	return (
 		<Box sx={{ width: '100%' }}>
 			<Paper sx={{ width: '100%', mb: 2 }}>
-				<EnhancedTableToolbar onClick={deleteItems} numSelected={selected.length} rowCount={data.length} onSelectAllClick={handleSelectAllClick} />
+				<EnhancedTableToolbar onClick={deleteItems} numSelected={selected.length} rowCount={fetchedData?.data?.stores?.length} onSelectAllClick={handleSelectAllClick} />
 				<TableContainer>
 					<Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={'medium'}>
-						<EnhancedTableHead numSelected={selected.length} order={order} orderBy={orderBy} onSelectAllClick={handleSelectAllClick} onRequestSort={handleRequestSort} rowCount={data.length} />
+						<EnhancedTableHead numSelected={selected.length} order={order} orderBy={orderBy} onSelectAllClick={handleSelectAllClick} onRequestSort={handleRequestSort} rowCount={fetchedData?.data?.stores?.length} />
 						<TableBody>
-							{/* if you don't need to support IE11, you can replace the `stableSort` call with:
-                 rows.sort(getComparator(order, orderBy)).slice() */}
-							{stableSort(data, getComparator(order, orderBy))
-								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-								.map((row, index) => {
-									const isItemSelected = isSelected(row.name);
-									const labelId = `enhanced-table-checkbox-${index}`;
+							{loading ?
+								(
+									<TableRow>
+										<TableCell colSpan={6}>
+											<CircularLoading />
+										</TableCell>
+									</TableRow>
+								)
+								:
+								(
+									<>
+										{stableSort(fetchedData?.data?.stores, getComparator(order, orderBy))
+											?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+											?.map((row, index) => {
+												const isItemSelected = isSelected(row.name);
+												const labelId = `enhanced-table-checkbox-${index}`;
 
-									return (
-										<TableRow
-											hover
-											//   onClick={(event) => handleClick(event, row.name)}
-											role='checkbox'
-											aria-checked={isItemSelected}
-											tabIndex={-1}
-											key={row.name}
-											selected={isItemSelected}
-										>
-											<TableCell component='th' id={labelId} scope='row'>
-												<div className='flex items-center gap-3'>
-													<HiOutlineMail
-														onClick={() => {}}
-														style={{
-															cursor: 'pointer',
-															color: 'rgba(29, 187, 190, 1)',
-															fontSize: '1.2rem',
-														}}
-													></HiOutlineMail>
-													<FiSend
-														onClick={() => {
-															openTraderAlert(row);
-														}}
-														style={{
-															cursor: 'pointer',
-															color: 'rgba(29, 187, 190, 1)',
-															fontSize: '1.2rem',
-														}}
-													></FiSend>
-												</div>
-											</TableCell>
-											<TableCell align='right'>
-												<div className=''>
-													<h2 dir='rtl' className='font-normal text-lg'>
-														<span className='ml-1'>{row.daysLeft}</span>
-														<span>يوم</span>
-													</h2>
-												</div>
-											</TableCell>
-											<TableCell align='right'>
-												<h2 className='font-normal text-lg'>{row.packageLength}</h2>
-											</TableCell>
+												return (
+													<TableRow
+														hover
+														//   onClick={(event) => handleClick(event, row.name)}
+														role='checkbox'
+														aria-checked={isItemSelected}
+														tabIndex={-1}
+														key={row.name}
+														selected={isItemSelected}
+													>
+														<TableCell component='th' id={labelId} scope='row'>
+															<div className='flex items-center gap-3'>
+																<HiOutlineMail
+																	onClick={() => { }}
+																	style={{
+																		cursor: 'pointer',
+																		color: 'rgba(29, 187, 190, 1)',
+																		fontSize: '1.2rem',
+																	}}
+																></HiOutlineMail>
+																<FiSend
+																	onClick={() => {
+																		openTraderAlert(row);
+																	}}
+																	style={{
+																		cursor: 'pointer',
+																		color: 'rgba(29, 187, 190, 1)',
+																		fontSize: '1.2rem',
+																	}}
+																></FiSend>
+															</div>
+														</TableCell>
+														<TableCell align='right'>
+															<div className=''>
+																<h2 dir='rtl' className='font-normal text-lg'>
+																	<span className='ml-1'>{row?.left}</span>
+																	<span>ايام</span>
+																</h2>
+															</div>
+														</TableCell>
+														<TableCell align='right'>
+															<h2 className='font-normal text-lg'>{row?.periodtype}</h2>
+														</TableCell>
 
-											<TableCell align='right' sx={{ display: 'flex', gap: '0.5rem', p: '24px 0' }}>
-												<img src={Gift} alt='' />
-												<h2 className='font-normal text-lg'>{row.name}</h2>
-											</TableCell>
-											<TableCell align='right'>
-												<div className={`h-10 w-28 font-normal text-lg rounded-3xl ml-auto flex justify-center items-center`} style={{ backgroundColor: row.packageType.class }}>
-													{row.packageType.title}
-												</div>
-											</TableCell>
+														<TableCell align='right' sx={{ display: 'flex', gap: '0.5rem', p: '24px 0' }}>
+															<img src={Gift} alt='' />
+															<h2 className='font-normal text-lg'>{row?.store_name}</h2>
+														</TableCell>
+														<TableCell align='right'>
+															<div className={`h-10 w-28 font-normal text-lg rounded-3xl ml-auto flex justify-center items-center`}
+																style={{ backgroundColor: row?.package_name === "التاجر المبتدأ" ? "#a4a1fb66" : row?.package_name === "التاجر المحترف" ? "#00CCF266" : "#B6BE3466" }}>
+																{row?.package_name}
+															</div>
+														</TableCell>
 
-											<TableCell align='right' className='font-normal text-lg'>
-												{(index + 1).toLocaleString('en-US', {
-													minimumIntegerDigits: 2,
-													useGrouping: false,
-												})}
-											</TableCell>
-											<TableCell padding='none' align={'right'}>
-												<Checkbox
-													checkedIcon={<CheckedSquare />}
-													sx={{
-														color: '#011723',
-														'& .MuiSvgIcon-root': {
-															color: '#011723',
-														},
-													}}
-													checked={isItemSelected}
-													onClick={(event) => handleClick(event, row.name)}
-													inputProps={{
-														'aria-labelledby': labelId,
-													}}
-												/>
-											</TableCell>
-										</TableRow>
-									);
-								})}
+														<TableCell align='right' className='font-normal text-lg'>
+															{(index + 1).toLocaleString('en-US', {
+																minimumIntegerDigits: 2,
+																useGrouping: false,
+															})}
+														</TableCell>
+														<TableCell padding='none' align={'right'}>
+															<Checkbox
+																checkedIcon={<CheckedSquare />}
+																sx={{
+																	color: '#011723',
+																	'& .MuiSvgIcon-root': {
+																		color: '#011723',
+																	},
+																}}
+																checked={isItemSelected}
+																onClick={(event) => handleClick(event, row.name)}
+																inputProps={{
+																	'aria-labelledby': labelId,
+																}}
+															/>
+														</TableCell>
+													</TableRow>
+												);
+											})}
+									</>
+								)}
 						</TableBody>
 					</Table>
 				</TableContainer>
