@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import PageNavigate from "../../../components/PageNavigate/PageNavigate";
 import CurrentSubscribersTable from "../../../components/PackagesPageComp/CurrentSubscribersTable/CurrentSubscribersTable";
 import TraderAlert from "../../../components/PackagesPageComp/TraderAlert/TraderAlert";
+import useFetch from '../../../hooks/useFetch';
 
 const CurrentSubscriptions = () => {
+  const { fetchedData, loading, reload, setReload } = useFetch('https://backend.atlbha.com/api/Admin/subscriptions');
   const [traderAlert, setTraderAlert] = useState(false);
   const [traderPackageDetails, setTraderPackageDetails] = useState([]);
   return (
@@ -23,6 +25,10 @@ const CurrentSubscriptions = () => {
       )}
       <div dir="ltr" className="md:mt-28 mt-8">
         <CurrentSubscribersTable
+          fetchedData={fetchedData}
+          loading={loading}
+          reload={reload}
+          setReload={setReload}
           openTraderAlert={(row) => {
             setTraderAlert(true);
             setTraderPackageDetails(row);

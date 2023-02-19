@@ -33,8 +33,10 @@ import {
   Stationery
 } from "../../../../assets/Icons/index";
 import { NotificationContext } from "../../../../store/NotificationProvider";
-import useFetch from '../../../../hooks/useFetch';
+import Context from '../../../../store/context';
 import CircularLoading from '../../../../UI/CircularLoading/CircularLoading';
+import getDate from "../../../../helpers/getDate";
+import axios from "axios";
 
 const newRequest = { title: "طلب جديد", class: "#1DBBBE66" };
 const inProgress = { title: "جاري التوثيق", class: "#FFDD0066" };
@@ -134,7 +136,7 @@ function EnhancedTableHead(props) {
               width: headCell.width ? headCell.width : "auto",
               fontSize: "1rem",
               color: "#02466A",
-              whiteSpace:'nowrap'
+              whiteSpace: 'nowrap'
             }}
           >
             {headCell.sort && (
@@ -177,7 +179,7 @@ EnhancedTableHead.propTypes = {
 function EnhancedTableToolbar(props) {
   const { numSelected, onClick, rowCount, onSelectAllClick } = props;
   const NotificationStore = useContext(NotificationContext);
-  const { setNotificationTitle,setActionTitle } = NotificationStore;
+  const { setNotificationTitle, setActionTitle } = NotificationStore;
   return (
     <Toolbar
       sx={{
@@ -200,19 +202,19 @@ function EnhancedTableToolbar(props) {
       >
         {numSelected > 0 && (
           <div
-              className="flex flex-row items-center justify-center gap-4 cursor-pointer"
-              style={{ width: '114px', height: '40px', backgroundColor: '#FF38381A', borderRadius: '20px' }}
-              onClick={() => {
-                setNotificationTitle('سيتم حذف جميع طلبات التوثيق التي قمت بتحديدها');
-                setActionTitle('تم حذف طلبات التوثيق بنجاح');
-              }}
-            >
-              <h6 style={{ color: '#FF3838' }} className="md:text-[18px] text-[16px] font-medium">حذف</h6>
-              <img
-                src={Delete}
-                alt='delete-icon'
-              />
-            </div>
+            className="flex flex-row items-center justify-center gap-4 cursor-pointer"
+            style={{ width: '114px', height: '40px', backgroundColor: '#FF38381A', borderRadius: '20px' }}
+            onClick={() => {
+              setNotificationTitle('سيتم حذف جميع طلبات التوثيق التي قمت بتحديدها');
+              setActionTitle('تم حذف طلبات التوثيق بنجاح');
+            }}
+          >
+            <h6 style={{ color: '#FF3838' }} className="md:text-[18px] text-[16px] font-medium">حذف</h6>
+            <img
+              src={Delete}
+              alt='delete-icon'
+            />
+          </div>
         )}
       </div>
 
@@ -243,8 +245,8 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable({ openTraderAlert,openVerificationData,openEidtVerificationData }) {
-  const { fetchedData, loading, error } = useFetch('https://backend.atlbha.com/api/Admin/verification');
+export default function EnhancedTable({ fetchedData, loading, reload, setReload, openTraderAlert, openVerificationData, openEidtVerificationData }) {
+  const token = localStorage.getItem('token');
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
@@ -253,6 +255,8 @@ export default function EnhancedTable({ openTraderAlert,openVerificationData,ope
   const [data, setData] = React.useState(fetchedData?.data?.stores || []);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [activityAnchorEl, setActivityAnchorEl] = React.useState(null);
+  const contextStore = useContext(Context);
+  const { setEndActionTitle } = contextStore;
   const open = Boolean(anchorEl);
   const activityOpen = Boolean(activityAnchorEl);
 
@@ -281,20 +285,29 @@ export default function EnhancedTable({ openTraderAlert,openVerificationData,ope
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = data.map((n) => n.id);
+      const newSelected = fetchedData?.data?.stores?.map((n) => n.id);
       setSelected(newSelected);
       return;
     }
     setSelected([]);
   };
-  const deleteItems = () => {
-    const array = [...data];
-    selected.forEach((item, idx) => {
-      const findIndex = array.findIndex((i) => item === i.name);
-      array.splice(findIndex, 1);
-    });
-    setData(array);
-    setSelected([]);
+  const deleteItem = (id) => {
+      axios
+        .get(`https://backend.atlbha.com/api/Admin/verificationdeleteall?id[]=${id}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          if (res?.data?.success === true && res?.data?.status === 200) {
+            setEndActionTitle(res?.data?.message?.ar);
+            setReload(!reload);
+          } else {
+            setEndActionTitle(res?.data?.message?.ar);
+            setReload(!reload);
+          }
+        });
   };
 
   const handleClick = (event, name) => {
@@ -330,10 +343,10 @@ export default function EnhancedTable({ openTraderAlert,openVerificationData,ope
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data?.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - fetchedData?.data?.stores?.length) : 0;
 
   const allRows = () => {
-    const num = Math.ceil(data.length / rowsPerPage);
+    const num = Math.ceil(fetchedData?.data?.stores?.length / rowsPerPage);
     const arr = [];
     for (let index = 0; index < num; index++) {
       arr.push(index + 1);
@@ -342,16 +355,15 @@ export default function EnhancedTable({ openTraderAlert,openVerificationData,ope
   };
   return (
     <Box sx={{ width: "100%" }}>
-      <Paper sx={{ backgroundColor:'transparent',width: "100%", mb: 2,boxShadow:'0 0' }}>
+      <Paper sx={{ backgroundColor: 'transparent', width: "100%", mb: 2, boxShadow: '0 0' }}>
         <EnhancedTableToolbar
-          onClick={deleteItems}
           numSelected={selected.length}
-          rowCount={data.length}
+          rowCount={fetchedData?.data?.stores?.length}
           onSelectAllClick={handleSelectAllClick}
         />
         <TableContainer>
           <Table
-            sx={{ minWidth: 750,backgroundColor:'#ffffff',marginBottom:'3rem' }}
+            sx={{ minWidth: 750, backgroundColor: '#ffffff', marginBottom: '3rem' }}
             aria-labelledby="tableTitle"
             size={"medium"}
           >
@@ -361,134 +373,133 @@ export default function EnhancedTable({ openTraderAlert,openVerificationData,ope
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={data.length}
+              rowCount={fetchedData?.data?.stores?.length}
             />
             <TableBody>
-            {loading ?
-              (
-                <TableRow>
-                  <TableCell colSpan={6}>
-                    <CircularLoading />
-                  </TableCell>
-                </TableRow>
-              )
-              :
-              (
-                <>
-                {stableSort(fetchedData?.data?.stores, getComparator(order, orderBy))
-                  ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, index) => {
-                    const isItemSelected = isSelected(row.id);
-                    const labelId = `enhanced-table-checkbox-${index}`;
-  
-                    return (
-                      <TableRow
-                        hover
-                        //   onClick={(event) => handleClick(event, row.name)}
-                        role="checkbox"
-                        aria-checked={isItemSelected}
-                        tabIndex={-1}
-                        key={row.id}
-                        selected={isItemSelected}
-                      >
-                        <TableCell id={labelId} className="min-w-[7rem]">
-                          <div className="flex items-center gap-2">
-                            <img src={Delete} alt="delete-icon" 
-                              onClick={() => {
-                                const findIndex = data.findIndex(
-                                  (item) => item.id === row.id
-                                );
-                                const arr = [...data];
-                                arr.splice(findIndex, 1);
-                                setData(arr);
-                              }}
-                              style={{
-                                cursor: "pointer",
-                                color: "red",
-                                fontSize: "1rem",
-                              }}
-                            />
-                            <img className="cursor-pointer" src={SendNote} alt="send-note-icon" onClick={() => {openTraderAlert(row);}}/>
-                            <img className="cursor-pointer" src={EditButton} alt="edit-icon" onClick={() => {openEidtVerificationData(row);}}/>
-                          </div>
-                        </TableCell>
-                        <TableCell align="right">
-                            <h2 className="md:text-[18px] text-[16px]" style={{ color:'#4D4F5C' }}>
-                              {row.date}
-                            </h2>
-                        </TableCell>
-                        <TableCell align="center">
-                          <div
-                            className="w-24 h-full py-1 rounded-xl"
-                            style={{
-                              backgroundColor: row?.verification_status,
-                              marginLeft: "auto",
-                            }}
-                          >
-                            <h2 style={{ color: '#4D4F5C',fontSize:'16px' }}>{row?.verification_status}</h2>
-                          </div>
-                        </TableCell>
-                        <TableCell align="right" className="min-w-[14rem]">
-                          <div className="flex flex-row items-center justify-end gap-3">
-                            {/*<img className="cursor-pointer" src={ListMoreCategory} alt="list-more-category" onClick={activityHandleClick}/>
-                            <Menu
-                                className={styles.activity_menu}
-                                anchorEl={activityAnchorEl}
-                                open={activityOpen}
-                                onClose={activityHandleClose}
-                            >
-                                {[1,2,3].map((_item,index)=>(
-                                <MenuItem key={index} className="flex flex-row items-center justify-center gap-2" style={{ color:'#4D4F5C' }} onClick={activityHandleClose}>
-                                    <div
-                                      className="flex flex-row items-center justify-center"
-                                      style={{ width:'30px',height:'30px',borderRadius:'50%',backgroundColor:'#8D8AD333' }}><img src={Stationery} alt="stationery-icon" /></div>
-                                      قرطاسية
-                                </MenuItem>
-                                ))}
-                                </Menu>*/}
-                            <h2 style={{ color: '#4D4F5C',fontSize:'16px' }} className="inline whitespace-nowrap">{row?.activity?.[0]?.name}</h2>
-                          </div>
-                        </TableCell>
-                        <TableCell align="right">
-                          <h2 style={{ color: '#4D4F5C',fontSize:'18px',cursor:'pointer'}} onClick={() => {openVerificationData(row);}}>{row.store_name}</h2>
-                        </TableCell>
-                        <TableCell align="right" style={{ color: '#4D4F5C',fontSize:'18px' }}>
-                          {(index + 1).toLocaleString("en-US", {
-                            minimumIntegerDigits: 2,
-                            useGrouping: false,
-                          })}
-                        </TableCell>
-                        <TableCell padding="none" align={"right"}>
-                          <Checkbox
-                            checkedIcon={<CheckedSquare />}
-                            sx={{
-                              color: "#1DBBBE",
-                              "& .MuiSvgIcon-root": {
-                                color: "#ADB5B9",
-                              },
-                            }}
-                            checked={isItemSelected}
-                            onClick={(event) => handleClick(event, row.id)}
-                            inputProps={{
-                              "aria-labelledby": labelId,
-                            }}
-                          />
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                {emptyRows > 0 && (
-                  <TableRow
-                    style={{
-                      height: 53 * emptyRows,
-                    }}
-                  >
-                    <TableCell colSpan={6} />
+              {loading ?
+                (
+                  <TableRow>
+                    <TableCell colSpan={6}>
+                      <CircularLoading />
+                    </TableCell>
                   </TableRow>
+                )
+                :
+                (
+                  <>
+                    {stableSort(fetchedData?.data?.stores, getComparator(order, orderBy))
+                      ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      .map((row, index) => {
+                        const isItemSelected = isSelected(row.id);
+                        const labelId = `enhanced-table-checkbox-${index}`;
+
+                        return (
+                          <TableRow
+                            hover
+                            //   onClick={(event) => handleClick(event, row.name)}
+                            role="checkbox"
+                            aria-checked={isItemSelected}
+                            tabIndex={-1}
+                            key={row.id}
+                            selected={isItemSelected}
+                          >
+                            <TableCell id={labelId} className="min-w-[7rem]">
+                              <div className="flex items-center gap-2">
+                                <img src={Delete} alt="delete-icon"
+                                  onClick={() => {deleteItem(row?.id)}}
+                                  style={{
+                                    cursor: "pointer",
+                                    color: "red",
+                                    fontSize: "1rem",
+                                  }}
+                                />
+                                <img className="cursor-pointer" src={SendNote} alt="send-note-icon" onClick={() => { openTraderAlert({id:row?.id,name:row?.store_name}); }} />
+                                <img className="cursor-pointer" src={EditButton} alt="edit-icon" onClick={() => { openEidtVerificationData(row); }} />
+                              </div>
+                            </TableCell>
+                            <TableCell align="right">
+                              <h2 className="md:text-[18px] text-[16px]" style={{ color: '#4D4F5C' }}>
+                                {getDate(row?.verification_date)}
+                              </h2>
+                            </TableCell>
+                            <TableCell align="center">
+                              <div
+                                className="w-28 h-full py-1 rounded-xl"
+                                style={{
+                                  backgroundColor: row?.verification_status==='تم التوثيق' ? '#3AE374' :row?.verification_status==='جاري التوثيق' ? '#FFDD0066' :row?.verification_status==='طلب جديد' ? '#1DBBBE66' :'#ff00008a',
+                                  marginLeft: "auto",
+                                }}
+                              >
+                                <h2 style={{ color: '#4D4F5C', fontSize: '16px',whiteSpace:'nowrap' }}>{row?.verification_status}</h2>
+                              </div>
+                            </TableCell>
+                            <TableCell align="right" className="min-w-[14rem]">
+                              <div className='flex flex-row items-center justify-end gap-3'>
+                                {
+                                  row?.activity?.length > 1 &&
+                                  (
+                                    <>
+                                      <img className='cursor-pointer' src={ListMoreCategory} alt='list-more-category' onClick={activityHandleClick} />
+                                      <Menu className={styles.activity_menu} anchorEl={activityAnchorEl} open={activityOpen} onClose={activityHandleClose}>
+                                        {row?.activity?.map((item, index) => (
+                                          <MenuItem key={index} className='flex flex-row items-center justify-center gap-2' style={{ color: '#4D4F5C' }} onClick={activityHandleClose}>
+                                            <div className='flex flex-row items-center justify-center md:w-[30px] w-[20px] md:h-[30px] h-[20px] p-[0.2rem]' style={{ borderRadius: '50%', backgroundColor: '#8D8AD333' }}>
+                                              <img src={item?.icon} alt={item?.name} />
+                                            </div>
+                                            {item?.name}
+                                          </MenuItem>
+                                        ))}
+                                      </Menu>
+                                    </>
+                                  )
+                                }
+                                
+                                <h2 style={{ color: '#4D4F5C' }} className='md:text-[16px] text-[14px] inline whitespace-nowrap font-normal'>
+                                  {row?.activity?.[0]?.name}
+                                </h2>
+                                <img src={row?.activity?.[0]?.icon} alt={row?.activity?.[0]?.name} className="w-[20px] h-[20px] rounded-full" />
+                              </div>
+                            </TableCell>
+                            <TableCell align="right">
+                              <h2 style={{ color: '#4D4F5C', fontSize: '18px', cursor: 'pointer' }} onClick={() => { openVerificationData(row); }}>{row.store_name}</h2>
+                            </TableCell>
+                            <TableCell align="right" style={{ color: '#4D4F5C', fontSize: '18px' }}>
+                              {(index + 1).toLocaleString("en-US", {
+                                minimumIntegerDigits: 2,
+                                useGrouping: false,
+                              })}
+                            </TableCell>
+                            <TableCell padding="none" align={"right"}>
+                              <Checkbox
+                                checkedIcon={<CheckedSquare />}
+                                sx={{
+                                  color: "#1DBBBE",
+                                  "& .MuiSvgIcon-root": {
+                                    color: "#ADB5B9",
+                                  },
+                                }}
+                                checked={isItemSelected}
+                                onClick={(event) => handleClick(event, row.id)}
+                                inputProps={{
+                                  "aria-labelledby": labelId,
+                                }}
+                              />
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    {emptyRows > 0 && (
+                      <TableRow
+                        style={{
+                          height: 53 * emptyRows,
+                        }}
+                      >
+                        <TableCell colSpan={6} />
+                      </TableRow>
+                    )}
+                  </>
                 )}
-                </>
-              )}
-              
+
             </TableBody>
           </Table>
         </TableContainer>

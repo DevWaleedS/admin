@@ -299,24 +299,24 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable({ fetchedData,loading,reload,setReload,openProductDetails, openTraderAlert }) {
-	const token = localStorage.getItem('token');
-	const [order, setOrder] = React.useState('asc');
-	const [orderBy, setOrderBy] = React.useState('calories');
-	const [selected, setSelected] = React.useState([]);
-	const [page, setPage] = React.useState(0);
-	const [rowsPerPage, setRowsPerPage] = React.useState(10);
-	const [data, setData] = React.useState(fetchedData?.data?.products || []);
-	const [anchorEl, setAnchorEl] = React.useState(null);
-	const [activityAnchorEl, setActivityAnchorEl] = React.useState(null);
-	const contextStore = useContext(Context);
-	const { setEndActionTitle } = contextStore;
-	const open = Boolean(anchorEl);
-	const activityOpen = Boolean(activityAnchorEl);
-	const rowsPerPagesCount = [10, 20, 30, 50, 100];
-	const handleRowsClick = (event) => {
-		setAnchorEl(event.currentTarget);
-	};
+export default function EnhancedTable({ fetchedData, loading, reload, setReload, openProductDetails, openTraderAlert }) {
+  const token = localStorage.getItem('token');
+  const [order, setOrder] = React.useState("asc");
+  const [orderBy, setOrderBy] = React.useState("calories");
+  const [selected, setSelected] = React.useState([]);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [data, setData] = React.useState(fetchedData?.data?.products || []);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [activityAnchorEl, setActivityAnchorEl] = React.useState(null);
+  const contextStore = useContext(Context);
+  const { setEndActionTitle } = contextStore;
+  const open = Boolean(anchorEl);
+  const activityOpen = Boolean(activityAnchorEl);
+  const rowsPerPagesCount = [10, 20, 30, 50, 100];
+  const handleRowsClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
 	const activityHandleClick = (event) => {
 		setActivityAnchorEl(event.currentTarget);
@@ -336,70 +336,87 @@ export default function EnhancedTable({ fetchedData,loading,reload,setReload,ope
 		setOrderBy(property);
 	};
 
-	// Select All Function
-	const handleSelectAllClick = (event) => {
-		if (event.target.checked) {
-			const newSelected = fetchedData?.data?.products?.map((n) => n.id);
-			setSelected(newSelected);
-			return;
-		}
-		setSelected([]);
-	};
+  const handleSelectAllClick = (event) => {
+    if (event.target.checked) {
+      const newSelected = fetchedData?.data?.products?.map((n) => n.id);
+      setSelected(newSelected);
+      return;
+    }
+    setSelected([]);
+  };
+  const deleteProduct = (id) => {
+    axios
+      .get(`https://backend.atlbha.com/api/Admin/productdeleteall?id[]=${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res?.data?.success === true && res?.data?.status === 200) {
+          setEndActionTitle(res?.data?.message?.ar);
+          setReload(!reload);
+        } else {
+          setEndActionTitle(res?.data?.message?.ar);
+          setReload(!reload);
+        }
+      });
+  };
 
-	// Delete all Function
-	const deleteProduct = (id) => {
-		axios
-			.get(`https://backend.atlbha.com/api/Admin/productdeleteall?id[]=${id}`, {
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${token}`,
-				},
-			})
-			.then((res) => {
-				if (res?.data?.success === true && res?.data?.status === 200) {
-					setEndActionTitle(res?.data?.message?.ar);
-					setReload(!reload);
-				} else {
-					setEndActionTitle(res?.data?.message?.ar);
-					setReload(!reload);
-				}
-			});
-	};
+  const changeProductStatus = (id) => {
+    axios
+      .get(`https://backend.atlbha.com/api/Admin/productchangeSatusall?id[]=${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res?.data?.success === true && res?.data?.status === 200) {
+          setEndActionTitle(res?.data?.message?.ar);
+          setReload(!reload);
+        } else {
+          setEndActionTitle(res?.data?.message?.ar);
+          setReload(!reload);
+        }
+      });
+  }
 
-	// Change Product Status function 
-	const changeProductStatus = (id) => {
-		axios
-			.get(`https://backend.atlbha.com/api/Admin/productchangeSatusall?id[]=${id}`, {
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${token}`,
-				},
-			})
-			.then((res) => {
-				if (res?.data?.success === true && res?.data?.status === 200) {
-					setEndActionTitle(res?.data?.message?.ar);
-					setReload(!reload);
-				} else {
-					setEndActionTitle(res?.data?.message?.ar);
-					setReload(!reload);
-				}
-			});
-	};
+  const changeProductSpecialStatus = (id) =>{
+    axios
+      .get(`https://backend.atlbha.com/api/Admin/productchangeSpecial/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res?.data?.success === true && res?.data?.status === 200) {
+          setEndActionTitle(res?.data?.message?.ar);
+          setReload(!reload);
+        } else {
+          setEndActionTitle(res?.data?.message?.ar);
+          setReload(!reload);
+        }
+      });
+  }
+  const handleClick = (event, name) => {
+    const selectedIndex = selected.indexOf(name);
+    let newSelected = [];
 
-	const handleClick = (event, name) => {
-		const selectedIndex = selected.indexOf(name);
-		let newSelected = [];
-
-		if (selectedIndex === -1) {
-			newSelected = newSelected.concat(selected, name);
-		} else if (selectedIndex === 0) {
-			newSelected = newSelected.concat(selected.slice(1));
-		} else if (selectedIndex === selected.length - 1) {
-			newSelected = newSelected.concat(selected.slice(0, -1));
-		} else if (selectedIndex > 0) {
-			newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
-		}
-
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, name);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1)
+      );
+    }
+    
 		setSelected(newSelected);
 	};
 
@@ -413,7 +430,7 @@ export default function EnhancedTable({ fetchedData,loading,reload,setReload,ope
 	};
 
 	const isSelected = (name) => selected.indexOf(name) !== -1;
-
+  
 	// Avoid a layout jump when reaching the last page with empty rows.
 	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - fetchedData?.data?.products?.length) : 0;
 

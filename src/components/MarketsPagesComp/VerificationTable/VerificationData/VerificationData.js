@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import Button from "../../../../UI/Button/Button";
 import ImageUploading from "react-images-uploading";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import { PDF } from "../../../../assets/Icons/index";
+import Context from '../../../../store/context';
+import axios from "axios";
 
 const BackDrop = ({ onClick }) => {
   return (
@@ -13,13 +15,17 @@ const BackDrop = ({ onClick }) => {
   );
 };
 
-const VerificationData = ({ cancel, verificationInfo, editVerificationData, setVerification }) => {
+const VerificationData = ({ reload, setReload, cancel, verificationInfo, editVerificationData, setVerification }) => {
+  const token = localStorage.getItem('token');
+	const contextStore = useContext(Context);
+  const { setEndActionTitle } = contextStore;
   const [images, setImages] = useState([]);
   const onChangeLogoImage = (imageList, addUpdateIndex) => {
     // data for submit
     console.log(imageList);
     setImages(imageList);
   };
+  
   const [data, setData] = useState({
     store_name: '',
     store_activity: '',
@@ -30,29 +36,96 @@ const VerificationData = ({ cancel, verificationInfo, editVerificationData, setV
   useEffect(() => {
     if (editVerificationData) {
       setData({
-        store_name: editVerificationData.store,
-        store_activity: editVerificationData.activity,
-        store_owner: "محمد خالد",
-        maroof_link: "https://maroof.storename.sa/",
+        store_name: editVerificationData?.store_name,
+        store_activity: editVerificationData?.activity[0]?.name,
+        store_owner: editVerificationData?.user?.name,
+        maroof_link: editVerificationData?.business_license,
         commercial_register: 'السجل التجاري'
       });
     } else {
       setData({
-        store_name: verificationInfo.store,
-        store_activity: verificationInfo.activity,
-        store_owner: "علوي العيدروس",
-        maroof_link: "https://maroof.storename.sa/",
+        store_name: verificationInfo?.store_name,
+        store_activity: verificationInfo?.activity[0]?.name,
+        store_owner: verificationInfo?.user?.name,
+        maroof_link: verificationInfo?.business_license,
         commercial_register: 'السجل التجاري',
       });
     }
   }, [editVerificationData, verificationInfo]);
+
+  const acceptVerification = () => {
+    axios
+      .get(`https://backend.atlbha.com/api/Admin/acceptVerification/${verificationInfo?.id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res?.data?.success === true && res?.data?.data?.status === 200) {
+          cancel();
+					setReload(!reload);
+          setVerification('accepted');
+        } else {
+          setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setReload(!reload);
+        }
+      });
+  }
+
+  const rejectVerification = () =>{
+    axios
+    .get(`https://backend.atlbha.com/api/Admin/rejectVerification/${verificationInfo?.id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((res) => {
+      if (res?.data?.success === true && res?.data?.data?.status === 200) {
+          cancel();
+					setReload(!reload);
+          setVerification('rejected');
+      } else {
+          setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setReload(!reload);
+      }
+    });
+  }
+
+  const updateVerification = () =>{
+    const data={
+
+    }
+
+    axios
+    .post("https://backend.atlbha.com/api/Admin/verification_update",data, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((res) => {
+      if (res?.data?.success === true && res?.data?.data?.status === 200) {
+          cancel();
+					setReload(!reload);
+          setVerification('edit');
+      } else {
+          setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setReload(!reload);
+      }
+    });
+  }
 
   return (
     <>
       <BackDrop onClick={cancel} />
       <div
         className="absolute flex flex-col top-5 translate-x-2/4  right-2/4 z-20 rounded-lg overflow-hidden"
-        style={{ width: "60.25rem",maxWidth:"90%" }}
+        style={{ width: "60.25rem", maxWidth: "90%" }}
       >
         <div
           className="h-16 w-full flex items-center justify-between py-4 px-4 trader_alert"
@@ -135,8 +208,8 @@ const VerificationData = ({ cancel, verificationInfo, editVerificationData, setV
                       }}
                     >
                       <div className="flex-1 flex flex-row items-center md:justify-start justify-between gap-2">
-                          <h2 className="md:text-[20px] text-[16px] whitespace-nowrap" style={{ color: '#67747B' }}>السجل التجاري</h2>
-                          <img src={PDF} alt="pdf-icon" />
+                        <h2 className="md:text-[20px] text-[16px] whitespace-nowrap" style={{ color: '#67747B' }}>السجل التجاري</h2>
+                        <img src={PDF} alt="pdf-icon" />
                       </div>
                       <h2 className="md:text-[16px] text-[14px] md:flex hidden" style={{ color: '#0099FB' }}>تحميل السجل التجاري</h2>
                     </div>
@@ -169,7 +242,7 @@ const VerificationData = ({ cancel, verificationInfo, editVerificationData, setV
                 }}
                 type={"normal"}
                 style={{ backgroundColor: '#1DBBBE', color: '#F7FCFF' }}
-                textStyle={{ color: "#F7FCFF"}}
+                textStyle={{ color: "#F7FCFF" }}
                 className="md:h-[60px] h-[45px] md:text-[18px] text-[16px] text-center w-full py-4 rounded-none font-medium"
               >
                 تعديل الطلب
@@ -191,22 +264,16 @@ const VerificationData = ({ cancel, verificationInfo, editVerificationData, setV
           (
             <div className="flex flex-row items-center">
               <Button
-                onClick={() => {
-                  setVerification('accepted');
-                  cancel();
-                }}
+                onClick={acceptVerification}
                 type={"normal"}
                 style={{ backgroundColor: '#1DBBBE' }}
-                textStyle={{ color: "#F7FCFF"}}
+                textStyle={{ color: "#F7FCFF" }}
                 className="md:h-[60px] h-[45px] md:text-[18px] text-[16px] text-center w-full py-4 rounded-none font-medium"
               >
                 قبول التوثيق
               </Button>
               <Button
-                onClick={() => {
-                  setVerification('rejected');
-                  cancel();
-                }}
+                onClick={rejectVerification}
                 type={"outline"}
                 textStyle={{ color: "#011723" }}
                 style={{ backgroundColor: '#FFFFFF', border: '1px solid #011723' }}

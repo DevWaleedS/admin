@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Plans from './Plans/Plans';
 import EditPackageTemplates from '../EditPackageTemplates/EditPackageTemplates';
 
-const PackagesTypes = ({ editPackage }) => {
+const PackagesTypes = ({ fetchedData, loading,reload,setReload, editPackage }) => {
 	const [yearlyPlan, setYearlyPlan] = useState(false);
 	const [showEditTemplates, setShowEditTemplates] = useState(false);
 	return (
@@ -27,6 +27,10 @@ const PackagesTypes = ({ editPackage }) => {
 				></EditPackageTemplates>
 			)}
 			<Plans
+				fetchedData={fetchedData}
+				loading={loading}
+				reload={reload}
+        		setReload={setReload}
 				editPackage={(row) => {
 					editPackage(row);
 				}}

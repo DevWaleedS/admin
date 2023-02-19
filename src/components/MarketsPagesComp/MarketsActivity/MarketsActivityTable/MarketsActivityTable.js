@@ -190,7 +190,7 @@ EnhancedTableToolbar.propTypes = {
 	numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable({ fetchedData,loading,reload,setReload,editProduct }) {
+export default function EnhancedTable({ fetchedData, loading, reload, setReload, editProduct }) {
 	const token = localStorage.getItem('token');
 	const NotificationStore = useContext(NotificationContext);
 	const { confirm, setConfirm } = NotificationStore;
@@ -280,8 +280,9 @@ export default function EnhancedTable({ fetchedData,loading,reload,setReload,edi
 	}
 	useEffect(() => {
 		if (confirm) {
+			const queryParams = selected.map(id => `id[]=${id}`).join('&');
 			axios
-				.get(`https://backend.atlbha.com/api/Admin/activitydeleteall?id[]=${selected.map((item)=>[item])}`, {
+				.get(`https://backend.atlbha.com/api/Admin/activitydeleteall?${queryParams}`, {
 					headers: {
 						"Content-Type": "application/json",
 						Authorization: `Bearer ${token}`,
@@ -295,11 +296,10 @@ export default function EnhancedTable({ fetchedData,loading,reload,setReload,edi
 						setEndActionTitle(res?.data?.message?.ar);
 						setReload(!reload);
 					}
-			});
+				});
 			setConfirm(false);
 		}
 	}, [confirm]);
-
 
 	return (
 		<Box sx={{ width: '100%', mt: '0rem' }}>
