@@ -18,6 +18,7 @@ const MainPage = () => {
 	const navigate = useNavigate();
 
 	const Login = () => {
+		
 		setError('');
 		setUsernameError('');
 		setPasswordError('');
@@ -38,6 +39,13 @@ const MainPage = () => {
 		});
 	};
 
+	const handleKeyDown = (event) => {
+		if (event.key === 'Enter') {
+			event.preventDefault();
+			Login();
+		}
+	};
+
 	return token ? (
 		<Navigate to='/' />
 	) : (
@@ -54,6 +62,7 @@ const MainPage = () => {
 							type='text'
 							name='username'
 							value={username}
+							onKeyDown={handleKeyDown}
 							onChange={(e) => {
 								setUserName(e.target.value);
 							}}
@@ -67,6 +76,7 @@ const MainPage = () => {
 							type='password'
 							name='password'
 							value={password}
+							onKeyDown={handleKeyDown}
 							onChange={(e) => {
 								setPassword(e.target.value);
 							}}
