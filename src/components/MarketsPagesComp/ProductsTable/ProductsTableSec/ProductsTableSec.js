@@ -1,5 +1,4 @@
-import React, { useState, useContext } from "react";
-import styles from "./ProductsTableSec.module.css";
+import React, { useState, useContext, Fragment } from 'react';
 import PropTypes from "prop-types";
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -65,6 +64,7 @@ function stableSort(array, comparator) {
   return stabilizedThis?.map((el) => el[0]);
 }
 
+// Table Header
 const headCells = [
   {
     id: "situation",
@@ -197,108 +197,102 @@ function EnhancedTableToolbar(props) {
   const { setNotificationTitle, setActionTitle } = NotificationStore;
   const [all, setAll] = useState(true);
   return (
-    <Toolbar
-      className="md:gap-8 gap-4 p-0"
-      sx={{
-        pl: { sm: 2 },
-        pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
-          bgcolor: (theme) =>
-            alpha(
-              theme.palette.primary.contrastText,
-              theme.palette.action.activatedOpacity
-            ),
-        }),
-        display: "flex",
-        justifyContent: "flex-end",
-      }}
-    >
-      <div
-        className="flex flex-row justify-center items-center gap-2"
-      >
-        {numSelected > 0 && (
-          <>
-            <div
-              className="md:w-[126px] w-[100px] md:h-[40px] h-[30px] flex flex-row items-center justify-center md:gap-3 gap-1 cursor-pointer"
-              style={{ backgroundColor: '#FF9F1A0A', borderRadius: '20px' }}
-              onClick={() => {
-                setNotificationTitle('سيتم تعطيل جميع المنتجات التي قمت بتحديدها');
-                setActionTitle('تم تعطيل المنتجات بنجاح');
-              }}
-            >
-              <h6 style={{ color: '#FF9F1A' }} className="font-medium md:text-[18px] text-[15px]">تعطيل</h6>
-              <Switch
-                onChange={() => {
-                }}
-                className=''
-                sx={{
-                  width: '50px',
-                  '& .MuiSwitch-thumb': {
-                    width: '11px',
-                    height: '11px',
-                  },
-                  '& .MuiSwitch-switchBase': {
-                    padding: '6px',
-                    top: '9px',
-                    left: '9px',
-                  },
-                  '& .MuiSwitch-switchBase.Mui-checked': {
-                    left: '-1px',
-                  },
-                  '& .Mui-checked .MuiSwitch-thumb': {
-                    backgroundColor: '#FFFFFF',
-                  },
-                  '& .MuiSwitch-track': {
-                    height: '16px',
-                    borderRadius: '20px',
-                  },
-                  '&.MuiSwitch-root .Mui-checked+.MuiSwitch-track': {
-                    backgroundColor: '#FF9F1A',
+			<Toolbar
+				className='md:gap-8 gap-4 p-0'
+				sx={{
+					pl: { sm: 2 },
+					pr: { xs: 1, sm: 1 },
+					...(numSelected > 0 && {
+						bgcolor: (theme) => alpha(theme.palette.primary.contrastText, theme.palette.action.activatedOpacity),
+					}),
+					display: 'flex',
+					justifyContent: 'flex-end',
+				}}
+			>
+				<div className='flex flex-row justify-center items-center gap-2'>
+					{numSelected > 0 && (
+						<Fragment>
+							<div
+								className='md:w-[126px] w-[100px] md:h-[40px] h-[30px] flex flex-row items-center justify-center md:gap-3 gap-1 cursor-pointer'
+								style={{ backgroundColor: '#FF9F1A0A', borderRadius: '20px' }}
+								onClick={() => {
+									setNotificationTitle('سيتم تعطيل جميع المنتجات التي قمت بتحديدها');
+									setActionTitle('تم تعطيل المنتجات بنجاح');
+								}}
+							>
+								<h6 style={{ color: '#FF9F1A' }} className='font-medium md:text-[18px] text-[15px]'>
+									تعطيل
+								</h6>
+								<Switch
+									onChange={() => {}}
+									className=''
+									sx={{
+										width: '50px',
+										'& .MuiSwitch-thumb': {
+											width: '11px',
+											height: '11px',
+										},
+										'& .MuiSwitch-switchBase': {
+											padding: '6px',
+											top: '9px',
+											left: '9px',
+										},
+										'& .MuiSwitch-switchBase.Mui-checked': {
+											left: '-1px',
+										},
+										'& .Mui-checked .MuiSwitch-thumb': {
+											backgroundColor: '#FFFFFF',
+										},
+										'& .MuiSwitch-track': {
+											height: '16px',
+											borderRadius: '20px',
+										},
+										'&.MuiSwitch-root .Mui-checked+.MuiSwitch-track': {
+											backgroundColor: '#FF9F1A',
 
-                    opacity: 1,
-                  },
-                }}
-                checked={all}
-              />
-            </div>
-            <div
-              className="md:w-[114px] w-[90px] md:h-[40px] h-[30px] flex flex-row items-center justify-center md:gap-4 gap-2 cursor-pointer"
-              style={{ backgroundColor: '#FF38381A', borderRadius: '20px' }}
-              onClick={() => {
-                setNotificationTitle('سيتم حذف جميع المنتجات التي قمت بتحديدها');
-                setActionTitle('تم حذف المنتجات بنجاح');
-              }}
-            >
-              <h6 style={{ color: '#FF3838' }} className="md:text-[18px] text-[15px] font-medium">حذف</h6>
-              <img
-                src={Delete}
-                alt='delete-icon'
-              />
-            </div>
-          </>
-        )}
-      </div>
-      <div className="flex items-center">
-        <h2 className="font-medium md:text-[18px] text-[16px] whitespace-nowrap">تحديد الكل</h2>
-        <Checkbox
-          checkedIcon={<CheckedSquare />}
-          sx={{
-            pr: "0",
-            color: "#011723",
-            "& .MuiSvgIcon-root": {
-              color: "#011723",
-            },
-          }}
-          indeterminate={numSelected > 0 && numSelected < rowCount}
-          checked={rowCount > 0 && numSelected === rowCount}
-          onChange={onSelectAllClick}
-          inputProps={{
-            "aria-label": "select all desserts",
-          }}
-        />
-      </div>
-    </Toolbar>
-  );
+											opacity: 1,
+										},
+									}}
+									checked={all}
+								/>
+							</div>
+							<div
+								className='md:w-[114px] w-[90px] md:h-[40px] h-[30px] flex flex-row items-center justify-center md:gap-4 gap-2 cursor-pointer'
+								style={{ backgroundColor: '#FF38381A', borderRadius: '20px' }}
+								onClick={() => {
+									setNotificationTitle('سيتم حذف جميع المنتجات التي قمت بتحديدها');
+									setActionTitle('تم حذف المنتجات بنجاح');
+								}}
+							>
+								<h6 style={{ color: '#FF3838' }} className='md:text-[18px] text-[15px] font-medium'>
+									حذف
+								</h6>
+								<img src={Delete} alt='delete-icon' />
+							</div>
+						</Fragment>
+					)}
+				</div>
+				<div className='flex items-center'>
+					<h2 className='font-medium md:text-[18px] text-[16px] whitespace-nowrap'>تحديد الكل</h2>
+					<Checkbox
+						checkedIcon={<CheckedSquare />}
+						sx={{
+							pr: '0',
+							color: '#011723',
+							'& .MuiSvgIcon-root': {
+								color: '#011723',
+							},
+						}}
+						indeterminate={numSelected > 0 && numSelected < rowCount}
+						checked={rowCount > 0 && numSelected === rowCount}
+						onChange={onSelectAllClick}
+						inputProps={{
+							'aria-label': 'select all desserts',
+						}}
+					/>
+				</div>
+			</Toolbar>
+		);
 }
 
 EnhancedTableToolbar.propTypes = {
@@ -306,55 +300,58 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function EnhancedTable({ fetchedData,loading,reload,setReload,openProductDetails, openTraderAlert }) {
-  const token = localStorage.getItem('token');
-  const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("calories");
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [data, setData] = React.useState(fetchedData?.data?.products || []);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [activityAnchorEl, setActivityAnchorEl] = React.useState(null);
-  const contextStore = useContext(Context);
+	const token = localStorage.getItem('token');
+	const [order, setOrder] = React.useState('asc');
+	const [orderBy, setOrderBy] = React.useState('calories');
+	const [selected, setSelected] = React.useState([]);
+	const [page, setPage] = React.useState(0);
+	const [rowsPerPage, setRowsPerPage] = React.useState(10);
+	const [data, setData] = React.useState(fetchedData?.data?.products || []);
+	const [anchorEl, setAnchorEl] = React.useState(null);
+	const [activityAnchorEl, setActivityAnchorEl] = React.useState(null);
+	const contextStore = useContext(Context);
 	const { setEndActionTitle } = contextStore;
-  const open = Boolean(anchorEl);
-  const activityOpen = Boolean(activityAnchorEl);
-  const rowsPerPagesCount = [10, 20, 30, 50, 100];
-  const handleRowsClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+	const open = Boolean(anchorEl);
+	const activityOpen = Boolean(activityAnchorEl);
+	const rowsPerPagesCount = [10, 20, 30, 50, 100];
+	const handleRowsClick = (event) => {
+		setAnchorEl(event.currentTarget);
+	};
 
-  const activityHandleClick = (event) => {
-    setActivityAnchorEl(event.currentTarget);
-  };
+	const activityHandleClick = (event) => {
+		setActivityAnchorEl(event.currentTarget);
+	};
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
 
-  const activityHandleClose = () => {
-    setActivityAnchorEl(null);
-  };
+	const activityHandleClose = () => {
+		setActivityAnchorEl(null);
+	};
 
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
+	const handleRequestSort = (event, property) => {
+		const isAsc = orderBy === property && order === 'asc';
+		setOrder(isAsc ? 'desc' : 'asc');
+		setOrderBy(property);
+	};
 
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelected = fetchedData?.data?.products?.map((n) => n.id);
-      setSelected(newSelected);
-      return;
-    }
-    setSelected([]);
-  };
-  const deleteProduct = (id) => {
-    axios
+	// Select All Function
+	const handleSelectAllClick = (event) => {
+		if (event.target.checked) {
+			const newSelected = fetchedData?.data?.products?.map((n) => n.id);
+			setSelected(newSelected);
+			return;
+		}
+		setSelected([]);
+	};
+
+	// Delete all Function
+	const deleteProduct = (id) => {
+		axios
 			.get(`https://backend.atlbha.com/api/Admin/productdeleteall?id[]=${id}`, {
 				headers: {
-					"Content-Type": "application/json",
+					'Content-Type': 'application/json',
 					Authorization: `Bearer ${token}`,
 				},
 			})
@@ -367,13 +364,14 @@ export default function EnhancedTable({ fetchedData,loading,reload,setReload,ope
 					setReload(!reload);
 				}
 			});
-  };
+	};
 
-  const changeProductStatus = (id) =>{
-    axios
+	// Change Product Status function 
+	const changeProductStatus = (id) => {
+		axios
 			.get(`https://backend.atlbha.com/api/Admin/productchangeSatusall?id[]=${id}`, {
 				headers: {
-					"Content-Type": "application/json",
+					'Content-Type': 'application/json',
 					Authorization: `Bearer ${token}`,
 				},
 			})
@@ -386,377 +384,350 @@ export default function EnhancedTable({ fetchedData,loading,reload,setReload,ope
 					setReload(!reload);
 				}
 			});
-  }
+	};
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
+	const handleClick = (event, name) => {
+		const selectedIndex = selected.indexOf(name);
+		let newSelected = [];
 
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
+		if (selectedIndex === -1) {
+			newSelected = newSelected.concat(selected, name);
+		} else if (selectedIndex === 0) {
+			newSelected = newSelected.concat(selected.slice(1));
+		} else if (selectedIndex === selected.length - 1) {
+			newSelected = newSelected.concat(selected.slice(0, -1));
+		} else if (selectedIndex > 0) {
+			newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
+		}
 
-    setSelected(newSelected);
-  };
+		setSelected(newSelected);
+	};
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+	const handleChangePage = (event, newPage) => {
+		setPage(newPage);
+	};
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+	const handleChangeRowsPerPage = (event) => {
+		setRowsPerPage(parseInt(event.target.value, 10));
+		setPage(0);
+	};
 
-  const isSelected = (name) => selected.indexOf(name) !== -1;
+	const isSelected = (name) => selected.indexOf(name) !== -1;
 
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - fetchedData?.data?.products?.length) : 0;
+	// Avoid a layout jump when reaching the last page with empty rows.
+	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - fetchedData?.data?.products?.length) : 0;
 
-  const allRows = () => {
-    const num = Math.ceil(fetchedData?.data?.products?.length / rowsPerPage);
-    const arr = [];
-    for (let index = 0; index < num; index++) {
-      arr.push(index + 1);
-    }
-    return arr;
-  };
-  return (
-    <Box sx={{ width: "100%" }}>
-      <Paper sx={{ backgroundColor: 'transparent', width: "100%", mb: 2, boxShadow: '0 0' }}>
-        <EnhancedTableToolbar
-          numSelected={selected.length}
-          rowCount={fetchedData?.data?.products?.length}
-          onSelectAllClick={handleSelectAllClick}
-        />
-        <TableContainer>
-          <Table
-            sx={{ minWidth: 750, backgroundColor: '#ffffff', marginBottom: '3rem' }}
-            aria-labelledby="tableTitle"
-            size={"medium"}
-          >
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={fetchedData?.data?.products?.length}
-            />
-            <TableBody>
-              {loading ?
-                (
-                  <TableRow>
-                    <TableCell colSpan={9}>
-                      <CircularLoading />
-                    </TableCell>
-                  </TableRow>
-                )
-                :
-                (
-                  <>
-                    {stableSort(fetchedData?.data?.products, getComparator(order, orderBy))
-                      ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                      .map((row, index) => {
-                        const isItemSelected = isSelected(row.id);
-                        const labelId = `enhanced-table-checkbox-${index}`;
-                        return (
-                          <TableRow hover role='checkbox' aria-checked={isItemSelected} tabIndex={-1} key={row.id} selected={isItemSelected}>
-                            <TableCell component='th' id={labelId} scope='row'>
-                              <div className='flex items-center gap-2'>
-                                <img
-                                  src={Delete}
-                                  alt='delete-icon'
-                                  onClick={() => deleteProduct(row?.id)}
-                                  style={{
-                                    cursor: 'pointer',
-                                    color: 'red',
-                                    fontSize: '1rem',
-                                  }}
-                                />
-                                <Switch
-                                  onChange={()=>changeProductStatus(row?.id)}
-                                  sx={{
-                                    width: '50px',
+	const allRows = () => {
+		const num = Math.ceil(fetchedData?.data?.products?.length / rowsPerPage);
+		const arr = [];
+		for (let index = 0; index < num; index++) {
+			arr.push(index + 1);
+		}
+		return arr;
+	};
+	return (
+		<Box sx={{ width: '100%' }}>
+			<Paper sx={{ backgroundColor: 'transparent', width: '100%', mb: 2, boxShadow: '0 0' }}>
+				<EnhancedTableToolbar numSelected={selected.length} rowCount={fetchedData?.data?.products?.length} onSelectAllClick={handleSelectAllClick} />
+				<TableContainer>
+					<Table sx={{ minWidth: 750, backgroundColor: '#ffffff', marginBottom: '3rem' }} aria-labelledby='tableTitle' size={'medium'}>
+						<EnhancedTableHead
+							numSelected={selected.length}
+							order={order}
+							orderBy={orderBy}
+							onSelectAllClick={handleSelectAllClick}
+							onRequestSort={handleRequestSort}
+							rowCount={fetchedData?.data?.products?.length}
+						/>
+						<TableBody>
+							{loading ? (
+								<TableRow>
+									<TableCell colSpan={9}>
+										<CircularLoading />
+									</TableCell>
+								</TableRow>
+							) : (
+								<Fragment>
+									{stableSort(fetchedData?.data?.products, getComparator(order, orderBy))
+										?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+										.map((row, index) => {
+											const isItemSelected = isSelected(row.id);
+											const labelId = `enhanced-table-checkbox-${index}`;
+											return (
+												<TableRow hover role='checkbox' aria-checked={isItemSelected} tabIndex={-1} key={row.id} selected={isItemSelected}>
+													<TableCell component='th' id={labelId} scope='row'>
+														<div className='flex items-center gap-2'>
+															<img
+																src={Delete}
+																alt='delete-icon'
+																onClick={() => deleteProduct(row?.id)}
+																style={{
+																	cursor: 'pointer',
+																	color: 'red',
+																	fontSize: '1rem',
+																}}
+															/>
+															<Switch
+																onChange={() => changeProductStatus(row?.id)}
+																sx={{
+																	width: '50px',
 
-                                    '& .MuiSwitch-thumb': {
-                                      width: '11px',
-                                      height: '11px',
-                                    },
-                                    '& .MuiSwitch-switchBase': {
-                                      padding: '6px',
-                                      top: '9px',
-                                      left: '9px',
-                                    },
-                                    '& .MuiSwitch-switchBase.Mui-checked': {
-                                      left: '-1px',
-                                    },
-                                    '& .Mui-checked .MuiSwitch-thumb': {
-                                      backgroundColor: '#FFFFFF',
-                                    },
-                                    '& .MuiSwitch-track': {
-                                      height: '16px',
-                                      borderRadius: '20px',
-                                    },
-                                    '&.MuiSwitch-root .Mui-checked+.MuiSwitch-track': {
-                                      backgroundColor: '#3AE374',
+																	'& .MuiSwitch-thumb': {
+																		width: '11px',
+																		height: '11px',
+																	},
+																	'& .MuiSwitch-switchBase': {
+																		padding: '6px',
+																		top: '9px',
+																		left: '9px',
+																	},
+																	'& .MuiSwitch-switchBase.Mui-checked': {
+																		left: '-1px',
+																	},
+																	'& .Mui-checked .MuiSwitch-thumb': {
+																		backgroundColor: '#FFFFFF',
+																	},
+																	'& .MuiSwitch-track': {
+																		height: '16px',
+																		borderRadius: '20px',
+																	},
+																	'&.MuiSwitch-root .Mui-checked+.MuiSwitch-track': {
+																		backgroundColor: '#3AE374',
 
-                                      opacity: 1,
-                                    },
-                                  }}
-                                  checked={row?.status==='active' ? true : false }
-                                />
-                                <img
-                                  className='cursor-pointer'
-                                  src={SendNote}
-                                  alt='send-note-icon'
-                                  onClick={() => {
-                                    openTraderAlert(row);
-                                  }}
-                                />
-                              </div>
-                            </TableCell>
-                            <TableCell align='right'>
-                              <h2 className='md:text-[18px] text-[16px] font-normal' style={{ color: '#4D4F5C' }}>
-                                {getDate(row.created_at)}
-                              </h2>
-                            </TableCell>
-                            <TableCell align='right'>
-                              <div className='flex flex-row items-center gap-1 py-1 px-3 md:w-16 w-24 h-6 rounded-md'>
-                                <h2 style={{ color: row.special ? '#3AE374' : '#ADB5B9' }} className='md:text-[16px] text-[14px] min-w-[50px] whitespace-nowrap'>
-                                  {row.special ? 'مميز' : 'غير مميز'}
-                                </h2>
-                                <Switch
-                                  onChange={() => {
-                                    const findIndex = data.findIndex((item) => item.id === row.id);
-                                    const arr = [...data];
-                                    arr[findIndex].special = !arr[findIndex].special;
-                                    setData(arr);
-                                  }}
-                                  className=''
-                                  sx={{
-                                    width: '50px',
+																		opacity: 1,
+																	},
+																}}
+																checked={row?.status === 'active' ? true : false}
+															/>
+															<img
+																className='cursor-pointer'
+																src={SendNote}
+																alt='send-note-icon'
+																onClick={() => {
+																	openTraderAlert(row);
+																}}
+															/>
+														</div>
+													</TableCell>
+													<TableCell align='right'>
+														<h2 className='md:text-[18px] text-[16px] font-normal' style={{ color: '#4D4F5C' }}>
+															{getDate(row.created_at)}
+														</h2>
+													</TableCell>
+													<TableCell align='right'>
+														<div className='flex flex-row items-center gap-1 py-1 px-3 md:w-16 w-24 h-6 rounded-md'>
+															<h2 style={{ color: row.special ? '#3AE374' : '#ADB5B9' }} className='md:text-[16px] text-[14px] min-w-[50px] whitespace-nowrap'>
+																{row.special ? 'مميز' : 'غير مميز'}
+															</h2>
+															<Switch
+																onChange={() => {
+																	const findIndex = data.findIndex((item) => item.id === row.id);
+																	const arr = [...data];
+																	arr[findIndex].special = !arr[findIndex].special;
+																	setData(arr);
+																}}
+																className=''
+																sx={{
+																	width: '50px',
 
-                                    '& .MuiSwitch-thumb': {
-                                      width: '11px',
-                                      height: '11px',
-                                    },
-                                    '& .MuiSwitch-switchBase': {
-                                      padding: '6px',
-                                      top: '9px',
-                                      left: '9px',
-                                    },
-                                    '& .MuiSwitch-switchBase.Mui-checked': {
-                                      left: '-1px',
-                                    },
-                                    '& .Mui-checked .MuiSwitch-thumb': {
-                                      backgroundColor: '#FFFFFF',
-                                    },
-                                    '& .MuiSwitch-track': {
-                                      height: '16px',
-                                      borderRadius: '20px',
-                                    },
-                                    '&.MuiSwitch-root .Mui-checked+.MuiSwitch-track': {
-                                      backgroundColor: '#3AE374',
+																	'& .MuiSwitch-thumb': {
+																		width: '11px',
+																		height: '11px',
+																	},
+																	'& .MuiSwitch-switchBase': {
+																		padding: '6px',
+																		top: '9px',
+																		left: '9px',
+																	},
+																	'& .MuiSwitch-switchBase.Mui-checked': {
+																		left: '-1px',
+																	},
+																	'& .Mui-checked .MuiSwitch-thumb': {
+																		backgroundColor: '#FFFFFF',
+																	},
+																	'& .MuiSwitch-track': {
+																		height: '16px',
+																		borderRadius: '20px',
+																	},
+																	'&.MuiSwitch-root .Mui-checked+.MuiSwitch-track': {
+																		backgroundColor: '#3AE374',
 
-                                      opacity: 1,
-                                    },
-                                  }}
-                                  checked={row.special}
-                                />
-                              </div>
-                            </TableCell>
-                            <TableCell className="min-w-[200px]" align='right'>
-                              <div className='flex flex-row items-center justify-end gap-3'>
-                                {/*<img className='cursor-pointer' src={ListMoreCategory} alt='list-more-category' onClick={activityHandleClick} />
-                                <Menu className={styles.activity_menu} anchorEl={activityAnchorEl} open={activityOpen} onClose={activityHandleClose}>
-                                  {row?.subcategory?.map((item, index) => (
-                                    <MenuItem key={index} className='flex flex-row items-center justify-center gap-2' style={{ color: '#4D4F5C' }} onClick={activityHandleClose}>
-                                      <div className='flex flex-row items-center justify-center md:w-[30px] w-[20px] md:h-[30px] h-[20px] p-[0.2rem]' style={{ borderRadius: '50%', backgroundColor: '#8D8AD333' }}>
-                                        <img src={item?.icon} alt='stationery-icon' />
-                                      </div>
-                                      {item?.name}
-                                    </MenuItem>
-                                  ))}
-                                  </Menu>*/}
-                                <h2 style={{ color: '#4D4F5C' }} className='md:text-[16px] text-[14px] inline whitespace-nowrap font-normal'>
-                                  {row?.subcategory?.[0]?.name}
-                                </h2>
-                              </div>
-                            </TableCell>
-                            <TableCell align='center'>
-                              <div
-                                className='w-20 h-full py-1 rounded-xl'
-                                style={{
-                                  backgroundColor: row?.status==='active' ? 'rgba(58, 227, 116, 0.4)' : '#D3D3D3',
-                                  marginLeft: 'auto',
-                                }}
-                              >
-                                <h2 className="md:text-[16px] text-[14px]" style={{ color: row?.status==='active' ? '#011723' : '#67747B' }}>{row?.status==='active' ? 'نشط' : 'غير نشط'}</h2>
-                              </div>
-                            </TableCell>
-                            <TableCell align='right'>
-                              <h2 className="md:text-[16px] text-[14px]" style={{ color: '#4D4F5C' }}>{row?.store?.store_name}</h2>
-                            </TableCell>
-                            <TableCell align='right'>
-                              <h2
-                                className="md:text-[16px] text-[14px] font-normal"
-                                style={{ color: '#4D4F5C', cursor: 'pointer' }}
-                                onClick={() => {
-                                  openProductDetails(row?.id);
-                                }}
-                              >
-                                {row?.name}
-                              </h2>
-                            </TableCell>
-                            <TableCell align='right'>
-                              <h2 className="md:text-[18px] text-[16px]" style={{ color: '#4D4F5C' }}>{row?.sku}</h2>
-                            </TableCell>
-                            <TableCell className="md:text-[18px] text-[16px]" align='right' style={{ color: '#4D4F5C' }}>
-                              {(index + 1).toLocaleString('en-US', {
-                                minimumIntegerDigits: 2,
-                                useGrouping: false,
-                              })}
-                            </TableCell>
-                            <TableCell padding='none' align={'right'}>
-                              <Checkbox
-                                checkedIcon={<CheckedSquare />}
-                                sx={{
-                                  color: '#1DBBBE',
-                                  '& .MuiSvgIcon-root': {
-                                    color: '#ADB5B9',
-                                  },
-                                }}
-                                checked={isItemSelected}
-                                onClick={(event) => handleClick(event, row.id)}
-                                inputProps={{
-                                  'aria-labelledby': labelId,
-                                }}
-                              />
-                            </TableCell>
-                          </TableRow>
-                        );
-                      })}
-                    {emptyRows > 0 && (
-                      <TableRow
-                        style={{
-                          height: 53 * emptyRows,
-                        }}
-                      >
-                        <TableCell colSpan={6} />
-                      </TableRow>
-                    )}
-                  </>
-                )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
-      <div className="flex md:flex-row flex-col items-center justify-between gap-[26px] mt-4">
-        <div
-          className="flex items-center gap-2 p-2 rounded-md"
-          style={{ border: "1px solid #2D62ED" }}
-        >
-          <div
-            id="basic-button"
-            aria-controls={open ? "basic-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-            onClick={handleRowsClick}
-            className={
-              "h-9 w-9 rounded-sm flex justify-center items-center cursor-pointer"
-            }
-            style={{ backgroundColor: "#0099FB" }}
-          >
-            <MdOutlineKeyboardArrowDown
-              color="#fff"
-              fontSize={"1.5rem"}
-            ></MdOutlineKeyboardArrowDown>
-          </div>
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              "aria-labelledby": "basic-button",
-            }}
-          >
-            {rowsPerPagesCount.map((rowsPer, rowsIdx) => {
-              return (
-                <MenuItem
-                  value={rowsPer}
-                  onClick={(e) => {
-                    handleChangeRowsPerPage(e);
-                    handleClose();
-                  }}
-                  key={rowsIdx}
-                  sx={{
-                    backgroundColor: "#FFEEEE",
-                    "ul:has(&)": {
-                      p: 0,
-                    },
-                    "ul:has(&) li:hover": {
-                      backgroundColor: "#C6E1F0",
-                    },
-                  }}
-                >
-                  {rowsPer}
-                </MenuItem>
-              );
-            })}
-          </Menu>
-          <h2 className="font-medium" style={{ color: "#0077FF" }}>
-            عدد الصفوف
-          </h2>
-        </div>
-        <div className="flex gap-6 items-center">
-          <MdOutlineArrowBackIosNew
-            className="cursor-pointer"
-            style={{ visibility: page === 0 && "hidden" }}
-            onClick={() => {
-              setPage(page - 1);
-            }}
-          ></MdOutlineArrowBackIosNew>
+																		opacity: 1,
+																	},
+																}}
+																checked={row.special}
+															/>
+														</div>
+													</TableCell>
+													<TableCell className='min-w-[200px]' align='right'>
+														<div className='flex flex-row items-center justify-end gap-3'>
+															
+															<h2 style={{ color: '#4D4F5C' }} className='md:text-[16px] text-[14px] inline whitespace-nowrap font-normal'>
+																{row?.subcategory?.[0]?.name}
+															</h2>
+														</div>
+													</TableCell>
+													<TableCell align='center'>
+														<div
+															className='w-20 h-full py-1 rounded-xl'
+															style={{
+																backgroundColor: row?.status === 'active' ? 'rgba(58, 227, 116, 0.4)' : '#D3D3D3',
+																marginLeft: 'auto',
+															}}
+														>
+															<h2 className='md:text-[16px] text-[14px]' style={{ color: row?.status === 'active' ? '#011723' : '#67747B' }}>
+																{row?.status === 'active' ? 'نشط' : 'غير نشط'}
+															</h2>
+														</div>
+													</TableCell>
+													<TableCell align='right'>
+														<h2 className='md:text-[16px] text-[14px]' style={{ color: '#4D4F5C' }}>
+															{row?.store?.store_name}
+														</h2>
+													</TableCell>
+													<TableCell align='right'>
+														<h2
+															className='md:text-[16px] text-[14px] font-normal'
+															style={{ color: '#4D4F5C', cursor: 'pointer' }}
+															onClick={() => {
+																openProductDetails(row?.id);
+															}}
+														>
+															{row?.name}
+														</h2>
+													</TableCell>
+													<TableCell align='right'>
+														<h2 className='md:text-[18px] text-[16px]' style={{ color: '#4D4F5C' }}>
+															{row?.sku}
+														</h2>
+													</TableCell>
+													<TableCell className='md:text-[18px] text-[16px]' align='right' style={{ color: '#4D4F5C' }}>
+														{(index + 1).toLocaleString('en-US', {
+															minimumIntegerDigits: 2,
+															useGrouping: false,
+														})}
+													</TableCell>
+													<TableCell padding='none' align={'right'}>
+														<Checkbox
+															checkedIcon={<CheckedSquare />}
+															sx={{
+																color: '#1DBBBE',
+																'& .MuiSvgIcon-root': {
+																	color: '#ADB5B9',
+																},
+															}}
+															checked={isItemSelected}
+															onClick={(event) => handleClick(event, row.id)}
+															inputProps={{
+																'aria-labelledby': labelId,
+															}}
+														/>
+													</TableCell>
+												</TableRow>
+											);
+										})}
+									{emptyRows > 0 && (
+										<TableRow
+											style={{
+												height: 53 * emptyRows,
+											}}
+										>
+											<TableCell colSpan={6} />
+										</TableRow>
+									)}
+								</Fragment>
+							)}
+						</TableBody>
+					</Table>
+				</TableContainer>
+			</Paper>
+			<div className='flex md:flex-row flex-col items-center justify-between gap-[26px] mt-4'>
+				<div className='flex items-center gap-2 p-2 rounded-md' style={{ border: '1px solid #2D62ED' }}>
+					<div
+						id='basic-button'
+						aria-controls={open ? 'basic-menu' : undefined}
+						aria-haspopup='true'
+						aria-expanded={open ? 'true' : undefined}
+						onClick={handleRowsClick}
+						className={'h-9 w-9 rounded-sm flex justify-center items-center cursor-pointer'}
+						style={{ backgroundColor: '#0099FB' }}
+					>
+						<MdOutlineKeyboardArrowDown color='#fff' fontSize={'1.5rem'}></MdOutlineKeyboardArrowDown>
+					</div>
+					<Menu
+						id='basic-menu'
+						anchorEl={anchorEl}
+						open={open}
+						onClose={handleClose}
+						MenuListProps={{
+							'aria-labelledby': 'basic-button',
+						}}
+					>
+						{rowsPerPagesCount.map((rowsPer, rowsIdx) => {
+							return (
+								<MenuItem
+									value={rowsPer}
+									onClick={(e) => {
+										handleChangeRowsPerPage(e);
+										handleClose();
+									}}
+									key={rowsIdx}
+									sx={{
+										backgroundColor: '#FFEEEE',
+										'ul:has(&)': {
+											p: 0,
+										},
+										'ul:has(&) li:hover': {
+											backgroundColor: '#C6E1F0',
+										},
+									}}
+								>
+									{rowsPer}
+								</MenuItem>
+							);
+						})}
+					</Menu>
+					<h2 className='font-medium' style={{ color: '#0077FF' }}>
+						عدد الصفوف
+					</h2>
+				</div>
+				<div className='flex gap-6 items-center'>
+					<MdOutlineArrowBackIosNew
+						className='cursor-pointer'
+						style={{ visibility: page === 0 && 'hidden' }}
+						onClick={() => {
+							setPage(page - 1);
+						}}
+					></MdOutlineArrowBackIosNew>
 
-          <div className="flex gap-4">
-            {allRows().map((item, itemIdx) => {
-              return (
-                <div
-                  className="cursor-pointer font-medium rounded-lg flex justify-center items-center w-6 h-6"
-                  style={{
-                    backgroundColor: item === page + 1 && "#508FF4",
-                    color: item === page + 1 && "#fff",
-                  }}
-                  onClick={() => {
-                    setPage(itemIdx);
-                  }}
-                >
-                  {item}
-                </div>
-              );
-            })}
-          </div>
-          <MdOutlineArrowForwardIos
-            className="cursor-pointer"
-            style={{ visibility: page + 1 === allRows().length && "hidden" }}
-            onClick={() => {
-              setPage(page + 1);
-            }}
-          ></MdOutlineArrowForwardIos>
-        </div>
-        <div></div>
-      </div>
-    </Box>
-  );
-}
+					<div className='flex gap-4'>
+						{allRows().map((item, itemIdx) => {
+							return (
+								<div
+									className='cursor-pointer font-medium rounded-lg flex justify-center items-center w-6 h-6'
+									style={{
+										backgroundColor: item === page + 1 && '#508FF4',
+										color: item === page + 1 && '#fff',
+									}}
+									onClick={() => {
+										setPage(itemIdx);
+									}}
+								>
+									{item}
+								</div>
+							);
+						})}
+					</div>
+					<MdOutlineArrowForwardIos
+						className='cursor-pointer'
+						style={{ visibility: page + 1 === allRows().length && 'hidden' }}
+						onClick={() => {
+							setPage(page + 1);
+						}}
+					></MdOutlineArrowForwardIos>
+				</div>
+				<div></div>
+			</div>
+		</Box>
+	);
+} 
