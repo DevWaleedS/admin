@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import styles from "./ProductsTableSec.module.css";
 import PropTypes from "prop-types";
 import { alpha } from "@mui/material/styles";
@@ -223,7 +223,7 @@ function EnhancedTableToolbar(props) {
               style={{ backgroundColor: '#FF9F1A0A', borderRadius: '20px' }}
               onClick={() => {
                 setNotificationTitle('سيتم تعطيل جميع المنتجات التي قمت بتحديدها');
-                setActionTitle('تم تعطيل المنتجات بنجاح');
+                setActionTitle('ChangeStatus');
               }}
             >
               <h6 style={{ color: '#FF9F1A' }} className="font-medium md:text-[18px] text-[15px]">تعطيل</h6>
@@ -266,7 +266,7 @@ function EnhancedTableToolbar(props) {
               style={{ backgroundColor: '#FF38381A', borderRadius: '20px' }}
               onClick={() => {
                 setNotificationTitle('سيتم حذف جميع المنتجات التي قمت بتحديدها');
-                setActionTitle('تم حذف المنتجات بنجاح');
+                setActionTitle('Delete');
               }}
             >
               <h6 style={{ color: '#FF3838' }} className="md:text-[18px] text-[15px] font-medium">حذف</h6>
@@ -316,7 +316,9 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [activityAnchorEl, setActivityAnchorEl] = React.useState(null);
   const contextStore = useContext(Context);
-  const { setEndActionTitle } = contextStore;
+	const { setEndActionTitle } = contextStore;
+	const NotificationStore = useContext(NotificationContext);
+	const { confirm, setConfirm,actionTitle,setActionTitle } = NotificationStore;
   const open = Boolean(anchorEl);
   const activityOpen = Boolean(activityAnchorEl);
   const rowsPerPagesCount = [10, 20, 30, 50, 100];
@@ -359,7 +361,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
         },
       })
       .then((res) => {
-        if (res?.data?.success === true && res?.data?.status === 200) {
+        if (res?.data?.success === true && res?.data?.data?.status === 200) {
           setEndActionTitle(res?.data?.message?.ar);
           setReload(!reload);
         } else {
@@ -378,7 +380,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
         },
       })
       .then((res) => {
-        if (res?.data?.success === true && res?.data?.status === 200) {
+        if (res?.data?.success === true && res?.data?.data?.status === 200) {
           setEndActionTitle(res?.data?.message?.ar);
           setReload(!reload);
         } else {
@@ -397,7 +399,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
         },
       })
       .then((res) => {
-        if (res?.data?.success === true && res?.data?.status === 200) {
+        if (res?.data?.success === true && res?.data?.data?.status === 200) {
           setEndActionTitle(res?.data?.message?.ar);
           setReload(!reload);
         } else {
@@ -406,6 +408,52 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
         }
       });
   }
+
+  useEffect(() => {
+		if (confirm && actionTitle === 'ChangeStatus') {
+			const queryParams = selected.map(id => `id[]=${id}`).join('&');
+			axios
+				.get(`https://backend.atlbha.com/api/Admin/productchangeSatusall?${queryParams}`, {
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+					},
+				})
+				.then((res) => {
+					if (res?.data?.success === true && res?.data?.data?.status === 200) {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					} else {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					}
+				});
+			setConfirm(false);
+			setActionTitle(null);
+		}
+    if (confirm && actionTitle === 'Delete') {
+			const queryParams = selected.map(id => `id[]=${id}`).join('&');
+			axios
+				.get(`https://backend.atlbha.com/api/Admin/productdeleteall?${queryParams}`, {
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+					},
+				})
+				.then((res) => {
+					if (res?.data?.success === true && res?.data?.data?.status === 200) {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					} else {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					}
+				});
+			setConfirm(false);
+			setActionTitle(null);
+		}
+	}, [confirm]);
+
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
@@ -754,6 +802,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
             {allRows().map((item, itemIdx) => {
               return (
                 <div
+                  key={itemIdx}
                   className="cursor-pointer font-medium rounded-lg flex justify-center items-center w-6 h-6"
                   style={{
                     backgroundColor: item === page + 1 && "#508FF4",

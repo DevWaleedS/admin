@@ -3,7 +3,6 @@ import ReactDom from "react-dom";
 import {NotificationContext} from "../../store/NotificationProvider";
 import { ReactComponent as Warning } from "../../assets/Icons/icon-32-warning.svg";
 import Button from "../../UI/Button/Button";
-import Context from "../../store/context";
 
 const BackDrop = () => {
   return (
@@ -18,9 +17,7 @@ const BackDrop = () => {
 };
 const DeleteModal = ({ cancelEarly }) => {
   const NotificationProvider = useContext(NotificationContext);
-  const { notificationTitle, setNotificationTitle,actionTitle,setConfirm } = NotificationProvider;
-  const contextStore = useContext(Context);
-  const { setEndActionTitle } = contextStore;
+  const { notificationTitle, setNotificationTitle,setActionTitle,setConfirm } = NotificationProvider;
 
   return (
     <>
@@ -47,7 +44,6 @@ const DeleteModal = ({ cancelEarly }) => {
               onClick={()=>{
                 setNotificationTitle(null);
                 setConfirm(true);
-                setEndActionTitle(actionTitle);
               }}>
               تأكيد
             </Button>
@@ -59,6 +55,7 @@ const DeleteModal = ({ cancelEarly }) => {
               onClick={() => {
                 setNotificationTitle(null);
                 setConfirm(false);
+                setActionTitle(null);
               }}
             >
               الغاء

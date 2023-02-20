@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useEffect,useContext } from "react";
 import styles from "./VerificationTableSec.module.css";
 import PropTypes from "prop-types";
 import { alpha } from "@mui/material/styles";
@@ -27,21 +27,13 @@ import {
   Delete,
   SendNote,
   EditButton,
-  Gift,
-  Clinic,
   ListMoreCategory,
-  Stationery
 } from "../../../../assets/Icons/index";
 import { NotificationContext } from "../../../../store/NotificationProvider";
 import Context from '../../../../store/context';
 import CircularLoading from '../../../../UI/CircularLoading/CircularLoading';
 import getDate from "../../../../helpers/getDate";
 import axios from "axios";
-
-const newRequest = { title: "طلب جديد", class: "#1DBBBE66" };
-const inProgress = { title: "جاري التوثيق", class: "#FFDD0066" };
-const finished = { title: "تم التوثيق", class: "#3AE374" };
-
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -206,7 +198,7 @@ function EnhancedTableToolbar(props) {
             style={{ width: '114px', height: '40px', backgroundColor: '#FF38381A', borderRadius: '20px' }}
             onClick={() => {
               setNotificationTitle('سيتم حذف جميع طلبات التوثيق التي قمت بتحديدها');
-              setActionTitle('تم حذف طلبات التوثيق بنجاح');
+              setActionTitle('Delete');
             }}
           >
             <h6 style={{ color: '#FF3838' }} className="md:text-[18px] text-[16px] font-medium">حذف</h6>
@@ -252,11 +244,12 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [data, setData] = React.useState(fetchedData?.data?.stores || []);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [activityAnchorEl, setActivityAnchorEl] = React.useState(null);
   const contextStore = useContext(Context);
-  const { setEndActionTitle } = contextStore;
+	const { setEndActionTitle } = contextStore;
+	const NotificationStore = useContext(NotificationContext);
+	const { confirm, setConfirm,actionTitle,setActionTitle } = NotificationStore;
   const open = Boolean(anchorEl);
   const activityOpen = Boolean(activityAnchorEl);
 
@@ -291,6 +284,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
     }
     setSelected([]);
   };
+
   const deleteItem = (id) => {
       axios
         .get(`https://backend.atlbha.com/api/Admin/verificationdeleteall?id[]=${id}`, {
@@ -309,6 +303,31 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
           }
         });
   };
+
+  useEffect(() => {
+		if (confirm && actionTitle==='Delete') {
+			const queryParams = selected.map(id => `id[]=${id}`).join('&');
+			axios
+				.get(`https://backend.atlbha.com/api/Admin/verificationdeleteall?${queryParams}`, {
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+					},
+				})
+				.then((res) => {
+					if (res?.data?.success === true && res?.data?.data?.status === 200) {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					} else {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+						
+					}
+				});
+			setActionTitle(null);
+			setConfirm(false);
+		}
+	}, [confirm]);
 
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
@@ -575,6 +594,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
             {allRows().map((item, itemIdx) => {
               return (
                 <div
+                  key={itemIdx}
                   className="cursor-pointer font-medium rounded-lg flex justify-center items-center w-6 h-6"
                   style={{
                     backgroundColor: item === page + 1 && "#508FF4",

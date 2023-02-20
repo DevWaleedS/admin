@@ -5,6 +5,7 @@ import EditPackageTemplates from '../EditPackageTemplates/EditPackageTemplates';
 const PackagesTypes = ({ fetchedData, loading,reload,setReload, editPackage }) => {
 	const [yearlyPlan, setYearlyPlan] = useState(false);
 	const [showEditTemplates, setShowEditTemplates] = useState(false);
+	const [templatesEachPackage,setTemplatesEachPackage] = useState([]);
 	return (
 		<div className='h-full md:mb-20 mb-4'>
 			<div className='flex justify-center items-center gap-4 md:my-12 my-[30px]'>
@@ -21,6 +22,7 @@ const PackagesTypes = ({ fetchedData, loading,reload,setReload, editPackage }) =
 			</div>
 			{showEditTemplates && (
 				<EditPackageTemplates
+					templatesEachPackage={templatesEachPackage}
 					cancel={() => {
 						setShowEditTemplates(false);
 					}}
@@ -34,8 +36,9 @@ const PackagesTypes = ({ fetchedData, loading,reload,setReload, editPackage }) =
 				editPackage={(row) => {
 					editPackage(row);
 				}}
-				editPackageTemplate={() => {
+				editPackageTemplate={(data) => {
 					setShowEditTemplates(true);
+					setTemplatesEachPackage(data);
 				}}
 				yearlyPlan={yearlyPlan}
 			></Plans>

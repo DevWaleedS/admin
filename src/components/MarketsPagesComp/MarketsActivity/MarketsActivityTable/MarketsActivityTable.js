@@ -85,9 +85,9 @@ function EnhancedTableHead(props) {
 	return (
 		<TableHead sx={{ backgroundColor: '#ebebebd9' }}>
 			<TableRow>
-				{headCells.map((headCell) => (
+				{headCells.map((headCell,index) => (
 					<TableCell
-						key={headCell.id}
+						key={index}
 						align={headCell.numeric ? 'right' : 'center'}
 						padding={headCell.disablePadding ? 'none' : 'normal'}
 						sortDirection={orderBy === headCell.id ? order : false}
@@ -127,7 +127,7 @@ EnhancedTableHead.propTypes = {
 function EnhancedTableToolbar(props) {
 	const { numSelected, rowCount, onSelectAllClick } = props;
 	const NotificationStore = useContext(NotificationContext);
-	const { setNotificationTitle } = NotificationStore;
+	const { setNotificationTitle,setActionTitle } = NotificationStore;
 	return (
 		<Toolbar
 			sx={{
@@ -143,7 +143,11 @@ function EnhancedTableToolbar(props) {
 		>
 			<div className='flex gap-8 items-center'>
 				{numSelected > 0 && (
-					<Tooltip title='Delete' onClick={() => setNotificationTitle('سيتم حذف جميع الانشطة التي قمت بتحديدها')}>
+					<Tooltip title='Delete' 
+						onClick={() => {
+						setNotificationTitle('سيتم حذف جميع الانشطة التي قمت بتحديدها');
+						setActionTitle('Delete');
+					}}>
 						<div className='flex flex-row items-center gap-2 px-2 rounded-full' style={{ width: '134px' }}>
 							<h2 className={'font-medium md:text-[16px] text-[14px]'} style={{ color: '#FF3838' }}>
 								حذف الكل
@@ -193,7 +197,7 @@ EnhancedTableToolbar.propTypes = {
 export default function EnhancedTable({ fetchedData, loading, reload, setReload, editProduct }) {
 	const token = localStorage.getItem('token');
 	const NotificationStore = useContext(NotificationContext);
-	const { confirm, setConfirm } = NotificationStore;
+	const { confirm, setConfirm,actionTitle,setActionTitle } = NotificationStore;
 	const [order, setOrder] = React.useState('asc');
 	const [orderBy, setOrderBy] = React.useState('calories');
 	const [selected, setSelected] = React.useState([]);
@@ -269,7 +273,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
 				},
 			})
 			.then((res) => {
-				if (res?.data?.success === true && res?.data?.status === 200) {
+				if (res?.data?.success === true && res?.data?.data?.status === 200) {
 					setEndActionTitle(res?.data?.message?.ar);
 					setReload(!reload);
 				} else {
@@ -279,7 +283,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
 			});
 	}
 	useEffect(() => {
-		if (confirm) {
+		if (confirm && actionTitle==='Delete') {
 			const queryParams = selected.map(id => `id[]=${id}`).join('&');
 			axios
 				.get(`https://backend.atlbha.com/api/Admin/activitydeleteall?${queryParams}`, {
@@ -289,14 +293,16 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
 					},
 				})
 				.then((res) => {
-					if (res?.data?.success === true && res?.data?.status === 200) {
+					if (res?.data?.success === true && res?.data?.data?.status === 200) {
 						setEndActionTitle(res?.data?.message?.ar);
-						setReload(!reload);
+						setReload(prev => !prev);
 					} else {
 						setEndActionTitle(res?.data?.message?.ar);
-						setReload(!reload);
+						setReload(prev => !prev);
+						
 					}
 				});
+			setActionTitle(null);
 			setConfirm(false);
 		}
 	}, [confirm]);

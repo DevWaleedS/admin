@@ -11,6 +11,8 @@ const Packages = () => {
   const [openNewPackage, setOpenNewPackage] = useState(false);
   const [editPackageDetails, setEditPackageDetails] = useState(null);
   const [chooseTemplate, setChooseTemplate] = useState(false);
+  const [selectedTemplate , setSelectedTemplate ] = useState([]);
+  const getSelectedTemplate = (t) =>{setSelectedTemplate(t)};
   return (
     <div className="md:p-4 p-4 pt-2 relative md:bg-[#fafafa] bg-[#ffffff]">
       <div className="flex justify-end ">
@@ -34,6 +36,9 @@ const Packages = () => {
           }}
           editPackageDetails={editPackageDetails}
           setChooseTemplate={setChooseTemplate}
+          selectedTemplate={selectedTemplate}
+          reload={reload}
+          setReload={setReload}
         ></AddNewPackagePlan>
       )}
       <PackagesTypes
@@ -48,6 +53,7 @@ const Packages = () => {
       ></PackagesTypes>
       {chooseTemplate && (
         <PackageTemplate
+          getSelectedTemplate={getSelectedTemplate}
           cancel={() => {
             setChooseTemplate(false);
           }}

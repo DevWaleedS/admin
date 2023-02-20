@@ -28,18 +28,15 @@ const AddAnActivity = ({ cancel, editActivity, reload, setReload }) => {
 			setActitviyName(editActivity.title);
 		}
 	}, [editActivity]);
-
 	const addActivity = () => {
-		const data = {
-			name: activiyName,
-		};
+		
 		let formData = new FormData();
 		formData.append('icon',images[0]?.file || '');
-		formData.append('data',data);
+		formData.append('name', activiyName);
 		axios
-			.post("https://backend.atlbha.com/api/Admin/activity", data, {
+			.post("https://backend.atlbha.com/api/Admin/activity", formData, {
 				headers: {
-					"Content-Type": "application/json",
+					"Content-Type": "multipart/form-data",
 					Authorization: `Bearer ${token}`,
 				},
 			})
