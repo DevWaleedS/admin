@@ -2,16 +2,21 @@ import React, { useState } from 'react';
 import styles from './MarketsActivity.module.css';
 import PageNavigate from '../../../components/PageNavigate/PageNavigate';
 import Button from '../../../UI/Button/Button';
+
+// Icons
 import { IoIosAdd } from 'react-icons/io';
 import MarketsActivityTable from '../../../components/MarketsPagesComp/MarketsActivity/MarketsActivityTable/MarketsActivityTable';
 import AddAnActivity from '../../../components/MarketsPagesComp/MarketsActivity/AddAnActivity/AddAnActivity';
 import EditActivity from '../../../components/MarketsPagesComp/MarketsActivity/EditActivity/EditActivity';
 import useFetch from '../../../hooks/useFetch';
 
+
 const MarketsActivity = () => {
 	const { fetchedData, loading, reload, setReload } = useFetch('https://backend.atlbha.com/api/Admin/activity');
 	const [showAddActivity, setShowAddActivity] = useState(false);
 	const [editProduct, setEditProduct] = useState(null);
+
+	
 	return (
 		<div className={`${styles.recording_status} md:p-12 md:pl-36 p-4 pt-0`}>
 			<div className='flex md:flex-row flex-col md:items-center items-start justify-between gap-4'>

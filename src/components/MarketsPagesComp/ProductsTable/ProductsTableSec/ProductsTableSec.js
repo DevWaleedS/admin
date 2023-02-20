@@ -33,162 +33,160 @@ import {
 import { NotificationContext } from "../../../../store/NotificationProvider";
 import Context from '../../../../store/context';
 import CircularLoading from '../../../../UI/CircularLoading/CircularLoading';
-import axios from "axios";
-import getDate from "../../../../helpers/getDate";
+import axios from 'axios';
+import getDate from '../../../../helpers/getDate';
 
 function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
+	if (b[orderBy] < a[orderBy]) {
+		return -1;
+	}
+	if (b[orderBy] > a[orderBy]) {
+		return 1;
+	}
+	return 0;
 }
 
 function getComparator(order, orderBy) {
-  return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
+	return order === 'desc' ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
 }
-
 
 function stableSort(array, comparator) {
-  const stabilizedThis = array?.map((el, index) => [el, index]);
-  stabilizedThis?.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis?.map((el) => el[0]);
+	const stabilizedThis = array?.map((el, index) => [el, index]);
+	stabilizedThis?.sort((a, b) => {
+		const order = comparator(a[0], b[0]);
+		if (order !== 0) {
+			return order;
+		}
+		return a[1] - b[1];
+	});
+	return stabilizedThis?.map((el) => el[0]);
 }
 
+// Table Header
 const headCells = [
-  {
-    id: "situation",
-    numeric: false,
-    disablePadding: false,
-    label: "الإجراء",
-    width: "5rem",
-  },
-  {
-    id: "date",
-    numeric: true,
-    disablePadding: false,
-    label: <div className="flex flex-col items-center">
-      <h2 style={{ color: '#02466A', fontSize: '14px', fontWeight: '500' }}>التاريخ</h2>
-      <span style={{ color: '#67747B', fontSize: '14px', fontWeight: '500' }}>الإضافة/ التعديل</span>
-    </div>,
-    sort: true,
-  },
-  {
-    id: "special",
-    numeric: true,
-    disablePadding: false,
-    label: "مميز",
-    sort: true,
-  },
-  {
-    id: "activity",
-    numeric: true,
-    disablePadding: false,
-    label: "النشاط",
-    sort: true,
-    width: '5rem'
-  },
-  {
-    id: "status",
-    numeric: true,
-    disablePadding: false,
-    label: "الحالة",
-    sort: true,
-  },
-  {
-    id: "store",
-    numeric: true,
-    disablePadding: false,
-    label: "المتجر",
-    sort: true,
-  },
-  {
-    id: "product",
-    numeric: true,
-    disablePadding: false,
-    label: "اسم المنتج",
-  },
-  {
-    id: "number",
-    numeric: true,
-    disablePadding: false,
-    label: "الرقم",
-  },
-  {
-    id: "name",
-    numeric: true,
-    disablePadding: false,
-    label: "م",
-  },
+	{
+		id: 'situation',
+		numeric: false,
+		disablePadding: false,
+		label: 'الإجراء',
+		width: '5rem',
+	},
+	{
+		id: 'date',
+		numeric: true,
+		disablePadding: false,
+		label: (
+			<div className='flex flex-col items-center'>
+				<h2 style={{ color: '#02466A', fontSize: '14px', fontWeight: '500' }}>التاريخ</h2>
+				<span style={{ color: '#67747B', fontSize: '14px', fontWeight: '500' }}>الإضافة/ التعديل</span>
+			</div>
+		),
+		sort: true,
+	},
+	{
+		id: 'special',
+		numeric: true,
+		disablePadding: false,
+		label: 'مميز',
+		sort: true,
+	},
+	{
+		id: 'activity',
+		numeric: true,
+		disablePadding: false,
+		label: 'النشاط',
+		sort: true,
+		width: '5rem',
+	},
+	{
+		id: 'status',
+		numeric: true,
+		disablePadding: false,
+		label: 'الحالة',
+		sort: true,
+	},
+	{
+		id: 'store',
+		numeric: true,
+		disablePadding: false,
+		label: 'المتجر',
+		sort: true,
+	},
+	{
+		id: 'product',
+		numeric: true,
+		disablePadding: false,
+		label: 'اسم المنتج',
+	},
+	{
+		id: 'number',
+		numeric: true,
+		disablePadding: false,
+		label: 'الرقم',
+	},
+	{
+		id: 'name',
+		numeric: true,
+		disablePadding: false,
+		label: 'م',
+	},
 ];
 
 function EnhancedTableHead(props) {
-  const { order, orderBy, onRequestSort } = props;
-  const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
+	const { order, orderBy, onRequestSort } = props;
+	const createSortHandler = (property) => (event) => {
+		onRequestSort(event, property);
+	};
 
-  return (
-    <TableHead sx={{ backgroundColor: "#ebebebd9" }}>
-      <TableRow>
-        {headCells.map((headCell) => (
-          <TableCell
-            className='md:text-[18px] text-[14px] font-medium'
-            key={headCell.id}
-            align={headCell.numeric ? "right" : "center"}
-            padding={headCell.disablePadding ? "none" : "normal"}
-            sortDirection={orderBy === headCell.id ? order : false}
-            sx={{
-              width: headCell.width ? headCell.width : "auto",
-              color: "#02466A",
-              whiteSpace: 'nowrap'
-            }}
-          >
-            {headCell.sort && (
-              <TableSortLabel
-                IconComponent={() => {
-                  return <SortIcon />;
-                }}
-                active={orderBy === headCell.id}
-                direction={orderBy === headCell.id ? order : "asc"}
-                onClick={createSortHandler(headCell.id)}
-              >
-                {headCell.label}
-                {!orderBy === headCell.id ? (
-                  <Box component="span" sx={visuallyHidden}>
-                    {order === "desc"
-                      ? "sorted descending"
-                      : "sorted ascending"}
-                  </Box>
-                ) : null}
-              </TableSortLabel>
-            )}
-            {!headCell.sort && headCell.label}
-          </TableCell>
-        ))}
-        <TableCell padding={"none"}></TableCell>
-      </TableRow>
-    </TableHead>
-  );
+	return (
+		<TableHead sx={{ backgroundColor: '#ebebebd9' }}>
+			<TableRow>
+				{headCells.map((headCell) => (
+					<TableCell
+						className='md:text-[18px] text-[14px] font-medium'
+						key={headCell.id}
+						align={headCell.numeric ? 'right' : 'center'}
+						padding={headCell.disablePadding ? 'none' : 'normal'}
+						sortDirection={orderBy === headCell.id ? order : false}
+						sx={{
+							width: headCell.width ? headCell.width : 'auto',
+							color: '#02466A',
+							whiteSpace: 'nowrap',
+						}}
+					>
+						{headCell.sort && (
+							<TableSortLabel
+								IconComponent={() => {
+									return <SortIcon />;
+								}}
+								active={orderBy === headCell.id}
+								direction={orderBy === headCell.id ? order : 'asc'}
+								onClick={createSortHandler(headCell.id)}
+							>
+								{headCell.label}
+								{!orderBy === headCell.id ? (
+									<Box component='span' sx={visuallyHidden}>
+										{order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+									</Box>
+								) : null}
+							</TableSortLabel>
+						)}
+						{!headCell.sort && headCell.label}
+					</TableCell>
+				))}
+				<TableCell padding={'none'}></TableCell>
+			</TableRow>
+		</TableHead>
+	);
 }
 
 EnhancedTableHead.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(["asc", "desc"]).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
+	numSelected: PropTypes.number.isRequired,
+	onRequestSort: PropTypes.func.isRequired,
+	onSelectAllClick: PropTypes.func.isRequired,
+	order: PropTypes.oneOf(['asc', 'desc']).isRequired,
+	orderBy: PropTypes.string.isRequired,
+	rowCount: PropTypes.number.isRequired,
 };
 
 function EnhancedTableToolbar(props) {
@@ -302,7 +300,7 @@ function EnhancedTableToolbar(props) {
 }
 
 EnhancedTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired,
+	numSelected: PropTypes.number.isRequired,
 };
 
 export default function EnhancedTable({ fetchedData, loading, reload, setReload, openProductDetails, openTraderAlert }) {

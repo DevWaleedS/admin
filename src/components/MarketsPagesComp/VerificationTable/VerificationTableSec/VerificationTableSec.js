@@ -1,4 +1,4 @@
-import React, { useEffect,useContext } from "react";
+import React, { useEffect,useContext,Fragment } from "react";
 import styles from "./VerificationTableSec.module.css";
 import PropTypes from "prop-types";
 import { alpha } from "@mui/material/styles";
@@ -169,7 +169,7 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
-  const { numSelected, onClick, rowCount, onSelectAllClick } = props;
+  const { numSelected, rowCount, onSelectAllClick } = props;
   const NotificationStore = useContext(NotificationContext);
   const { setNotificationTitle, setActionTitle } = NotificationStore;
   return (
@@ -285,6 +285,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
     setSelected([]);
   };
 
+  // delete function 
   const deleteItem = (id) => {
       axios
         .get(`https://backend.atlbha.com/api/Admin/verificationdeleteall?id[]=${id}`, {
@@ -349,9 +350,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
     setSelected(newSelected);
   };
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -372,6 +371,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
     }
     return arr;
   };
+
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ backgroundColor: 'transparent', width: "100%", mb: 2, boxShadow: '0 0' }}>
