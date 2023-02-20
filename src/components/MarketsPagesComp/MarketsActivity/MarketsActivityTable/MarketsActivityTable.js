@@ -260,6 +260,8 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
 		return arr;
 	};
 
+
+	// Delete single item 
 	const deleteActivity = (id) => {
 		axios
 			.get(`https://backend.atlbha.com/api/Admin/activitydeleteall?id[]=${id}`, {
@@ -278,6 +280,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
 				}
 			});
 	}
+	// Delete all items
 	useEffect(() => {
 		if (confirm) {
 			const queryParams = selected.map(id => `id[]=${id}`).join('&');
