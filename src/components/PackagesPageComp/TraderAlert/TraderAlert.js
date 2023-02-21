@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import Button from '../../../UI/Button/Button';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
@@ -17,6 +17,8 @@ import { FiSend } from 'react-icons/fi';
 import { IoIosArrowDown } from 'react-icons/io';
 import { IoMdCloseCircleOutline } from 'react-icons/io';
 import { DatePicker as DateRange } from 'antd';
+import Context from '../../../store/context';
+import axios from "axios";
 
 const packagesOptions = ['تجديد الاشتراك', 'الغاء الاشتراك'];
 
@@ -24,7 +26,10 @@ const BackDrop = ({ onClick }) => {
 	return <div onClick={onClick} className='fixed back_drop top-0 left-0 h-full w-full bg-slate-900 opacity-50 z-10'></div>;
 };
 
-const TraderAlert = ({ cancel, traderPackageDetails }) => {
+const TraderAlert = ({ cancel, traderPackageDetails,setReload,reload }) => {
+	const token = localStorage.getItem('token');
+	const contextStore = useContext(Context);
+  const { setEndActionTitle } = contextStore;
 	const [packageOption, setPackageOption] = useState('');
 	const [description, setDescription] = useState({
 		htmlValue: '<h1></h1>\n',
@@ -43,7 +48,34 @@ const TraderAlert = ({ cancel, traderPackageDetails }) => {
 	const handleCategory = (event) => {
 		setPackageOption(event.target.value);
 	};
-	console.log(traderPackageDetails);
+
+	const addStoreNote = () => {
+		const data = {
+      store_id:traderPackageDetails?.id,
+	  type:'',
+      subject:'',
+      message:description?.htmlValue
+		};
+		axios
+			.post("https://backend.atlbha.com/api/Admin/addAlert", data, {
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setReload(!reload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setReload(!reload);
+				}
+			});
+	}
+
 	return (
 		<>
 			<BackDrop onClick={cancel} />

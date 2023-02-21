@@ -4,7 +4,7 @@ import AcademyLessons from "./AcademyLessons/AcademyLessons";
 
 const tabs = [{id:1,title:'الدورات التدريبية',active:true},{id:2,title:'شروحات',active:false}];
 
-const OtlobhaAcademyComp = ({setSelectTab,EditCourse,EditLesson}) => {
+const OtlobhaAcademyComp = ({courses,coursesLoading,coursesReload,setCoursesReload,setSelectTab,EditCourse,EditLesson}) => {
   const [selectedId, setSelectedId] = useState(1);
   setSelectTab(selectedId);
   return (
@@ -27,7 +27,16 @@ const OtlobhaAcademyComp = ({setSelectTab,EditCourse,EditLesson}) => {
             </div>
         ))}
       </div>
-      {selectedId=== 1 ? <TrainingCourses EditCourse={EditCourse}></TrainingCourses> : <AcademyLessons EditLesson={EditLesson}></AcademyLessons>}
+      {selectedId=== 1 ? 
+        <TrainingCourses 
+                  courses={courses}  
+                  coursesLoading={coursesLoading}
+                  coursesReload={coursesReload}
+                  setCoursesReload={setCoursesReload}
+                  EditCourse={EditCourse}>
+        </TrainingCourses> 
+          : 
+        <AcademyLessons EditLesson={EditLesson}></AcademyLessons>}
     </div>
   );
 };

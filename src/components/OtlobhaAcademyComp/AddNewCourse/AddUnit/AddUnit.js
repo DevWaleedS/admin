@@ -31,6 +31,12 @@ const formInputStyle = {
 const AddUnit = ({ cancel, cancelAll }) => {
   const contextStore = useContext(Context);
   const { setEndActionTitle } = contextStore;
+  const [unit,setUnit] = useState({
+		title:'',
+		file:[],
+		video:[],
+	});
+  console.log(unit);
   const [images, setImages] = useState([]);
   const [multiImages, setMultiImages] = useState([]);
   const inputRef = React.useRef();
@@ -76,7 +82,7 @@ const AddUnit = ({ cancel, cancelAll }) => {
 										عنوان الوحدة
 									</h2>
 									<label>
-										<input className={formInputClasses} style={formInputStyle} placeholder='عنوان الوحدة' type='text' name='name' />
+										<input value={unit?.title} onChange={(e)=>setUnit({...unit,title:e.target.value})} className={formInputClasses} style={formInputStyle} placeholder='عنوان الوحدة' type='text' name='name' />
 									</label>
 								</div>
 
@@ -85,7 +91,7 @@ const AddUnit = ({ cancel, cancelAll }) => {
 										ملفات مرفقة
 									</h2>
 									<label className='md:w-[555px] w-full md:h-14 h-[45px] flex p-4 items-center rounded-lg' style={{ border: '1px solid #ccc' }} htmlFor=''>
-										<input className={`flex-1 rounded-lg ${styles.file_select}`} type='file' placeholder='asdasdasd' />
+										<input onChange={(e)=>setUnit({...unit,file:e.target.files})} className={`flex-1 rounded-lg ${styles.file_select}`} type='file' placeholder='asdasdasd' />
 										<div>
 											<GrAttachment></GrAttachment>
 										</div>

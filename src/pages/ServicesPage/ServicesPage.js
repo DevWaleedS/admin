@@ -1,14 +1,15 @@
 import React from 'react';
 import PageNavigate from '../../components/PageNavigate/PageNavigate';
 import ServicesTable from '../../components/ServicesPageComp/ServicesTable/ServicesTable';
-
 import Button from '../../UI/Button/Button';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { useState } from 'react';
 import NewService from '../../components/ServicesPageComp/NewService/NewService';
 import ShowDetails from '../../components/ServicesPageComp/ShowDetails/ShowDetails';
+import useFetch from '../../hooks/useFetch';
 
 const ServicesPage = () => {
+	const { fetchedData, loading, reload, setReload } = useFetch('https://backend.atlbha.com/api/Admin/service');
 	const [showNewProductInfo, setShowNewProductInfo] = useState(false);
 	const [showDetailsModal, setShowDetailsModal] = useState(false);
 	return (
@@ -30,6 +31,8 @@ const ServicesPage = () => {
 			</div>
 			{showNewProductInfo && (
 				<NewService
+					reload={reload}
+					setReload={setReload}
 					cancel={() => {
 						setShowNewProductInfo(false);
 					}}
@@ -43,7 +46,13 @@ const ServicesPage = () => {
 				/>
 			)}
 			<div dir={'ltr'} className='md:mt-20 mt-5'>
-				<ServicesTable showdetails={setShowDetailsModal}></ServicesTable>
+				<ServicesTable
+					fetchedData={fetchedData}
+					loading={loading}
+					reload={reload}
+					setReload={setReload}
+					showdetails={setShowDetailsModal}
+				></ServicesTable>
 			</div>
 		</div>
 	);

@@ -73,15 +73,15 @@ const AddNewPackagePlan = ({ reload, setReload, cancel, selectedTemplate, setCho
       });
   }
   const updatePackagePlan = () => {
-    const editPlan = editPackageDetails?.plans?.filter((item)=>item?.selected===true);
+    
     const editTemplate = editPackageDetails?.templates.map((item)=>item?.id);
     const data = {
       name: datapackage?.name,
       monthly_price: datapackage?.monthly_price,
       yearly_price: datapackage?.yearly_price,
       discount: datapackage?.discount,
-      plan: editPlan.map((item)=>item?.id) || datapackage?.plan,
-      template: editTemplate || selectedTemplate,
+      plan: datapackage?.plan,
+      template: selectedTemplate,
     };
     axios
       .put(`https://backend.atlbha.com/api/Admin/package/${editPackageDetails?.id}`, data, {
