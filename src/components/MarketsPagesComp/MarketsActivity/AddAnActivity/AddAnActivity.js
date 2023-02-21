@@ -76,6 +76,7 @@ const AddAnActivity = ({ cancel, editActivity, reload, setReload }) => {
 							className='w-full outline-none shadow-[0px_3px_6px_#00000029] rounded-md p-4 my-4 h-[60px] text-lg'
 							placeholder='ادخل اسم النشاط'
 							type='text'
+							
 							name='name'
 							value={activiyName}
 							onChange={(e) => {

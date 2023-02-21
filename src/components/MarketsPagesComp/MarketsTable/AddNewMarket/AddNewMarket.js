@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
 import Button from '../../../../UI/Button/Button';
 import Context from '../../../../store/context';
 import { GoArrowRight } from 'react-icons/go';
@@ -64,17 +63,7 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 		setImages(imageList);
 	};
 
-	//const [activity, setActivity] = React.useState([]);
-
-	// const handleActivity = (event) => {
-	// 	const {
-	// 		target: { value },
-	// 	} = event;
-	// 	setActivity(
-	// 		// On autofill we get a stringified value.
-	// 		typeof value === 'string' ? value.split(',') : value
-	// 	);
-	// };
+	
 
 	const addMarket = ()=> {
 		let formData = new FormData();

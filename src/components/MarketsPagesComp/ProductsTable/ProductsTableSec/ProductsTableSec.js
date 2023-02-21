@@ -1,4 +1,5 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect, useContext, Fragment } from 'react';
+import axios from 'axios';
 import styles from "./ProductsTableSec.module.css";
 import PropTypes from "prop-types";
 import { alpha } from "@mui/material/styles";
@@ -27,13 +28,13 @@ import { ReactComponent as SortIcon } from "../../../../assets/Icons/icon-24-sor
 import {
   Delete,
   SendNote,
-  ListMoreCategory,
-  Stationery
+  ListMoreCategory
+
 } from "../../../../assets/Icons/index";
 import { NotificationContext } from "../../../../store/NotificationProvider";
 import Context from '../../../../store/context';
 import CircularLoading from '../../../../UI/CircularLoading/CircularLoading';
-import axios from 'axios';
+
 import getDate from '../../../../helpers/getDate';
 
 function descendingComparator(a, b, orderBy) {
@@ -211,11 +212,10 @@ function EnhancedTableToolbar(props) {
         justifyContent: "flex-end",
       }}
     >
-      <div
-        className="flex flex-row justify-center items-center gap-2"
-      >
+      
+      <div className="flex flex-row justify-center items-center gap-2" >
         {numSelected > 0 && (
-          <>
+          <Fragment>
             <div
               className="md:w-[126px] w-[100px] md:h-[40px] h-[30px] flex flex-row items-center justify-center md:gap-3 gap-1 cursor-pointer"
               style={{ backgroundColor: '#FF9F1A0A', borderRadius: '20px' }}
@@ -273,9 +273,10 @@ function EnhancedTableToolbar(props) {
                 alt='delete-icon'
               />
             </div>
-          </>
+          </Fragment>
         )}
       </div>
+      
       <div className="flex items-center">
         <h2 className="font-medium md:text-[18px] text-[16px] whitespace-nowrap">تحديد الكل</h2>
         <Checkbox
@@ -310,7 +311,6 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [data, setData] = React.useState(fetchedData?.data?.products || []);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [activityAnchorEl, setActivityAnchorEl] = React.useState(null);
   const contextStore = useContext(Context);
@@ -350,6 +350,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
     }
     setSelected([]);
   };
+
   const deleteProduct = (id) => {
     axios
       .get(`https://backend.atlbha.com/api/Admin/productdeleteall?id[]=${id}`, {
@@ -528,7 +529,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
                 )
                 :
                 (
-                  <>
+                  <Fragment>
                     {stableSort(fetchedData?.data?.products, getComparator(order, orderBy))
                       ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row, index) => {
@@ -723,7 +724,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
                         <TableCell colSpan={6} />
                       </TableRow>
                     )}
-                  </>
+                  </Fragment>
                 )}
             </TableBody>
           </Table>
