@@ -410,7 +410,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
 															<h2 className='font-normal text-lg'>{row?.store_name}</h2>
 														</TableCell>
 														<TableCell align='right'>
-															<div className={`h-10 w-28 font-normal text-lg rounded-3xl ml-auto flex justify-center items-center`}
+															<div className={`h-10 w-36 font-normal text-lg rounded-3xl ml-auto flex justify-center items-center whitespace-nowrap px-2`}
 																style={{ backgroundColor: row?.package_name === "التاجر المبتدأ" ? "#a4a1fb66" : row?.package_name === "التاجر المحترف" ? "#00CCF266" : "#B6BE3466" }}>
 																{row?.package_name}
 															</div>

@@ -14,7 +14,6 @@ const VerificationTable = () => {
   const [verificationInfo, setVerificationInfo] = useState(null);
   const [editVerificationData, setEditVerificationData] = useState(null);
   const [verification, setVerification] = useState(null);
-  console.log(verification)
   return (
     <div className="md:pr-4 md:pt-8 md:pl-36 p-4 pt-0 md:bg-[#fafafa] bg-[#ffffff]">
       <div className="flex items-center justify-between">

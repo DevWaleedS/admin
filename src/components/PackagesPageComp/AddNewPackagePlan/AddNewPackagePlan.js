@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState,useEffect, useContext } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { AiFillStar } from "react-icons/ai";
@@ -19,15 +19,6 @@ import Checkbox from '@mui/material/Checkbox';
 import useFetch from '../../../hooks/useFetch';
 import axios from "axios";
 
-const packagesOptions = [
-  "100 منتج",
-  "10 تصنيفات",
-  "دعم فني 24",
-  "تجربة مجانية",
-  "توفير مخازن",
-  "تخصيص القالب",
-  "خدمات الاستشارة",
-];
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -39,35 +30,20 @@ const MenuProps = {
   },
 };
 
-const AddNewPackagePlan = ({ reload, setReload, cancel, setChooseTemplate, editPackageDetails }) => {
+const AddNewPackagePlan = ({ reload, setReload, cancel, selectedTemplate, setChooseTemplate, editPackageDetails }) => {
   const { fetchedData: planList } = useFetch('https://backend.atlbha.com/api/Admin/selector/plans');
   const token = localStorage.getItem('token');
   const contextStore = useContext(Context);
   const { setEndActionTitle } = contextStore;
-  const [packageOption, setPackageOption] = useState("");
   const [datapackage, setDataPackage] = useState({
-    name: '',
-    monthly_price: '',
-    yearly_price: '',
-    discount: '',
+    name: editPackageDetails?.name || '',
+    monthly_price: editPackageDetails?.monthly_price || '',
+    yearly_price: editPackageDetails?.yearly_price || '',
+    discount: editPackageDetails?.discount || '',
     plan: [],
     template: [],
-  })
-  const [optionName, setOptionName] = React.useState([]);
-  console.log(editPackageDetails);
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setOptionName(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
-  };
-
-  const handleCategory = (event) => {
-    setPackageOption(event.target.value);
-  };
+  });
+  console.log(datapackage)
   const AddPackagePlan = () => {
     const data = {
       name: datapackage?.name,
@@ -75,32 +51,61 @@ const AddNewPackagePlan = ({ reload, setReload, cancel, setChooseTemplate, editP
       yearly_price: datapackage?.yearly_price,
       discount: datapackage?.discount,
       plan: datapackage?.plan,
-      template: datapackage?.template,
+      template: selectedTemplate,
     };
-    console.log(data);
-    // axios
-    //   .post("https://backend.atlbha.com/api/Admin/package", data, {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   })
-    //   .then((res) => {
-    //     if (res?.data?.success === true && res?.data?.data?.status === 200) {
-    //       setEndActionTitle(res?.data?.message?.ar);
-    //       cancel();
-    //       setReload(!reload);
-    //     } else {
-    //       setEndActionTitle(res?.data?.message?.ar);
-    //       cancel();
-    //       setReload(!reload);
-    //     }
-    //   });
+    axios
+      .post("https://backend.atlbha.com/api/Admin/package", data, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res?.data?.success === true && res?.data?.data?.status === 200) {
+          setEndActionTitle(res?.data?.message?.ar);
+          cancel();
+          setReload(!reload);
+        } else {
+          setEndActionTitle(res?.data?.message?.ar);
+          cancel();
+          setReload(!reload);
+        }
+      });
   }
+  const updatePackagePlan = () => {
+    const editPlan = editPackageDetails?.plans?.filter((item)=>item?.selected===true);
+    const editTemplate = editPackageDetails?.templates.map((item)=>item?.id);
+    const data = {
+      name: datapackage?.name,
+      monthly_price: datapackage?.monthly_price,
+      yearly_price: datapackage?.yearly_price,
+      discount: datapackage?.discount,
+      plan: editPlan.map((item)=>item?.id) || datapackage?.plan,
+      template: editTemplate || selectedTemplate,
+    };
+    axios
+      .put(`https://backend.atlbha.com/api/Admin/package/${editPackageDetails?.id}`, data, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res?.data?.success === true && res?.data?.data?.status === 200) {
+          setEndActionTitle(res?.data?.message?.ar);
+          cancel();
+          setReload(!reload);
+        } else {
+          setEndActionTitle(res?.data?.message?.ar);
+          cancel();
+          setReload(!reload);
+        }
+      });
+    }
   return (
     <div
-      className="absolute md:pb-20 md:py-[40px] md:pl-[102px] md:pr-4 p-4 pt-0 top-0 right-0  z-10  w-full "
-      style={{ backgroundColor: "#fafafa", height: "100%" }}
+      className="absolute md:pb-20 md:py-[40px] md:pl-[102px] md:pr-4 p-4 pt-0 top-0 right-0  z-10 w-full md:h-auto h-full"
+      style={{ backgroundColor: "#fafafa" }}
     >
       <div className="flex md:flex-row flex-col justify-between md:items-center items-start gap-4 mb-2">
         <div className="flex items-center gap-2">
@@ -113,7 +118,7 @@ const AddNewPackagePlan = ({ reload, setReload, cancel, setChooseTemplate, editP
           className="md:w-[180px] w-full md:h-[56px] h-[45px] md:text-[22px] text-[18px]"
           style={{ color: '#011723', whiteSpace: 'nowrap', }}
           onClick={() => {
-            editPackageDetails ? setEndActionTitle("تم تعديل الباقة بنجاح") : AddPackagePlan();
+            editPackageDetails ? updatePackagePlan() : AddPackagePlan();
           }}
           type={"normal"}
         >

@@ -21,11 +21,8 @@ const VerificationData = ({ reload, setReload, cancel, verificationInfo, editVer
   const { setEndActionTitle } = contextStore;
   const [images, setImages] = useState([]);
   const onChangeLogoImage = (imageList, addUpdateIndex) => {
-    // data for submit
-    console.log(imageList);
     setImages(imageList);
   };
-  
   const [data, setData] = useState({
     store_name: '',
     store_activity: '',
@@ -96,14 +93,18 @@ const VerificationData = ({ reload, setReload, cancel, verificationInfo, editVer
   }
 
   const updateVerification = () =>{
-    const data={
-
-    }
-
+    let formData = new FormData();
+		formData.append('store_name',data?.store_name);
+		formData.append('store_id',editVerificationData?.id);
+		formData.append('name',data?.store_owner);
+		formData.append('link',data?.maroof_link);
+		formData.append('file',images[0]?.file || '');
+		formData.append('activity_id[0]',data?.store_activity);
+    
     axios
-    .post("https://backend.atlbha.com/api/Admin/verification_update",data, {
+    .post("https://backend.atlbha.com/api/Admin/verification_update",formData, {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       },
     })
@@ -192,7 +193,7 @@ const VerificationData = ({ reload, setReload, cancel, verificationInfo, editVer
               disabled={true}
             >
               {({
-                onImageUpload,
+                imageList, onImageUpload,
               }) => (
                 <div
                   className="upload__image-wrapper relative"
@@ -236,10 +237,7 @@ const VerificationData = ({ reload, setReload, cancel, verificationInfo, editVer
           (
             <div className="flex flex-row items-center">
               <Button
-                onClick={() => {
-                  setVerification('edit');
-                  cancel();
-                }}
+                onClick={updateVerification}
                 type={"normal"}
                 style={{ backgroundColor: '#1DBBBE', color: '#F7FCFF' }}
                 textStyle={{ color: "#F7FCFF" }}

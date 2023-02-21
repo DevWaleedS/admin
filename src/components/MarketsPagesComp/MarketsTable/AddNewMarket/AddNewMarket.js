@@ -17,6 +17,7 @@ import { ReactComponent as Arrow } from '../../../../assets/Icons/icon-24-chevro
 import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
 import useFetch from '../../../../hooks/useFetch';
+import axios from "axios";
 
 const BackDrop = ({ onClick }) => {
 	return <div onClick={onClick} className={`fixed back_drop bottom-0 left-0  w-full bg-slate-900  z-10 ${styles.back_drop}`} style={{ height: 'calc(100% - 4rem)' }}></div>;
@@ -25,6 +26,7 @@ const planeTime = [{id:1,name:'سنوي',name_en:'year'},{id:2,name:'شهري (6
 const conditions = [{id:1,name:'مفعل',name_en:'active'},{id:2,name:'غير مفعل',name_en:'not_active'}];
 
 const AddNewMarket = ({ cancel,reload,setReload }) => {
+	const token = localStorage.getItem('token');
 	const contextStore = useContext(Context);
 	const { setEndActionTitle } = contextStore;
 	const [images, setImages] = useState([]);
@@ -55,7 +57,6 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 	const { fetchedData:citiesList } = useFetch('https://backend.atlbha.com/api/Admin/selector/cities');
 	const { fetchedData:packagesList } = useFetch('https://backend.atlbha.com/api/Admin/selector/packages');
 	const { fetchedData:activitiesList } = useFetch('https://backend.atlbha.com/api/Admin/selector/activities');
-	const [planTimeSelected, setPlanTimeSelected] = useState('');
 	const [openActivity, setOpenActivity] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
 	const onChange = (imageList, addUpdateIndex) => {
@@ -76,29 +77,47 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 	// };
 
 	const addMarket = ()=> {
-		const data = {
-			name:personInfo?.name,
-			store_name:storeInfo?.store_name,
-			email:personInfo?.email,
-			store_email:storeInfo?.store_email,
-			password:personInfo?.password,
-			phonenumber:storeInfo?.phonenumber,
-			userphonenumber:personInfo?.userphonenumber,
-			package_id:storeInfo?.package_id,
-			country_id:storeInfo?.country_id,
-			city_id:storeInfo?.city_id,
-			activity_id:storeInfo?.activity_ids,
-			user_country_id:personInfo?.user_country_id,
-			user_city_id:personInfo?.user_city_id,
-			user_name:personInfo?.user_name,
-			domain:storeInfo?.store_name,
-			periodtype:storeInfo?.periodtype,
-			status:personInfo?.status,
-			image:images[0]?.file?.name || '',
+		let formData = new FormData();
+		formData.append('store_name',storeInfo?.store_name);
+		formData.append('domain',storeInfo?.domain);
+		formData.append('store_email',storeInfo?.store_email);
+		formData.append('phonenumber',storeInfo?.phonenumber);
+		formData.append('package_id',storeInfo?.package_id);
+		formData.append('country_id',storeInfo?.country_id);
+		formData.append('city_id',storeInfo?.city_id);
+		formData.append('periodtype',storeInfo?.periodtype);
+		for (let i = 0; i < storeInfo?.activity_ids?.length; i++) {
+			formData.append([`activity_id[${i}]`],storeInfo?.activity_ids[i]);
 		}
-		console.log(data);
-		setEndActionTitle('تم انشاء متجر جديد بنجاح');
-		//cancel();
+		
+		formData.append('name',personInfo?.name);
+		formData.append('user_name',personInfo?.user_name);
+		formData.append('email',personInfo?.email);
+		formData.append('password',personInfo?.password);
+		formData.append('userphonenumber',personInfo?.userphonenumber);
+		formData.append('user_country_id',personInfo?.user_country_id);
+		formData.append('user_city_id',personInfo?.user_city_id);
+		formData.append('image',images[0]?.file || '');
+		formData.append('status',personInfo?.status);
+
+		axios
+			.post("https://backend.atlbha.com/api/Admin/store", formData, {
+				headers: {
+					"Content-Type": "multipart/form-data",
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setReload(!reload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setReload(!reload);
+				}
+			});
 	}
 
 	return (
@@ -406,9 +425,17 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 										value={storeInfo?.activity_ids}
 										onChange={(e)=>{setStoreInfo({...storeInfo,activity_ids:e.target.value})}}
 										renderValue={
-											(selected) => 
-											(storeInfo?.activity_ids.length === 0 ? 'نشاط المتجر' 
-											: selected.join(' , '))}
+											(selected) => {
+												if(storeInfo?.activity_ids.length === 0)
+												{
+													return 'نشاط المتجر';
+												}
+												return selected.map((item)=>{
+													const result = activitiesList?.data?.activities?.filter((a)=>a?.id === parseInt(item))
+													return `${result[0]?.name} , `;	
+												})
+											}
+										}
 										sx={{
 											height: '3.5rem',
 											backgroundColor: '#EFF0F0',
@@ -592,13 +619,6 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 												{...dragProps}
 											>
 												<div className='image-item w-full flex cursor-pointer md:h-[56px] h-[44px]' style={{ backgroundColor: '#EFF0F0' }}>
-													{/* <button
-                        style={isDragging ? { color: "red" } : null}
-                        onClick={onImageUpload}
-                        {...dragProps}
-                      >
-                        Click or Drop here
-                      </button> */}
 													{!images[0] && (
 														<div className='flex flex-row justify-between items-center py-4 pr-5 h-full w-full'>
 															<h2 style={{ color: '#7C7C7C' }}>( اختر صورة فقط png & jpg )</h2>

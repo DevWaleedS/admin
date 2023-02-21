@@ -12,8 +12,6 @@ import Context from '../../../../store/context';
 import CircularLoading from '../../../../UI/CircularLoading/CircularLoading';
 import axios from 'axios';
 
-const packageOptions = ['100 منتج', '10 تصنيفات', 'دعم فني 24', 'تجربة مجانية', 'توفير مخازن', 'تخصيص القالب', 'خدمات الاستشارة'];
-
 const icons = [<BeginnerEmoji style={{ fill: 'red' }} />, <TraderEmoji style={{ fill: '#fff' }} />, <ProEmoji style={{ fill: '#1DBBBE' }} />];
 
 const Plans = ({ fetchedData, loading,reload,setReload, yearlyPlan, editPackage, editPackageTemplate }) => {
@@ -73,7 +71,7 @@ const Plans = ({ fetchedData, loading,reload,setReload, yearlyPlan, editPackage,
 																fontSize: '1.25rem',
 															}}
 														></BsCheckLg>
-														{packageOptions[index]}
+														{item?.name}
 													</h2>
 												);
 											})}
@@ -110,7 +108,7 @@ const Plans = ({ fetchedData, loading,reload,setReload, yearlyPlan, editPackage,
 													opacity: 1,
 												},
 											}}
-											checked={p?.status === 'active' ? true : false}
+											checked={p?.status === 'نشط' ? true : false}
 										/>
 									</div>
 									<Button
@@ -132,7 +130,7 @@ const Plans = ({ fetchedData, loading,reload,setReload, yearlyPlan, editPackage,
 										style={{ border: ` 1px solid ${index === 1 ? '#EFF9FF' : '#67747B'} ` }}
 										textStyle={{ color: index === 1 ? '#EFF9FF' : '#67747B' }}
 										onClick={() => {
-											editPackageTemplate();
+											editPackageTemplate(p?.templates);
 										}}
 									>
 										عرض قوالب الباقة

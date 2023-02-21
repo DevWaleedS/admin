@@ -2,11 +2,9 @@ import React from "react";
 import { GoArrowRight } from "react-icons/go";
 import styles from "./EditPackageTemplates.module.css";
 import { ReactComponent as BsTrash } from "../../../assets/Icons/icon-24-delete.svg";
-import useFetch from '../../../hooks/useFetch';
 import CircularLoading from '../../../UI/CircularLoading/CircularLoading';
 
-const EditPackageTemplates = ({ cancel }) => {
-  const { fetchedData, loading } = useFetch('https://backend.atlbha.com/api/Admin/selector/templates');
+const EditPackageTemplates = ({ templatesEachPackage,cancel }) => {
   return (
     <div
       className="absolute md:pl-36 top-0 right-0  z-10  w-full h-full md:pt-12 md:pr-24 p-4 pt-0"
@@ -22,13 +20,7 @@ const EditPackageTemplates = ({ cancel }) => {
         </h2>
       </div>
       <div class="flex flex-row flex-wrap gap-4">
-        {loading ?
-          <div className='w-full flex flex-col items-center justify-center'>
-            <CircularLoading />
-          </div>
-          :
-          (
-            fetchedData?.data?.templates?.map((template, index) => {
+        {templatesEachPackage?.map((template, index) => {
               return (
                 <div
                   key={index}
@@ -78,7 +70,6 @@ const EditPackageTemplates = ({ cancel }) => {
                 </div>
               );
             })
-          )
         }
       </div>
     </div>
