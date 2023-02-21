@@ -79,24 +79,24 @@ const AddNewCourse = ({ coursesReload,setCoursesReload,cancel, editData, addNewL
 		formData.append('tags',data?.tags);
     formData.append('image',images[0]?.file || '');
 
-		axios
-			.post("https://backend.atlbha.com/api/Admin/course", formData, {
-				headers: {
-					"Content-Type": "multipart/form-data",
-					Authorization: `Bearer ${token}`,
-				},
-			})
-			.then((res) => {
-				if (res?.data?.success === true && res?.data?.data?.status === 200) {
-					setEndActionTitle(res?.data?.message?.ar);
-					cancel();
-					setCoursesReload(!coursesReload);
-				} else {
-					setEndActionTitle(res?.data?.message?.ar);
-					cancel();
-					setCoursesReload(!coursesReload);
-				}
-			});
+		// axios
+		// 	.post("https://backend.atlbha.com/api/Admin/course", formData, {
+		// 		headers: {
+		// 			"Content-Type": "multipart/form-data",
+		// 			Authorization: `Bearer ${token}`,
+		// 		},
+		// 	})
+		// 	.then((res) => {
+		// 		if (res?.data?.success === true && res?.data?.data?.status === 200) {
+		// 			setEndActionTitle(res?.data?.message?.ar);
+		// 			cancel();
+		// 			setCoursesReload(!coursesReload);
+		// 		} else {
+		// 			setEndActionTitle(res?.data?.message?.ar);
+		// 			cancel();
+		// 			setCoursesReload(!coursesReload);
+		// 		}
+		// 	});
   }
 
   return (
