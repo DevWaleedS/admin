@@ -17,6 +17,8 @@ const CurrentSubscriptions = () => {
       />
       {traderAlert && (
         <TraderAlert
+          reload={reload}
+          setReload={setReload}
           cancel={() => {
             setTraderAlert(false);
           }}

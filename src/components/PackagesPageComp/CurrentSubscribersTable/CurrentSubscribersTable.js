@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useEffect,useContext } from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -21,11 +21,13 @@ import { ReactComponent as CheckedSquare } from '../../../assets/Icons/icon-24-s
 import { ReactComponent as SwitchIcon } from '../../../assets/Icons/icon-38-switch.svg';
 import { ReactComponent as DeleteIcon } from '../../../assets/Icons/icon-24-delete.svg';
 import { NotificationContext } from "../../../store/NotificationProvider";
+import Context from '../../../store/context';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { MdOutlineKeyboardArrowDown, MdOutlineArrowBackIosNew, MdOutlineArrowForwardIos } from 'react-icons/md';
 import CircularLoading from '../../../UI/CircularLoading/CircularLoading';
 import { Gift } from '../../../assets/Icons/index';
+import axios from "axios";
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
@@ -108,10 +110,10 @@ function EnhancedTableHead(props) {
 	return (
 		<TableHead sx={{ backgroundColor: 'rgba(182, 190, 52, 0.2)' }}>
 			<TableRow>
-				{headCells.map((headCell) => (
+				{headCells.map((headCell,index) => (
 					<TableCell
+						key={index}
 						className='text-lg font-medium '
-						key={headCell.id}
 						align={headCell.numeric ? 'right' : 'center'}
 						padding={headCell.disablePadding ? 'none' : 'normal'}
 						sortDirection={orderBy === headCell.id ? order : false}
@@ -184,7 +186,7 @@ function EnhancedTableToolbar(props) {
 						}}
 						onClick={() => {
 							setNotificationTitle('سيتم تعطيل جميع الاشتراكات التي قمت بتحديدها');
-							setActionTitle('تم تعطيل الاشتراكات بنجاح');
+							setActionTitle('ChangeStatus');
 						}}
 					>
 						<h2 className={'font-semibold'} style={{ color: '#FF9F1A' }}>
@@ -217,7 +219,7 @@ function EnhancedTableToolbar(props) {
 						}}
 						onClick={() => {
 							setNotificationTitle('سيتم حذف جميع الاشتراكات التي قمت بتحديدها');
-							setActionTitle('تم حذف الاشتراكات بنجاح');
+							setActionTitle('Delete');
 						}}
 					>
 						<h2 className={'font-semibold'} style={{ color: '#FF3838' }}>
@@ -264,14 +266,19 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function EnhancedTable({ fetchedData, loading, reload, setReload, openTraderAlert }) {
+	const token = localStorage.getItem('token');
 	const [order, setOrder] = React.useState('asc');
 	const [orderBy, setOrderBy] = React.useState('calories');
 	const [selected, setSelected] = React.useState([]);
+	console.log(selected);
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
-
+	const contextStore = useContext(Context);
+	const { setEndActionTitle } = contextStore;
+	const NotificationStore = useContext(NotificationContext);
+	const { confirm, setConfirm,actionTitle,setActionTitle } = NotificationStore;
 	const rowsPerPagesCount = [10, 20, 30, 50, 100];
 	const handleRowsClick = (event) => {
 		setAnchorEl(event.currentTarget);
@@ -288,7 +295,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
 
 	const handleSelectAllClick = (event) => {
 		if (event.target.checked) {
-			const newSelected = fetchedData?.data?.stores?.map((n) => n.name);
+			const newSelected = fetchedData?.data?.stores?.map((n) => n?.id);
 			setSelected(newSelected);
 			return;
 		}
@@ -335,6 +342,51 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
 		}
 		return arr;
 	};
+
+	useEffect(() => {
+		if (confirm && actionTitle === 'ChangeStatus') {
+			const queryParams = selected.map(id => `id[]=${id}`).join('&');
+			axios
+				.get(`https://backend.atlbha.com/api/Admin/subscriptionschangeSatusall?${queryParams}`, {
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+					},
+				})
+				.then((res) => {
+					if (res?.data?.success === true && res?.data?.data?.status === 200) {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					} else {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					}
+				});
+			setConfirm(false);
+			setActionTitle(null);
+		}
+    if (confirm && actionTitle === 'Delete') {
+			const queryParams = selected.map(id => `id[]=${id}`).join('&');
+			axios
+				.get(`https://backend.atlbha.com/api/Admin/subscriptionsdeleteall?${queryParams}`, {
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+					},
+				})
+				.then((res) => {
+					if (res?.data?.success === true && res?.data?.data?.status === 200) {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					} else {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					}
+				});
+			setConfirm(false);
+			setActionTitle(null);
+		}
+	}, [confirm]);
 
 	return (
 		<Box sx={{ width: '100%' }}>
@@ -510,6 +562,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
 						{allRows().map((item, itemIdx) => {
 							return (
 								<div
+									key={itemIdx}
 									className='cursor-pointer font-medium rounded-lg flex justify-center items-center w-6 h-6'
 									style={{
 										backgroundColor: item === page + 1 && '#508FF4',

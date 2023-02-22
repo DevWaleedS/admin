@@ -16,24 +16,29 @@ import { ReactComponent as Arrow } from "../../../assets/Icons/icon-24-chevron_d
 import { ReactComponent as DeleteIcon } from "../../../assets/Icons/icon-24-delete.svg";
 import { ReactComponent as PlayVideo } from "../../../assets/Icons/video-play.svg";
 import { ReactComponent as PDFIcon } from "../../../assets/Icons/pfd.svg";
-import MainImage from '../../../assets/images/drop_shipping_img.png';
 import { NotificationContext } from "../../../store/NotificationProvider";
+import Context from '../../../store/context';
+import axios from "axios";
+
 const tags = ['إدارة المخاطر', 'الخطة الاستراتيجية لادارة المتجر', 'تنظيم عمليات المتجر', 'شراء المنتجات وإدارة المخزون', 'الخطة الاستراتيجية لادارة المتجر', 'تنظيم عمليات المتجر'];
 
-const AddNewCourse = ({ cancel, editData, addNewLesson }) => {
+const AddNewCourse = ({ coursesReload,setCoursesReload,cancel, editData, addNewLesson }) => {
+  const token = localStorage.getItem('token');
   const [data, setData] = useState({
-    name: '',
-    description: '',
-    minute: '',
-    hour: '',
-    image: '',
+    name: editData?.name || '',
+    description: editData?.description || '',
+    minute: editData?.duration || '',
+    hour: editData?.duration || '',
+    image: editData?.image || '',
+    tags: editData?.tags || [],
     link: 'https://www.google.com/search?q=%D8%B1%D8%A7%D8%A8%D8%B7+%D8%AA%D9%8',
   });
-  console.log(editData);
   const [showAddUnit, setShowAddUnit] = useState(false);
   const [copy, setCopy] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [openMenu2, setOpenMenu2] = useState(false);
+  const contextStore = useContext(Context);
+  const { setEndActionTitle } = contextStore;
   const NotificationStore = useContext(NotificationContext);
   const { setNotificationTitle, setActionTitle } = NotificationStore;
   const [description, setDescription] = useState({
@@ -66,19 +71,32 @@ const AddNewCourse = ({ cancel, editData, addNewLesson }) => {
     }, 5000);
   }
 
-  useEffect(() => {
-    if (editData) {
-      setData({
-        ...data,
-        name: editData.title,
-        describe: 'دورة في مجال التجارة الالكترونية المتخصصة في دروب شيبينج تستطيع من خلالها تعلم مهارات البيع والتسويق باحترافية عالية',
-        minute: '20 دقيقة',
-        hour: '8 ساعات',
-        image: MainImage,
-        link: 'https://www.google.com/search?q=%D8%B1%D8%A7%D8%A8%D8%B7+%D8%AA%D9%8',
-      });
-    }
-  }, [editData]);
+  const AddCourse = () =>{
+    let formData = new FormData();
+		formData.append('name',data?.name);
+		formData.append('description',data?.description);
+		formData.append('duration',data?.duration);
+		formData.append('tags',data?.tags);
+    formData.append('image',images[0]?.file || '');
+		axios
+			.post("https://backend.atlbha.com/api/Admin/course", formData, {
+				headers: {
+					"Content-Type": "multipart/form-data",
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setCoursesReload(!coursesReload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setCoursesReload(!coursesReload);
+				}
+			});
+  }
 
   return (
     <div className='absolute md:pl-[140px] md:pr-5 md:py-[43px] top-0 right-0 z-30 md:pb-36 w-full md:bg-[#fafafa] bg-[#FFFFFF] otlobha_acadmic'>
@@ -369,7 +387,11 @@ const AddNewCourse = ({ cancel, editData, addNewLesson }) => {
                       <h2 style={{ color: '#67747B', fontSize: '14px' }}>(سيتم قبول الصور png & jpg)</h2>
                     </div>
                   )}
-                  {images[0] && !editData && <h2 style={{ color: '#011723', fontSize: '16px' }}>{images[0]?.file?.name}</h2>}
+                  {images[0] && !editData && 
+                  <div style={{ height: '90px', borderRadius: '8px' }} className="flex flex-col items-center justify-center">
+                    <img style={{ borderRadius: '8px' }} className="w-full h-full" src={images[0]?.data_url || data.image} alt="main-img" />
+                  </div>
+                  }
                 </div>
                 {editData &&
                   <div style={{ height: '90px', borderRadius: '8px' }} className="flex flex-col items-center justify-center relative">
