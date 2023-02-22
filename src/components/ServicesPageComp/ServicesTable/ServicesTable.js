@@ -224,6 +224,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
 	const [selected, setSelected] = React.useState([]);
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
+	console.log(selected);
 
 	const handleRequestSort = (event, property) => {
 		const isAsc = orderBy === property && order === 'asc';
@@ -233,7 +234,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
 
 	const handleSelectAllClick = (event) => {
 		if (event.target.checked) {
-			const newSelected = fetchedData?.data?.Services?.map((n) => n.name);
+			const newSelected = fetchedData?.data?.Services?.map((n) => n.id);
 			setSelected(newSelected);
 			return;
 		}
@@ -285,12 +286,12 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
 		}
 	}, [confirm]);
 
-	const handleClick = (event, name) => {
-		const selectedIndex = selected.indexOf(name);
+	const handleClick = (event, id) => {
+		const selectedIndex = selected.indexOf(id);
 		let newSelected = [];
 
 		if (selectedIndex === -1) {
-			newSelected = newSelected.concat(selected, name);
+			newSelected = newSelected.concat(selected, id);
 		} else if (selectedIndex === 0) {
 			newSelected = newSelected.concat(selected.slice(1));
 		} else if (selectedIndex === selected.length - 1) {
@@ -302,7 +303,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
 		setSelected(newSelected);
 	};
 
-	const isSelected = (name) => selected.indexOf(name) !== -1;
+	const isSelected = (id) => selected.indexOf(id) !== -1;
 
 	// Avoid a layout jump when reaching the last page with empty rows.
 	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - fetchedData?.data?.Services?.length) : 0;
@@ -329,7 +330,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
 										{stableSort(fetchedData?.data?.Services, getComparator(order, orderBy))
 											?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 											?.map((row, index) => {
-												const isItemSelected = isSelected(row.name);
+												const isItemSelected = isSelected(row.id);
 												const labelId = `enhanced-table-checkbox-${index}`;
 
 												return (
@@ -339,7 +340,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
 														role='checkbox'
 														aria-checked={isItemSelected}
 														tabIndex={-1}
-														key={row.name}
+														key={row.id}
 														selected={isItemSelected}
 													>
 														<TableCell component='th' id={labelId} scope='row'>
@@ -385,7 +386,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
 																	},
 																}}
 																checked={isItemSelected}
-																onClick={(event) => handleClick(event, row.name)}
+																onClick={(event) => handleClick(event, row.id)}
 																inputProps={{
 																	'aria-labelledby': labelId,
 																}}

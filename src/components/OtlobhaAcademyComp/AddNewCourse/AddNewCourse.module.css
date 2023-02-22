@@ -42,3 +42,23 @@
 .arrow_icon path{
     fill: #011723;
 }
+.tags >div {
+    width: 100%;
+    background-color: transparent;
+    gap: 1rem;
+    display: flex !important;
+    flex-direction: row;
+    align-items: baseline;
+}
+.tags input{
+    width: fit-content !important;
+    padding: 5px 10px;
+    border-radius: 18px;
+}
+.tags :global(.rti--tag){
+    font-size: 18px;
+    color: #67747B;
+    background-color: #EBEBEB;
+    padding: 5px 10px;
+    border-radius: 18px;
+}

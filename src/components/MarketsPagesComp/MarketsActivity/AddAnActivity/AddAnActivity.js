@@ -1,16 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { IoMdCloseCircleOutline } from 'react-icons/io';
 import Button from '../../../../UI/Button/Button';
 import Context from '../../../../store/context';
 import ImageUploading from 'react-images-uploading';
-import styles from './AddAnActivity.module.css';
 import axios from "axios";
 
 const BackDrop = ({ onClick }) => {
 	return <div onClick={onClick} className={`fixed opacity-25 back_drop top-0 left-0 h-full w-full bg-slate-900  z-10 `}></div>;
 };
 
-const AddAnActivity = ({ cancel, editActivity, reload, setReload }) => {
+const AddAnActivity = ({ cancel, reload, setReload }) => {
 	const token = localStorage.getItem('token');
 	const contextStore = useContext(Context);
 	const [showAddActivity, setShowAddActivity] = useState(false);
@@ -23,11 +22,6 @@ const AddAnActivity = ({ cancel, editActivity, reload, setReload }) => {
 		setImages(imageList);
 	};
 
-	useEffect(() => {
-		if (editActivity) {
-			setActitviyName(editActivity.title);
-		}
-	}, [editActivity]);
 	const addActivity = () => {
 		
 		let formData = new FormData();
@@ -61,7 +55,6 @@ const AddAnActivity = ({ cancel, editActivity, reload, setReload }) => {
 					cancel={() => {
 						setShowAddActivity(false);
 					}}
-					editProduct={editActivity}
 				></AddAnActivity>
 			)}
 			<div className='fixed flex flex-col top-24 translate-x-2/4 right-2/4 z-20 md:rounded-md rounded-2xl overflow-hidden md:h-[36rem] h-[25rem]' style={{ width: '51.25rem', maxWidth: '90%' }}>
