@@ -1,17 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
+import useFetch from '../../hooks/useFetch';
+
+// Components
 import PageNavigate from '../../components/PageNavigate/PageNavigate';
 import ServicesTable from '../../components/ServicesPageComp/ServicesTable/ServicesTable';
+import NewService from '../../components/ServicesPageComp/NewService/NewService';
+import ShowDetails from '../../components/ServicesPageComp/ShowDetails/ShowDetails'
+
+// Icons
 import Button from '../../UI/Button/Button';
 import { AiOutlinePlus } from 'react-icons/ai';
-import { useState } from 'react';
-import NewService from '../../components/ServicesPageComp/NewService/NewService';
-import ShowDetails from '../../components/ServicesPageComp/ShowDetails/ShowDetails';
-import useFetch from '../../hooks/useFetch';
 
 const ServicesPage = () => {
 	const { fetchedData, loading, reload, setReload } = useFetch('https://backend.atlbha.com/api/Admin/service');
 	const [showNewProductInfo, setShowNewProductInfo] = useState(false);
 	const [showDetailsModal, setShowDetailsModal] = useState(false);
+
+
+	// Fetch data from API
+	const { fetchedData, loading, reload, setReload } = useFetch('https://backend.atlbha.com/api/Admin/service');
+	
+
 	return (
 		<div className={`p-4 md:pl-36 pt-0`} style={{ backgroundColor: '#fafafa' }}>
 			<div className='flex md:flex-row flex-col md:items-center items-start justify-between gap-y-4'>
@@ -47,12 +56,12 @@ const ServicesPage = () => {
 			)}
 			<div dir={'ltr'} className='md:mt-20 mt-5'>
 				<ServicesTable
+					showdetails={setShowDetailsModal}
 					fetchedData={fetchedData}
 					loading={loading}
 					reload={reload}
 					setReload={setReload}
-					showdetails={setShowDetailsModal}
-				></ServicesTable>
+				/>
 			</div>
 		</div>
 	);
