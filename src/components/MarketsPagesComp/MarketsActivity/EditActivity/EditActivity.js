@@ -13,7 +13,7 @@ const EditActivity = ({ cancel, Product, reload, setReload }) => {
 	const token = localStorage.getItem('token');
 	const contextStore = useContext(Context);
 	const [showAddActivity, setShowAddActivity] = useState(false);
-	const [activiyName, setActitviyName] = useState('الكترونيات');
+	const [activiyName, setActitviyName] = useState(Product?.name);
 	const { setEndActionTitle } = contextStore;
 
 	const [images, setImages] = useState([]);
@@ -24,24 +24,17 @@ const EditActivity = ({ cancel, Product, reload, setReload }) => {
 		setImages(imageList);
 	};
 
-	useEffect(() => {
-		if (Product) {
-			setActitviyName(Product.name);
-		}
-	}, [Product]);
-
 	const updateActivity = () => {
-		const data = {
-			name: activiyName,
-		};
-		let formData = new FormData();
-		formData.append('icon',images[0]?.file);
-		formData.append('data',data);
-		
+		const formData = new FormData();
+		formData.append('_method', 'PUT');
+		formData.append('name', activiyName);
+		if(images.length !==0){
+			formData.append('icon',images[0]?.file || '');
+		}
 		axios
-			.put(`https://backend.atlbha.com/api/Admin/activity/${Product?.id}`, data, {
+			.post(`https://backend.atlbha.com/api/Admin/activity/${Product?.id}`, formData, {
 				headers: {
-					"Content-Type": "application/json",
+					"Content-Type": "multipart/form-data",
 					Authorization: `Bearer ${token}`,
 				},
 			})

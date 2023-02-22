@@ -37,29 +37,20 @@ const AddUnit = ({ cancel, cancelAll }) => {
 		video:[],
 	});
   console.log(unit);
-  const [images, setImages] = useState([]);
-  const [multiImages, setMultiImages] = useState([]);
   const inputRef = React.useRef();
 
-  const [source, setSource] = React.useState(null);
-  console.log(source?.name);
+  const [source, setSource] = React.useState();
+
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    console.log(file);
     const url = URL.createObjectURL(file);
     setSource(url);
+	setUnit({...unit,video:event.target.files});
   };
 
   const handleChoose = (event) => {
     inputRef.current.click();
   };
-  console.log(multiImages);
-
-  const emptyMultiImages = [];
-  for (let index = 0; index < 5 - multiImages.length; index++) {
-    emptyMultiImages.push(index);
-  }
-  console.log(images);
 
   return (
 			<>
@@ -91,7 +82,7 @@ const AddUnit = ({ cancel, cancelAll }) => {
 										ملفات مرفقة
 									</h2>
 									<label className='md:w-[555px] w-full md:h-14 h-[45px] flex p-4 items-center rounded-lg' style={{ border: '1px solid #ccc' }} htmlFor=''>
-										<input onChange={(e)=>setUnit({...unit,file:e.target.files})} className={`flex-1 rounded-lg ${styles.file_select}`} type='file' placeholder='asdasdasd' />
+										<input multiple onChange={(e)=>setUnit({...unit,file:e.target.files})} className={`flex-1 rounded-lg ${styles.file_select}`} type='file' placeholder='asdasdasd' />
 										<div>
 											<GrAttachment></GrAttachment>
 										</div>
@@ -128,7 +119,7 @@ const AddUnit = ({ cancel, cancelAll }) => {
 															<h2 className="md:text-[18px] text-[16px]" style={{ color: '#ADB5B9' }}>اضف درس جديد للوحدة</h2>
 														</>
 													)}
-													{source && <h2 className="md:text-[18px] text-[16px]" style={{ color: '#ADB5B9' }}>{source.name}</h2>}
+													{source && <h2 className="md:text-[18px] text-[16px]" style={{ color: '#ADB5B9' }}>{source?.name}</h2>}
 												</div>
 											</div>
 											<div
