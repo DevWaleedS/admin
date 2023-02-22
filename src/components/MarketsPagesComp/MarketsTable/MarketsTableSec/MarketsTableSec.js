@@ -68,7 +68,6 @@ const headCells = [
 		label: 'الإجراء',
 		width: '5rem',
 	},
-
 	{
 		id: 'daysLeft',
 		numeric: true,
@@ -77,20 +76,12 @@ const headCells = [
 		sort: true,
 	},
 	{
-		id: 'speical',
+		id: 'rate',
 		numeric: true,
 		disablePadding: false,
 		label: 'مميز',
 		sort: true,
 	},
-	{
-		id: 'rate',
-		numeric: true,
-		disablePadding: false,
-		label: 'التقييم',
-		sort: true,
-	},
-
 	{
 		id: 'opened',
 		numeric: true,
@@ -117,12 +108,6 @@ const headCells = [
 		disablePadding: false,
 		label: 'م',
 	},
-	{
-		id: 'null',
-		numeric: true,
-		disablePadding: false,
-		label: '',
-	},
 ];
 
 function EnhancedTableHead(props) {
@@ -134,7 +119,7 @@ function EnhancedTableHead(props) {
 	return (
 		<TableHead sx={{ backgroundColor: '#ebebebd9' }}>
 			<TableRow>
-				{headCells.map((headCell, index) => (
+				{headCells.map((headCell,index) => (
 					<TableCell
 						className='font-medium text-lg'
 						key={index}
@@ -185,7 +170,7 @@ EnhancedTableHead.propTypes = {
 function EnhancedTableToolbar(props) {
 	const { numSelected, rowCount, onSelectAllClick } = props;
 	const NotificationStore = useContext(NotificationContext);
-	const { setNotificationTitle, setActionTitle } = NotificationStore;
+	const { setNotificationTitle,setActionTitle } = NotificationStore;
 
 	return (
 		<Toolbar
@@ -200,8 +185,8 @@ function EnhancedTableToolbar(props) {
 				justifyContent: 'flex-end',
 			}}
 		>
-			{numSelected > 0 && (
-				<div>
+			<div className='fcc gap-2 px-4 rounded-full' style={{ backgroundColor: 'rgba(255, 159, 26, 0.04)' }}>
+				{numSelected > 0 && (
 					<div
 						className='fcc gap-4 px-4 rounded-full'
 						style={{ minWidth: '114px', backgroundColor: '#FF9F1A0A' }}
@@ -229,8 +214,8 @@ function EnhancedTableToolbar(props) {
 							></SwitchIcon>
 						</Box>
 					</div>
-				</div>
-			)}
+				)}
+			</div>
 
 			<div className='flex items-center'>
 				<h2 className='font-medium whitespace-nowrap'>تحديد الكل</h2>
@@ -273,7 +258,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload 
 	const contextStore = useContext(Context);
 	const { setEndActionTitle } = contextStore;
 	const NotificationStore = useContext(NotificationContext);
-	const { confirm, setConfirm, actionTitle, setActionTitle } = NotificationStore;
+	const { confirm, setConfirm,actionTitle,setActionTitle } = NotificationStore;
 
 	const rowsPerPagesCount = [10, 20, 30, 50, 100];
 	const handleRowsClick = (event) => {
@@ -360,8 +345,8 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload 
 					setReload(!reload);
 				}
 			});
-	};
-	// delete single item
+	}
+
 	const deleteStore = (id) => {
 		axios
 			.delete(`https://backend.atlbha.com/api/Admin/store/${id}`, {
@@ -381,30 +366,29 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload 
 			});
 	}
 
-	const changeProductSpecialStatus = (id) => {
+	const changeProductSpecialStatus = (id) =>{
 		axios
-			.get(`https://backend.atlbha.com/api/Admin/specialStatus/${id}`, {
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${token}`,
-				},
-			})
-			.then((res) => {
-				if (res?.data?.success === true && res?.data?.data?.status === 200) {
-					setEndActionTitle(res?.data?.message?.ar);
-					setReload(!reload);
-				} else {
-					setEndActionTitle(res?.data?.message?.ar);
-					setReload(!reload);
-				}
-			});
-	};
+      .get(`https://backend.atlbha.com/api/Admin/specialStatus/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res?.data?.success === true && res?.data?.data?.status === 200) {
+          setEndActionTitle(res?.data?.message?.ar);
+          setReload(!reload);
+        } else {
+          setEndActionTitle(res?.data?.message?.ar);
+          setReload(!reload);
+        }
+      });
+	}
 
 	useEffect(() => {
 		if (confirm && actionTitle === 'ChangeStatus') {
-			const queryParams = selected.map((id) => `id[]=${id}`).join('&');
+			const queryParams = selected.map(id => `id[]=${id}`).join('&');
 			axios
-				
 				.get(`https://backend.atlbha.com/api/Admin/changeStoreStatus?${queryParams}`, {
 					headers: {
 						"Content-Type": "application/json",
@@ -434,25 +418,125 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload 
 					<Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={'medium'}>
 						<EnhancedTableHead numSelected={selected?.length} order={order} orderBy={orderBy} onSelectAllClick={handleSelectAllClick} onRequestSort={handleRequestSort} rowCount={fetchedData?.data?.stores?.length} />
 						<TableBody>
-							{loading ? (
-								<TableRow>
-									<TableCell colSpan={7}>
-										<CircularLoading />
-									</TableCell>
-								</TableRow>
-							) : (
-								<Fragment>
-									{stableSort(fetchedData?.data?.stores, getComparator(order, orderBy))
-										?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-										.map((row, index) => {
-											const isItemSelected = isSelected(row.id);
-											const labelId = `enhanced-table-checkbox-${index}`;
-											return (
-												<TableRow hover role='checkbox' aria-checked={isItemSelected} tabIndex={-1} key={row.id} selected={isItemSelected}>
-													<TableCell component='th' id={labelId} scope='row'>
-														<div className='flex items-center gap-2'>
-															<BsTrash
-																onClick={() => deleteStore(row?.id)}
+							{loading ?
+								(
+									<TableRow>
+										<TableCell colSpan={7}>
+											<CircularLoading />
+										</TableCell>
+									</TableRow>
+								)
+								:
+								(
+									<>
+										{stableSort(fetchedData?.data?.stores, getComparator(order, orderBy))
+											?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+											.map((row, index) => {
+												const isItemSelected = isSelected(row.id);
+												const labelId = `enhanced-table-checkbox-${index}`;
+												return (
+													<TableRow
+														hover
+														role='checkbox'
+														aria-checked={isItemSelected}
+														tabIndex={-1}
+														key={row.id}
+														selected={isItemSelected}
+													>
+														<TableCell component='th' id={labelId} scope='row'>
+															<div className='flex items-center gap-2'>
+																<BsTrash
+																	onClick={() => deleteStore(row?.id)}
+																	style={{
+																		cursor: 'pointer',
+																		color: 'red',
+																		fontSize: '1rem',
+																	}}
+																></BsTrash>
+																<Switch
+																	onChange={() => changeStoreStatus(row?.id)}
+																	sx={{
+																		width: '50px',
+																		'& .MuiSwitch-thumb': {
+																			width: '11px',
+																			height: '11px',
+																		},
+																		'& .MuiSwitch-switchBase': {
+																			padding: '6px',
+																			top: '9px',
+																			left: '9px',
+																		},
+																		'& .MuiSwitch-switchBase.Mui-checked': {
+																			left: '-1px',
+																		},
+																		'& .Mui-checked .MuiSwitch-thumb': {
+																			backgroundColor: '#FFFFFF',
+																		},
+																		'& .MuiSwitch-track': {
+																			height: '16px',
+																			borderRadius: '20px',
+																		},
+																		'&.MuiSwitch-root .Mui-checked+.MuiSwitch-track': {
+																			backgroundColor: '#3AE374',
+
+																			opacity: 1,
+																		},
+																	}}
+																	checked={row?.status === 'نشط' ? true : false}
+																/>
+															</div>
+														</TableCell>
+														<TableCell align='center'>
+															<div >
+																<h2 dir='rtl' className='font-normal text-lg '>
+																	<span className='ml-1'>{row?.left}</span>
+																	<span>يوم</span>
+																</h2>
+															</div>
+														</TableCell>
+														<TableCell align='right'>
+															<div className='flex flex-row items-center gap-1 py-1 px-3 md:w-16 w-24 h-6 rounded-md'>
+																<h2 style={{ color: row.special === 'مميز' ? '#3AE374' : '#ADB5B9' }} className='md:text-[16px] text-[14px] min-w-[50px] whitespace-nowrap'>
+																	{row?.special}
+																</h2>
+																<Switch
+																	onChange={() => changeProductSpecialStatus(row?.id)}
+																	className=''
+																	sx={{
+																		width: '50px',
+
+																		'& .MuiSwitch-thumb': {
+																			width: '11px',
+																			height: '11px',
+																		},
+																		'& .MuiSwitch-switchBase': {
+																			padding: '6px',
+																			top: '9px',
+																			left: '9px',
+																		},
+																		'& .MuiSwitch-switchBase.Mui-checked': {
+																			left: '-1px',
+																		},
+																		'& .Mui-checked .MuiSwitch-thumb': {
+																			backgroundColor: '#FFFFFF',
+																		},
+																		'& .MuiSwitch-track': {
+																			height: '16px',
+																			borderRadius: '20px',
+																		},
+																		'&.MuiSwitch-root .Mui-checked+.MuiSwitch-track': {
+																			backgroundColor: '#3AE374',
+
+																			opacity: 1,
+																		},
+																	}}
+																	checked={row?.special === 'مميز' ? true : false}
+																/>
+															</div>
+														</TableCell>
+														<TableCell align='center'>
+															<div
+																className='w-20 h-full py-1 rounded-xl'
 																style={{
 																	backgroundColor: row.status === 'نشط' ? 'rgba(58, 227, 116, 0.4)' : '#D3D3D3',
 																	marginLeft: 'auto',
@@ -511,146 +595,21 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload 
 																	'aria-labelledby': labelId,
 																}}
 															/>
-														</div>
-													</TableCell>
-
-													<TableCell align='center'>
-														<div>
-															<h2 dir='rtl' className='font-normal text-lg '>
-																<span className='ml-1'>{row?.left}</span>
-																<span>يوم</span>
-															</h2>
-														</div>
-													</TableCell>
-
-													<TableCell align='center'>
-														<div className='flex flex-row items-center py-1 px-3 md:w-16 w-24 h-6 rounded-md'>
-															<h2 style={{ color: row.special === 'مميز' ? '#3AE374' : '#ADB5B9' }} className='md:text-[16px] text-[14px] min-w-[50px] whitespace-nowrap'>
-																{row?.special}
-															</h2>
-															<Switch
-																onChange={() => changeProductSpecialStatus(row?.id)}
-																className=''
-																sx={{
-																	width: '50px',
-
-																	'& .MuiSwitch-thumb': {
-																		width: '11px',
-																		height: '11px',
-																	},
-																	'& .MuiSwitch-switchBase': {
-																		padding: '6px',
-																		top: '9px',
-																		left: '9px',
-																	},
-																	'& .MuiSwitch-switchBase.Mui-checked': {
-																		left: '-1px',
-																	},
-																	'& .Mui-checked .MuiSwitch-thumb': {
-																		backgroundColor: '#FFFFFF',
-																	},
-																	'& .MuiSwitch-track': {
-																		height: '16px',
-																		borderRadius: '20px',
-																	},
-																	'&.MuiSwitch-root .Mui-checked+.MuiSwitch-track': {
-																		backgroundColor: '#3AE374',
-
-																		opacity: 1,
-																	},
-																}}
-																checked={row?.special === 'مميز' ? true : false}
-															/>
-														</div>
-													</TableCell>
-
-													<TableCell align='right'>
-														<div className='flex ml-auto justify-between items-center py-1 px-3 w-16 h-6 rounded-md' style={{ backgroundColor: 'rgb(164,161,251)' }}>
-															<h2 className='font-normal text-lg' style={{ color: '#fff' }}>
-																{row?.rate}
-															</h2>
-															{row?.rate > 3 ? <BsStarFill color='#fff' /> : <BsStarHalf color='#fff' />}
-														</div>
-													</TableCell>
-
-													<TableCell align='center'>
-														<div
-															className='w-20 h-full py-1 rounded-xl'
-															style={{
-																backgroundColor: row.status === 'نشط' ? 'rgba(58, 227, 116, 0.4)' : '#D3D3D3',
-																marginLeft: 'auto',
-															}}
-														>
-															<h2>{row?.status}</h2>
-														</div>
-													</TableCell>
-
-													<TableCell align='right' sx={{ display: 'flex', gap: '0.5rem', p: '24px 0' }}>
-														<div className='flex flex-row items-center justify-end gap-3'>
-															{row?.activity?.length > 1 && (
-																<Fragment>
-																	<img className='cursor-pointer' src={ListMoreCategory} alt='list-more-category' onClick={activityHandleClick} />
-																	<Menu className={styles.activity_menu} anchorEl={activityAnchorEl} open={activityOpen} onClose={activityHandleClose}>
-																		{row?.activity?.map((item, index) => (
-																			<MenuItem key={index} className='flex flex-row items-center justify-center gap-2' style={{ color: '#4D4F5C' }} onClick={activityHandleClose}>
-																				<div className='flex flex-row items-center justify-center md:w-[30px] w-[20px] md:h-[30px] h-[20px] p-[0.2rem]' style={{ borderRadius: '50%', backgroundColor: '#8D8AD333' }}>
-																					<img src={item?.icon} alt={item?.name} />
-																				</div>
-																				{item?.name}
-																			</MenuItem>
-																		))}
-																	</Menu>
-																</Fragment>
-															)}
-															<h2 style={{ color: '#4D4F5C' }} className='md:text-[16px] text-[14px] inline whitespace-nowrap font-normal'>
-																{row?.activity?.[0]?.name}
-															</h2>
-															<img src={row?.activity?.[0]?.icon} alt={row?.activity?.[0]?.name} className='w-[20px] h-[20px] rounded-full' />
-														</div>
-													</TableCell>
-
-													<TableCell align='right'>
-														<h2 className='inline font-normal text-lg'>{row?.store_name}</h2>
-													</TableCell>
-
-													<TableCell align='right' className='font-normal text-lg '>
-														{(index + 1).toLocaleString('en-US', {
-															minimumIntegerDigits: 2,
-															useGrouping: false,
-														})}
-													</TableCell>
-
-													<TableCell padding='none' align={'right'}>
-														<Checkbox
-															checkedIcon={<CheckedSquare />}
-															sx={{
-																color: '#1DBBBE',
-																'& .MuiSvgIcon-root': {
-																	color: '#ADB5B9',
-																},
-															}}
-															checked={isItemSelected}
-															onClick={(event) => handleClick(event, row?.id)}
-															inputProps={{
-																'aria-labelledby': labelId,
-															}}
-														/>
-													</TableCell>
-												</TableRow>
-											);
-										})}
-
-									{emptyRows > 0 && (
-										<TableRow
-											style={{
-												height: 53 * emptyRows,
-											}}
-										>
-											<TableCell colSpan={6} />
-										</TableRow>
-									)}
-								</Fragment>
-							)}
+														</TableCell>
+													</TableRow>
+												);
+											})}
+										{emptyRows > 0 && (
+											<TableRow
+												style={{
+													height: 53 * emptyRows,
+												}}
+											>
+												<TableCell colSpan={6} />
+											</TableRow>
+										)}
+									</>
+								)}
 						</TableBody>
 					</Table>
 				</TableContainer>

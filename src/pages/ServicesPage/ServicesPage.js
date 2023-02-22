@@ -12,10 +12,8 @@ import Button from '../../UI/Button/Button';
 import { AiOutlinePlus } from 'react-icons/ai';
 
 const ServicesPage = () => {
-	const { fetchedData, loading, reload, setReload } = useFetch('https://backend.atlbha.com/api/Admin/service');
 	const [showNewProductInfo, setShowNewProductInfo] = useState(false);
 	const [showDetailsModal, setShowDetailsModal] = useState(false);
-
 
 	// Fetch data from API
 	const { fetchedData, loading, reload, setReload } = useFetch('https://backend.atlbha.com/api/Admin/service');
