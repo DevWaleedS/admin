@@ -21,6 +21,7 @@ const NewService = ({ cancel }) => {
 	const { setEndActionTitle } = contextStore;
 	const [age, setAge] = useState('');
 
+	
 	const [images, setImages] = useState([]);
 	const [multiImages, setMultiImages] = useState([]);
 	console.log(multiImages);
