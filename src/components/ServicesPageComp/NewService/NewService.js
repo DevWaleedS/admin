@@ -5,7 +5,6 @@ import Context from '../../../store/context';
 import styles from './NewService.module.css';
 import ImageUploading from 'react-images-uploading';
 
-
 // icons
 import { ReactComponent as AddIcon } from '../../../assets/Icons/icon-34-add.svg';
 import Box from '@mui/material/Box';
