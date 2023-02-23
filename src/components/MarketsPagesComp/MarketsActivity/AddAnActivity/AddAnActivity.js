@@ -1,16 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { IoMdCloseCircleOutline } from 'react-icons/io';
 import Button from '../../../../UI/Button/Button';
 import Context from '../../../../store/context';
 import ImageUploading from 'react-images-uploading';
-import styles from './AddAnActivity.module.css';
 import axios from "axios";
 
 const BackDrop = ({ onClick }) => {
 	return <div onClick={onClick} className={`fixed opacity-25 back_drop top-0 left-0 h-full w-full bg-slate-900  z-10 `}></div>;
 };
 
-const AddAnActivity = ({ cancel, editActivity, reload, setReload }) => {
+const AddAnActivity = ({ cancel, reload, setReload }) => {
 	const token = localStorage.getItem('token');
 	const contextStore = useContext(Context);
 	const [showAddActivity, setShowAddActivity] = useState(false);
@@ -23,16 +22,22 @@ const AddAnActivity = ({ cancel, editActivity, reload, setReload }) => {
 		setImages(imageList);
 	};
 
+<<<<<<< HEAD
 	useEffect(() => {
 		if (editActivity) {
 			setActitviyName(editActivity.title);
 		}
 	}, [editActivity]);
+
+	// add activity form
+=======
+>>>>>>> 1ba0aa4bb0d9150ecb1c68154c9e21157d61e2b2
 	const addActivity = () => {
 		
 		let formData = new FormData();
 		formData.append('icon',images[0]?.file || '');
 		formData.append('name', activiyName);
+
 		axios
 			.post("https://backend.atlbha.com/api/Admin/activity", formData, {
 				headers: {
@@ -53,6 +58,7 @@ const AddAnActivity = ({ cancel, editActivity, reload, setReload }) => {
 			});
 	}
 
+
 	return (
 		<>
 			<BackDrop onClick={cancel} />
@@ -61,7 +67,6 @@ const AddAnActivity = ({ cancel, editActivity, reload, setReload }) => {
 					cancel={() => {
 						setShowAddActivity(false);
 					}}
-					editProduct={editActivity}
 				></AddAnActivity>
 			)}
 			<div className='fixed flex flex-col top-24 translate-x-2/4 right-2/4 z-20 md:rounded-md rounded-2xl overflow-hidden md:h-[36rem] h-[25rem]' style={{ width: '51.25rem', maxWidth: '90%' }}>
@@ -79,6 +84,7 @@ const AddAnActivity = ({ cancel, editActivity, reload, setReload }) => {
 							
 							name='name'
 							value={activiyName}
+
 							onChange={(e) => {
 								setActitviyName(e.target.value);
 							}}

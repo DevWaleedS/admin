@@ -5,9 +5,10 @@ import AddNewCourse from "../../components/OtlobhaAcademyComp/AddNewCourse/AddNe
 import AddNewLesson from "../../components/OtlobhaAcademyComp/AddNewLesson/AddNewLesson";
 import Button from "../../UI/Button/Button";
 import { ReactComponent as ActionAdd } from "../../assets/Icons/icon-24-action-add.svg";
-
+import useFetch from '../../hooks/useFetch';
 
 const OtlobhaAcademy = () => {
+  const { fetchedData: courses, loading: coursesLoading, reload: coursesReload, setReload: setCoursesReload } = useFetch('https://backend.atlbha.com/api/Admin/course');
   const [newLessonWindow, setNewLessonWindow] = useState(false);
   const [newCourseWindow, setNewCourseWindow] = useState(false);
   const [editCourseData, setEditCourseData] = useState(null);
@@ -27,7 +28,7 @@ const OtlobhaAcademy = () => {
                   className={"md:w-[180px] w-full md:h-[56px] h-[45px] md:text-[20px] text-[18px] flex justify-center items-center"}
                   type={"outline"}
                   style={{ borderColor: "#02466A" }}
-                  textStyle={{ color: "#02466A"}}
+                  textStyle={{ color: "#02466A" }}
                   svg={<ActionAdd fill="#02466A" />}
                   onClick={() => {
                     setNewCourseWindow(true);
@@ -58,11 +59,13 @@ const OtlobhaAcademy = () => {
       </div>
       {newCourseWindow && (
         <AddNewCourse
+          coursesReload={coursesReload}
+          setCoursesReload={setCoursesReload}
           cancel={() => {
             setNewCourseWindow(false);
           }}
           editData={editCourseData}
-          addNewLesson={()=>setNewLessonWindow(true)}
+          addNewLesson={() => setNewLessonWindow(true)}
         ></AddNewCourse>
       )}
       {newLessonWindow && (
@@ -75,6 +78,10 @@ const OtlobhaAcademy = () => {
       )}
       <div className="md:mt-16 mt-6">
         <OtlobhaAcademyComp
+          courses={courses}
+          coursesLoading={coursesLoading}
+          coursesReload={coursesReload}
+          setCoursesReload={setCoursesReload}
           EditCourse={(data) => {
             setNewCourseWindow(true);
             setEditCourseData(data);

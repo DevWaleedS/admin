@@ -298,11 +298,10 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
 				.then((res) => {
 					if (res?.data?.success === true && res?.data?.data?.status === 200) {
 						setEndActionTitle(res?.data?.message?.ar);
-						setReload(prev => !prev);
+						setReload(!reload);
 					} else {
 						setEndActionTitle(res?.data?.message?.ar);
-						setReload(prev => !prev);
-						
+						setReload(!reload);
 					}
 				});
 			setActionTitle(null);

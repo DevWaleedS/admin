@@ -29,70 +29,86 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 	const contextStore = useContext(Context);
 	const { setEndActionTitle } = contextStore;
 	const [images, setImages] = useState([]);
-	const [storeInfo,setStoreInfo] = useState({
-		store_name:'',
-		domain:'',
-		store_email:'',
-		phonenumber:'',
-		package_id:'',
-		activity_ids:[],
-		country_id:'',
-		city_id:'',
-		periodtype:'',
-	});
-	const [personInfo,setPersonInfo] = useState({
-		name:'',
-		user_name:'',
-		email:'',
-		password:'',
-		userphonenumber:'',
-		user_country_id:'',
-		user_city_id:'',
-		status:'',
-		image:'',
 
+	// Define storeInfo object
+	const [storeInfo, setStoreInfo] = useState({
+		store_name: '',
+		domain: '',
+		store_email: '',
+		phonenumber: '',
+		package_id: '',
+		activity_ids: [],
+		country_id: '',
+		city_id: '',
+		periodtype: '',
 	});
-	const { fetchedData:countryList } = useFetch('https://backend.atlbha.com/api/Admin/selector/countries');
-	const { fetchedData:citiesList } = useFetch('https://backend.atlbha.com/api/Admin/selector/cities');
-	const { fetchedData:packagesList } = useFetch('https://backend.atlbha.com/api/Admin/selector/packages');
-	const { fetchedData:activitiesList } = useFetch('https://backend.atlbha.com/api/Admin/selector/activities');
+
+	// Define personInfo object
+	const [personInfo, setPersonInfo] = useState({
+		name: '',
+		user_name: '',
+		email: '',
+		password: '',
+		userphonenumber: '',
+		user_country_id: '',
+		user_city_id: '',
+		status: '',
+		image: '',
+	});
+	/** --------------------------------------------- */
+
+	// to get selectors from api
+	const { fetchedData: countryList } = useFetch('https://backend.atlbha.com/api/Admin/selector/countries');
+	const { fetchedData: citiesList } = useFetch('https://backend.atlbha.com/api/Admin/selector/cities');
+	const { fetchedData: packagesList } = useFetch('https://backend.atlbha.com/api/Admin/selector/packages');
+	const { fetchedData: activitiesList } = useFetch('https://backend.atlbha.com/api/Admin/selector/activities');
+	/** -------------------------------------------------------- */
+
+
+	// set these state open and close activity and show password
 	const [openActivity, setOpenActivity] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
+	
+	// to hold images
 	const onChange = (imageList, addUpdateIndex) => {
 		// data for submit
 		setImages(imageList);
 	};
 
-	
 
-	const addMarket = ()=> {
+	// define this functions to post all add market data to server
+	const addMarket = () => {
 		let formData = new FormData();
-		formData.append('store_name',storeInfo?.store_name);
-		formData.append('domain',storeInfo?.domain);
-		formData.append('store_email',storeInfo?.store_email);
-		formData.append('phonenumber',storeInfo?.phonenumber);
-		formData.append('package_id',storeInfo?.package_id);
-		formData.append('country_id',storeInfo?.country_id);
-		formData.append('city_id',storeInfo?.city_id);
-		formData.append('periodtype',storeInfo?.periodtype);
+		formData.append('store_name', storeInfo?.store_name);
+		formData.append('domain', storeInfo?.domain);
+		formData.append('store_email', storeInfo?.store_email);
+		formData.append('phonenumber', storeInfo?.phonenumber);
+		formData.append('package_id', storeInfo?.package_id);
+		formData.append('country_id', storeInfo?.country_id);
+		formData.append('city_id', storeInfo?.city_id);
+		formData.append('periodtype', storeInfo?.periodtype);
+
+		// create looping to get all ids for activity_ids and assign it
 		for (let i = 0; i < storeInfo?.activity_ids?.length; i++) {
-			formData.append([`activity_id[${i}]`],storeInfo?.activity_ids[i]);
+			formData.append([`activity_id[${i}]`], storeInfo?.activity_ids[i]);
 		}
-		
-		formData.append('name',personInfo?.name);
-		formData.append('user_name',personInfo?.user_name);
-		formData.append('email',personInfo?.email);
-		formData.append('password',personInfo?.password);
-		formData.append('userphonenumber',personInfo?.userphonenumber);
-		formData.append('user_country_id',personInfo?.user_country_id);
-		formData.append('user_city_id',personInfo?.user_city_id);
-		formData.append('image',images[0]?.file || '');
-		formData.append('status',personInfo?.status);
+		/** ------------------------------------------- */
+
+		formData.append('name', personInfo?.name);
+		formData.append('user_name', personInfo?.user_name);
+		formData.append('email', personInfo?.email);
+		formData.append('password', personInfo?.password);
+		formData.append('userphonenumber', personInfo?.userphonenumber);
+		formData.append('user_country_id', personInfo?.user_country_id);
+		formData.append('user_city_id', personInfo?.user_city_id);
+		// here we tell formData if images[0].file its has been file got it if not just put empty stings
+		formData.append('image', images[0]?.file || '');
+		formData.append('status', personInfo?.status);
 
 		axios
-			.post("https://backend.atlbha.com/api/Admin/store", formData, {
+			.post('https://backend.atlbha.com/api/Admin/store', formData, {
 				headers: {
-					"Content-Type": "multipart/form-data",
+					'Content-Type': 'multipart/form-data',
 					Authorization: `Bearer ${token}`,
 				},
 			})
@@ -107,12 +123,12 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 					setReload(!reload);
 				}
 			});
-	}
+	};
 
 	return (
 		<>
 			<BackDrop onClick={cancel}></BackDrop>
-			<div className={`fixed bottom-0 left-0 bg-slate-50 z-30 ${styles.container}`} style={{ width: '1104px',maxWidth: '100%', height: 'calc(100% - 4rem)' }}>
+			<div className={`fixed bottom-0 left-0 bg-slate-50 z-30 ${styles.container}`} style={{ width: '1104px', maxWidth: '100%', height: 'calc(100% - 4rem)' }}>
 				<div className='flex h-full flex-col justify-between'>
 					<div
 						className='md:pt-12 md:pr-16 md:p-8 px-5 py-[30px]'
@@ -150,7 +166,16 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 									></AiFillStar>
 									اسم المتجر
 								</label>
-								<input value={storeInfo?.store_name} onChange={(e)=>{setStoreInfo({...storeInfo,store_name:e.target.value})}} className='w-[555px] md:h-[56px] h-[44px] max-w-full py-4 px-5 rounded-md outline-none' style={{ backgroundColor: '#EFF0F0', border: '1px solid #F0F0F0' }} placeholder='حروف عربية او انجليزية' type='text' />
+								<input
+									value={storeInfo?.store_name}
+									onChange={(e) => {
+										setStoreInfo({ ...storeInfo, store_name: e.target.value });
+									}}
+									className='w-[555px] md:h-[56px] h-[44px] max-w-full py-4 px-5 rounded-md outline-none'
+									style={{ backgroundColor: '#EFF0F0', border: '1px solid #F0F0F0' }}
+									placeholder='حروف عربية او انجليزية'
+									type='text'
+								/>
 							</div>
 							<div className='flex md:flex-row flex-col md:items-center items-start gap-2'>
 								<label className='md:text-[18px] text-[16px] w-[315px]'>
@@ -163,7 +188,16 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 									></AiFillStar>
 									الدومين
 								</label>
-								<input value={storeInfo?.domain} onChange={(e)=>{setStoreInfo({...storeInfo,domain:e.target.value})}} className='w-[555px] md:h-[56px] h-[44px] max-w-full py-4 px-5 rounded-md outline-none' style={{ backgroundColor: '#EFF0F0', border: '1px solid #F0F0F0' }} placeholder='ادخل حروف انجليزية فقط' type='text' />
+								<input
+									value={storeInfo?.domain}
+									onChange={(e) => {
+										setStoreInfo({ ...storeInfo, domain: e.target.value });
+									}}
+									className='w-[555px] md:h-[56px] h-[44px] max-w-full py-4 px-5 rounded-md outline-none'
+									style={{ backgroundColor: '#EFF0F0', border: '1px solid #F0F0F0' }}
+									placeholder='ادخل حروف انجليزية فقط'
+									type='text'
+								/>
 							</div>
 							<div className='flex md:flex-row flex-col md:items-center items-start gap-2'>
 								<label className='md:text-[18px] text-[16px] w-[315px]'>
@@ -176,7 +210,16 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 									></AiFillStar>
 									البريد الإلكتروني
 								</label>
-								<input value={storeInfo?.store_email} onChange={(e)=>{setStoreInfo({...storeInfo,store_email:e.target.value})}} className='w-[555px] md:h-[56px] h-[44px] max-w-full py-4 px-5 rounded-md outline-none' style={{ backgroundColor: '#EFF0F0', border: '1px solid #F0F0F0' }} placeholder='sample@gmail.com' type='email' />
+								<input
+									value={storeInfo?.store_email}
+									onChange={(e) => {
+										setStoreInfo({ ...storeInfo, store_email: e.target.value });
+									}}
+									className='w-[555px] md:h-[56px] h-[44px] max-w-full py-4 px-5 rounded-md outline-none'
+									style={{ backgroundColor: '#EFF0F0', border: '1px solid #F0F0F0' }}
+									placeholder='sample@gmail.com'
+									type='email'
+								/>
 							</div>
 							<div className='flex md:flex-row flex-col md:items-center items-start gap-2'>
 								<label className='md:text-[18px] text-[16px] w-[315px]'>الدولة</label>
@@ -184,7 +227,9 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 									<Select
 										className={styles.select}
 										value={storeInfo?.country_id}
-										onChange={(e)=>{setStoreInfo({...storeInfo,country_id:e.target.value})}}
+										onChange={(e) => {
+											setStoreInfo({ ...storeInfo, country_id: e.target.value });
+										}}
 										displayEmpty
 										IconComponent={(props) => <Arrow fill='#242424' {...props} />}
 										inputProps={{ 'aria-label': 'Without label' }}
@@ -192,7 +237,7 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 											if (storeInfo?.country_id === '') {
 												return <h2>اختر الدولة</h2>;
 											}
-											const result = countryList?.data?.countries?.filter((item)=>item?.id === parseInt(selected));
+											const result = countryList?.data?.countries?.filter((item) => item?.id === parseInt(selected));
 											return result[0]?.name;
 										}}
 										sx={{
@@ -230,7 +275,9 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 									<Select
 										className={styles.select}
 										value={storeInfo?.city_id}
-										onChange={(e)=>{setStoreInfo({...storeInfo,city_id:e.target.value})}}
+										onChange={(e) => {
+											setStoreInfo({ ...storeInfo, city_id: e.target.value });
+										}}
 										displayEmpty
 										IconComponent={(props) => <Arrow fill='#242424' {...props} />}
 										inputProps={{ 'aria-label': 'Without label' }}
@@ -238,7 +285,7 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 											if (storeInfo?.city_id === '') {
 												return <h2>اختر المدينة</h2>;
 											}
-											const result = citiesList?.data?.cities?.filter((item)=>item?.id === parseInt(selected));
+											const result = citiesList?.data?.cities?.filter((item) => item?.id === parseInt(selected));
 											return result[0]?.name;
 										}}
 										sx={{
@@ -275,7 +322,16 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 								<div className='w-[555px] md:h-[56px] h-[44px] max-w-full py-4 px-5 rounded-md flex flex-row items-center justify-between' style={{ backgroundColor: '#EFF0F0', border: '1px solid #F0F0F0' }}>
 									<div className='flex flex-row items-center'>
 										<PhoneIcon className={styles.icon} />
-										<input value={storeInfo?.phonenumber} onChange={(e)=>{setStoreInfo({...storeInfo,phonenumber:e.target.value})}} className='w-full outline-none' style={{ backgroundColor: 'transparent' }} placeholder='5419515123' type='text' />
+										<input
+											value={storeInfo?.phonenumber}
+											onChange={(e) => {
+												setStoreInfo({ ...storeInfo, phonenumber: e.target.value });
+											}}
+											className='w-full outline-none'
+											style={{ backgroundColor: 'transparent' }}
+											placeholder='5419515123'
+											type='text'
+										/>
 									</div>
 									<p style={{ fontSize: '18px', color: '#011723' }}>966</p>
 								</div>
@@ -295,7 +351,9 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 									<Select
 										className={styles.select}
 										value={storeInfo?.package_id}
-										onChange={(e)=>{setStoreInfo({...storeInfo,package_id:e.target.value})}}
+										onChange={(e) => {
+											setStoreInfo({ ...storeInfo, package_id: e.target.value });
+										}}
 										displayEmpty
 										IconComponent={(props) => <Arrow fill='#242424' {...props} />}
 										inputProps={{ 'aria-label': 'Without label' }}
@@ -303,7 +361,7 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 											if (storeInfo?.package_id === '') {
 												return <h2>اختر نوع الخطة</h2>;
 											}
-											const result = packagesList?.data?.packages?.filter((item)=>item?.id === parseInt(selected));
+											const result = packagesList?.data?.packages?.filter((item) => item?.id === parseInt(selected));
 											return result[0]?.name;
 										}}
 										sx={{
@@ -350,7 +408,9 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 									<Select
 										className={styles.select}
 										value={storeInfo?.periodtype}
-										onChange={(e)=>{setStoreInfo({...storeInfo,periodtype:e.target.value})}}
+										onChange={(e) => {
+											setStoreInfo({ ...storeInfo, periodtype: e.target.value });
+										}}
 										displayEmpty
 										IconComponent={(props) => <Arrow fill='#242424' {...props} />}
 										inputProps={{ 'aria-label': 'Without label' }}
@@ -358,7 +418,7 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 											if (storeInfo?.periodtype === '') {
 												return <h2>اختيار مدة الاشتراك</h2>;
 											}
-											const result = planeTime?.filter((item)=>item?.name_en === selected);
+											const result = planeTime?.filter((item) => item?.name_en === selected);
 											return result[0]?.name;
 										}}
 										sx={{
@@ -412,19 +472,18 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 											setOpenActivity(true);
 										}}
 										value={storeInfo?.activity_ids}
-										onChange={(e)=>{setStoreInfo({...storeInfo,activity_ids:e.target.value})}}
-										renderValue={
-											(selected) => {
-												if(storeInfo?.activity_ids.length === 0)
-												{
-													return 'نشاط المتجر';
-												}
-												return selected.map((item)=>{
-													const result = activitiesList?.data?.activities?.filter((a)=>a?.id === parseInt(item))
-													return `${result[0]?.name} , `;	
-												})
+										onChange={(e) => {
+											setStoreInfo({ ...storeInfo, activity_ids: e.target.value });
+										}}
+										renderValue={(selected) => {
+											if (storeInfo?.activity_ids.length === 0) {
+												return 'نشاط المتجر';
 											}
-										}
+											return selected.map((item) => {
+												const result = activitiesList?.data?.activities?.filter((a) => a?.id === parseInt(item));
+												return `${result[0]?.name} , `;
+											});
+										}}
 										sx={{
 											height: '3.5rem',
 											backgroundColor: '#EFF0F0',
@@ -435,7 +494,7 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 											},
 										}}
 									>
-										{activitiesList?.data?.activities?.map((item,index) => (
+										{activitiesList?.data?.activities?.map((item, index) => (
 											<MenuItem className='souq_storge_category_filter_items multiple_select' key={index} value={item?.id}>
 												<Checkbox checked={storeInfo?.activity_ids.indexOf(item?.id) > -1} />
 												<ListItemText primary={item?.name} />
@@ -464,27 +523,62 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 								<label className='md:text-[18px] text-[16px] w-[315px]'>الإسم الكامل</label>
 								<div className='w-[555px] md:h-[56px] h-[44px] max-w-full py-4 px-5 rounded-md flex flex-row items-center justify-between' style={{ backgroundColor: '#EFF0F0', border: '1px solid #F0F0F0' }}>
 									<UserIcon className={styles.icon} />
-									<input value={personInfo?.name} onChange={(e)=>{setPersonInfo({...personInfo,name:e.target.value})}} className='w-full outline-none' style={{ backgroundColor: 'transparent' }} placeholder='خالد محمد' type='text' />
+									<input
+										value={personInfo?.name}
+										onChange={(e) => {
+											setPersonInfo({ ...personInfo, name: e.target.value });
+										}}
+										className='w-full outline-none'
+										style={{ backgroundColor: 'transparent' }}
+										placeholder='خالد محمد'
+										type='text'
+									/>
 								</div>
 							</div>
 							<div className='flex md:flex-row flex-col md:items-center items-start gap-2'>
 								<label className='md:text-[18px] text-[16px] w-[315px]'>اسم المستخدم</label>
 								<div className='w-[555px] md:h-[56px] h-[44px] max-w-full py-4 px-5 rounded-md flex flex-row items-center justify-between' style={{ backgroundColor: '#EFF0F0', border: '1px solid #F0F0F0' }}>
 									<UserIcon className={styles.icon} />
-									<input value={personInfo?.user_name} onChange={(e)=>{setPersonInfo({...personInfo,user_name:e.target.value})}} className='w-full outline-none' style={{ backgroundColor: 'transparent' }} placeholder='K22' type='text' />
+									<input
+										value={personInfo?.user_name}
+										onChange={(e) => {
+											setPersonInfo({ ...personInfo, user_name: e.target.value });
+										}}
+										className='w-full outline-none'
+										style={{ backgroundColor: 'transparent' }}
+										placeholder='K22'
+										type='text'
+									/>
 								</div>
 							</div>
 							<div className='flex md:flex-row flex-col md:items-center items-start gap-2'>
 								<label className='md:text-[18px] text-[16px] w-[315px]'>البريد الإلكتروني</label>
 								<div className='w-[555px] md:h-[56px] h-[44px] max-w-full py-4 px-5 rounded-md flex flex-row items-center justify-between' style={{ backgroundColor: '#EFF0F0', border: '1px solid #F0F0F0' }}>
 									<EmailIcon className={styles.icon} />
-									<input value={personInfo?.email} onChange={(e)=>{setPersonInfo({...personInfo,email:e.target.value})}} className='w-full outline-none' style={{ backgroundColor: 'transparent' }} placeholder='khaled@gmail.com' type='email' />
+									<input
+										value={personInfo?.email}
+										onChange={(e) => {
+											setPersonInfo({ ...personInfo, email: e.target.value });
+										}}
+										className='w-full outline-none'
+										style={{ backgroundColor: 'transparent' }}
+										placeholder='khaled@gmail.com'
+										type='email'
+									/>
 								</div>
 							</div>
 							<div className='flex md:flex-row flex-col md:items-center items-start gap-2'>
 								<label className='md:text-[18px] text-[16px] w-[315px]'>كلمة المرور</label>
 								<div className='w-[555px] md:h-[56px] h-[44px] max-w-full py-4 px-5 rounded-md flex flex-row items-center justify-between' style={{ backgroundColor: '#EFF0F0', border: '1px solid #F0F0F0' }}>
-									<input value={personInfo?.password} onChange={(e)=>{setPersonInfo({...personInfo,password:e.target.value})}} className='w-full outline-none' style={{ backgroundColor: 'transparent' }} type={showPassword ? 'text' : 'password'} />
+									<input
+										value={personInfo?.password}
+										onChange={(e) => {
+											setPersonInfo({ ...personInfo, password: e.target.value });
+										}}
+										className='w-full outline-none'
+										style={{ backgroundColor: 'transparent' }}
+										type={showPassword ? 'text' : 'password'}
+									/>
 									<Password className={styles.password} onClick={() => setShowPassword(!showPassword)} />
 								</div>
 							</div>
@@ -493,8 +587,10 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 								<FormControl className='w-[555px] md:h-[56px] h-[44px] max-w-full'>
 									<Select
 										className={styles.select}
-										value={personInfo?.user_country_id} 
-										onChange={(e)=>{setPersonInfo({...personInfo,user_country_id:e.target.value})}}
+										value={personInfo?.user_country_id}
+										onChange={(e) => {
+											setPersonInfo({ ...personInfo, user_country_id: e.target.value });
+										}}
 										displayEmpty
 										IconComponent={(props) => <Arrow fill='#242424' {...props} />}
 										inputProps={{ 'aria-label': 'Without label' }}
@@ -502,7 +598,7 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 											if (personInfo?.user_country_id === '') {
 												return <h2>اختر الدولة</h2>;
 											}
-											const result = countryList?.data?.countries?.filter((item)=>item?.id === parseInt(selected));
+											const result = countryList?.data?.countries?.filter((item) => item?.id === parseInt(selected));
 											return result[0]?.name;
 										}}
 										sx={{
@@ -539,8 +635,10 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 								<FormControl className='w-[555px] md:h-[56px] h-[44px] max-w-full'>
 									<Select
 										className={styles.select}
-										value={personInfo?.user_city_id} 
-										onChange={(e)=>{setPersonInfo({...personInfo,user_city_id:e.target.value})}}
+										value={personInfo?.user_city_id}
+										onChange={(e) => {
+											setPersonInfo({ ...personInfo, user_city_id: e.target.value });
+										}}
 										displayEmpty
 										IconComponent={(props) => <Arrow fill='#242424' {...props} />}
 										inputProps={{ 'aria-label': 'Without label' }}
@@ -548,7 +646,7 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 											if (personInfo?.user_city_id === '') {
 												return <h2>اختر المدينة</h2>;
 											}
-											const result = citiesList?.data?.cities?.filter((item)=>item?.id === parseInt(selected));
+											const result = citiesList?.data?.cities?.filter((item) => item?.id === parseInt(selected));
 											return result[0]?.name;
 										}}
 										sx={{
@@ -585,7 +683,16 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 								<div className='w-[555px] md:h-[56px] h-[44px] max-w-full py-4 px-5 rounded-md flex flex-row items-center justify-between' style={{ backgroundColor: '#EFF0F0', border: '1px solid #F0F0F0' }}>
 									<div className='flex flex-row items-center'>
 										<PhoneIcon className={styles.icon} />
-										<input value={personInfo?.userphonenumber} onChange={(e)=>{setPersonInfo({...personInfo,userphonenumber:e.target.value})}} className='w-full outline-none' style={{ backgroundColor: 'transparent' }} placeholder='5419515123' type='text' />
+										<input
+											value={personInfo?.userphonenumber}
+											onChange={(e) => {
+												setPersonInfo({ ...personInfo, userphonenumber: e.target.value });
+											}}
+											className='w-full outline-none'
+											style={{ backgroundColor: 'transparent' }}
+											placeholder='5419515123'
+											type='text'
+										/>
 									</div>
 									<p style={{ fontSize: '18px', color: '#011723' }}>966</p>
 								</div>
@@ -635,8 +742,10 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 								<FormControl className='w-[555px] md:h-[56px] h-[44px] max-w-full'>
 									<Select
 										className={styles.select}
-										value={personInfo?.status} 
-										onChange={(e)=>{setPersonInfo({...personInfo,status:e.target.value})}}
+										value={personInfo?.status}
+										onChange={(e) => {
+											setPersonInfo({ ...personInfo, status: e.target.value });
+										}}
 										displayEmpty
 										IconComponent={(props) => <Arrow fill='#242424' {...props} />}
 										inputProps={{ 'aria-label': 'Without label' }}
@@ -644,7 +753,7 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 											if (personInfo?.status === '') {
 												return <h2>اختر الحالة</h2>;
 											}
-											const result = conditions?.filter((item)=>item?.name_en === selected);
+											const result = conditions?.filter((item) => item?.name_en === selected);
 											return result[0]?.name;
 										}}
 										sx={{
@@ -685,12 +794,7 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 							backgroundColor: 'rgba(235, 235, 235, 1)',
 						}}
 					>
-						<Button
-							className={'h-[14] w-[268px]'}
-							style={{ backgroundColor: `rgba(2, 70, 106, 1)` }}
-							textStyle={{ color: '#EFF9FF', fontSize: '22px' }}
-							type={'normal'}
-							onClick={addMarket}>
+						<Button className={'h-[14] w-[268px]'} style={{ backgroundColor: `rgba(2, 70, 106, 1)` }} textStyle={{ color: '#EFF9FF', fontSize: '22px' }} type={'normal'} onClick={addMarket}>
 							حفظ واعتماد
 						</Button>
 					</div>

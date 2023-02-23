@@ -191,6 +191,7 @@ const VerificationData = ({ reload, setReload, cancel, verificationInfo, editVer
               dataURLKey="data_url"
               acceptType={["pdf", "jpg", "png", "jpeg"]}
               disabled={true}
+              allowNonImageType={true}
             >
               {({
                 imageList, onImageUpload,

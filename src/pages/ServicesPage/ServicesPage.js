@@ -5,18 +5,15 @@ import useFetch from '../../hooks/useFetch';
 import PageNavigate from '../../components/PageNavigate/PageNavigate';
 import ServicesTable from '../../components/ServicesPageComp/ServicesTable/ServicesTable';
 import NewService from '../../components/ServicesPageComp/NewService/NewService';
-import ShowDetails from '../../components/ServicesPageComp/ShowDetails/ShowDetails';
-
+import ShowDetails from '../../components/ServicesPageComp/ShowDetails/ShowDetails'
 
 // Icons
 import Button from '../../UI/Button/Button';
 import { AiOutlinePlus } from 'react-icons/ai';
 
-
 const ServicesPage = () => {
 	const [showNewProductInfo, setShowNewProductInfo] = useState(false);
 	const [showDetailsModal, setShowDetailsModal] = useState(false);
-
 
 	// Fetch data from API
 	const { fetchedData, loading, reload, setReload } = useFetch('https://backend.atlbha.com/api/Admin/service');
@@ -41,6 +38,8 @@ const ServicesPage = () => {
 			</div>
 			{showNewProductInfo && (
 				<NewService
+					reload={reload}
+					setReload={setReload}
 					cancel={() => {
 						setShowNewProductInfo(false);
 					}}
