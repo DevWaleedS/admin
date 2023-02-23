@@ -3,7 +3,6 @@ import { IoMdCloseCircleOutline } from 'react-icons/io';
 import Button from '../../../../UI/Button/Button';
 import Context from '../../../../store/context';
 import ImageUploading from 'react-images-uploading';
-import styles from './AddAnActivity.module.css';
 import axios from "axios";
 
 const BackDrop = ({ onClick }) => {
@@ -28,11 +27,14 @@ const AddAnActivity = ({ cancel, editActivity, reload, setReload }) => {
 			setActitviyName(editActivity.title);
 		}
 	}, [editActivity]);
+
+	// add activity form
 	const addActivity = () => {
 		
 		let formData = new FormData();
 		formData.append('icon',images[0]?.file || '');
 		formData.append('name', activiyName);
+
 		axios
 			.post("https://backend.atlbha.com/api/Admin/activity", formData, {
 				headers: {
@@ -52,6 +54,7 @@ const AddAnActivity = ({ cancel, editActivity, reload, setReload }) => {
 				}
 			});
 	}
+
 
 	return (
 		<>
@@ -79,6 +82,7 @@ const AddAnActivity = ({ cancel, editActivity, reload, setReload }) => {
 							
 							name='name'
 							value={activiyName}
+
 							onChange={(e) => {
 								setActitviyName(e.target.value);
 							}}

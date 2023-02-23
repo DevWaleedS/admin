@@ -1,14 +1,22 @@
 import React, { useState, useContext } from 'react';
+import axios from "axios";
 import Button from '../../../UI/Button/Button';
 import Context from '../../../store/context';
 import styles from './NewService.module.css';
+import ImageUploading from 'react-images-uploading';
+
+
+// icons
 import { ReactComponent as AddIcon } from '../../../assets/Icons/icon-34-add.svg';
 import Box from '@mui/material/Box';
 
+
+// back_drop
 const BackDrop = ({ onClick }) => {
 	return <div onClick={onClick} className={`fixed back_drop bottom-0 left-0  w-full bg-slate-900  z-10 ${styles.back_drop}`} style={{ height: 'calc(100% - 4rem)' }}></div>;
 };
 
+// some styles
 const formTitleClasses = 'md:w-[315px] w-full font-semibold md:text-lg text-[16px] md:mb-0 mb-2';
 const formInputClasses = 'md:w-[555px] w-full md:h-14 h-[45px] p-4 outline-0 rounded-md';
 const formInputStyle = {
@@ -16,37 +24,67 @@ const formInputStyle = {
 	backgroundColor: '#F6F6F6',
 };
 
-const NewService = ({ cancel }) => {
+
+const NewService = ({ cancel, reload, setReload }) => {
+
+	// to get token that user set it from local storage 
+	const token = localStorage.getItem('token');
 	const contextStore = useContext(Context);
 	const { setEndActionTitle } = contextStore;
-	const [age, setAge] = useState('');
 
-	
+	// select all input in store the value in state
+	const [servicesData, setServicesData] = useState({
+		serviceName: '',
+		serviceDetails: '',
+		servicesPrice: '',
+	});
+
+	const servicesHandler = (event) => {
+		const key = event.target.name;
+		const value = event.target.value;
+		setServicesData((prevState) => {
+			return { ...prevState, [key]: value };
+		});
+	};
+
+	// to get image or video
 	const [images, setImages] = useState([]);
-	const [multiImages, setMultiImages] = useState([]);
-	console.log(multiImages);
-
-	const emptyMultiImages = [];
-	for (let index = 0; index < 5 - multiImages.length; index++) {
-		emptyMultiImages.push(index);
-	}
-
-	const maxNumber = 2;
 	const onChange = (imageList, addUpdateIndex) => {
 		// data for submit
 		setImages(imageList);
 	};
-	const onChangeMultiImages = (imageList, addUpdateIndex) => {
-		// data for submit
-		setMultiImages(imageList);
+
+	const addNewService = () => {
+		const formData = new FormData();
+		formData.append('serviceName', servicesData?.serviceName);
+		formData.append('serviceDetails', servicesData?.serviceDetails);
+		formData.append('servicesPrice', servicesData?.servicesPrice);
+		formData.append('image', images[0]?.file || '');
+
+		axios
+			.post(`https://backend.atlbha.com/api/Admin/service`, formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setReload(!reload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setReload(!reload);
+				}
+			});
 	};
-	const handleCategory = (event) => {
-		setAge(event.target.value);
-	};
+
 	return (
 		<>
 			<BackDrop onClick={cancel}></BackDrop>
-			<div className={`fixed bottom-0 left-0 bg-[#F6F6F6] z-30 ${styles.container}`} style={{ width: '1104px',maxWidth:'100%', height: 'calc(100% - 4rem)' }}>
+			<div className={`fixed bottom-0 left-0 bg-[#F6F6F6] z-30 ${styles.container}`} style={{ width: '1104px', maxWidth: '100%', height: 'calc(100% - 4rem)' }}>
 				<div className='flex h-full flex-col justify-between'>
 					<div
 						className='md:p-8 p-4'
@@ -61,62 +99,60 @@ const NewService = ({ cancel }) => {
 					<div className={`flex-1 overflow-y-scroll md:py-12 md:pr-8 p-4 ${styles.content}`}>
 						<form action=''>
 							<div className='flex md:flex-row flex-col mb-8'>
-								<h2 className={formTitleClasses}>
-									اسم الخدمة
-								</h2>
+								<h2 className={formTitleClasses}>اسم الخدمة</h2>
 								<label>
-									<input className={formInputClasses} style={formInputStyle} placeholder='ادخل اسم الخدمة' type='text' name='name' />
+									<input className={formInputClasses} style={formInputStyle} placeholder='ادخل اسم الخدمة' type='text' name='serviceName' value={servicesData?.serviceName} onChange={servicesHandler} />
 								</label>
 							</div>
 							<div className='flex md:flex-row flex-col mb-8 '>
-								<h2 className={formTitleClasses}>
-									تفاصيل الخدمة
-								</h2>
-								{/* <textarea
-                  className={formInputClasses}
-                  style={{ ...formInputStyle, resize: "none" }}
-                  resize={false}
-                  name=""
-                  placeholder="وصف تفاصيل المنتج"
-                  id=""
-                  cols="30"
-                  rows="4"
-                ></textarea> */}
-								<div className={`${formInputClasses} md:h-full h-full px-6`} style={{ ...formInputStyle }}>
-									<ol className='list-decimal'>
-										<li>
-											<input className='w-full outline-none bg-[#F6F6F6]' type='text' />
-										</li>
-										<li>
-											<input className='w-full outline-none bg-[#F6F6F6]' type='text' />
-										</li>
-										<li>
-											<input className='w-full outline-none bg-[#F6F6F6]' type='text' />
-										</li>
-									</ol>
-								</div>
+								<h2 className={formTitleClasses}>تفاصيل الخدمة</h2>
+								<textarea
+									className={`${formInputClasses}  md:h-[120px]`}
+									style={{ ...formInputStyle, resize: 'none' }}
+									resize={false}
+									placeholder='وصف تفاصيل المنتج'
+									id=''
+									cols='30'
+									rows='4'
+									name='serviceDetails'
+									value={servicesData?.serviceDetails}
+									onChange={servicesHandler}
+								></textarea>
 							</div>
 
 							<div className='flex md:flex-row flex-col mb-8'>
-								<h2 className={formTitleClasses} >
-									اضافة صورة / فيديو
-								</h2>
-								<div
-									className='md:w-[555px] w-full md:h-14 h-[45px] fcc p-3 gap-4 cursor-pointer rounded'
-									style={formInputStyle}
-									// onClick={() => {
-									//   setShowAddProductOptions(true);
-									// }}
-								>
-									<Box sx={{ '& circle': { fill: 'rgba(36, 36, 36, 1)' } }}>
-										<AddIcon width={'1.5rem'}></AddIcon>
-									</Box>
+								<h2 className={formTitleClasses}>اضافة صورة / فيديو</h2>
+
+								<div className='md:w-[555px] w-full md:h-14 h-[45px] fcc p-3 gap-4 cursor-pointer rounded' style={formInputStyle}>
+									<ImageUploading value={images} onChange={onChange} maxNumber={1} dataURLKey='data_url' acceptType={['jpg', 'png', 'jpeg', 'svg']}>
+										{({ imageList, onImageUpload, dragProps }) => (
+											// write your building UI
+
+											<div
+												className=' w-full flex align-center justify-center'
+												onClick={() => {
+													onImageUpload();
+												}}
+												{...dragProps}
+											>
+												{!images[0] && (
+													<Box sx={{ '& circle': { fill: 'rgba(36, 36, 36, 1)' } }}>
+														<AddIcon width={'1.5rem'}></AddIcon>
+													</Box>
+												)}
+
+												{images[0] && (
+													<div className=''>
+														<img width={'1.5rem'} src={images[0]?.data_url} alt={images[0]?.data_url} />
+													</div>
+												)}
+											</div>
+										)}
+									</ImageUploading>
 								</div>
 							</div>
 							<div className='flex md:flex-row flex-col mb-8 '>
-								<h2 className={formTitleClasses}>
-									سعر الخدمة
-								</h2>
+								<h2 className={formTitleClasses}>سعر الخدمة</h2>
 								<label className='md:w-[555px] w-full md:h-14 h-[45px] flex rounded-md overflow-hidden' style={formInputStyle}>
 									<div className='p-4 flex flex-1'>
 										<input className='flex-1 border-none outline-none bg-[#F6F6F6]' placeholder='0' type='text' name='name' />
@@ -144,10 +180,7 @@ const NewService = ({ cancel }) => {
 							className={'md:h-14 h-[45px] md:w-44 w-full text-xl'}
 							style={{ backgroundColor: `rgba(2, 70, 106, 1)` }}
 							type={'normal'}
-							onClick={() => {
-								setEndActionTitle('تم اضافة خدمة جديدة بنجاح');
-								cancel();
-							}}
+							onClick={addNewService}
 						>
 							حفظ
 						</Button>

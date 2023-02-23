@@ -19,7 +19,7 @@ const ChangeSliderSec = () => {
 	};
 	const onChangeLogoImage = (imageList, addUpdateIndex) => {
 		// data for submit
-		console.log(imageList);
+	
 		setImages(imageList);
 	};
 
