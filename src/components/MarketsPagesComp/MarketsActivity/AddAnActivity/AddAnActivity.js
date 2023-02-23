@@ -3,7 +3,7 @@ import { IoMdCloseCircleOutline } from 'react-icons/io';
 import Button from '../../../../UI/Button/Button';
 import Context from '../../../../store/context';
 import ImageUploading from 'react-images-uploading';
-import axios from "axios";
+import axios from 'axios';
 
 const BackDrop = ({ onClick }) => {
 	return <div onClick={onClick} className={`fixed opacity-25 back_drop top-0 left-0 h-full w-full bg-slate-900  z-10 `}></div>;
@@ -22,26 +22,16 @@ const AddAnActivity = ({ cancel, reload, setReload }) => {
 		setImages(imageList);
 	};
 
-<<<<<<< HEAD
-	useEffect(() => {
-		if (editActivity) {
-			setActitviyName(editActivity.title);
-		}
-	}, [editActivity]);
-
 	// add activity form
-=======
->>>>>>> 1ba0aa4bb0d9150ecb1c68154c9e21157d61e2b2
 	const addActivity = () => {
-		
 		let formData = new FormData();
-		formData.append('icon',images[0]?.file || '');
+		formData.append('icon', images[0]?.file || '');
 		formData.append('name', activiyName);
 
 		axios
-			.post("https://backend.atlbha.com/api/Admin/activity", formData, {
+			.post('https://backend.atlbha.com/api/Admin/activity', formData, {
 				headers: {
-					"Content-Type": "multipart/form-data",
+					'Content-Type': 'multipart/form-data',
 					Authorization: `Bearer ${token}`,
 				},
 			})
@@ -56,8 +46,7 @@ const AddAnActivity = ({ cancel, reload, setReload }) => {
 					setReload(!reload);
 				}
 			});
-	}
-
+	};
 
 	return (
 		<>
@@ -81,10 +70,8 @@ const AddAnActivity = ({ cancel, reload, setReload }) => {
 							className='w-full outline-none shadow-[0px_3px_6px_#00000029] rounded-md p-4 my-4 h-[60px] text-lg'
 							placeholder='ادخل اسم النشاط'
 							type='text'
-							
 							name='name'
 							value={activiyName}
-
 							onChange={(e) => {
 								setActitviyName(e.target.value);
 							}}
@@ -92,7 +79,7 @@ const AddAnActivity = ({ cancel, reload, setReload }) => {
 					</label>
 					<div className='flex flex-col gap-2'>
 						<h2 className='font-normal text-lg'>الايقونة</h2>
-						<ImageUploading value={images} onChange={onChange} maxNumber={1} dataURLKey='data_url' acceptType={['jpg', 'png', 'jpeg','svg']}>
+						<ImageUploading value={images} onChange={onChange} maxNumber={1} dataURLKey='data_url' acceptType={['jpg', 'png', 'jpeg', 'svg']}>
 							{({ imageList, onImageUpload, dragProps }) => (
 								// write your building UI
 								<div className='w-[555px] md:h-[56px] h-[44px] max-w-full'>
@@ -131,12 +118,7 @@ const AddAnActivity = ({ cancel, reload, setReload }) => {
 						</ImageUploading>
 					</div>
 					<div className='flex gap-4'>
-						<Button
-							type={'normal'}
-							className={'text-center w-full mt-12 md:h-14 h-[44px] text-xl'}
-							style={{ backgroundColor: '#02466A' }}
-							onClick={addActivity}
-						>
+						<Button type={'normal'} className={'text-center w-full mt-12 md:h-14 h-[44px] text-xl'} style={{ backgroundColor: '#02466A' }} onClick={addActivity}>
 							حفظ
 						</Button>
 						<Button type={'outline'} className={'text-center w-full mt-12 md:h-14 h-[44px] text-xl'} style={{ border: ' 1px solid #02466A' }} textStyle={{ color: '#02466A' }} onClick={cancel}>
