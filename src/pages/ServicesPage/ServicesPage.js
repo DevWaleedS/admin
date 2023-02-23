@@ -14,6 +14,7 @@ import { AiOutlinePlus } from 'react-icons/ai';
 const ServicesPage = () => {
 	const [showNewProductInfo, setShowNewProductInfo] = useState(false);
 	const [showDetailsModal, setShowDetailsModal] = useState(false);
+	const [productInfo, setProductInfo] = useState([]);
 
 	// Fetch data from API
 	const { fetchedData, loading, reload, setReload } = useFetch('https://backend.atlbha.com/api/Admin/service');
@@ -45,16 +46,24 @@ const ServicesPage = () => {
 					}}
 				/>
 			)}
+
 			{showDetailsModal && (
 				<ShowDetails
 					cancel={() => {
 						setShowDetailsModal(false);
 					}}
+					productInfo={productInfo}
 				/>
 			)}
+
 			<div dir={'ltr'} className='md:mt-20 mt-5'>
+				
 				<ServicesTable
-					showdetails={setShowDetailsModal}
+					openProductDetails={(id) => {
+						setShowDetailsModal(true);
+						setProductInfo(id);
+					}}
+			
 					fetchedData={fetchedData}
 					loading={loading}
 					reload={reload}

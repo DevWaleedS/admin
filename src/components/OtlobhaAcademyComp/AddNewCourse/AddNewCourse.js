@@ -21,7 +21,7 @@ import Context from '../../../store/context';
 import axios from "axios";
 import { TagsInput } from "react-tag-input-component";
 
-const tags = ['إدارة المخاطر', 'الخطة الاستراتيجية لادارة المتجر', 'تنظيم عمليات المتجر', 'شراء المنتجات وإدارة المخزون', 'الخطة الاستراتيجية لادارة المتجر', 'تنظيم عمليات المتجر'];
+
 
 const AddNewCourse = ({ coursesReload, setCoursesReload, cancel, editData, addNewLesson }) => {
   const token = localStorage.getItem('token');
@@ -51,7 +51,7 @@ const AddNewCourse = ({ coursesReload, setCoursesReload, cancel, editData, addNe
     const editorStateInHtml = draftToHtml(
       convertToRaw(editorValue.getCurrentContent())
     );
-    console.log(editorStateInHtml);
+
 
     setDescription({
       htmlValue: editorStateInHtml,
@@ -63,6 +63,7 @@ const AddNewCourse = ({ coursesReload, setCoursesReload, cancel, editData, addNe
     // data for submit
     setImages(imageList);
   };
+
   const handelCopy = () => {
     navigator.clipboard.writeText('https://www.google.com/search?q=%D8%B1%D8%A7%D8%A8%D8%B7+%D8%AA%D9%8');
     setCopy(true);

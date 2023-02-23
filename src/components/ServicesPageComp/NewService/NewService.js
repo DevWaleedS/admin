@@ -33,16 +33,16 @@ const NewService = ({ cancel, reload, setReload }) => {
 
 	// select all input in store the value in state
 	const [servicesData, setServicesData] = useState({
-		serviceName: '',
-		serviceDetails: '',
-		servicesPrice: '',
+		service_name: '',
+		service_details: '',
+		service_price: '',
 	});
 
 	const servicesHandler = (event) => {
-		const key = event.target.name;
-		const value = event.target.value;
+		const {name, value} = event.target;
+
 		setServicesData((prevState) => {
-			return { ...prevState, [key]: value };
+			return { ...prevState, [name]: value };
 		});
 	};
 
@@ -53,12 +53,14 @@ const NewService = ({ cancel, reload, setReload }) => {
 		setImages(imageList);
 	};
 
+
+	// handle function to set new service
 	const addNewService = () => {
 		const formData = new FormData();
-		formData.append('serviceName', servicesData?.serviceName);
-		formData.append('serviceDetails', servicesData?.serviceDetails);
-		formData.append('servicesPrice', servicesData?.servicesPrice);
 		formData.append('image', images[0]?.file || '');
+		formData.append('service_name', servicesData?.service_name);
+		formData.append('service_details', servicesData?.service_details);
+		formData.append('service_price', servicesData?.service_price);
 
 		axios
 			.post(`https://backend.atlbha.com/api/Admin/service`, formData, {
@@ -100,7 +102,7 @@ const NewService = ({ cancel, reload, setReload }) => {
 							<div className='flex md:flex-row flex-col mb-8'>
 								<h2 className={formTitleClasses}>اسم الخدمة</h2>
 								<label>
-									<input className={formInputClasses} style={formInputStyle} placeholder='ادخل اسم الخدمة' type='text' name='serviceName' value={servicesData?.serviceName} onChange={servicesHandler} />
+									<input className={formInputClasses} style={formInputStyle} placeholder='ادخل اسم الخدمة' type='text' name='service_name' value={servicesData?.service_name} onChange={servicesHandler} />
 								</label>
 							</div>
 							<div className='flex md:flex-row flex-col mb-8 '>
@@ -113,8 +115,8 @@ const NewService = ({ cancel, reload, setReload }) => {
 									id=''
 									cols='30'
 									rows='4'
-									name='serviceDetails'
-									value={servicesData?.serviceDetails}
+									name='service_details'
+									value={servicesData?.service_details}
 									onChange={servicesHandler}
 								></textarea>
 							</div>
@@ -142,7 +144,7 @@ const NewService = ({ cancel, reload, setReload }) => {
 
 												{images[0] && (
 													<div className=''>
-														<img width={'1.5rem'} src={images[0]?.data_url} alt={images[0]?.data_url} />
+														<img width={'60px'} src={images[0]?.data_url} alt={images[0]?.data_url} />
 													</div>
 												)}
 											</div>

@@ -18,6 +18,8 @@ const BackDrop = ({ onClick }) => {
 
 const ProductDetails = ({ cancel, details }) => {
   const { fetchedData } = useFetch(`https://backend.atlbha.com/api/Admin/product/${details}`);
+
+
   const [subject,setSubject] = useState("");
   const [description, setDescription] = useState({
     htmlValue: "<h1></h1>\n",

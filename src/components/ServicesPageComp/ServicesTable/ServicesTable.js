@@ -213,10 +213,10 @@ EnhancedTableToolbar.propTypes = {
 	numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable({ fetchedData, loading, reload, setReload, showdetails }) {
+export default function EnhancedTable({ fetchedData, loading, reload, setReload, openProductDetails }) {
 	const token = localStorage.getItem('token');
 	const NotificationStore = useContext(NotificationContext);
-	const { confirm, setConfirm,actionTitle,setActionTitle } = NotificationStore;
+	const { confirm, setConfirm, actionTitle, setActionTitle } = NotificationStore;
 	const contextStore = useContext(Context);
 	const { setEndActionTitle } = contextStore;
 	const [order, setOrder] = React.useState('asc');
@@ -241,12 +241,12 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
 		setSelected([]);
 	};
 
-	// Delete single item 
+	// Delete single item
 	const deleteService = (id) => {
 		axios
 			.get(`https://backend.atlbha.com/api/Admin/servicedeleteall?id[]=${id}`, {
 				headers: {
-					"Content-Type": "application/json",
+					'Content-Type': 'application/json',
 					Authorization: `Bearer ${token}`,
 				},
 			})
@@ -259,26 +259,25 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
 					setReload(!reload);
 				}
 			});
-	}
+	};
 	// Delete all items
 	useEffect(() => {
-		if (confirm && actionTitle==='Delete') {
-			const queryParams = selected.map(id => `id[]=${id}`).join('&');
+		if (confirm && actionTitle === 'Delete') {
+			const queryParams = selected.map((id) => `id[]=${id}`).join('&');
 			axios
 				.get(`https://backend.atlbha.com/api/Admin/servicedeleteall?${queryParams}`, {
 					headers: {
-						"Content-Type": "application/json",
+						'Content-Type': 'application/json',
 						Authorization: `Bearer ${token}`,
 					},
 				})
 				.then((res) => {
 					if (res?.data?.success === true && res?.data?.data?.status === 200) {
 						setEndActionTitle(res?.data?.message?.ar);
-						setReload(prev => !prev);
+						setReload((prev) => !prev);
 					} else {
 						setEndActionTitle(res?.data?.message?.ar);
-						setReload(prev => !prev);
-						
+						setReload((prev) => !prev);
 					}
 				});
 			setActionTitle(null);
@@ -316,87 +315,81 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
 					<Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={'medium'}>
 						<EnhancedTableHead numSelected={selected.length} order={order} orderBy={orderBy} onSelectAllClick={handleSelectAllClick} onRequestSort={handleRequestSort} />
 						<TableBody>
-							{loading ?
-								(
-									<TableRow>
-										<TableCell colSpan={4}>
-											<CircularLoading />
-										</TableCell>
-									</TableRow>
-								)
-								:
-								(
-									<>
-										{stableSort(fetchedData?.data?.Services, getComparator(order, orderBy))
-											?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-											?.map((row, index) => {
-												const isItemSelected = isSelected(row.id);
-												const labelId = `enhanced-table-checkbox-${index}`;
+							{loading ? (
+								<TableRow>
+									<TableCell colSpan={4}>
+										<CircularLoading />
+									</TableCell>
+								</TableRow>
+							) : (
+								<>
+									{stableSort(fetchedData?.data?.Services, getComparator(order, orderBy))
+										?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+										?.map((row, index) => {
+											const isItemSelected = isSelected(row.id);
+											const labelId = `enhanced-table-checkbox-${index}`;
 
-												return (
-													<TableRow
-														hover
-														//   onClick={(event) => handleClick(event, row.name)}
-														role='checkbox'
-														aria-checked={isItemSelected}
-														tabIndex={-1}
-														key={row.id}
-														selected={isItemSelected}
-													>
-														<TableCell component='th' id={labelId} scope='row'>
-															<div className='flex items-center gap-4'>
-																<InfoIcon
-																	className={styles.info_icon}
-																	onClick={() => showdetails(true)}
-																></InfoIcon>
-																<DeleteIcon
-																	onClick={() => deleteService(row?.id)}
-																	style={{
-																		cursor: 'pointer',
-																		color: 'red',
-																		fontSize: '1rem',
-																	}}
-																></DeleteIcon>
-															</div>
-														</TableCell>
-														<TableCell align='right'>
-															<div className=''>
-																<h2 dir='rtl' className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>
-																	{row?.pendingServices}
-																</h2>
-															</div>
-														</TableCell>
+											return (
+												<TableRow
+													hover
+								
+													role='checkbox'
+													aria-checked={isItemSelected}
+													tabIndex={-1}
+													key={row.id}
+													selected={isItemSelected}
+												>
+													<TableCell component='th' id={labelId} scope='row'>
+														<div className='flex items-center gap-4'>
+															<InfoIcon className={styles.info_icon} onClick={() => openProductDetails(row?.id)}></InfoIcon>
+															<DeleteIcon
+																onClick={() => deleteService(row?.id)}
+																style={{
+																	cursor: 'pointer',
+																	color: 'red',
+																	fontSize: '1rem',
+																}}
+															></DeleteIcon>
+														</div>
+													</TableCell>
+													<TableCell align='right'>
+														<div className=''>
+															<h2 dir='rtl' className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>
+																{row?.pendingServices}
+															</h2>
+														</div>
+													</TableCell>
 
-														<TableCell align='right'>
-															<h2 className='inline font-normal md:text-[18px] text-[16px] whitespace-nowrap'>{row?.name}</h2>
-														</TableCell>
-														<TableCell className='font-normal md:text-[18px] text-[16px] whitespace-nowrap' align='right'>
-															{(index + 1).toLocaleString('en-US', {
-																minimumIntegerDigits: 2,
-																useGrouping: false,
-															})}
-														</TableCell>
-														<TableCell padding='none' align={'right'}>
-															<Checkbox
-																checkedIcon={<CheckedSquare />}
-																sx={{
+													<TableCell align='right'>
+														<h2 className='inline font-normal md:text-[18px] text-[16px] whitespace-nowrap'>{row?.name}</h2>
+													</TableCell>
+													<TableCell className='font-normal md:text-[18px] text-[16px] whitespace-nowrap' align='right'>
+														{(index + 1).toLocaleString('en-US', {
+															minimumIntegerDigits: 2,
+															useGrouping: false,
+														})}
+													</TableCell>
+													<TableCell padding='none' align={'right'}>
+														<Checkbox
+															checkedIcon={<CheckedSquare />}
+															sx={{
+																color: '#011723',
+																'& .MuiSvgIcon-root': {
 																	color: '#011723',
-																	'& .MuiSvgIcon-root': {
-																		color: '#011723',
-																	},
-																}}
-																checked={isItemSelected}
-																onClick={(event) => handleClick(event, row.id)}
-																inputProps={{
-																	'aria-labelledby': labelId,
-																}}
-															/>
-														</TableCell>
-													</TableRow>
-												);
-											})}
-									</>
-								)}
+																},
+															}}
+															checked={isItemSelected}
+															onClick={(event) => handleClick(event, row.id)}
+															inputProps={{
+																'aria-labelledby': labelId,
+															}}
+														/>
+													</TableCell>
+												</TableRow>
+											);
+										})}
+								</>
+							)}
 							{emptyRows > 0 && (
 								<TableRow
 									style={{

@@ -682,6 +682,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
                                 style={{ color: '#4D4F5C', cursor: 'pointer' }}
                                 onClick={() => {
                                   openProductDetails(row?.id);
+                                  
                                 }}
                               >
                                 {row?.name}

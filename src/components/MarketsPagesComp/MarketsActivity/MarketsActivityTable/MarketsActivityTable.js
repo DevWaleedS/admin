@@ -194,6 +194,7 @@ EnhancedTableToolbar.propTypes = {
 	numSelected: PropTypes.number.isRequired,
 };
 
+
 export default function EnhancedTable({ fetchedData, loading, reload, setReload, editProduct }) {
 	const token = localStorage.getItem('token');
 	const NotificationStore = useContext(NotificationContext);
