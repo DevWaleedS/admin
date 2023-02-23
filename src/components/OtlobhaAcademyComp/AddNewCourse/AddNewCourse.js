@@ -35,6 +35,7 @@ const AddNewCourse = ({ coursesReload, setCoursesReload, cancel, editData, addNe
   });
   const [tagsSelected, setTagsSelected] = useState([]);
   const [showAddUnit, setShowAddUnit] = useState(false);
+  const [unitDetails, setUnitDetails] = useState([]);
   const [copy, setCopy] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [openMenu2, setOpenMenu2] = useState(false);
@@ -72,6 +73,8 @@ const AddNewCourse = ({ coursesReload, setCoursesReload, cancel, editData, addNe
     }, 5000);
   }
 
+  console.log(unitDetails[0]);
+
   const AddCourse = () => {
     let formData = new FormData();
     formData.append('name', data?.name);
@@ -79,6 +82,11 @@ const AddNewCourse = ({ coursesReload, setCoursesReload, cancel, editData, addNe
     formData.append('duration', data?.duration);
     formData.append('tags', JSON.stringify(tagsSelected));
     formData.append('image', images[0]?.file || '');
+    for (let i = 0; i < unitDetails?.length; i++) {
+      formData.append([`data[${i}][title]`], unitDetails[i]?.title);
+      formData.append([`data[${i}][file][${i}]`], unitDetails[i]?.documents.map((file)=>file));
+      formData.append([`data[${i}][video][${i}]`], unitDetails[i]?.videos.map((video)=>video));
+    }
     axios
       .post("https://backend.atlbha.com/api/Admin/course", formData, {
         headers: {
@@ -103,10 +111,10 @@ const AddNewCourse = ({ coursesReload, setCoursesReload, cancel, editData, addNe
     <div className='absolute h-full md:pl-[140px] md:pr-5 md:py-[43px] top-0 right-0 z-30 md:pb-36 w-full md:bg-[#fafafa] bg-[#FFFFFF] otlobha_acadmic'>
       {showAddUnit && (
         <AddUnit
+          unitDetails={details => setUnitDetails([...unitDetails, details])}
           cancel={() => {
             setShowAddUnit(false);
           }}
-          cancelAll={cancel}
         ></AddUnit>
       )}
       <div className="flex justify-between items-center mb-2 md:p-0 px-4">
@@ -222,6 +230,64 @@ const AddNewCourse = ({ coursesReload, setCoursesReload, cancel, editData, addNe
             />
           </div>
         </div>
+        {
+          unitDetails.length !== 0 &&
+          <div className="mb-[80px] mt[33px] flex flex-col gap-4">
+            <h6 className="md:text-[24px] text-[20px]" style={{ fontWeight: '500', color: '#000000' }}>دروس الدورة</h6>
+            <div className="flex flex-col">
+              {unitDetails?.map((item, index) => (
+                <div
+                  key={index}
+                  style={{ width: '100%', backgroundColor: '#F4F5F7', border: '1px solid #67747B33' }}
+                  className="relative md:h-[56px] h-[45px]"
+                >
+                  <div
+                    className="flex flex-row items-center justify-between p-4 rounded-lg cursor-pointer"
+                    onClick={() => { setOpenMenu(true); setOpenMenu2(false) }}>
+                    <div className="flex flex-row items-center gap-2">
+                      <h6 className="md:text-[18px] text-[16px]" style={{ fontWeight: '500', color: '#000000' }}>{item?.title}</h6>
+                      <span className="md:text-[18px] text-[16px]" style={{ color: '#67747B' }}>({item?.video?.length} دروس)</span>
+                      <span className="md:text-[18px] text-[16px]" style={{ color: '#67747B' }}>(25 دقيقة)</span>
+                    </div>
+                    <Arrow className={styles.arrow_icon} />
+                  </div>
+                  {openMenu &&
+                    <div
+                      style={{ backgroundColor: '#F4F5F7' }}
+                      className="flex flex-col gap-5 absolute z-10 left-0 top-[55px] w-full p-5"
+                      onClick={() => setOpenMenu(false)}
+                    >
+                      {item?.video?.map((vid, index) => (
+                        <div key={index} className="flex flex-row items-center justify-between">
+                          <div className="flex flex-row items-center">
+                            <PlayVideo />
+                            <h6 style={{ fontWeight: '500', color: '#011723' }} className="md:text-[20px] text-[18px] mr-[20px] ml-[30px]">{vid?.name}</h6>
+                            <span className="md:text-[18px] text-[16px]" style={{ color: '#011723' }}>10:05</span>
+                          </div>
+                          <DeleteIcon className="cursor-pointer"
+                            onClick={() => {
+                              setNotificationTitle('سيتم حذف الدرس');
+                              setActionTitle('تم حذف الدرس بنجاح');
+                            }} />
+                        </div>
+                      ))}
+
+                      {item?.documents?.FileList?.map((file, index) => (
+                        <div key={index} className="flex flex-row items-center justify-between">
+                          <div className="flex flex-row items-center">
+                            <PDFIcon />
+                            <h6 style={{ fontWeight: '500', color: '#0077FF' }} className="md:text-[20px] text-[18px] mr-[20px] ml-[30px]">{file?.name}</h6>
+                          </div>
+                          <h6 className="md:text-[18px] text-[16px]" style={{ color: '#0077FF', cursor: 'pointer' }}>تحميل</h6>
+                        </div>
+                      ))}
+                    </div>
+                  }
+                </div>
+              ))}
+            </div>
+          </div>
+        }
         {
           editData &&
           <div className="mb-[80px] mt[33px] flex flex-col gap-4">
@@ -467,29 +533,44 @@ const AddNewCourse = ({ coursesReload, setCoursesReload, cancel, editData, addNe
               </Button>
             ) :
             (
-              <div className="flex mt-10 gap-4">
-                <Button
-                  style={{ backgroundColor: "#02466A" }}
-                  textStyle={{ color: "#EFF9FF" }}
-                  className={"md:w-[474px] w-full md:h-[64px] h-[45px] md:text-[20px] text-[18px] flex-1"}
-                  type={"normal"}
-                  svg={<IoAddCircleSharp fontSize="1.5rem" color={"#fff"} />}
-                  onClick={() => {
-                    setShowAddUnit(true);
-                  }}
-                >
-                  إضافة وحدة
-                </Button>
-                <Button
-                  style={{ borderColor: "#02466A" }}
-                  textStyle={{ color: "#02466A" }}
-                  className={"md:w-[474px] w-full md:h-[64px] h-[45px] md:text-[20px] text-[18px] flex-1"}
-                  type={"outline"}
-                  onClick={cancel}
-                >
-                  إلغاء
-                </Button>
-              </div>
+              <>
+                <div className="flex mt-10 gap-4">
+                  <Button
+                    style={{ backgroundColor: "#02466A" }}
+                    textStyle={{ color: "#EFF9FF" }}
+                    className={"md:w-[474px] w-full md:h-[64px] h-[45px] md:text-[20px] text-[18px] flex-1"}
+                    type={"normal"}
+                    svg={<IoAddCircleSharp fontSize="1.5rem" color={"#fff"} />}
+                    onClick={() => {
+                      setShowAddUnit(true);
+                    }}
+                  >
+                    إضافة وحدة
+                  </Button>
+                  <Button
+                    style={{ borderColor: "#02466A" }}
+                    textStyle={{ color: "#02466A" }}
+                    className={"md:w-[474px] w-full md:h-[64px] h-[45px] md:text-[20px] text-[18px] flex-1"}
+                    type={"outline"}
+                    onClick={cancel}
+                  >
+                    إلغاء
+                  </Button>
+                </div>
+                {unitDetails.length !== 0 &&
+                  (
+                    <Button
+                      style={{ width: '100%', backgroundColor: "#1DBBBE" }}
+                      textStyle={{ color: "#EFF9FF" }}
+                      className={"md:h-[64px] h-[45px] md:text-[20px] text-[18px] flex-1"}
+                      type={"normal"}
+                      onClick={AddCourse}
+                    >
+                      حفظ الدورة
+                    </Button>
+                  )
+                }
+              </>
             )
         }
 
