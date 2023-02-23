@@ -143,7 +143,7 @@ const NewService = ({ cancel, reload, setReload }) => {
 												)}
 
 												{images[0] && (
-													<div className=''>
+													<div className='overflow-hidden'>
 														<img width={'60px'} src={images[0]?.data_url} alt={images[0]?.data_url} />
 													</div>
 												)}
