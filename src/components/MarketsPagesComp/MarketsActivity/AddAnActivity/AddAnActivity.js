@@ -3,7 +3,7 @@ import { IoMdCloseCircleOutline } from 'react-icons/io';
 import Button from '../../../../UI/Button/Button';
 import Context from '../../../../store/context';
 import ImageUploading from 'react-images-uploading';
-import styles from './AddAnActivity.module.css';
+
 import axios from "axios";
 
 const BackDrop = ({ onClick }) => {

@@ -48,19 +48,14 @@ const ServicesPage = () => {
 			)}
 			{showDetailsModal && (
 				<ShowDetails
+					fetchedData={fetchedData}
 					cancel={() => {
 						setShowDetailsModal(false);
 					}}
 				/>
 			)}
 			<div dir={'ltr'} className='md:mt-20 mt-5'>
-				<ServicesTable
-					showdetails={setShowDetailsModal}
-					fetchedData={fetchedData}
-					loading={loading}
-					reload={reload}
-					setReload={setReload}
-				/>
+				<ServicesTable showdetails={setShowDetailsModal} fetchedData={fetchedData} loading={loading} reload={reload} setReload={setReload} />
 			</div>
 		</div>
 	);
