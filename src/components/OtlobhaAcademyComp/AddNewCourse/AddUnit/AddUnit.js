@@ -28,28 +28,37 @@ const formInputStyle = {
 	backgroundColor: '#F6F6F6',
 };
 
-const AddUnit = ({ cancel, cancelAll }) => {
+const AddUnit = ({ cancel , unitDetails }) => {
   const contextStore = useContext(Context);
   const { setEndActionTitle } = contextStore;
   const [unit,setUnit] = useState({
 		title:'',
-		file:[],
-		video:[],
-	});
-  console.log(unit);
-  const inputRef = React.useRef();
-
+		documents:[],
+		videos:[],
+  });
+  const firstVideoRef = React.useRef();
+  const secondVideoRef = React.useRef();
   const [source, setSource] = React.useState();
-
-  const handleFileChange = (event) => {
+  const handleFirstVideoChange = (event) => {
     const file = event.target.files[0];
     const url = URL.createObjectURL(file);
     setSource(url);
-	setUnit({...unit,video:event.target.files});
+	setUnit({...unit,videos: [...unit.videos, event.target.files[0]] });
   };
 
-  const handleChoose = (event) => {
-    inputRef.current.click();
+  const handleSecondVideoChange = (event) => {
+    const file = event.target.files[0];
+    const url = URL.createObjectURL(file);
+    setSource(url);
+	setUnit({...unit,videos: [...unit.videos, event.target.files[0]] });
+  };
+
+  const firstHandleChoose = (event) => {
+    firstVideoRef.current.click();
+  };
+
+  const secondHandleChoose = (event) => {
+    secondVideoRef.current.click();
   };
 
   return (
@@ -82,7 +91,7 @@ const AddUnit = ({ cancel, cancelAll }) => {
 										ملفات مرفقة
 									</h2>
 									<label className='md:w-[555px] w-full md:h-14 h-[45px] flex p-4 items-center rounded-lg' style={{ border: '1px solid #ccc' }} htmlFor=''>
-										<input multiple onChange={(e)=>setUnit({...unit,file:e.target.files})} className={`flex-1 rounded-lg ${styles.file_select}`} type='file' placeholder='asdasdasd' />
+										<input multiple onChange={(e)=>setUnit({...unit,documents:e.target.files})} className={`flex-1 rounded-lg ${styles.file_select}`} type='file' placeholder='asdasdasd' />
 										<div>
 											<GrAttachment></GrAttachment>
 										</div>
@@ -95,14 +104,14 @@ const AddUnit = ({ cancel, cancelAll }) => {
 									<div>
 										<div className='md:w-[555px] w-full md:h-14 h-[45px] flex gap-5 mb-5'>
 											<div className="md:w-[392px] w-full md:h-14 h-[45px]">
-												<input ref={inputRef} className='hidden rounded-lg' type='file' onChange={handleFileChange} accept='.mov,.mp4' />
+												<input ref={firstVideoRef} className='hidden rounded-lg' type='file' onChange={handleFirstVideoChange} accept='.mov,.mp4' />
 												<div
 													className='md:w-[392px] w-full md:h-14 h-[45px] fcc p-3 gap-4  cursor-pointer rounded-lg'
 													style={{
 														backgroundColor: '#02466A00',
 														border: '1px solid #A7A7A7',
 													}}
-													onClick={handleChoose}
+													onClick={firstHandleChoose}
 												>
 													{!source && (
 														<>
@@ -134,14 +143,14 @@ const AddUnit = ({ cancel, cancelAll }) => {
 										</div>
 										<div className='md:w-[555px] w-full md:h-14 h-[45px] flex gap-5 mb-5'>
 											<div className="md:w-[392px] w-full md:h-14 h-[45px]">
-												<input ref={inputRef} className='hidden' type='file' onChange={handleFileChange} accept='.mov,.mp4' />
+												<input ref={secondVideoRef} className='hidden' type='file' onChange={handleSecondVideoChange} accept='.mov,.mp4' />
 												<div
 													className='md:w-[392px] w-full md:h-14 h-[45px] fcc p-3 gap-4  cursor-pointer rounded-lg'
 													style={{
 														backgroundColor: '#02466A00',
 														border: '2px dashed #A7A7A7',
 													}}
-													onClick={handleChoose}
+													onClick={secondHandleChoose}
 												>
 													{!source && (
 														<>
@@ -186,9 +195,9 @@ const AddUnit = ({ cancel, cancelAll }) => {
 								style={{ backgroundColor: `rgba(2, 70, 106, 1)` }}
 								type={'normal'}
 								onClick={() => {
-									setEndActionTitle('تم اضافة كورس جديد بنجاح');
+									unitDetails(unit);
+									setEndActionTitle('تم اضافة وحدة جديدة بنجاح');
 									cancel();
-									cancelAll();
 								}}
 							>
 								حفظ
