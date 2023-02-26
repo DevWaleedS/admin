@@ -21,7 +21,7 @@ const ServicesPage = () => {
 	
 
 	return (
-		<div className={`p-4 md:pl-36 pt-0`} style={{ backgroundColor: '#fafafa' }}>
+		<div className={`p-4 h-full md:pl-36 pt-0`} style={{ backgroundColor: '#fafafa' }}>
 			<div className='flex md:flex-row flex-col md:items-center items-start justify-between gap-y-4'>
 				<PageNavigate currentPage={'الخدمات'} />
 				<Button

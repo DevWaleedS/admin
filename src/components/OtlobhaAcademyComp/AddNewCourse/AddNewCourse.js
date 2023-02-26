@@ -107,7 +107,7 @@ const AddNewCourse = ({ coursesReload, setCoursesReload, cancel, editData, addNe
   }
 
   return (
-    <div className='absolute md:pl-[140px] md:pr-5 md:py-[43px] top-0 right-0 z-30 md:pb-36 w-full md:bg-[#fafafa] bg-[#FFFFFF] otlobha_acadmic'>
+    <div className='absolute h-full md:pl-[140px] md:pr-5 md:py-[43px] top-0 right-0 z-30 md:pb-36 w-full md:bg-[#fafafa] bg-[#FFFFFF] otlobha_acadmic'>
       {showAddUnit && (
         <AddUnit
           unitDetails={details => setUnitDetails([...unitDetails, details])}
