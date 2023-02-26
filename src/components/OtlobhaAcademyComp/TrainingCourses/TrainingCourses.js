@@ -28,15 +28,16 @@ const TrainingCourses = ({ courses, coursesLoading, coursesReload, setCoursesRel
 				.then((res) => {
 					if (res?.data?.success === true && res?.data?.data?.status === 200) {
 						setEndActionTitle(res?.data?.message?.ar);
-						setCoursesReload(coursesReload);
+						setCoursesReload(!coursesReload);
 					} else {
 						setEndActionTitle(res?.data?.message?.ar);
-						setCoursesReload(coursesReload);
+						setCoursesReload(!coursesReload);
 						
 					}
 				});
 			setActionTitle(null);
 			setConfirm(false);
+      setId("");
 		}
 	}, [confirm]);
   return (
