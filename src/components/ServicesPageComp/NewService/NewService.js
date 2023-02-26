@@ -35,6 +35,8 @@ const NewService = ({ cancel, reload, setReload }) => {
 		price: '',
 	});
 
+
+	// handle services fun
 	const servicesHandler = (event) => {
 		const { name, value } = event.target;
 
