@@ -1,15 +1,16 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import Context from '../../../../store/context';
-
 import ImageUploading from 'react-images-uploading';
 import { MdFileUpload } from 'react-icons/md';
 import Button from '../../../../UI/Button/Button';
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 const ChangeLogoSec = ({ fetchedData, loading, reload, setReload }) => {
 	const token = localStorage.getItem('token');
-		const contextStore = useContext(Context);
-		const { setEndActionTitle } = contextStore;
+	const contextStore = useContext(Context);
+	const { setEndActionTitle } = contextStore;
 
 	// to update logo
 	const [images, setImages] = useState([]);
@@ -23,8 +24,6 @@ const ChangeLogoSec = ({ fetchedData, loading, reload, setReload }) => {
 	const addNewLogo = () => {
 		const formData = new FormData();
 		formData.append('logo', images[0]?.file || '');
-		
-
 		axios
 			.post(`https://backend.atlbha.com/api/Admin/logoUpdate`, formData, {
 				headers: {
@@ -55,7 +54,7 @@ const ChangeLogoSec = ({ fetchedData, loading, reload, setReload }) => {
 			</div>
 			<div className='max-w-full py-7 md:px-0 px-4 flex flex-col items-center'>
 				<ImageUploading value={images} onChange={onChangeLogoImage} maxNumber={2} dataURLKey='data_url' acceptType={['jpg', 'png', 'jpeg']} disabled={true}>
-					{({ imageList, onImageUpload, onImageRemoveAll, onImageUpdate, onImageRemove, isDragging, dragProps }) => (
+					{({ onImageUpload }) => (
 						// write your building UI
 						<div
 							className='max-w-full upload__image-wrapper relative '
@@ -65,8 +64,15 @@ const ChangeLogoSec = ({ fetchedData, loading, reload, setReload }) => {
 						>
 							<div className='image-item w-full '>
 								<div style={{ border: ' 1px dashed #02466A', height: '137px' }} className='flex p-4 flex-col justify-center items-center gap-6  w-full  rounded-lg'>
-									{!images[0] && <img className='w-full h-full object-contain' src={fetchedData?.data?.Homepages?.logo} alt={fetchedData?.data?.Homepages?.logo} />}
-									{images[0] && <img src={images[0]?.data_url} alt='' className='w-full h-full object-contain' />}
+									{loading ? 
+										<CircularProgress />
+										:
+										<>
+											{!images[0] && <img className='w-full h-full object-contain' src={fetchedData?.data?.Homepages?.logo} alt={fetchedData?.data?.Homepages?.logo} />}
+											{images[0] && <img src={images[0]?.data_url} alt='' className='w-full h-full object-contain' />}
+										</>
+									}
+
 								</div>
 								<div
 									onClick={() => {
