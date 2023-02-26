@@ -113,7 +113,7 @@ function StyledTreeItem(props) {
 StyledTreeItem.propTypes = {
 	bgColor: PropTypes.string,
 	color: PropTypes.string,
-	labelIcon: PropTypes.elementType.isRequired,
+	labelIcon: PropTypes.elementType,
 	labelInfo: PropTypes.string,
 	labelText: PropTypes.string.isRequired,
 };
