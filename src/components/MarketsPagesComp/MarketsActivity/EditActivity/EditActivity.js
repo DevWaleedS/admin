@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState, Fragment } from 'react';
 import { IoMdCloseCircleOutline } from 'react-icons/io';
 import Button from '../../../../UI/Button/Button';
 import Context from '../../../../store/context';
@@ -16,9 +16,8 @@ const EditActivity = ({ cancel, Product, reload, setReload }) => {
 	const [activiyName, setActitviyName] = useState(Product?.name);
 	const { setEndActionTitle } = contextStore;
 
+	// 
 	const [images, setImages] = useState([]);
-	console.log(images);
-
 	const onChange = (imageList) => {
 		// data for submit
 		setImages(imageList);
@@ -31,6 +30,7 @@ const EditActivity = ({ cancel, Product, reload, setReload }) => {
 		if(images.length !==0){
 			formData.append('icon',images[0]?.file || '');
 		}
+
 		axios
 			.post(`https://backend.atlbha.com/api/Admin/activity/${Product?.id}`, formData, {
 				headers: {
@@ -52,7 +52,7 @@ const EditActivity = ({ cancel, Product, reload, setReload }) => {
 	}
 
 	return (
-		<>
+		<Fragment>
 			<BackDrop onClick={cancel} />
 			{showAddActivity && (
 				<EditActivity
@@ -140,7 +140,7 @@ const EditActivity = ({ cancel, Product, reload, setReload }) => {
 					</div>
 				</div>
 			</div>
-		</>
+		</Fragment>
 	);
 };
 

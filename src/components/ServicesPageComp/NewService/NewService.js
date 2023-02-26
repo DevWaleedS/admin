@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import axios from "axios";
+import axios from 'axios';
 import Button from '../../../UI/Button/Button';
 import Context from '../../../store/context';
 import styles from './NewService.module.css';
@@ -8,7 +8,6 @@ import ImageUploading from 'react-images-uploading';
 // icons
 import { ReactComponent as AddIcon } from '../../../assets/Icons/icon-34-add.svg';
 import Box from '@mui/material/Box';
-
 
 // back_drop
 const BackDrop = ({ onClick }) => {
@@ -23,23 +22,23 @@ const formInputStyle = {
 	backgroundColor: '#F6F6F6',
 };
 
-
 const NewService = ({ cancel, reload, setReload }) => {
-
-	// to get token that user set it from local storage 
+	// to get token that user set it from local storage
 	const token = localStorage.getItem('token');
 	const contextStore = useContext(Context);
 	const { setEndActionTitle } = contextStore;
 
 	// select all input in store the value in state
 	const [servicesData, setServicesData] = useState({
-		service_name: '',
-		service_details: '',
-		service_price: '',
+		name: '',
+		description: '',
+		price: '',
 	});
 
+
+	// handle services fun
 	const servicesHandler = (event) => {
-		const {name, value} = event.target;
+		const { name, value } = event.target;
 
 		setServicesData((prevState) => {
 			return { ...prevState, [name]: value };
@@ -53,14 +52,13 @@ const NewService = ({ cancel, reload, setReload }) => {
 		setImages(imageList);
 	};
 
-
 	// handle function to set new service
 	const addNewService = () => {
 		const formData = new FormData();
-		formData.append('image', images[0]?.file || '');
-		formData.append('service_name', servicesData?.service_name);
-		formData.append('service_details', servicesData?.service_details);
-		formData.append('service_price', servicesData?.service_price);
+		formData.append('file', images[0]?.file || '');
+		formData.append('name', servicesData?.name);
+		formData.append('description', servicesData?.description);
+		formData.append('price', servicesData?.price);
 
 		axios
 			.post(`https://backend.atlbha.com/api/Admin/service`, formData, {
@@ -102,7 +100,7 @@ const NewService = ({ cancel, reload, setReload }) => {
 							<div className='flex md:flex-row flex-col mb-8'>
 								<h2 className={formTitleClasses}>اسم الخدمة</h2>
 								<label>
-									<input className={formInputClasses} style={formInputStyle} placeholder='ادخل اسم الخدمة' type='text' name='service_name' value={servicesData?.service_name} onChange={servicesHandler} />
+									<input className={formInputClasses} style={formInputStyle} placeholder='ادخل اسم الخدمة' type='text' name='name' value={servicesData?.name} onChange={servicesHandler} />
 								</label>
 							</div>
 							<div className='flex md:flex-row flex-col mb-8 '>
@@ -115,8 +113,8 @@ const NewService = ({ cancel, reload, setReload }) => {
 									id=''
 									cols='30'
 									rows='4'
-									name='service_details'
-									value={servicesData?.service_details}
+									name='description'
+									value={servicesData?.description}
 									onChange={servicesHandler}
 								></textarea>
 							</div>
@@ -156,7 +154,7 @@ const NewService = ({ cancel, reload, setReload }) => {
 								<h2 className={formTitleClasses}>سعر الخدمة</h2>
 								<label className='md:w-[555px] w-full md:h-14 h-[45px] flex rounded-md overflow-hidden' style={formInputStyle}>
 									<div className='p-4 flex flex-1'>
-										<input className='flex-1 border-none outline-none bg-[#F6F6F6]' placeholder='0' type='text' name='name' />
+										<input className='flex-1 border-none outline-none bg-[#F6F6F6]' placeholder='0' type='text' name='price' value={servicesData?.price} onChange={servicesHandler} />
 									</div>
 									<div
 										className='h-full w-16 flex justify-center items-center text-lg'
@@ -177,12 +175,7 @@ const NewService = ({ cancel, reload, setReload }) => {
 							backgroundColor: 'rgba(235, 235, 235, 1)',
 						}}
 					>
-						<Button
-							className={'md:h-14 h-[45px] md:w-44 w-full text-xl'}
-							style={{ backgroundColor: `rgba(2, 70, 106, 1)` }}
-							type={'normal'}
-							onClick={addNewService}
-						>
+						<Button className={'md:h-14 h-[45px] md:w-44 w-full text-xl'} style={{ backgroundColor: `rgba(2, 70, 106, 1)` }} type={'normal'} onClick={addNewService}>
 							حفظ
 						</Button>
 						<Button

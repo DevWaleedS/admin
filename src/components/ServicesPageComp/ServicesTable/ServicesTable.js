@@ -1,4 +1,4 @@
-import React, { useEffect,useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import styles from './ServicesTable.module.css';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
@@ -18,10 +18,10 @@ import { ReactComponent as DeleteIcon } from '../../../assets/Icons/icon-24-dele
 import { ReactComponent as InfoIcon } from '../../../assets/Icons/icon-24-actions-info_outined.svg';
 import { visuallyHidden } from '@mui/utils';
 import { ReactComponent as CheckedSquare } from '../../../assets/Icons/icon-24-square checkmark.svg';
-import { NotificationContext } from "../../../store/NotificationProvider";
+import { NotificationContext } from '../../../store/NotificationProvider';
 import Context from '../../../store/context';
 import CircularLoading from '../../../UI/CircularLoading/CircularLoading';
-import axios from "axios";
+import axios from 'axios';
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
@@ -110,7 +110,7 @@ function EnhancedTableHead(props) {
 						sx={{
 							width: headCell.width ? headCell.width : 'auto',
 							color: '#011723',
-							whiteSpace: 'nowrap'
+							whiteSpace: 'nowrap',
 						}}
 					>
 						{headCell.sort && (
@@ -224,7 +224,6 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
 	const [selected, setSelected] = React.useState([]);
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
-	console.log(selected);
 
 	const handleRequestSort = (event, property) => {
 		const isAsc = orderBy === property && order === 'asc';
@@ -330,15 +329,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
 											const labelId = `enhanced-table-checkbox-${index}`;
 
 											return (
-												<TableRow
-													hover
-								
-													role='checkbox'
-													aria-checked={isItemSelected}
-													tabIndex={-1}
-													key={row.id}
-													selected={isItemSelected}
-												>
+												<TableRow hover role='checkbox' aria-checked={isItemSelected} tabIndex={-1} key={row.id} selected={isItemSelected}>
 													<TableCell component='th' id={labelId} scope='row'>
 														<div className='flex items-center gap-4'>
 															<InfoIcon className={styles.info_icon} onClick={() => openProductDetails(row?.id)}></InfoIcon>

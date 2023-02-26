@@ -1,20 +1,49 @@
-import React, { useState, useEffect } from 'react';
-import ImageUploading from 'react-images-uploading';
-import Logo from '../../../../assets/images/logo.png';
+import React, { useState, useContext } from 'react';
+import axios from 'axios';
+import Context from '../../../../store/context';
 
+import ImageUploading from 'react-images-uploading';
 import { MdFileUpload } from 'react-icons/md';
 import Button from '../../../../UI/Button/Button';
 
-const ChangeLogoSec = () => {
+const ChangeLogoSec = ({ fetchedData, loading, reload, setReload }) => {
+	const token = localStorage.getItem('token');
+		const contextStore = useContext(Context);
+		const { setEndActionTitle } = contextStore;
+
+	// to update logo
 	const [images, setImages] = useState([]);
 	const onChangeLogoImage = (imageList, addUpdateIndex) => {
 		// data for submit
 		console.log(imageList);
 		setImages(imageList);
 	};
-	//   useEffect(() => {
-	//     onChangeLogoImage(Logo);
-	//   }, []);
+
+	// ADD LOGO FUNCTION
+	const addNewLogo = () => {
+		const formData = new FormData();
+		formData.append('logo', images[0]?.file || '');
+		
+
+		axios
+			.post(`https://backend.atlbha.com/api/Admin/logoUpdate`, formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+
+					setReload(!reload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+
+					setReload(!reload);
+				}
+			});
+	};
 
 	return (
 		<div className='mt-8 shadow-md rounded-lg ' style={{ backgroundColor: '#FFFFFF' }}>
@@ -32,14 +61,11 @@ const ChangeLogoSec = () => {
 							className='max-w-full upload__image-wrapper relative '
 							style={{
 								width: '572px',
-
-								// border: images[0] ? "none" : "1px dashed #ccc",
-								// borderRadius: "10px",
 							}}
 						>
 							<div className='image-item w-full '>
 								<div style={{ border: ' 1px dashed #02466A', height: '137px' }} className='flex p-4 flex-col justify-center items-center gap-6  w-full  rounded-lg'>
-									{!images[0] && <img src={Logo} alt='' />}
+									{!images[0] && <img className='w-full h-full object-contain' src={fetchedData?.data?.Homepages?.logo} alt={fetchedData?.data?.Homepages?.logo} />}
 									{images[0] && <img src={images[0]?.data_url} alt='' className='w-full h-full object-contain' />}
 								</div>
 								<div
@@ -56,7 +82,7 @@ const ChangeLogoSec = () => {
 									<MdFileUpload color='#02466A' size={'1.25rem'}></MdFileUpload>
 								</div>
 							</div>
-							<Button className={'mx-auto mt-9 w-[109] h-14 text-2xl'} fontSize={'text-2xl font-thin'} style={{ backgroundColor: '#02466A' }} type={'normal'}>
+							<Button className={'mx-auto mt-9 w-[109] h-14 text-2xl'} fontSize={'text-2xl font-thin'} style={{ backgroundColor: '#02466A' }} type={'normal'} onClick={addNewLogo}>
 								حفظ
 							</Button>
 						</div>
