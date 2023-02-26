@@ -32,6 +32,7 @@ const ChangeBannerSec = ({ fetchedData, loading, reload, setReload }) => {
 		// data for submit
 		setImages(imageList);
 	};
+	
 
 	// ADD Banners FUNCTION  (complate work Alawi please )
 	const addBanners = () => {
