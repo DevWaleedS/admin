@@ -6,6 +6,11 @@ import { EditorState, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import ImageUploading from "react-images-uploading";
 import { IoMdCloudUpload } from "react-icons/io";
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import Button from "../../../UI/Button/Button";
 import { IoAddCircleSharp } from "react-icons/io5";
@@ -25,16 +30,18 @@ import { TagsInput } from "react-tag-input-component";
 
 const AddNewCourse = ({ coursesReload, setCoursesReload, cancel, editData, addNewLesson }) => {
   const token = localStorage.getItem('token');
+  const [description, setDescription] = useState({
+    htmlValue:"<h1></h1>\n",
+    editorState: EditorState.createEmpty(),
+  });
   const [data, setData] = useState({
     name: editData?.name || '',
-    description: editData?.description || '',
     minute: editData?.duration || '',
     hour: editData?.duration || '',
     image: editData?.image || '',
     link: 'https://www.google.com/search?q=%D8%B1%D8%A7%D8%A8%D8%B7+%D8%AA%D9%8',
   });
-  
-  const [tagsSelected, setTagsSelected] = useState([]);
+  const [tagsSelected, setTagsSelected] = useState(editData?.tags || []);
   const [showAddUnit, setShowAddUnit] = useState(false);
   const [unitDetails, setUnitDetails] = useState([]);
   const [copy, setCopy] = useState(false);
@@ -44,17 +51,11 @@ const AddNewCourse = ({ coursesReload, setCoursesReload, cancel, editData, addNe
   const { setEndActionTitle } = contextStore;
   const NotificationStore = useContext(NotificationContext);
   const { setNotificationTitle, setActionTitle } = NotificationStore;
-  const [description, setDescription] = useState({
-    htmlValue: "<h1></h1>\n",
-    editorState: EditorState.createEmpty(),
-  });
   const [images, setImages] = useState([]);
   const onEditorStateChange = (editorValue) => {
     const editorStateInHtml = draftToHtml(
       convertToRaw(editorValue.getCurrentContent())
     );
-
-
     setDescription({
       htmlValue: editorStateInHtml,
       editorState: editorValue,
@@ -65,7 +66,6 @@ const AddNewCourse = ({ coursesReload, setCoursesReload, cancel, editData, addNe
     // data for submit
     setImages(imageList);
   };
-
   const handelCopy = () => {
     navigator.clipboard.writeText('https://www.google.com/search?q=%D8%B1%D8%A7%D8%A8%D8%B7+%D8%AA%D9%8');
     setCopy(true);
@@ -74,19 +74,17 @@ const AddNewCourse = ({ coursesReload, setCoursesReload, cancel, editData, addNe
     }, 5000);
   }
 
-  console.log(unitDetails[0]);
-
   const AddCourse = () => {
     let formData = new FormData();
     formData.append('name', data?.name);
-    formData.append('description', data?.description);
-    formData.append('duration', data?.duration);
+    formData.append('description', description?.htmlValue);
+    formData.append('duration', data?.minute);
     formData.append('tags', JSON.stringify(tagsSelected));
     formData.append('image', images[0]?.file || '');
     for (let i = 0; i < unitDetails?.length; i++) {
       formData.append([`data[${i}][title]`], unitDetails[i]?.title);
-      formData.append([`data[${i}][file][${i}]`], unitDetails[i]?.documents.map((file)=>file));
-      formData.append([`data[${i}][video][${i}]`], unitDetails[i]?.videos.map((video)=>video));
+      formData.append([`data[${i}][file][${i}]`], unitDetails[i]?.documents[i]);
+      formData.append([`data[${i}][video][${i}]`], unitDetails[i]?.videos[i]);
     }
     axios
       .post("https://backend.atlbha.com/api/Admin/course", formData, {
@@ -109,7 +107,7 @@ const AddNewCourse = ({ coursesReload, setCoursesReload, cancel, editData, addNe
   }
 
   return (
-    <div className='absolute h-full md:pl-[140px] md:pr-5 md:py-[43px] top-0 right-0 z-30 md:pb-36 w-full md:bg-[#fafafa] bg-[#FFFFFF] otlobha_acadmic'>
+    <div className='absolute md:pl-[140px] md:pr-5 md:py-[43px] top-0 right-0 z-30 md:pb-36 w-full md:bg-[#fafafa] bg-[#FFFFFF] otlobha_acadmic'>
       {showAddUnit && (
         <AddUnit
           unitDetails={details => setUnitDetails([...unitDetails, details])}
@@ -235,160 +233,112 @@ const AddNewCourse = ({ coursesReload, setCoursesReload, cancel, editData, addNe
           unitDetails.length !== 0 &&
           <div className="mb-[80px] mt[33px] flex flex-col gap-4">
             <h6 className="md:text-[24px] text-[20px]" style={{ fontWeight: '500', color: '#000000' }}>دروس الدورة</h6>
-            <div className="flex flex-col">
+            <div>
               {unitDetails?.map((item, index) => (
-                <div
+                <Accordion
+                  sx={{ 
+                    '.Mui-expanded':{
+                      margin: 0,
+                    }
+                   }}
                   key={index}
-                  style={{ width: '100%', backgroundColor: '#F4F5F7', border: '1px solid #67747B33' }}
+                  style={{ width: '100%', backgroundColor: '#F4F5F7', border: '1px solid #67747B33', boxShadow: 'none' }}
                   className="relative md:h-[56px] h-[45px]"
                 >
-                  <div
-                    className="flex flex-row items-center justify-between p-4 rounded-lg cursor-pointer"
-                    onClick={() => { setOpenMenu(true); setOpenMenu2(false) }}>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                    sx={{ 
+                      '&.Mui-expanded':{
+                        minHeight:'48px'
+                      }
+                     }}
+                  >
                     <div className="flex flex-row items-center gap-2">
                       <h6 className="md:text-[18px] text-[16px]" style={{ fontWeight: '500', color: '#000000' }}>{item?.title}</h6>
-                      <span className="md:text-[18px] text-[16px]" style={{ color: '#67747B' }}>({item?.video?.length} دروس)</span>
+                      <span className="md:text-[18px] text-[16px]" style={{ color: '#67747B' }}>({item?.videos?.length + item?.documents?.length} دروس)</span>
                       <span className="md:text-[18px] text-[16px]" style={{ color: '#67747B' }}>(25 دقيقة)</span>
                     </div>
-                    <Arrow className={styles.arrow_icon} />
-                  </div>
-                  {openMenu &&
-                    <div
-                      style={{ backgroundColor: '#F4F5F7' }}
-                      className="flex flex-col gap-5 absolute z-10 left-0 top-[55px] w-full p-5"
-                      onClick={() => setOpenMenu(false)}
-                    >
-                      {item?.video?.map((vid, index) => (
-                        <div key={index} className="flex flex-row items-center justify-between">
-                          <div className="flex flex-row items-center">
-                            <PlayVideo />
-                            <h6 style={{ fontWeight: '500', color: '#011723' }} className="md:text-[20px] text-[18px] mr-[20px] ml-[30px]">{vid?.name}</h6>
-                            <span className="md:text-[18px] text-[16px]" style={{ color: '#011723' }}>10:05</span>
-                          </div>
-                          <DeleteIcon className="cursor-pointer"
-                            onClick={() => {
-                              setNotificationTitle('سيتم حذف الدرس');
-                              setActionTitle('تم حذف الدرس بنجاح');
-                            }} />
-                        </div>
-                      ))}
+                  </AccordionSummary>
+                  <AccordionDetails
+                    style={{ backgroundColor: '#F4F5F7' }}
+                    className="flex flex-col gap-5 absolute z-10 left-0 top-[55px] w-full p-5"
 
-                      {item?.documents?.FileList?.map((file, index) => (
-                        <div key={index} className="flex flex-row items-center justify-between">
-                          <div className="flex flex-row items-center">
-                            <PDFIcon />
-                            <h6 style={{ fontWeight: '500', color: '#0077FF' }} className="md:text-[20px] text-[18px] mr-[20px] ml-[30px]">{file?.name}</h6>
-                          </div>
-                          <h6 className="md:text-[18px] text-[16px]" style={{ color: '#0077FF', cursor: 'pointer' }}>تحميل</h6>
+                  >
+                    {item?.videos?.map((video, index) => (
+                      <div key={index} className="flex flex-row items-center justify-between">
+                        <div className="flex flex-row items-center">
+                          <PlayVideo />
+                          <h6 style={{ fontWeight: '500', color: '#011723' }} className="md:text-[20px] text-[18px] mr-[20px] ml-[30px]">{video?.name}</h6>
+                          <span className="md:text-[18px] text-[16px]" style={{ color: '#011723' }}>10:05</span>
                         </div>
-                      ))}
-                    </div>
-                  }
-                </div>
+                        <DeleteIcon className="cursor-pointer"
+                          onClick={() => {
+                            setNotificationTitle('سيتم حذف الدرس');
+                            setActionTitle('تم حذف الدرس بنجاح');
+                          }} />
+                      </div>
+                    ))}
+
+                    {Array.from(item?.documents || [])?.map((file, index) => (
+                      <div key={index} className="flex flex-row items-center justify-between">
+                        <div className="flex flex-row items-center">
+                          <PDFIcon />
+                          <h6 style={{ fontWeight: '500', color: '#0077FF' }} className="md:text-[20px] text-[18px] mr-[20px] ml-[30px]">{file?.name}</h6>
+                        </div>
+                        <h6 className="md:text-[18px] text-[16px]" style={{ color: '#0077FF', cursor: 'pointer' }}>تحميل</h6>
+                      </div>
+                    ))}
+                  </AccordionDetails>
+                </Accordion>
               ))}
             </div>
           </div>
         }
         {
-          editData &&
+          editData?.unit &&
           <div className="mb-[80px] mt[33px] flex flex-col gap-4">
             <h6 className="md:text-[24px] text-[20px]" style={{ fontWeight: '500', color: '#000000' }}>دروس الدورة</h6>
-            <div className="flex flex-col">
-              <div
-                style={{ width: '100%', backgroundColor: '#F4F5F7', border: '1px solid #67747B33' }}
-                className="relative md:h-[56px] h-[45px]"
-              >
-                <div
-                  className="flex flex-row items-center justify-between p-4 rounded-lg cursor-pointer"
-                  onClick={() => { setOpenMenu(true); setOpenMenu2(false) }}>
-                  <div className="flex flex-row items-center gap-2">
-                    <h6 className="md:text-[18px] text-[16px]" style={{ fontWeight: '500', color: '#000000' }}>الوحدة الأولى</h6>
-                    <span className="md:text-[18px] text-[16px]" style={{ color: '#67747B' }}>(4 دروس)</span>
-                    <span className="md:text-[18px] text-[16px]" style={{ color: '#67747B' }}>(25 دقيقة)</span>
-                  </div>
-                  <Arrow className={styles.arrow_icon} />
-                </div>
-                {openMenu &&
-                  <div
+            <div>
+              {editData?.unit?.map((item, index) => (
+                <Accordion
+                  sx={{ 
+                    '.Mui-expanded':{
+                      margin: 0,
+                    }
+                   }}
+                  key={index}
+                  style={{ width: '100%', backgroundColor: '#F4F5F7', border: '1px solid #67747B33', boxShadow: 'none' }}
+                  className="relative md:h-[56px] h-[45px]"
+                >
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                    sx={{ 
+                      '&.Mui-expanded':{
+                        minHeight:'48px'
+                      }
+                     }}
+                  >
+                    <div className="flex flex-row items-center gap-2">
+                      <h6 className="md:text-[18px] text-[16px]" style={{ fontWeight: '500', color: '#000000' }}>{item?.title}</h6>
+                      <span className="md:text-[18px] text-[16px]" style={{ color: '#67747B' }}>({item?.unitvideo} دروس)</span>
+                      <span className="md:text-[18px] text-[16px]" style={{ color: '#67747B' }}>(25 دقيقة)</span>
+                    </div>
+                  </AccordionSummary>
+                  <AccordionDetails
                     style={{ backgroundColor: '#F4F5F7' }}
                     className="flex flex-col gap-5 absolute z-10 left-0 top-[55px] w-full p-5"
-                    onClick={() => setOpenMenu(false)}
-                  >
-                    <div className="flex flex-row items-center justify-between">
-                      <div className="flex flex-row items-center">
-                        <PlayVideo />
-                        <h6 style={{ fontWeight: '500', color: '#011723' }} className="md:text-[20px] text-[18px] mr-[20px] ml-[30px]">المقدمة</h6>
-                        <span className="md:text-[18px] text-[16px]" style={{ color: '#011723' }}>4:00</span>
-                      </div>
-                      <DeleteIcon className="cursor-pointer"
-                        onClick={() => {
-                          setNotificationTitle('سيتم حذف الدرس');
-                          setActionTitle('تم حذف الدرس بنجاح');
 
-                        }} />
-                    </div>
-                    {[1, 2, 3].map((_item, index) => (
-                      <div className="flex flex-row items-center justify-between">
-                        <div className="flex flex-row items-center">
-                          <PlayVideo />
-                          <h6 style={{ fontWeight: '500', color: '#011723' }} className="md:text-[20px] text-[18px] mr-[20px] ml-[30px]">مصطلحات تعريفيقة</h6>
-                          <span className="md:text-[18px] text-[16px]" style={{ color: '#011723' }}>10:05</span>
-                        </div>
-                        <DeleteIcon className="cursor-pointer"
-                          onClick={() => {
-                            setNotificationTitle('سيتم حذف الدرس');
-                            setActionTitle('تم حذف الدرس بنجاح');
-                          }} />
-                      </div>
-                    ))}
-                    <div className="flex flex-row items-center justify-between">
-                      <div className="flex flex-row items-center">
-                        <PDFIcon />
-                        <h6 style={{ fontWeight: '500', color: '#0077FF' }} className="md:text-[20px] text-[18px] mr-[20px] ml-[30px]">ملفات الوحدة</h6>
-                      </div>
-                      <h6 className="md:text-[18px] text-[16px]" style={{ color: '#0077FF', cursor: 'pointer' }}>تحميل</h6>
-                    </div>
-                  </div>
-                }
-              </div>
-              <div
-                style={{ width: '100%', height: '56px', backgroundColor: '#F4F5F7', border: '1px solid #67747B33' }}
-                className="relative md:h-[56px] h-[45px]"
-              >
-                <div
-                  className="flex flex-row items-center justify-between p-4 rounded-lg cursor-pointer"
-                  onClick={() => setOpenMenu2(true)}>
-                  <div className="flex flex-row items-center gap-2">
-                    <h6 className="md:text-[18px] text-[16px]" style={{ fontWeight: '500', color: '#000000' }}>الوحدة الثانية</h6>
-                    <span className="md:text-[18px] text-[16px]" style={{ color: '#67747B' }}>(4 دروس)</span>
-                    <span className="md:text-[18px] text-[16px]" style={{ color: '#67747B' }}>(25 دقيقة)</span>
-                  </div>
-                  <Arrow className={styles.arrow_icon} />
-                </div>
-                {openMenu2 &&
-                  <div
-                    style={{ backgroundColor: '#F4F5F7' }}
-                    className="flex flex-col gap-5 absolute z-10 left-0 md:top-[55px] top-[45px] w-full p-5"
-                    onClick={() => setOpenMenu2(false)}
                   >
-                    <div className="flex flex-row items-center justify-between">
-                      <div className="flex flex-row items-center">
-                        <PlayVideo />
-                        <h6 style={{ fontWeight: '500', color: '#011723' }} className="md:text-[20px] text-[18px] mr-[20px] ml-[30px]">المقدمة</h6>
-                        <span className="md:text-[18px] text-[16px]" style={{ fontSize: '18px', color: '#011723' }}>4:00</span>
-                      </div>
-                      <DeleteIcon className="cursor-pointer"
-                        onClick={() => {
-                          setNotificationTitle('سيتم حذف الدرس');
-                          setActionTitle('تم حذف الدرس بنجاح');
-                        }} />
-                    </div>
-                    {[1, 2, 3].map((_item, index) => (
-                      <div className="flex flex-row items-center justify-between">
+                    {item?.videos?.map((video, index) => (
+                      <div key={index} className="flex flex-row items-center justify-between">
                         <div className="flex flex-row items-center">
                           <PlayVideo />
-                          <h6 style={{ fontWeight: '500', color: '#011723' }} className="md:text-[20px] text-[18px] mr-[20px] ml-[30px]">مصطلحات تعريفيقة</h6>
-                          <span className="md:text-[18px] text-[16px]" style={{ color: '#011723' }}>10:05</span>
+                          <h6 style={{ maxWidth:'600px',overflow:'hidden',whiteSpace:'nowrap',textOverflow:'ellipsis', fontWeight: '500', color: '#011723' }} className="md:text-[20px] text-[18px] mr-[20px] ml-[30px]">{video?.video|| ''}</h6>
+                          <span className="md:text-[18px] text-[16px]" style={{ color: '#011723' }}>{video?.duration|| ''}</span>
                         </div>
                         <DeleteIcon className="cursor-pointer"
                           onClick={() => {
@@ -397,16 +347,16 @@ const AddNewCourse = ({ coursesReload, setCoursesReload, cancel, editData, addNe
                           }} />
                       </div>
                     ))}
-                    <div className="flex flex-row items-center justify-between">
-                      <div className="flex flex-row items-center">
-                        <PDFIcon />
-                        <h6 style={{ fontWeight: '500', color: '#0077FF' }} className="md:text-[20px] text-[18px] mr-[20px] ml-[30px]">ملفات الوحدة</h6>
+                      <div className="flex flex-row items-center justify-between">
+                        <div className="flex flex-row items-center">
+                          <PDFIcon />
+                          <h6 style={{ fontWeight: '500', color: '#0077FF' }} className="md:text-[20px] text-[18px] mr-[20px] ml-[30px]">{item?.file}</h6>
+                        </div>
+                        <h6 className="md:text-[18px] text-[16px]" style={{ color: '#0077FF', cursor: 'pointer' }}>تحميل</h6>
                       </div>
-                      <h6 className="md:text-[18px] text-[16px]" style={{ color: '#0077FF', cursor: 'pointer' }}>تحميل</h6>
-                    </div>
-                  </div>
-                }
-              </div>
+                  </AccordionDetails>
+                </Accordion>
+              ))}
             </div>
           </div>
         }

@@ -9,6 +9,7 @@ import useFetch from '../../hooks/useFetch';
 
 const OtlobhaAcademy = () => {
   const { fetchedData: courses, loading: coursesLoading, reload: coursesReload, setReload: setCoursesReload } = useFetch('https://backend.atlbha.com/api/Admin/course');
+  const { fetchedData: lessons, loading: lessonsLoading, reload: lessonsReload, setReload: setLessonsReload } = useFetch('https://backend.atlbha.com/api/Admin/explainVideos');
   const [newLessonWindow, setNewLessonWindow] = useState(false);
   const [newCourseWindow, setNewCourseWindow] = useState(false);
   const [editCourseData, setEditCourseData] = useState(null);
@@ -70,6 +71,8 @@ const OtlobhaAcademy = () => {
       )}
       {newLessonWindow && (
         <AddNewLesson
+          lessonsReload={lessonsReload}
+          setLessonsReload={setLessonsReload}
           cancel={() => {
             setNewLessonWindow(false);
           }}
@@ -82,6 +85,10 @@ const OtlobhaAcademy = () => {
           coursesLoading={coursesLoading}
           coursesReload={coursesReload}
           setCoursesReload={setCoursesReload}
+          lessons={lessons}
+          lessonsLoading={lessonsLoading}
+          lessonsReload={lessonsReload}
+          setLessonsReload={setLessonsReload}
           EditCourse={(data) => {
             setNewCourseWindow(true);
             setEditCourseData(data);

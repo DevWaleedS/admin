@@ -8,25 +8,25 @@ import { ReactComponent as ActionAdd } from "../../../assets/Icons/icon-24-actio
 import { ReactComponent as DeleteIcon } from "../../../assets/Icons/icon-24-delete.svg";
 import { ReactComponent as VideoPlay } from "../../../assets/Icons/video-play.svg";
 import Context from "../../../store/context";
+import axios from "axios";
 
 const BackDrop = ({ onClick }) => {
   return <div onClick={onClick} className={`fixed back_drop bottom-0 left-0  w-full bg-slate-900 pb-36  z-10 ${styles.back_drop}`} style={{ height: 'calc(100% - 4rem)' }}></div>;
 };
 
-const AddNewLesson = ({ cancel, editLessonData }) => {
+const AddNewLesson = ({ cancel, lessonsReload,setLessonsReload,editLessonData }) => {
+  const token = localStorage.getItem('token');
   const [data, setData] = useState({
-    title: '',
-    vedio: '',
-    image: '',
+    title: editLessonData?.title || '',
+    video: editLessonData?.video || '',
+    thumbnail: editLessonData?.thumbnail || '',
     link: 'https://www.google.com/search%A%D8%AA%D9%8',
   });
   const contextStore = useContext(Context);
   const { setEndActionTitle } = contextStore;
   const [images, setImages] = useState([]);
-  const [multiImages, setMultiImages] = useState([]);
-  console.log(multiImages);
+  const [videos, setVideos] = useState([]);
   const [copy, setCopy] = useState(false);
-  console.log(editLessonData)
 
   const handelCopy = () => {
     navigator.clipboard.writeText('https://www.google.com/search%A%D8%AA%D9%8');
@@ -35,40 +35,71 @@ const AddNewLesson = ({ cancel, editLessonData }) => {
       setCopy(false);
     }, 5000);
   }
-
-  const emptyMultiImages = [];
-  for (let index = 0; index < 5 - multiImages.length; index++) {
-    emptyMultiImages.push(index);
-  }
-  console.log(images);
-  const maxNumber = 2;
-  const onChange = (imageList, addUpdateIndex) => {
-    // data for submit
+  const onChange = (imageList) => {
     setImages(imageList);
   };
-  const onChangeMultiImages = (imageList, addUpdateIndex) => {
+  const onChangeVideo = (videoList) => {
     // data for submit
-    setMultiImages(imageList);
+    setVideos(videoList);
   };
+  const addLesson = () => {
+		let formData = new FormData();
+		formData.append('title', data?.title);
+		formData.append('video', videos[0]?.file || '');
+		formData.append('thumbnail', images[0]?.file || '');
 
-  useEffect(() => {
-    if (editLessonData) {
-      setData({
-        ...data,
-        title: editLessonData.title,
-        vedio: editLessonData.img,
-        image: editLessonData.img,
-        link: 'https://www.google.com/search%A%D8%AA%D9%8',
-      });
-    }
-  }, [editLessonData]);
+		axios
+			.post('https://backend.atlbha.com/api/Admin/explainVideos', formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setLessonsReload(!lessonsReload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setLessonsReload(!lessonsReload);
+				}
+			});
+	};
+
+  const editLesson = () => {
+		const formData = new FormData();
+		formData.append('_method', 'PUT');
+		formData.append('title', data?.title);
+    formData.append('thumbnail',images[0]?.file || data?.thumbnail);
+    formData.append('video',videos[0]?.file || data?.video);
+		axios
+			.post(`https://backend.atlbha.com/api/Admin/explainVideos/${editLessonData?.id}`, formData, {
+				headers: {
+					"Content-Type": "multipart/form-data",
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setLessonsReload(!lessonsReload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setLessonsReload(!lessonsReload);
+				}
+			});
+	}
 
   return (
     <>
       <BackDrop onClick={cancel}></BackDrop>
       <div
         className={`fixed bottom-0 left-0 bg-slate-50 z-30 otlobha_new_product ${styles.container}`}
-        style={{ width: "1104px",maxWidth:'100%', height: "calc(100% - 4rem)" }}
+        style={{ width: "1104px", maxWidth: '100%', height: "calc(100% - 4rem)" }}
       >
         <div className="flex h-full flex-col justify-between">
           <div
@@ -115,7 +146,7 @@ const AddNewLesson = ({ cancel, editLessonData }) => {
             <div className="flex md:flex-row flex-col md:items-center items-start gap-y-4">
               <h2
                 style={{ color: '#011723', fontSize: '20px' }}
-                className="w-80 font-medium whitespace-nowrap">
+                className="min-w-[14.5rem] font-medium whitespace-nowrap">
                 ارفاق فيديو الدرس
               </h2>
               {
@@ -135,7 +166,7 @@ const AddNewLesson = ({ cancel, editLessonData }) => {
                           className="upload__image-wrapper mx-auto relative overflow-hidden"
                           style={{
                             width: "100%",
-                            padding: 0 ,
+                            padding: 0,
                             border: 'none',
                             borderRadius: "10px",
                             strokeDasharray: "'6%2c5'",
@@ -146,7 +177,7 @@ const AddNewLesson = ({ cancel, editLessonData }) => {
                           {...dragProps}
                         >
                           <div style={{ height: '245px', borderRadius: '8px' }} className="flex flex-col items-center justify-center relative">
-                            <img style={{ borderRadius: '8px' }} className="w-full h-full" src={data.image} alt="main-img" />
+                            <img style={{ borderRadius: '8px' }} className="w-full h-full" src={data?.vedio} alt="main-img" />
                             <VideoPlay className="absolute cursor-pointer" size="2em" fill="#011723"></VideoPlay>
                           </div>
                         </div>
@@ -156,9 +187,12 @@ const AddNewLesson = ({ cancel, editLessonData }) => {
                   (
                     <div className="w-full flex flex-row items-center gap-5">
                       <ImageUploading
-                        maxNumber={1}
+                        value={videos}
+                        onChange={onChangeVideo}
+                        maxNumber={2}
                         dataURLKey="data_url"
                         acceptType={["mp4",]}
+                        allowNonImageType={true}
                       >
                         {({
                           onImageUpload,
@@ -171,26 +205,29 @@ const AddNewLesson = ({ cancel, editLessonData }) => {
                               border: "1px solid #A7A7A7",
                               backgroundColor: "#02466A00",
                             }}
-                            // onClick={() => {
-                            //   onImageUpload();
-                            // }}
-                            {...dragProps}
                           >
                             <div className="w-full flex flex-row items-center justify-center gap-3">
-                              <div style={{ width: '24px', height: '24px', backgroundColor: '#ADB5B9', borderRadius: '50%' }}>
-                                <ActionAdd fontSize="18px" fill="#FFFFFF" />
-                              </div>
+                              {!videos[0] &&
+                                <div style={{ width: '24px', height: '24px', backgroundColor: '#ADB5B9', borderRadius: '50%' }}>
+                                  <ActionAdd fontSize="18px" fill="#FFFFFF" />
+                                </div>
+                              }
                               <h2
                                 className="outline-none p-4 cursor-pointer"
                                 style={{
                                   color: "#ADB5B9",
                                   fontSize: '18px',
+                                  maxWidth:'60%',
+                                  overflow: 'hidden',
+                                  textOverflow:'ellipsis',
+                                  whiteSpace:'nowrap',
                                 }}
                                 onClick={() => {
                                   onImageUpload();
                                 }}
+                                {...dragProps}
                               >
-                                {images[0]?.file?.name || "قم برفع فيديو"}
+                                {videos[0]?.file?.name || "قم برفع فيديو"}
                               </h2>
                             </div>
                           </div>
@@ -249,9 +286,14 @@ const AddNewLesson = ({ cancel, editLessonData }) => {
                         </div>
                       )}
                     </div>
+                    {images[0] && !editLessonData &&
+                      <div style={{ height: '90px', borderRadius: '8px' }} className="flex flex-col items-center justify-center relative">
+                        <img style={{ borderRadius: '8px' }} className="w-full h-full" src={images[0]?.data_url} alt="main-img" />
+                      </div>
+                    }
                     {editLessonData &&
                       <div style={{ height: '90px', borderRadius: '8px' }} className="flex flex-col items-center justify-center relative">
-                        <img style={{ borderRadius: '8px' }} className="w-full h-full" src={data.image} alt="main-img" />
+                        <img style={{ borderRadius: '8px' }} className="w-full h-full" src={images[0]?.data_url||data?.thumbnail} alt="main-img" />
                         <IoMdCloudUpload className="absolute cursor-pointer" size="2em" fill="#011723"></IoMdCloudUpload>
                       </div>
                     }
@@ -300,7 +342,7 @@ const AddNewLesson = ({ cancel, editLessonData }) => {
                 {copy ? (<h6 style={{ color: '#02466A', fontSize: '16px' }}>Copied</h6>) : (<CopyIcon className="cursor-pointer" fill="#02466A" onClick={() => handelCopy()} />)}
                 <input
                   className="md:h-14 h-[45px] outline-none text-left"
-                  style={{ width: '100%', backgroundColor: 'transparent', color: '#02466A',whiteSpacepace:'nowrap',overflow:'hidden',textOverflow:'ellipsis' }}
+                  style={{ width: '100%', backgroundColor: 'transparent', color: '#02466A', whiteSpacepace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
                   value={data.link}
                   type="text"
                   placeholder="link"
@@ -320,10 +362,7 @@ const AddNewLesson = ({ cancel, editLessonData }) => {
               style={{ width: '186px', height: '56px', backgroundColor: `#02466A` }}
               textStyle={{ color: "#EFF9FF", fontSize: '22px' }}
               type={"normal"}
-              onClick={() => {
-                cancel();
-                editLessonData ? setEndActionTitle("تم تعديل الدرس بنجاح") : setEndActionTitle("تم اضافة درس جديد بنجاح")
-              }}
+              onClick={() => editLessonData ? editLesson() : addLesson()}
             >
               حفظ
             </Button>
