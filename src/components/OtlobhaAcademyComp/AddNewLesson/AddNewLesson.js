@@ -20,16 +20,16 @@ const AddNewLesson = ({ cancel, lessonsReload, setLessonsReload, editLessonData 
     title: editLessonData?.title || '',
     video: editLessonData?.video || '',
     thumbnail: editLessonData?.thumbnail || '',
-    link: 'https://www.google.com/search%A%D8%AA%D9%8',
+    link: editLessonData?.url,
   });
   const contextStore = useContext(Context);
   const { setEndActionTitle } = contextStore;
   const [images, setImages] = useState([]);
   const [videos, setVideos] = useState([]);
   const [copy, setCopy] = useState(false);
-
+  const [duration,setDuration] = useState(0);
   const handelCopy = () => {
-    navigator.clipboard.writeText('https://www.google.com/search%A%D8%AA%D9%8');
+    navigator.clipboard.writeText(data?.link);
     setCopy(true);
     setTimeout(() => {
       setCopy(false);
@@ -41,6 +41,22 @@ const AddNewLesson = ({ cancel, lessonsReload, setLessonsReload, editLessonData 
   const onChangeVideo = (videoList) => {
     // data for submit
     setVideos(videoList);
+    let formData = new FormData();
+    formData.append('video', videoList[0]?.file);
+    axios
+      .post('https://backend.atlbha.com/api/showVideoDuration', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res?.status===200 ) {
+          setDuration(res?.data);
+        } else {
+          console.log(res);
+        }
+      });
   };
 
   const addLesson = () => {
@@ -48,7 +64,6 @@ const AddNewLesson = ({ cancel, lessonsReload, setLessonsReload, editLessonData 
     formData.append('title', data?.title);
     formData.append('video', videos[0]?.file || '');
     formData.append('thumbnail', images[0]?.file || '');
-
     axios
       .post('https://backend.atlbha.com/api/Admin/explainVideos', formData, {
         headers: {
@@ -73,8 +88,12 @@ const AddNewLesson = ({ cancel, lessonsReload, setLessonsReload, editLessonData 
     const formData = new FormData();
     formData.append('_method', 'PUT');
     formData.append('title', data?.title);
-    formData.append('thumbnail', images[0]?.file || data?.thumbnail);
-    formData.append('video', videos[0]?.file || data?.video);
+    if(images.length !==0){
+			formData.append('thumbnail', images[0]?.file || null);
+		}
+    if(videos.length !==0){
+			formData.append('video', videos[0]?.file || null);
+		}
     axios
       .post(`https://backend.atlbha.com/api/Admin/explainVideos/${editLessonData?.id}`, formData, {
         headers: {
@@ -249,7 +268,7 @@ const AddNewLesson = ({ cancel, lessonsReload, setLessonsReload, editLessonData 
                           border: "1px solid #A7A7A7",
                         }}
                       >
-                        0 دقيقة
+                        {duration} دقيقة
                       </h2>
                     </div>
                   )
@@ -338,7 +357,9 @@ const AddNewLesson = ({ cancel, lessonsReload, setLessonsReload, editLessonData 
                 </Button>
               </div>
             }
-            <div className="flex md:flex-row flex-col md:items-center items-start gap-y-4">
+            {
+              editLessonData &&
+              <div className="flex md:flex-row flex-col md:items-center items-start gap-y-4">
               <label
                 className="w-80 font-medium whitespace-nowrap"
                 style={{ color: '#02466A', fontSize: '20px' }}>
@@ -352,13 +373,13 @@ const AddNewLesson = ({ cancel, lessonsReload, setLessonsReload, editLessonData 
                 <input
                   className="md:h-14 h-[45px] outline-none text-left"
                   style={{ width: '100%', backgroundColor: 'transparent', color: '#02466A', whiteSpacepace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
-                  value={data.link}
+                  value={data?.link}
                   type="text"
-                  placeholder="link"
-                  onChange={(e) => setData({ ...data, link: e.target.value })}
+                  disabled
                 />
               </div>
             </div>
+            }
           </div>
           <div
             className="md:h-[135px] h-[100px] md:p-8 p-4 flex items-center justify-center gap-4 md:bg-[#ebebeb] bg-[#f6f6f6]"

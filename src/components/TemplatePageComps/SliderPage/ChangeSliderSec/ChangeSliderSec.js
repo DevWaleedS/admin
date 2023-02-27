@@ -8,7 +8,6 @@ import Switch from '@mui/material/Switch';
 import CircularProgress from '@mui/material/CircularProgress';
 
 const ChangeSliderSec = ({fetchedData, loading, reload, setReload}) => {
-	console.log(loading);
 	const token = localStorage.getItem('token');
 	const contextStore = useContext(Context);
 	const { setEndActionTitle } = contextStore;
@@ -33,10 +32,15 @@ const ChangeSliderSec = ({fetchedData, loading, reload, setReload}) => {
 
 	const updateSliders = () => {
 		const formData = new FormData();
-		formData.append('slider1', firstimage[0]?.file || '');
-		formData.append('slider2', secondimage[0]?.file || '');
-		formData.append('slider3', thirdimage[0]?.file || '');
-		
+		if(firstimage.length !==0){
+			formData.append('slider1', firstimage[0]?.file || null);
+		}
+		if(secondimage.length !==0){
+			formData.append('slider2', secondimage[0]?.file || null);
+		}
+		if(thirdimage.length !==0){
+			formData.append('slider3', thirdimage[0]?.file || null);
+		}
 		formData.append('sliderstatus1', sliderstatus1 ? 'active' : 'not_active');
 		formData.append('sliderstatus2', sliderstatus2 ? 'active' : 'not_active');
 		formData.append('sliderstatus3', sliderstatus3 ? 'active' : 'not_active');
