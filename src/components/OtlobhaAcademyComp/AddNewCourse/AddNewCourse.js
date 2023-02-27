@@ -141,7 +141,7 @@ const AddNewCourse = ({ coursesReload, setCoursesReload, cancel, editData, addNe
 
         </div>
       </div>
-      <div className="flex flex-col gap-5 mt-[42px] md:pr-[78px] p-4">
+      <div className="flex flex-col gap-5 mt-[42px] md:pr-[78px] p-4 pb-28">
         <div className="flex flex-col gap-[10px]">
           <label className="md:text-[18px] text-[16px]" style={{ color: '#011723' }}>
             اسم الدورة التدريبية
