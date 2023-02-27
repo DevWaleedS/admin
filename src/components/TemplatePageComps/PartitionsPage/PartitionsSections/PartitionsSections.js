@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import axios from 'axios';
+import Context from '../../../../store/context';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
@@ -9,33 +11,65 @@ import MenuItem from '@mui/material/MenuItem';
 import { IoIosArrowDown } from 'react-icons/io';
 import Button from '../../../../UI/Button/Button';
 
-const categoryList = ['الكترونيات', 'ألعاب وهدايا', 'مستلزمات طبية', 'مواد غذائية'];
-const activate = [{ar:'نشط',en:'active'}, {ar:'غير نشط',en:'not_active'}];
+const activate = [{ ar: 'نشط', en: 'active' }, { ar: 'غير نشط', en: 'not_active' }];
 
 const PartitionsSections = ({ fetchedData, loading, reload, setReload }) => {
-	const [section ,setSection] = useState({
-		id:'',
-		name:'',
-		status:''
+	const token = localStorage.getItem('token');
+	const contextStore = useContext(Context);
+	const { setEndActionTitle } = contextStore;
+	const [firstSection, setFirstSection] = useState({
+		name: '',
+		status: '',
 	});
-	const [value, setValue] = React.useState(1);
-	const [category, setCategory] = useState('');
-	const [specialProduct, setSpecialProduct] = useState('');
-	const [condition, setCondition] = useState('');
-
-	const handleCategoryChange = (event) => {
-		setCategory(event.target.value);
-	};
-	const handleSpecialProductChange = (event) => {
-		setSpecialProduct(event.target.value);
-	};
-	const handleConditionChange = (event) => {
-		setCondition(event.target.value);
-	};
+	const [secondSection, setSecondSection] = useState({
+		name: '',
+		status: '',
+	});
+	const [thirdSection, setThirdSection] = useState({
+		name: '',
+		status: '',
+	});
+	const [value, setValue] = React.useState('1');
 
 	const handleChange = (event, id) => {
 		setValue(id);
 	};
+
+	useEffect(() => {
+		setFirstSection({ ...firstSection, name: fetchedData?.data?.Sections[0]?.name || '', status: fetchedData?.data?.Sections[0]?.status || '' });
+		setSecondSection({ ...secondSection, name: fetchedData?.data?.Sections[1]?.name || '',status: fetchedData?.data?.Sections[1]?.status || '' });
+		setThirdSection({ ...thirdSection, name: fetchedData?.data?.Sections[2]?.name || '',status: fetchedData?.data?.Sections[2]?.status || '' });
+	}, [fetchedData?.data?.Sections])
+
+	const updatePartitions = () => {
+		const data = {
+			"data[0][id]": 1,
+			"data[0][name]": firstSection?.name,
+			"data[0][status]": firstSection?.status === 'نشط' ? 'active' : 'not_active',
+			"data[1][id]": 2,
+			"data[1][name]": secondSection?.name,
+			"data[1][status]": secondSection?.status === 'نشط' ? 'active' : 'not_active',
+			"data[2][id]": 3,
+			"data[2][name]": thirdSection?.name,
+			"data[2][status]": thirdSection?.status === 'نشط' ? 'active' : 'not_active',
+		}
+		axios
+			.post(`https://backend.atlbha.com/api/Admin/sectionupdate`, data, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+					setReload(!reload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+					setReload(!reload);
+				}
+			});
+	}
 	return (
 		<Box className='md:pr-20 md:pt-5 md:pl-24 p-4' style={{ backgroundColor: '#FFFFFF' }}>
 			<TabContext value={value}>
@@ -71,101 +105,21 @@ const PartitionsSections = ({ fetchedData, loading, reload, setReload }) => {
 					>
 						{
 							fetchedData?.data?.Sections?.map((section, index) => (
-								<Tab key={index} disableRipple={true} className='text-lg font-medium' label={section?.name} value={section?.id} />
+								<Tab key={index} disableRipple={true} className='text-lg font-medium' label={section?.name} value={section?.id?.toString()} />
 							))
 						}
 					</TabList>
 				</Box>
 				<Box sx={{ height: '27.5rem', mt: '2.5rem' }}>
-					{
-						fetchedData?.data?.Sections?.map((s, index) => (
-							<TabPanel key={index} value={s?.id} className='md:pr-0 p-0'>
-								<div className='w-full mb-5'>
-									<h2 className='mb-2 text-lg font-normal' style={{ color: '#011723' }}>
-										اسم القسم
-									</h2>
-									<label>
-										<input
-											value={section?.name || s?.name}
-											onChange={(e)=>handleChange(e,s?.id)}
-											className='w-full outline-none rounded p-4'
-											placeholder='المنتجات المميزة'
-											style={{
-												backgroundColor: '#FFFFFF',
-												border: '1px solid #ECECEC',
-											}}
-											type='text'
-											name='name'
-										/>
-									</label>
-								</div>
-
-								<div className='mb-5'>
-									<h2 className='mb-2 text-lg font-normal' style={{ color: '#011723' }}>
-										الحالة
-									</h2>
-									<Select
-										value={condition}
-										IconComponent={() => {
-											return <IoIosArrowDown size={'1rem'} />;
-										}}
-										onChange={handleConditionChange}
-										displayEmpty
-										inputProps={{ 'aria-label': 'Without label' }}
-										renderValue={(selected) => {
-											if (condition === '') {
-												return <h2>الحالة</h2>;
-											}
-											const result = activate?.filter((item) => item?.en === selected);
-											return result[0]?.ar || s?.status;
-										}}
-										className={'rounded'}
-										sx={{
-											height: '3.5rem',
-											backgroundColor: '#fff',
-											width: '100%',
-											pl: '1rem',
-
-											'& .MuiOutlinedInput-notchedOutline': {
-												border: '1px solid #ECECEC',
-											},
-											'&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-												border: '1px solid #03787A',
-											},
-										}}
-									>
-										{activate?.map((item,index) => {
-											return (
-												<MenuItem
-													key={index}
-													sx={{
-														backgroundColor: '#fff',
-														height: '3rem',
-														'&:hover': {},
-														'ul:has(&)': {
-															padding: '0',
-														},
-													}}
-													value={`${item?.en}`}
-												>
-													{item?.ar}
-												</MenuItem>
-											);
-										})}
-									</Select>
-								</div>
-							</TabPanel>
-						))
-					}
-					{/*<TabPanel value='1' className='md:pr-0 p-0'>
+					<TabPanel value='1' className='md:pr-0 p-0'>
 						<div className='w-full mb-5'>
 							<h2 className='mb-2 text-lg font-normal' style={{ color: '#011723' }}>
 								اسم القسم
 							</h2>
 							<label>
 								<input
-									value={}
-									onChange={}
+									value={firstSection?.name}
+									onChange={(e) => setFirstSection({ ...firstSection, name: e.target.value })}
 									className='w-full outline-none rounded p-4'
 									placeholder='المنتجات المميزة'
 									style={{
@@ -173,7 +127,6 @@ const PartitionsSections = ({ fetchedData, loading, reload, setReload }) => {
 										border: '1px solid #ECECEC',
 									}}
 									type='text'
-									name='name'
 								/>
 							</label>
 						</div>
@@ -183,18 +136,19 @@ const PartitionsSections = ({ fetchedData, loading, reload, setReload }) => {
 								الحالة
 							</h2>
 							<Select
-								value={condition}
+								value={firstSection?.status}
 								IconComponent={() => {
 									return <IoIosArrowDown size={'1rem'} />;
 								}}
-								onChange={handleConditionChange}
+								onChange={(e) => setFirstSection({ ...firstSection, status: e.target.value })}
 								displayEmpty
 								inputProps={{ 'aria-label': 'Without label' }}
 								renderValue={(selected) => {
-									if (condition === '') {
+									if (firstSection?.status === '') {
 										return <h2>الحالة</h2>;
 									}
-									return selected;
+									const result = activate?.filter((item) => item?.ar === selected);
+									return result[0]?.ar;
 								}}
 								className={'rounded'}
 								sx={{
@@ -211,10 +165,10 @@ const PartitionsSections = ({ fetchedData, loading, reload, setReload }) => {
 									},
 								}}
 							>
-								{activate.map((item) => {
+								{activate.map((item, index) => {
 									return (
 										<MenuItem
-											className=''
+											key={index}
 											sx={{
 												backgroundColor: '#fff',
 												height: '3rem',
@@ -224,9 +178,9 @@ const PartitionsSections = ({ fetchedData, loading, reload, setReload }) => {
 													padding: '0',
 												},
 											}}
-											value={`${item}`}
+											value={`${item?.ar}`}
 										>
-											{item}
+											{item?.ar}
 										</MenuItem>
 									);
 								})}
@@ -240,6 +194,8 @@ const PartitionsSections = ({ fetchedData, loading, reload, setReload }) => {
 							</h2>
 							<label>
 								<input
+									value={secondSection?.name}
+									onChange={(e) => setSecondSection({ ...secondSection, name: e.target.value })}
 									className='w-full outline-none rounded p-4'
 									placeholder='المتاجر المميزة'
 									style={{
@@ -247,7 +203,6 @@ const PartitionsSections = ({ fetchedData, loading, reload, setReload }) => {
 										border: '1px solid #ECECEC',
 									}}
 									type='text'
-									name='name'
 								/>
 							</label>
 						</div>
@@ -257,18 +212,19 @@ const PartitionsSections = ({ fetchedData, loading, reload, setReload }) => {
 								الحالة
 							</h2>
 							<Select
-								value={specialProduct}
+								value={secondSection?.status}
 								IconComponent={() => {
 									return <IoIosArrowDown size={'1rem'} />;
 								}}
-								onChange={handleSpecialProductChange}
+								onChange={(e) => setSecondSection({ ...secondSection, status: e.target.value })}
 								displayEmpty
 								inputProps={{ 'aria-label': 'Without label' }}
 								renderValue={(selected) => {
-									if (specialProduct === '') {
+									if (secondSection?.status === '') {
 										return <h2>مفعل</h2>;
 									}
-									return selected;
+									const result = activate?.filter((item) => item?.ar === selected);
+									return result[0]?.ar;
 								}}
 								className={'rounded'}
 								sx={{
@@ -285,10 +241,10 @@ const PartitionsSections = ({ fetchedData, loading, reload, setReload }) => {
 									},
 								}}
 							>
-								{activate.map((item) => {
+								{activate.map((item, index) => {
 									return (
 										<MenuItem
-											className=''
+											key={index}
 											sx={{
 												backgroundColor: '#fff',
 												height: '3rem',
@@ -298,9 +254,9 @@ const PartitionsSections = ({ fetchedData, loading, reload, setReload }) => {
 													padding: '0',
 												},
 											}}
-											value={`${item}`}
+											value={`${item?.ar}`}
 										>
-											{item}
+											{item?.ar}
 										</MenuItem>
 									);
 								})}
@@ -314,6 +270,8 @@ const PartitionsSections = ({ fetchedData, loading, reload, setReload }) => {
 							</h2>
 							<label>
 								<input
+									value={thirdSection?.name}
+									onChange={(e) => setThirdSection({ ...thirdSection, name: e.target.value })}
 									className='w-full outline-none rounded p-4'
 									placeholder=''
 									style={{
@@ -321,7 +279,6 @@ const PartitionsSections = ({ fetchedData, loading, reload, setReload }) => {
 										border: '1px solid #ECECEC',
 									}}
 									type='text'
-									name='name'
 								/>
 							</label>
 						</div>
@@ -331,18 +288,19 @@ const PartitionsSections = ({ fetchedData, loading, reload, setReload }) => {
 								الحالة{' '}
 							</h2>
 							<Select
-								value={specialProduct}
+								value={thirdSection?.status}
 								IconComponent={() => {
 									return <IoIosArrowDown size={'1rem'} />;
 								}}
-								onChange={handleSpecialProductChange}
+								onChange={(e) => setThirdSection({ ...thirdSection, status: e.target.value })}
 								displayEmpty
 								inputProps={{ 'aria-label': 'Without label' }}
 								renderValue={(selected) => {
-									if (specialProduct === '') {
+									if (thirdSection?.status === '') {
 										return <h2>___</h2>;
 									}
-									return selected;
+									const result = activate?.filter((item) => item?.ar === selected);
+									return result[0]?.ar;
 								}}
 								className={'rounded'}
 								sx={{
@@ -359,10 +317,10 @@ const PartitionsSections = ({ fetchedData, loading, reload, setReload }) => {
 									},
 								}}
 							>
-								{activate.map((item) => {
+								{activate.map((item, index) => {
 									return (
 										<MenuItem
-											className=''
+											key={index}
 											sx={{
 												backgroundColor: '#fff',
 												height: '3rem',
@@ -372,19 +330,19 @@ const PartitionsSections = ({ fetchedData, loading, reload, setReload }) => {
 													padding: '0',
 												},
 											}}
-											value={`${item}`}
+											value={`${item?.ar}`}
 										>
-											{item}
+											{item?.ar}
 										</MenuItem>
 									);
 								})}
 							</Select>
 						</div>
-							</TabPanel>*/}
+					</TabPanel>
 				</Box>
 			</TabContext>
 			<div className='flex gap-4 mt-8'>
-				<Button className={'rounded h-14'} style={{ backgroundColor: '#3AE374', width: '180px' }} fontSize={'text-xl'} type={'normal'}>
+				<Button onClick={updatePartitions} className={'rounded h-14'} style={{ backgroundColor: '#3AE374', width: '180px' }} fontSize={'text-xl'} type={'normal'}>
 					تعديل
 				</Button>
 				<Button
