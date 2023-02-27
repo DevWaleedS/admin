@@ -4,11 +4,12 @@ import PageNavigate from '../../components/PageNavigate/PageNavigate';
 import PagesPageTable from '../../components/PagesPageComp/PagesPageTable/PagesPageTable';
 import Filtering from '../../components/PagesPageComp/Filtering/Filtering';
 import AddNewPage from '../../components/PagesPageComp/AddNewPage/AddNewPage';
-
 import Button from '../../UI/Button/Button';
 import { AiOutlinePlus } from 'react-icons/ai';
+import useFetch from '../../hooks/useFetch';
 
 const PagesPage = () => {
+	const { fetchedData, loading, reload, setReload } = useFetch('https://backend.atlbha.com/api/Admin/page');
 	const [showAddNewPage, setShowAddNewPage] = useState(false);
 
 
@@ -40,6 +41,8 @@ const PagesPage = () => {
 						cancel={() => {
 							setShowAddNewPage(false);
 						}}
+						reload={reload}
+						setReload={setReload}
 					/>
 				)}
 
@@ -48,7 +51,12 @@ const PagesPage = () => {
 
 				{/** pages table*/}
 				<div dir='ltr' className='md:mt-10 mt-5'>
-					<PagesPageTable />
+					<PagesPageTable
+						fetchedData={fetchedData}
+						loading={loading}
+						reload={reload}
+						setReload={setReload}
+					/>
 				</div>
 			</div>
 		</div>
