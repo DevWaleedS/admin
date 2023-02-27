@@ -75,12 +75,13 @@ const AddNewCourse = ({ coursesReload, setCoursesReload, cancel, editData, addNe
     }, 5000);
   }
 
+  
   const AddCourse = () => {
     let formData = new FormData();
     formData.append('name', data?.name);
     formData.append('description', description?.htmlValue);
     formData.append('duration', data?.minute);
-    formData.append('tags', JSON.stringify(tagsSelected.join(',')));
+    formData.append('tags', tagsSelected.join(','));
     formData.append('image', images[0]?.file || '');
     for (let i = 0; i < unitDetails?.length; i++) {
       formData.append([`data[${i}][title]`], unitDetails[i]?.title);
