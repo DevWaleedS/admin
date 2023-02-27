@@ -59,11 +59,9 @@ const AddNewPage = ({ cancel, reload, setReload }) => {
 		formData.append('seo_desc', page?.seo_desc);
 		formData.append('tags', page?.tags?.join(','));
 		formData.append('postCategory_id', page?.postCategory_id);
-		// for (let i = 0; i < unitDetails?.length; i++) {
-		//   formData.append([`data[${i}][title]`], unitDetails[i]?.title);
-		//   formData.append([`data[${i}][file][${i}]`], unitDetails[i]?.documents[i]);
-		//   formData.append([`data[${i}][video][${i}]`], unitDetails[i]?.videos[i]);
-		// }
+		for (let i = 0; i < page?.pageCategory?.length; i++) {
+		  formData.append([`pageCategory[${i}]`], page?.pageCategory[i]);
+		}
 		axios
 		  .post("https://backend.atlbha.com/api/Admin/page", formData, {
 			headers: {
@@ -290,10 +288,7 @@ const AddNewPage = ({ cancel, reload, setReload }) => {
 							fontSize={'md:text-2xl text-[18px] font-normal'}
 							style={{ minWidth: 'fit-content' }}
 							type={'normal'}
-							onClick={() => {
-								setEndActionTitle('تم حفظ صفحة جديدة بنجاح');
-								cancel();
-							}}
+							onClick={() => addPage}
 						>
 							حفظ
 						</Button>
