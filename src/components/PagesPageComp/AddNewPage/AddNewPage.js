@@ -49,7 +49,41 @@ const AddNewPage = ({ cancel, reload, setReload }) => {
 		setPage({...page,tags:[...page.tags, tag]});
 		setTag("");
 	}
-	console.log(page?.tags);
+	
+	const addPage = () => {
+		let formData = new FormData();
+		formData.append('title', page?.title);
+		formData.append('seo_title', description?.htmlValue);
+		formData.append('seo_title', page?.seo_title);
+		formData.append('seo_link', page?.seo_link);
+		formData.append('seo_desc', page?.seo_desc);
+		formData.append('tags', page?.tags?.join(','));
+		formData.append('postCategory_id', page?.postCategory_id);
+		// for (let i = 0; i < unitDetails?.length; i++) {
+		//   formData.append([`data[${i}][title]`], unitDetails[i]?.title);
+		//   formData.append([`data[${i}][file][${i}]`], unitDetails[i]?.documents[i]);
+		//   formData.append([`data[${i}][video][${i}]`], unitDetails[i]?.videos[i]);
+		// }
+		axios
+		  .post("https://backend.atlbha.com/api/Admin/page", formData, {
+			headers: {
+			  "Content-Type": "multipart/form-data",
+			  Authorization: `Bearer ${token}`,
+			},
+		  })
+		  .then((res) => {
+			if (res?.data?.success === true && res?.data?.data?.status === 200) {
+			  setEndActionTitle(res?.data?.message?.ar);
+			  cancel();
+			  setReload(!reload);
+			} else {
+			  setEndActionTitle(res?.data?.message?.ar);
+			  cancel();
+			  setReload(!reload);
+			}
+		  });
+	  }
+
 	return (
 		<>
 			<BackDrop onClick={cancel} />
