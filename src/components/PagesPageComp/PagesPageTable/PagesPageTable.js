@@ -1,4 +1,4 @@
-import React,{useContext} from 'react';
+import React, { useEffect,useContext } from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -18,6 +18,7 @@ import { visuallyHidden } from '@mui/utils';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { NotificationContext } from "../../../store/NotificationProvider";
+import Context from '../../../store/context';
 // Import icons and images
 import { ReactComponent as EditIcon } from '../../../assets/Icons/editt 2.svg';
 import { ReactComponent as CheckedSquare } from '../../../assets/Icons/icon-24-square checkmark.svg';
@@ -25,35 +26,9 @@ import { ReactComponent as SwitchIcon } from '../../../assets/Icons/icon-38-swit
 import { ReactComponent as DeleteIcon } from '../../../assets/Icons/icon-24-delete.svg';
 import { ReactComponent as SortIcon } from '../../../assets/Icons/icon-24-sort.svg';
 import { MdOutlineKeyboardArrowDown, MdOutlineArrowBackIosNew, MdOutlineArrowForwardIos } from 'react-icons/md';
-
-function createData(id,name, title, publishDate, active) {
-	return {
-		id,
-		name,
-		title,
-		publishDate,
-		active,
-	};
-}
-
-const rows = [
-	createData(1,'فايز بن صالح', 'من نحن', '13-Sep-2022', true),
-	createData(2,'فايز بن صالح', 'سياسة الخصوصية', '15-Sep-2022', true),
-	createData(3,'فايز بن صالح', 'المدونة', '17-Sep-2022', false),
-	createData(4,'فايز بن صالح', 'من نحن', '13-Sep-2022', true),
-	createData(5,'فايز بن صالح', 'سياسة الخصوصية', '15-Sep-2022', true),
-	createData(6,'فايز بن صالح', 'المدونة', '17-Sep-2022', false),
-	createData(7,'فايز بن صالح', 'من نحن', '13-Sep-2022', true),
-	createData(8,'فايز بن صالح', 'سياسة الخصوصية', '15-Sep-2022', true),
-	createData(9,'فايز بن صالح', 'المدونة', '17-Sep-2022', false),
-	createData(10,'فايز بن صالح', 'من نحن', '13-Sep-2022', true),
-	createData(11,'فايز بن صالح', 'سياسة الخصوصية', '15-Sep-2022', true),
-	createData(12,'فايز بن صالح', 'المدونة', '17-Sep-2022', false),
-	createData(13,'فايز بن صالح', 'من نحن', '13-Sep-2022', true),
-	createData(14,'فايز بن صالح', 'سياسة الخصوصية', '15-Sep-2022', true),
-	createData(15,'فايز بن صالح', 'المدونة', '17-Sep-2022', false),
-	
-];
+import axios from "axios";
+import CircularLoading from '../../../UI/CircularLoading/CircularLoading';
+import getDate from '../../../helpers/getDate';
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
@@ -72,15 +47,15 @@ function getComparator(order, orderBy) {
 // This method is created for cross-browser compatibility, if you don't
 // need to support IE11, you can use Array.prototype.sort() directly
 function stableSort(array, comparator) {
-	const stabilizedThis = array.map((el, index) => [el, index]);
-	stabilizedThis.sort((a, b) => {
+	const stabilizedThis = array?.map((el, index) => [el, index]);
+	stabilizedThis?.sort((a, b) => {
 		const order = comparator(a[0], b[0]);
 		if (order !== 0) {
 			return order;
 		}
 		return a[1] - b[1];
 	});
-	return stabilizedThis.map((el) => el[0]);
+	return stabilizedThis?.map((el) => el[0]);
 }
 
 const headCells = [
@@ -99,21 +74,21 @@ const headCells = [
 		sort: true,
 	},
 	{
-		id: 'daysLeft',
+		id: 'createdDate',
 		numeric: true,
 		disablePadding: false,
 		label: 'تاريخ الانشاء',
 		sort: true,
 	},
 	{
-		id: 'rate',
+		id: 'writer',
 		numeric: true,
 		disablePadding: false,
 		label: 'الناشر',
 	},
 
 	{
-		id: 'circle',
+		id: 'title',
 		numeric: true,
 		disablePadding: false,
 		label: 'العنوان',
@@ -146,7 +121,7 @@ function EnhancedTableHead(props) {
 						sx={{
 							width: headCell.width ? headCell.width : 'auto',
 							color: '#02466A',
-							whiteSpace:'nowrap'
+							whiteSpace: 'nowrap'
 						}}
 					>
 						{headCell.sort && (
@@ -181,13 +156,12 @@ EnhancedTableHead.propTypes = {
 	onSelectAllClick: PropTypes.func.isRequired,
 	order: PropTypes.oneOf(['asc', 'desc']).isRequired,
 	orderBy: PropTypes.string.isRequired,
-	rowCount: PropTypes.number.isRequired,
 };
 
 function EnhancedTableToolbar(props) {
 	const { numSelected, onClick, rowCount, onSelectAllClick } = props;
 	const NotificationStore = useContext(NotificationContext);
-	const { setNotificationTitle,setActionTitle } = NotificationStore;
+	const { setNotificationTitle, setActionTitle } = NotificationStore;
 	return (
 		<Toolbar
 			className='md:gap-8 gap-4'
@@ -209,10 +183,10 @@ function EnhancedTableToolbar(props) {
 							width: '114px',
 							backgroundColor: 'rgba(255, 159, 26, 0.04)',
 						}}
-						onClick={()=>{
+						onClick={() => {
 							setNotificationTitle('سيتم تعطيل جميع الصفحات التي قمت بتحديدها');
-							setActionTitle('تم تعطيل الصفحات بنجاح');
-						}} 
+							setActionTitle('ChangeStatus');
+						}}
 					>
 						<Box
 							sx={{
@@ -242,10 +216,10 @@ function EnhancedTableToolbar(props) {
 							width: '114px',
 							backgroundColor: 'rgba(255, 56, 56, 0.1)',
 						}}
-						onClick={()=>{
+						onClick={() => {
 							setNotificationTitle('سيتم حذف جميع الصفحات التي قمت بتحديدها');
-							setActionTitle('تم حذف الصفحات بنجاح');
-						}} 
+							setActionTitle('Delete');
+						}}
 					>
 						<IconButton>
 							<DeleteIcon
@@ -290,15 +264,19 @@ EnhancedTableToolbar.propTypes = {
 	numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable() {
+export default function EnhancedTable({ fetchedData, loading, reload, setReload }) {
+	const token = localStorage.getItem('token');
 	const [order, setOrder] = React.useState('asc');
 	const [orderBy, setOrderBy] = React.useState('calories');
 	const [selected, setSelected] = React.useState([]);
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(7);
-	const [data, setData] = React.useState(rows);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
+	const contextStore = useContext(Context);
+	const { setEndActionTitle } = contextStore;
+	const NotificationStore = useContext(NotificationContext);
+	const { confirm, setConfirm,actionTitle,setActionTitle } = NotificationStore;
 
 	const rowsPerPagesCount = [10, 20, 30, 50, 100];
 	const handleRowsClick = (event) => {
@@ -316,28 +294,19 @@ export default function EnhancedTable() {
 
 	const handleSelectAllClick = (event) => {
 		if (event.target.checked) {
-			const newSelected = data.map((n) => n.name);
+			const newSelected = fetchedData?.data?.pages?.map((n) => n.id);
 			setSelected(newSelected);
 			return;
 		}
 		setSelected([]);
 	};
-	const deleteItems = () => {
-		const array = [...data];
-		selected.forEach((item, idx) => {
-			const findIndex = array.findIndex((i) => item === i.name);
-			array.splice(findIndex, 1);
-		});
-		setData(array);
-		setSelected([]);
-	};
 
-	const handleClick = (event, name) => {
-		const selectedIndex = selected.indexOf(name);
+	const handleClick = (event, id) => {
+		const selectedIndex = selected.indexOf(id);
 		let newSelected = [];
 
 		if (selectedIndex === -1) {
-			newSelected = newSelected.concat(selected, name);
+			newSelected = newSelected.concat(selected, id);
 		} else if (selectedIndex === 0) {
 			newSelected = newSelected.concat(selected.slice(1));
 		} else if (selectedIndex === selected.length - 1) {
@@ -354,22 +323,106 @@ export default function EnhancedTable() {
 		setPage(0);
 	};
 
-	const isSelected = (name) => selected.indexOf(name) !== -1;
+	const isSelected = (id) => selected.indexOf(id) !== -1;
 
 	// Avoid a layout jump when reaching the last page with empty rows.
-	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - fetchedData?.data?.pages?.length) : 0;
 
 	const allRows = () => {
-		const num = Math.ceil(data.length / rowsPerPage);
+		const num = Math.ceil(fetchedData?.data?.pages?.length / rowsPerPage);
 		const arr = [];
 		for (let index = 0; index < num; index++) {
 			arr.push(index + 1);
 		}
 		return arr;
 	};
+
+	const changePageStatus = (id) => {
+		axios
+		.get(`https://backend.atlbha.com/api/Admin/pagechangeSatusall?id[]=${id}`, {
+		  headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${token}`,
+		  },
+		})
+		.then((res) => {
+		  if (res?.data?.success === true && res?.data?.data?.status === 200) {
+			setEndActionTitle(res?.data?.message?.ar);
+			setReload(!reload);
+		  } else {
+			setEndActionTitle(res?.data?.message?.ar);
+			setReload(!reload);
+		  }
+		});
+	}
+
+	const deletePage = (id) =>{
+		axios
+      .get(`https://backend.atlbha.com/api/Admin/pagedeleteall?id[]=${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res?.data?.success === true && res?.data?.data?.status === 200) {
+          setEndActionTitle(res?.data?.message?.ar);
+          setReload(!reload);
+        } else {
+          setEndActionTitle(res?.data?.message?.ar);
+          setReload(!reload);
+        }
+      });
+	}
+
+	useEffect(() => {
+		if (confirm && actionTitle === 'ChangeStatus') {
+			const queryParams = selected.map((id) => `id[]=${id}`).join('&');
+			axios
+				.get(`https://backend.atlbha.com/api/Admin/pagechangeSatusall?${queryParams}`, {
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${token}`,
+					},
+				})
+				.then((res) => {
+					if (res?.data?.success === true && res?.data?.data?.status === 200) {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					} else {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					}
+				});
+			setConfirm(false);
+			setActionTitle(null);
+		}
+		if (confirm && actionTitle === 'Delete') {
+			const queryParams = selected.map((id) => `id[]=${id}`).join('&');
+			axios
+				.get(`https://backend.atlbha.com/api/Admin/pagedeleteall?${queryParams}`, {
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${token}`,
+					},
+				})
+				.then((res) => {
+					if (res?.data?.success === true && res?.data?.data?.status === 200) {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					} else {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					}
+				});
+			setConfirm(false);
+			setActionTitle(null);
+		}
+	}, [confirm]);
+
 	return (
 		<Box sx={{ width: '100%' }}>
-			<EnhancedTableToolbar onClick={deleteItems} numSelected={selected.length} rowCount={data.length} onSelectAllClick={handleSelectAllClick} />
+			<EnhancedTableToolbar numSelected={selected.length} rowCount={fetchedData?.data?.pages?.length} onSelectAllClick={handleSelectAllClick} />
 			<Paper
 				sx={{
 					width: '100%',
@@ -380,153 +433,153 @@ export default function EnhancedTable() {
 			>
 				<TableContainer>
 					<Table sx={{ minWidth: 750, backgroundColor: '#fff' }} aria-labelledby='tableTitle' size={'medium'}>
-						<EnhancedTableHead numSelected={selected.length} order={order} orderBy={orderBy} onSelectAllClick={handleSelectAllClick} onRequestSort={handleRequestSort} rowCount={data.length} />
+						<EnhancedTableHead numSelected={selected.length} order={order} orderBy={orderBy} onSelectAllClick={handleSelectAllClick} onRequestSort={handleRequestSort} rowCount={fetchedData?.data?.pages?.length} />
 						<TableBody>
-							{/* if you don't need to support IE11, you can replace the `stableSort` call with:
-                 rows.sort(getComparator(order, orderBy)).slice() */}
-							{stableSort(data, getComparator(order, orderBy))
-								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-								.map((row, index) => {
-									const isItemSelected = isSelected(row.name);
-									const labelId = `enhanced-table-checkbox-${index}`;
+							{loading ?
+								(
+									<TableRow>
+										<TableCell colSpan={6}>
+											<CircularLoading />
+										</TableCell>
+									</TableRow>
+								)
+								:
+								(
+									<>
+										{stableSort(fetchedData?.data?.pages, getComparator(order, orderBy))
+											?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+											?.map((row, index) => {
+												const isItemSelected = isSelected(row?.id);
+												const labelId = `enhanced-table-checkbox-${index}`;
 
-									return (
-										<TableRow
-											hover
-											//   onClick={(event) => handleClick(event, row.name)}
-											role='checkbox'
-											aria-checked={isItemSelected}
-											tabIndex={-1}
-											key={index}
-											selected={isItemSelected}
-											sx={{
-												'& .MuiTableCell-root': {
-													// padding: "16px 0",
-												},
-											}}
-										>
-											<TableCell sx={{ p: '16px 8px' }} component='th' id={labelId} scope='row'>
-												<div className='flex items-center gap-2'>
-													<Switch
-														onChange={() => {
-															const findIndex = data.findIndex((item) => item.id === row.id);
-															const arr = [...data];
-															arr[findIndex].active = !arr[findIndex].active;
-															setData(arr);
-														}}
-														className=''
+												return (
+													<TableRow
+														hover
+														//   onClick={(event) => handleClick(event, row.name)}
+														role='checkbox'
+														aria-checked={isItemSelected}
+														tabIndex={-1}
+														key={index}
+														selected={isItemSelected}
 														sx={{
-															width: '50px',
-															'& .MuiSwitch-thumb': {
-																width: '11px',
-																height: '11px',
+															'& .MuiTableCell-root': {
+																// padding: "16px 0",
 															},
-															'& .MuiSwitch-switchBase': {
-																padding: '6px',
-																top: '9px',
-																left: '9px',
-															},
-															'& .MuiSwitch-switchBase.Mui-checked': {
-																left: '-1px',
-															},
-															'& .Mui-checked .MuiSwitch-thumb': {
-																backgroundColor: '#FFFFFF',
-															},
-															'& .MuiSwitch-track': {
-																height: '16px',
-																borderRadius: '20px',
-															},
-															'&.MuiSwitch-root .Mui-checked+.MuiSwitch-track': {
-																backgroundColor: '#3AE374',
+														}}
+													>
+														<TableCell sx={{ p: '16px 8px' }} component='th' id={labelId} scope='row'>
+															<div className='flex items-center gap-2'>
+																<Switch
+																	onChange={() => changePageStatus(row?.id)}
+																	sx={{
+																		width: '50px',
+																		'& .MuiSwitch-thumb': {
+																			width: '11px',
+																			height: '11px',
+																		},
+																		'& .MuiSwitch-switchBase': {
+																			padding: '6px',
+																			top: '9px',
+																			left: '9px',
+																		},
+																		'& .MuiSwitch-switchBase.Mui-checked': {
+																			left: '-1px',
+																		},
+																		'& .Mui-checked .MuiSwitch-thumb': {
+																			backgroundColor: '#FFFFFF',
+																		},
+																		'& .MuiSwitch-track': {
+																			height: '16px',
+																			borderRadius: '20px',
+																		},
+																		'&.MuiSwitch-root .Mui-checked+.MuiSwitch-track': {
+																			backgroundColor: '#3AE374',
 
-																opacity: 1,
-															},
-														}}
-														checked={row.active}
-													/>
-													<DeleteIcon
-														onClick={() => {
-															const findIndex = data.findIndex((item) => item.name === row.name);
-															const arr = [...data];
-															arr.splice(findIndex, 1);
-															setData(arr);
-														}}
-														style={{
-															cursor: 'pointer',
-															color: 'red',
-															fontSize: '1.2rem',
-														}}
-													></DeleteIcon>
-													<EditIcon
-														style={{
-															cursor: 'pointer',
-															fontSize: '1.2rem',
-														}}
-													></EditIcon>
-												</div>
-											</TableCell>
-											<TableCell align='center'>
-												<div
-													className='w-21 h-full py-1 rounded-2xl text-lg font-normal'
-													style={{
-														backgroundColor: row.active ? '#3AE37466' : '#D3D3D3',
-														marginLeft: 'auto',
-													}}
-												>
-													<h2 className='md:text-[18px] text-[16px] whitespace-nowrap'>{row.active ? 'تم النشر' : 'محظور'}</h2>
-												</div>
-											</TableCell>
-											<TableCell align='right'>
-												<div className=''>
-													<h2 className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>{row.publishDate}</h2>
-												</div>
-											</TableCell>
-											<TableCell align='right'>
-												<div>
-													<h2 className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>{row.name}</h2>
-												</div>
-											</TableCell>
+																			opacity: 1,
+																		},
+																	}}
+																	checked={row?.status === 'تم النشر' ? true : false}
+																/>
+																<DeleteIcon
+																	onClick={() => deletePage(row?.id)}
+																	style={{
+																		cursor: 'pointer',
+																		color: 'red',
+																		fontSize: '1.2rem',
+																	}}
+																></DeleteIcon>
+																<EditIcon
+																	style={{
+																		cursor: 'pointer',
+																		fontSize: '1.2rem',
+																	}}
+																></EditIcon>
+															</div>
+														</TableCell>
+														<TableCell align='center'>
+															<div
+																className='w-21 h-full py-1 rounded-2xl text-lg font-normal'
+																style={{
+																	backgroundColor: row?.status === 'تم النشر' ? '#3AE37466' : '#D3D3D3',
+																	marginLeft: 'auto',
+																}}
+															>
+																<h2 className='md:text-[18px] text-[16px] whitespace-nowrap'>{row?.status}</h2>
+															</div>
+														</TableCell>
+														<TableCell align='right'>
+															<div className=''>
+																<h2 className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>{getDate(row?.created_at)}</h2>
+															</div>
+														</TableCell>
+														<TableCell align='right'>
+															<div>
+																<h2 className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>{row?.user?.name}</h2>
+															</div>
+														</TableCell>
 
-											<TableCell align='right'>
-												<div>
-													<h2 className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>{row.title}</h2>
-												</div>
-											</TableCell>
+														<TableCell align='right'>
+															<div>
+																<h2 className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>{row?.title}</h2>
+															</div>
+														</TableCell>
 
-											<TableCell align='right' className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>
-												{(index + 1).toLocaleString('en-US', {
-													minimumIntegerDigits: 2,
-													useGrouping: false,
-												})}
-											</TableCell>
-											<TableCell padding='none' align={'right'}>
-												<Checkbox
-													checkedIcon={<CheckedSquare />}
-													sx={{
-														color: '#011723',
-														'& .MuiSvgIcon-root': {
-															color: '#011723',
-														},
-													}}
-													checked={isItemSelected}
-													onClick={(event) => handleClick(event, row.name)}
-													inputProps={{
-														'aria-labelledby': labelId,
-													}}
-												/>
-											</TableCell>
-										</TableRow>
-									);
-								})}
-							{emptyRows > 0 && (
-								<TableRow
-									style={{
-										height: 53 * emptyRows,
-									}}
-								>
-									<TableCell colSpan={6} />
-								</TableRow>
-							)}
+														<TableCell align='right' className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>
+															{(index + 1).toLocaleString('en-US', {
+																minimumIntegerDigits: 2,
+																useGrouping: false,
+															})}
+														</TableCell>
+														<TableCell padding='none' align={'right'}>
+															<Checkbox
+																checkedIcon={<CheckedSquare />}
+																sx={{
+																	color: '#011723',
+																	'& .MuiSvgIcon-root': {
+																		color: '#011723',
+																	},
+																}}
+																checked={isItemSelected}
+																onClick={(event) => handleClick(event, row?.id)}
+																inputProps={{
+																	'aria-labelledby': labelId,
+																}}
+															/>
+														</TableCell>
+													</TableRow>
+												);
+											})}
+										{emptyRows > 0 && (
+											<TableRow
+												style={{
+													height: 53 * emptyRows,
+												}}
+											>
+												<TableCell colSpan={6} />
+											</TableRow>
+										)}
+									</>
+								)}
 						</TableBody>
 					</Table>
 				</TableContainer>
@@ -594,6 +647,7 @@ export default function EnhancedTable() {
 						{allRows().map((item, itemIdx) => {
 							return (
 								<div
+									key={itemIdx}
 									className='cursor-pointer font-medium rounded-lg flex justify-center items-center w-6 h-6'
 									style={{
 										backgroundColor: item === page + 1 && '#8D8AD3',
