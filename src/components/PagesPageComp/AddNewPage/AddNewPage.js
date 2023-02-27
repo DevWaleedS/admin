@@ -46,9 +46,10 @@ const AddNewPage = ({ cancel, reload, setReload }) => {
 		});
 	};
 	const addTags = () =>{
-		setPage({...page,tags:tag});
+		setPage({...page,tags:[...page.tags, tag]});
+		setTag("");
 	}
-
+	console.log(page?.tags);
 	return (
 		<>
 			<BackDrop onClick={cancel} />
@@ -246,7 +247,7 @@ const AddNewPage = ({ cancel, reload, setReload }) => {
 								</Button>
 								<input value={tag} onChange={(e) =>setTag(e.target.value )} className='outline-none flex-1 rounded-lg md:h-14 h-[45px]' style={{ border: '1px solid #707070' }} type='text' />
 							</div>
-							<span>{page?.tags}</span>
+							<span>{page?.tags?.join(' , ')}</span>
 						</div>
 					</div>
 					<div className='flex md:my-20 my-8 items-center justify-center md:gap-8 gap-4'>
