@@ -12,6 +12,8 @@ import Button from '../../UI/Button/Button';
 import { AiOutlinePlus } from 'react-icons/ai';
 
 const ServicesPage = () => {
+
+	// 
 	const [showNewProductInfo, setShowNewProductInfo] = useState(false);
 	const [showDetailsModal, setShowDetailsModal] = useState(false);
 	const [productInfo, setProductInfo] = useState([]);

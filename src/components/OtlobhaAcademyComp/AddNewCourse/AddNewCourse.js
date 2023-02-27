@@ -42,6 +42,7 @@ const AddNewCourse = ({ coursesReload, setCoursesReload, cancel, editData, addNe
     link: 'https://www.google.com/search?q=%D8%B1%D8%A7%D8%A8%D8%B7+%D8%AA%D9%8',
   });
   const [tagsSelected, setTagsSelected] = useState(editData?.tags || []);
+
   const [showAddUnit, setShowAddUnit] = useState(false);
   const [unitDetails, setUnitDetails] = useState([]);
   const [copy, setCopy] = useState(false);

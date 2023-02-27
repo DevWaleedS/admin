@@ -86,29 +86,30 @@ const Filtering = () => {
           },
         }}
       >
-        {categoryList.map((item) => {
+        {categoryList.map((item, idx) => {
           return (
-            <MenuItem
-              className=""
-              sx={{
-                backgroundColor: "#EBEBEB",
-                height: "3rem",
+											<MenuItem
+												key={idx}
+												className=''
+												sx={{
+													backgroundColor: '#EBEBEB',
+													height: '3rem',
 
-                "&:hover": {},
-                "ul:has(&)": {
-                  padding: "0",
-                  borderRadius: "8px",
-                },
-                "ul:has(&) li:hover": {
-                  backgroundColor: "#8D8AD3",
-                  color: "#fff",
-                },
-              }}
-              value={`${item}`}
-            >
-              {item}
-            </MenuItem>
-          );
+													'&:hover': {},
+													'ul:has(&)': {
+														padding: '0',
+														borderRadius: '8px',
+													},
+													'ul:has(&) li:hover': {
+														backgroundColor: '#8D8AD3',
+														color: '#fff',
+													},
+												}}
+												value={`${item}`}
+											>
+												{item}
+											</MenuItem>
+										);
         })}
       </Select>
     </div>

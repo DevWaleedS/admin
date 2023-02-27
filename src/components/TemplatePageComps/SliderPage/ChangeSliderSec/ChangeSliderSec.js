@@ -12,14 +12,19 @@ const ChangeSliderSec = ({fetchedData, loading, reload, setReload}) => {
 	const token = localStorage.getItem('token');
 	const contextStore = useContext(Context);
 	const { setEndActionTitle } = contextStore;
+
 	const [sliderstatus1, setSliderStatus1] = useState(true);
 	const [sliderstatus2, setSliderStatus2] = useState(true);
 	const [sliderstatus3, setSliderStatus3] = useState(true);
+
 	useEffect(() => {
 		setSliderStatus1(fetchedData?.data?.Homepages?.sliderstatus1 === 'active' ? true : false);
 		setSliderStatus2(fetchedData?.data?.Homepages?.sliderstatus2 === 'active' ? true : false);
 		setSliderStatus3(fetchedData?.data?.Homepages?.sliderstatus3 === 'active' ? true : false);
-	}, [fetchedData?.data?.Homepages?.sliderstatus1, fetchedData?.data?.Homepages?.sliderstatus2, fetchedData?.data?.Homepages?.sliderstatus3])
+	},
+		[fetchedData?.data?.Homepages?.sliderstatus1, fetchedData?.data?.Homepages?.sliderstatus2, fetchedData?.data?.Homepages?.sliderstatus3]
+	)
+
 	// TO UPLOAD BANNERS
 	const [firstimage, setFirstImage] = useState([]);
 	const [secondimage, setSecondImage] = useState([]);
@@ -31,6 +36,7 @@ const ChangeSliderSec = ({fetchedData, loading, reload, setReload}) => {
 		formData.append('slider1', firstimage[0]?.file || '');
 		formData.append('slider2', secondimage[0]?.file || '');
 		formData.append('slider3', thirdimage[0]?.file || '');
+		
 		formData.append('sliderstatus1', sliderstatus1 ? 'active' : 'not_active');
 		formData.append('sliderstatus2', sliderstatus2 ? 'active' : 'not_active');
 		formData.append('sliderstatus3', sliderstatus3 ? 'active' : 'not_active');
