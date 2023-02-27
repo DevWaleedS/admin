@@ -94,7 +94,8 @@ const AddNewPage = ({ cancel, reload, setReload }) => {
 				}
 			});
 	}
-	console.log(page?.pageCategory);
+	
+	
 	return (
 		<>
 			<BackDrop onClick={cancel} />
@@ -330,7 +331,7 @@ const AddNewPage = ({ cancel, reload, setReload }) => {
 										inputProps={{ 'aria-label': 'Without label' }}
 										renderValue={(selected) => {
 											if (page?.postCategory_id === '') {
-												return <h2>اختر الدولة</h2>;
+												return <h2>اختر التصنيف</h2>;
 											}
 											const result = postCategory?.data?.categories?.filter((item) => item?.id === parseInt(selected));
 											return result[0]?.name;
