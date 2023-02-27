@@ -150,7 +150,7 @@ h2 {
 .otlobha_acadmic .rti--container {
   border: 1px solid rgba(167, 167, 167, 0.5);
   padding: 1rem !important;
-  height: 160px;
+  min-height: 160px;
   display: block;
 
 }

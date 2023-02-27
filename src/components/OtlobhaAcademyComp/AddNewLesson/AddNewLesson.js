@@ -14,7 +14,7 @@ const BackDrop = ({ onClick }) => {
   return <div onClick={onClick} className={`fixed back_drop bottom-0 left-0  w-full bg-slate-900 pb-36  z-10 ${styles.back_drop}`} style={{ height: 'calc(100% - 4rem)' }}></div>;
 };
 
-const AddNewLesson = ({ cancel, lessonsReload,setLessonsReload,editLessonData }) => {
+const AddNewLesson = ({ cancel, lessonsReload, setLessonsReload, editLessonData }) => {
   const token = localStorage.getItem('token');
   const [data, setData] = useState({
     title: editLessonData?.title || '',
@@ -43,56 +43,56 @@ const AddNewLesson = ({ cancel, lessonsReload,setLessonsReload,editLessonData })
     setVideos(videoList);
   };
   const addLesson = () => {
-		let formData = new FormData();
-		formData.append('title', data?.title);
-		formData.append('video', videos[0]?.file || '');
-		formData.append('thumbnail', images[0]?.file || '');
+    let formData = new FormData();
+    formData.append('title', data?.title);
+    formData.append('video', videos[0]?.file || '');
+    formData.append('thumbnail', images[0]?.file || '');
 
-		axios
-			.post('https://backend.atlbha.com/api/Admin/explainVideos', formData, {
-				headers: {
-					'Content-Type': 'multipart/form-data',
-					Authorization: `Bearer ${token}`,
-				},
-			})
-			.then((res) => {
-				if (res?.data?.success === true && res?.data?.data?.status === 200) {
-					setEndActionTitle(res?.data?.message?.ar);
-					cancel();
-					setLessonsReload(!lessonsReload);
-				} else {
-					setEndActionTitle(res?.data?.message?.ar);
-					cancel();
-					setLessonsReload(!lessonsReload);
-				}
-			});
-	};
+    axios
+      .post('https://backend.atlbha.com/api/Admin/explainVideos', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res?.data?.success === true && res?.data?.data?.status === 200) {
+          setEndActionTitle(res?.data?.message?.ar);
+          cancel();
+          setLessonsReload(!lessonsReload);
+        } else {
+          setEndActionTitle(res?.data?.message?.ar);
+          cancel();
+          setLessonsReload(!lessonsReload);
+        }
+      });
+  };
 
   const editLesson = () => {
-		const formData = new FormData();
-		formData.append('_method', 'PUT');
-		formData.append('title', data?.title);
-    formData.append('thumbnail',images[0]?.file || data?.thumbnail);
-    formData.append('video',videos[0]?.file || data?.video);
-		axios
-			.post(`https://backend.atlbha.com/api/Admin/explainVideos/${editLessonData?.id}`, formData, {
-				headers: {
-					"Content-Type": "multipart/form-data",
-					Authorization: `Bearer ${token}`,
-				},
-			})
-			.then((res) => {
-				if (res?.data?.success === true && res?.data?.data?.status === 200) {
-					setEndActionTitle(res?.data?.message?.ar);
-					cancel();
-					setLessonsReload(!lessonsReload);
-				} else {
-					setEndActionTitle(res?.data?.message?.ar);
-					cancel();
-					setLessonsReload(!lessonsReload);
-				}
-			});
-	}
+    const formData = new FormData();
+    formData.append('_method', 'PUT');
+    formData.append('title', data?.title);
+    formData.append('thumbnail', images[0]?.file || data?.thumbnail);
+    formData.append('video', videos[0]?.file || data?.video);
+    axios
+      .post(`https://backend.atlbha.com/api/Admin/explainVideos/${editLessonData?.id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res?.data?.success === true && res?.data?.data?.status === 200) {
+          setEndActionTitle(res?.data?.message?.ar);
+          cancel();
+          setLessonsReload(!lessonsReload);
+        } else {
+          setEndActionTitle(res?.data?.message?.ar);
+          cancel();
+          setLessonsReload(!lessonsReload);
+        }
+      });
+  }
 
   return (
     <>
@@ -152,37 +152,45 @@ const AddNewLesson = ({ cancel, lessonsReload,setLessonsReload,editLessonData })
               {
                 editLessonData ?
                   (
-                    <ImageUploading
-                      maxNumber={1}
-                      dataURLKey="data_url"
-                      acceptType={["mp4",]}
-                    >
-                      {({
-                        onImageUpload,
-                        dragProps,
-                      }) => (
-                        // write your building UI
-                        <div
-                          className="upload__image-wrapper mx-auto relative overflow-hidden"
-                          style={{
-                            width: "100%",
-                            padding: 0,
-                            border: 'none',
-                            borderRadius: "10px",
-                            strokeDasharray: "'6%2c5'",
-                          }}
-                          onClick={() => {
-                            onImageUpload();
-                          }}
-                          {...dragProps}
-                        >
-                          <div style={{ height: '245px', borderRadius: '8px' }} className="flex flex-col items-center justify-center relative">
-                            <img style={{ borderRadius: '8px' }} className="w-full h-full" src={data?.vedio} alt="main-img" />
-                            <VideoPlay className="absolute cursor-pointer" size="2em" fill="#011723"></VideoPlay>
+                    <>
+                      <video controls width="100%">
+                        <source src={editLessonData?.video} type="video/webm" />
+                        <source src={editLessonData?.video} type="video/mp4"
+                        />
+                        Sorry, your browser doesn't support videos.
+                      </video>
+                      {/*<ImageUploading
+                        maxNumber={1}
+                        dataURLKey="data_url"
+                        acceptType={["mp4",]}
+                      >
+                        {({
+                          onImageUpload,
+                          dragProps,
+                        }) => (
+                          // write your building UI
+                          <div
+                            className="upload__image-wrapper mx-auto relative overflow-hidden"
+                            style={{
+                              width: "100%",
+                              padding: 0,
+                              border: 'none',
+                              borderRadius: "10px",
+                              strokeDasharray: "'6%2c5'",
+                            }}
+                            onClick={() => {
+                              onImageUpload();
+                            }}
+                            {...dragProps}
+                          >
+                            <div style={{ height: '245px', borderRadius: '8px' }} className="flex flex-col items-center justify-center relative">
+                              <img style={{ borderRadius: '8px' }} className="w-full h-full" src={data?.vedio} alt="main-img" />
+                              <VideoPlay className="absolute cursor-pointer" size="2em" fill="#011723"></VideoPlay>
+                            </div>
                           </div>
-                        </div>
-                      )}
-                    </ImageUploading>
+                        )}
+                          </ImageUploading>*/}
+                    </>
                   ) :
                   (
                     <div className="w-full flex flex-row items-center gap-5">
@@ -217,10 +225,10 @@ const AddNewLesson = ({ cancel, lessonsReload,setLessonsReload,editLessonData })
                                 style={{
                                   color: "#ADB5B9",
                                   fontSize: '18px',
-                                  maxWidth:'60%',
+                                  maxWidth: '60%',
                                   overflow: 'hidden',
-                                  textOverflow:'ellipsis',
-                                  whiteSpace:'nowrap',
+                                  textOverflow: 'ellipsis',
+                                  whiteSpace: 'nowrap',
                                 }}
                                 onClick={() => {
                                   onImageUpload();
@@ -293,7 +301,7 @@ const AddNewLesson = ({ cancel, lessonsReload,setLessonsReload,editLessonData })
                     }
                     {editLessonData &&
                       <div style={{ height: '90px', borderRadius: '8px' }} className="flex flex-col items-center justify-center relative">
-                        <img style={{ borderRadius: '8px' }} className="w-full h-full" src={images[0]?.data_url||data?.thumbnail} alt="main-img" />
+                        <img style={{ borderRadius: '8px' }} className="w-full h-full" src={images[0]?.data_url || data?.thumbnail} alt="main-img" />
                         <IoMdCloudUpload className="absolute cursor-pointer" size="2em" fill="#011723"></IoMdCloudUpload>
                       </div>
                     }

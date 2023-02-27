@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import useFetch from '../../hooks/useFetch';
 import PageNavigate from '../../components/PageNavigate/PageNavigate';
 import ChangeLogoSec from '../../components/TemplatePageComps/MainPage/ChangeLogoSec/ChangeLogoSec';
