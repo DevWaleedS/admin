@@ -4,6 +4,7 @@ import Grid from "@mui/material/Grid";
 import { ReactComponent as BsTrash } from "../../../assets/Icons/icon-24-delete.svg";
 import { ReactComponent as Copy } from "../../../assets/Icons/copy icon.svg";
 import { ReactComponent as Edit } from "../../../assets/Icons/editt 2.svg";
+import { ReactComponent as TrueIcon } from "../../../assets/Icons/icon-24- true.svg";
 import { NotificationContext } from "../../../store/NotificationProvider";
 import Context from '../../../store/context';
 import CircularLoading from '../../../UI/CircularLoading/CircularLoading';
@@ -16,6 +17,8 @@ const AcademyLessons = ({ lessons, lessonsLoading, lessonsReload, setLessonsRelo
   const { setNotificationTitle, confirm, setConfirm, actionTitle, setActionTitle } = NotificationStore;
   const contextStore = useContext(Context);
   const { setEndActionTitle } = contextStore;
+  const [copy, setCopy] = useState(false);
+
   useEffect(() => {
     if (confirm && actionTitle === 'DeleteLesson') {
       axios
@@ -40,6 +43,16 @@ const AcademyLessons = ({ lessons, lessonsLoading, lessonsReload, setLessonsRelo
       setId("");
     }
   }, [confirm]);
+
+  const handelCopy = (lessonId) => {
+    const lesson = lessons?.data?.explainvideos?.filter((lesson) => (lesson?.id === lessonId));
+    navigator.clipboard.writeText(lesson[0]?.url);
+    setCopy(true);
+    setTimeout(() => {
+      setCopy(false);
+    }, 1000);
+  }
+
   return (
     <Box className="md:mt-12 mt-6" sx={{ flexGrow: 1 }}>
       {
@@ -61,7 +74,7 @@ const AcademyLessons = ({ lessons, lessonsLoading, lessonsReload, setLessonsRelo
                     {lesson?.title}
                   </h2>
                   <div className="flex flex-row items-center justify-center gap-5" style={{ backgroundColor: '#FF38380A', height: '52px' }}>
-                    <Copy ></Copy>
+                    {id === lesson?.id && copy ? (<TrueIcon />) : (<Copy className="cursor-pointer" onClick={() => {handelCopy(lesson?.id);setId(lesson?.id);}} />)}
                     <Edit className="cursor-pointer" onClick={() => { EditLesson(lesson); }}></Edit>
                     <BsTrash
                       className="cursor-pointer"

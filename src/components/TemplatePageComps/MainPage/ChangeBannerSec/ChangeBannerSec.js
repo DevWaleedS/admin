@@ -27,9 +27,15 @@ const ChangeBannerSec = ({ fetchedData, loading, reload, setReload }) => {
 	// ADD Banners FUNCTION  (complate work Alawi please )
 	const addBanners = () => {
 		const formData = new FormData();
-		formData.append('banar1', firstimage[0]?.file || '');
-		formData.append('banar2', secondimage[0]?.file || '');
-		formData.append('banar3', thirdimage[0]?.file || '');
+		if(firstimage.length !==0){
+			formData.append('banar1', firstimage[0]?.file || null);
+		}
+		if(secondimage.length !==0){
+			formData.append('banar2', secondimage[0]?.file || null);
+		}
+		if(thirdimage.length !==0){
+			formData.append('banar3', thirdimage[0]?.file || null);
+		}
 		formData.append('banarstatus1', bannerstatus1 ? 'active' : 'not_active');
 		formData.append('banarstatus2', bannerstatus2 ? 'active' : 'not_active');
 		formData.append('banarstatus3', bannerstatus3 ? 'active' : 'not_active');
