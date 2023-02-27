@@ -9,7 +9,6 @@ import { IoMdCloudUpload } from "react-icons/io";
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import Button from "../../../UI/Button/Button";
@@ -79,7 +78,7 @@ const AddNewCourse = ({ coursesReload, setCoursesReload, cancel, editData, addNe
     formData.append('name', data?.name);
     formData.append('description', description?.htmlValue);
     formData.append('duration', data?.minute);
-    formData.append('tags', JSON.stringify(tagsSelected));
+    formData.append('tags', JSON.stringify(tagsSelected.join(",")));
     formData.append('image', images[0]?.file || '');
     for (let i = 0; i < unitDetails?.length; i++) {
       formData.append([`data[${i}][title]`], unitDetails[i]?.title);
