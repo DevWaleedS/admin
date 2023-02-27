@@ -97,7 +97,7 @@ const FilteringOptions = ({ showFilteringOptions, hideFilteringOptions }) => {
 						}}
 						value={sortCoupons}
 						onChange={(e) => {
-							sortCoupons(e.target.value);
+							setSortCoupons(e.target.value);
 						}}
 						displayEmpty
 						inputProps={{ 'aria-label': 'Without label' }}
