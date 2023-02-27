@@ -41,6 +41,7 @@ const AddNewCourse = ({ coursesReload, setCoursesReload, cancel, editData, addNe
     link: 'https://www.google.com/search?q=%D8%B1%D8%A7%D8%A8%D8%B7+%D8%AA%D9%8',
   });
   const [tagsSelected, setTagsSelected] = useState(editData?.tags || []);
+
   const [showAddUnit, setShowAddUnit] = useState(false);
   const [unitDetails, setUnitDetails] = useState([]);
   const [copy, setCopy] = useState(false);
@@ -78,7 +79,7 @@ const AddNewCourse = ({ coursesReload, setCoursesReload, cancel, editData, addNe
     formData.append('name', data?.name);
     formData.append('description', description?.htmlValue);
     formData.append('duration', data?.minute);
-    formData.append('tags', JSON.stringify(tagsSelected.join(",")));
+    formData.append('tags', JSON.stringify(tagsSelected.join(',')));
     formData.append('image', images[0]?.file || '');
     for (let i = 0; i < unitDetails?.length; i++) {
       formData.append([`data[${i}][title]`], unitDetails[i]?.title);

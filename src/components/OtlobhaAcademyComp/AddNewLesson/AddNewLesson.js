@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, Fragment, useContext } from 'react';
 import Button from "../../../UI/Button/Button";
 import styles from "./AddNewLesson.module.css";
 import ImageUploading from "react-images-uploading";
@@ -42,6 +42,7 @@ const AddNewLesson = ({ cancel, lessonsReload, setLessonsReload, editLessonData 
     // data for submit
     setVideos(videoList);
   };
+
   const addLesson = () => {
     let formData = new FormData();
     formData.append('title', data?.title);
@@ -95,7 +96,7 @@ const AddNewLesson = ({ cancel, lessonsReload, setLessonsReload, editLessonData 
   }
 
   return (
-    <>
+    <Fragment>
       <BackDrop onClick={cancel}></BackDrop>
       <div
         className={`fixed bottom-0 left-0 bg-slate-50 z-30 otlobha_new_product ${styles.container}`}
@@ -389,7 +390,7 @@ const AddNewLesson = ({ cancel, lessonsReload, setLessonsReload, editLessonData 
           </div>
         </div >
       </div >
-    </>
+    </Fragment>
   );
 };
 

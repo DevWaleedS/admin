@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import PageNavigate from '../../components/PageNavigate/PageNavigate';
 import PagesPageTable from '../../components/PagesPageComp/PagesPageTable/PagesPageTable';
 import Filtering from '../../components/PagesPageComp/Filtering/Filtering';
@@ -10,6 +11,9 @@ import useFetch from '../../hooks/useFetch';
 const PagesPage = () => {
 	const { fetchedData, loading, reload, setReload } = useFetch('https://backend.atlbha.com/api/Admin/page');
 	const [showAddNewPage, setShowAddNewPage] = useState(false);
+
+
+
 	return (
 		<div className={`px-4 md:pt-8 pt-0 md:mt-5 bg-[#FFFFFF] md-bg-[#fafafa]`}>
 			<div className='md:pr-5 py-3 px-2 rounded font-normal md:text-lg text-[14px]' style={{ color: '#EFF9FF', backgroundColor: '#237EAE' }}>
@@ -30,6 +34,8 @@ const PagesPage = () => {
 						انشاء صفحة
 					</Button>
 				</div>
+				
+				{/** add new page */}
 				{showAddNewPage && (
 					<AddNewPage
 						cancel={() => {
@@ -37,9 +43,13 @@ const PagesPage = () => {
 						}}
 						reload={reload}
 						setReload={setReload}
-					></AddNewPage>
+					/>
 				)}
-				<Filtering></Filtering>
+
+				{/** filter */}
+				<Filtering />
+
+				{/** pages table*/}
 				<div dir='ltr' className='md:mt-10 mt-5'>
 					<PagesPageTable
 						fetchedData={fetchedData}

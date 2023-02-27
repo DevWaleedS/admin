@@ -89,17 +89,7 @@ function EnhancedTableHead(props) {
 	return (
 		<TableHead sx={{ backgroundColor: '#ebebebd9' }}>
 			<TableRow>
-				{/* <TableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              "aria-label": "select all desserts",
-            }}
-          />
-        </TableCell> */}
+				
 				{headCells.map((headCell, index) => (
 					<TableCell
 						className='font-medium md:text-[18px] text-[16px]'
