@@ -16,12 +16,13 @@ const MenuProps = {
 	},
 };
 const category = [' المفعلة', 'المعطلة'];
-const sections = ['حسب الاضافة', 'ابجديا'];
+const sections = ['حسب الاضافة', 'ابجديا']; 
+
 
 const FilteringOptions = ({ showFilteringOptions, hideFilteringOptions }) => {
 	const [age, setAge] = React.useState('');
 	const [personName, setPersonName] = React.useState([]);
-	console.log(personName);
+
 	const handleSection = (event) => {
 		const {
 			target: { value },

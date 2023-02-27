@@ -19,6 +19,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { NotificationContext } from "../../../store/NotificationProvider";
 import Context from '../../../store/context';
+
 // Import icons and images
 import { ReactComponent as EditIcon } from '../../../assets/Icons/editt 2.svg';
 import { ReactComponent as CheckedSquare } from '../../../assets/Icons/icon-24-square checkmark.svg';
@@ -44,8 +45,6 @@ function getComparator(order, orderBy) {
 	return order === 'desc' ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-// This method is created for cross-browser compatibility, if you don't
-// need to support IE11, you can use Array.prototype.sort() directly
 function stableSort(array, comparator) {
 	const stabilizedThis = array?.map((el, index) => [el, index]);
 	stabilizedThis?.sort((a, b) => {
@@ -159,7 +158,7 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
-	const { numSelected, onClick, rowCount, onSelectAllClick } = props;
+	const { numSelected,  rowCount, onSelectAllClick } = props;
 	const NotificationStore = useContext(NotificationContext);
 	const { setNotificationTitle, setActionTitle } = NotificationStore;
 	return (
@@ -270,7 +269,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload 
 	const [orderBy, setOrderBy] = React.useState('calories');
 	const [selected, setSelected] = React.useState([]);
 	const [page, setPage] = React.useState(0);
-	const [rowsPerPage, setRowsPerPage] = React.useState(7);
+	const [rowsPerPage, setRowsPerPage] = React.useState(15);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
 	const contextStore = useContext(Context);
@@ -318,6 +317,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload 
 		setSelected(newSelected);
 	};
 
+
 	const handleChangeRowsPerPage = (event) => {
 		setRowsPerPage(parseInt(event.target.value, 10));
 		setPage(0);
@@ -337,6 +337,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload 
 		return arr;
 	};
 
+	// change stutus for single item
 	const changePageStatus = (id) => {
 		axios
 		.get(`https://backend.atlbha.com/api/Admin/pagechangeSatusall?id[]=${id}`, {
@@ -356,6 +357,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload 
 		});
 	}
 
+	// delete single item
 	const deletePage = (id) =>{
 		axios
       .get(`https://backend.atlbha.com/api/Admin/pagedeleteall?id[]=${id}`, {
@@ -375,6 +377,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload 
       });
 	}
 
+	// delete all and change all status function 
 	useEffect(() => {
 		if (confirm && actionTitle === 'ChangeStatus') {
 			const queryParams = selected.map((id) => `id[]=${id}`).join('&');
@@ -455,7 +458,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload 
 												return (
 													<TableRow
 														hover
-														//   onClick={(event) => handleClick(event, row.name)}
+												
 														role='checkbox'
 														aria-checked={isItemSelected}
 														tabIndex={-1}
@@ -463,7 +466,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload 
 														selected={isItemSelected}
 														sx={{
 															'& .MuiTableCell-root': {
-																// padding: "16px 0",
+															
 															},
 														}}
 													>

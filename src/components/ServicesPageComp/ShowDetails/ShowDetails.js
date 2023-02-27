@@ -1,24 +1,18 @@
-import React from "react";
-import { IoMdCloseCircleOutline } from "react-icons/io";
-import { ListMoreCategory } from "../../../assets/Icons/index";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import React from 'react';
+import { IoMdCloseCircleOutline } from 'react-icons/io';
+import { ListMoreCategory } from '../../../assets/Icons/index';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import styles from './ShowDetails.module.css';
 import useFetch from '../../../hooks/useFetch';
 import CircularLoading from '../../../UI/CircularLoading/CircularLoading';
 
 const BackDrop = () => {
-	return (
-		<div
-			className="fixed back_drop top-0 left-0 h-full w-full bg-slate-900 opacity-50 z-10"
-		></div>
-	);
+	return <div className='fixed back_drop top-0 left-0 h-full w-full bg-slate-900 opacity-50 z-10'></div>;
 };
 
 const ShowDetails = ({ cancel, productInfo }) => {
 	const { fetchedData, loading } = useFetch(`https://backend.atlbha.com/api/Admin/service/showDetail/${productInfo}`);
-
-	console.log(fetchedData);
 
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
@@ -43,71 +37,67 @@ const ShowDetails = ({ cancel, productInfo }) => {
 					<IoMdCloseCircleOutline width='20px' height='20px' size={'1.25rem'} color={'#fff'} className={'cursor-pointer'} onClick={cancel}></IoMdCloseCircleOutline>
 				</div>
 				<div className='flex-1 md:px-[98px] md:py-[60px] p-0' style={{ backgroundColor: '#FFFFFF' }}>
-					{
-						loading ?
-							(
-								<div className="w-full flex flex-col items-center justify-center">
-									<CircularLoading />
+					{loading ? (
+						<div className='w-full flex flex-col items-center justify-center'>
+							<CircularLoading />
+						</div>
+					) : (
+						<div className='flex flex-row shadow-lg'>
+							<div className='flex-1 flex flex-col py-2'>
+								<div className='md:h-[60px] h-[45px] flex flex-col items-center justify-center' style={{ width: '100%', backgroundColor: '#F2FBFF' }}>
+									<p className='md:text-[18px] text-[16px]' style={{ color: '#4D4F5C' }}>
+										اسم المتجر
+									</p>
 								</div>
-							)
-							:
-							(
-								<div className='flex flex-row shadow-lg'>
-									<div className='flex-1 flex flex-col py-2'>
-										<div className='md:h-[60px] h-[45px] flex flex-col items-center justify-center' style={{ width: '100%', backgroundColor: '#F2FBFF' }}>
+								<div className='flex flex-col'>
+									{fetchedData?.data?.stores?.map((item, index) => (
+										<div key={index} className='flex flex-col items-center justify-center' style={{ width: '100%', height: '52px' }}>
 											<p className='md:text-[18px] text-[16px]' style={{ color: '#4D4F5C' }}>
-												اسم المتجر
+												{item?.store_name}
 											</p>
 										</div>
-										<div className='flex flex-col'>
-											{fetchedData?.data?.stores?.map((item, index) => (
-												<div key={index} className='flex flex-col items-center justify-center' style={{ width: '100%', height: '52px' }}>
-													<p className='md:text-[18px] text-[16px]' style={{ color: '#4D4F5C' }}>
-														{item?.store_name}
-													</p>
-												</div>
-											))}
-										</div>
-									</div>
-									<div className='flex-1 flex flex-col py-2'>
-										<div className='md:h-[60px] h-[45px] md:text-[18px] text-[16px] flex flex-col items-center justify-center' style={{ width: '100%', backgroundColor: '#F2FBFF' }}>
-											<p className='md:text-[18px] text-[16px]' style={{ color: '#4D4F5C' }}>
-												نوع النشاط
-											</p>
-										</div>
-										<div className='flex flex-col'>
-											{fetchedData?.data?.stores?.map((item, index) => (
-												<div key={index} className='flex flex-col items-center justify-center' style={{ width: '100%', height: '52px' }}>
-													<div className='flex flex-row items-center md:gap-3 gap-2'>
-														<img src={item?.activity[0]?.icon} alt='gift-icon' />
-														<p className='md:text-[18px] text-[16px]' style={{ color: '#4D4F5C' }}>
-															{item?.activity[0]?.name}
-														</p>
-														{
-															item?.activity.length > 1 &&
-															<>
-																<img className='cursor-pointer' src={ListMoreCategory} alt='list-more-category' onClick={handleClick} /><Menu className={styles.activity_menu} anchorEl={anchorEl} open={open} onClose={handleClose}>
-																	{item?.activity.map((item, index) => (
-																		<MenuItem key={index} className='flex flex-row items-center justify-center gap-2' style={{ color: '#4D4F5C' }} onClick={handleClose}>
-																			<div
-																				className='md:w-[25px] w-[20px] md:h-[25px] h-[20px] md:text-[18px] text-[16px] flex flex-row items-center justify-center'
-																				style={{ borderRadius: '50%', backgroundColor: '#8D8AD333' }}
-																			>
-																				<img style={{ width: '15px' }} src={item?.icon} alt='stationery-icon' />
-																			</div>
-																			{item?.name}
-																		</MenuItem>
-																	))}
-																</Menu>
-															</>
-														}
-													</div>
-												</div>
-											))}
-										</div>
-									</div>
+									))}
 								</div>
-							)}
+							</div>
+							<div className='flex-1 flex flex-col py-2'>
+								<div className='md:h-[60px] h-[45px] md:text-[18px] text-[16px] flex flex-col items-center justify-center' style={{ width: '100%', backgroundColor: '#F2FBFF' }}>
+									<p className='md:text-[18px] text-[16px]' style={{ color: '#4D4F5C' }}>
+										نوع النشاط
+									</p>
+								</div>
+								<div className='flex flex-col'>
+									{fetchedData?.data?.stores?.map((item, index) => (
+										<div key={index} className='flex flex-col items-center justify-center' style={{ width: '100%', height: '52px' }}>
+											<div className='flex flex-row items-center md:gap-3 gap-2'>
+												<img src={item?.activity[0]?.icon} alt='gift-icon' />
+												<p className='md:text-[18px] text-[16px]' style={{ color: '#4D4F5C' }}>
+													{item?.activity[0]?.name}
+												</p>
+												{item?.activity.length > 1 && (
+													<>
+														<img className='cursor-pointer' src={ListMoreCategory} alt='list-more-category' onClick={handleClick} />
+														<Menu className={styles.activity_menu} anchorEl={anchorEl} open={open} onClose={handleClose}>
+															{item?.activity.map((item, index) => (
+																<MenuItem key={index} className='flex flex-row items-center justify-center gap-2' style={{ color: '#4D4F5C' }} onClick={handleClose}>
+																	<div
+																		className='md:w-[25px] w-[20px] md:h-[25px] h-[20px] md:text-[18px] text-[16px] flex flex-row items-center justify-center'
+																		style={{ borderRadius: '50%', backgroundColor: '#8D8AD333' }}
+																	>
+																		<img style={{ width: '15px' }} src={item?.icon} alt='stationery-icon' />
+																	</div>
+																	{item?.name}
+																</MenuItem>
+															))}
+														</Menu>
+													</>
+												)}
+											</div>
+										</div>
+									))}
+								</div>
+							</div>
+						</div>
+					)}
 				</div>
 			</div>
 		</>

@@ -9,6 +9,7 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import useFetch from '../../hooks/useFetch';
 
 const PagesPage = () => {
+	
 	const { fetchedData, loading, reload, setReload } = useFetch('https://backend.atlbha.com/api/Admin/page');
 	const [showAddNewPage, setShowAddNewPage] = useState(false);
 

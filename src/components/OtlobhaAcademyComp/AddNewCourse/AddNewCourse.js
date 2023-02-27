@@ -31,6 +31,7 @@ const AddNewCourse = ({ coursesReload, setCoursesReload, cancel, editData, addNe
     htmlValue:"<h1></h1>\n",
     editorState: EditorState.createEmpty(),
   });
+  
   const [data, setData] = useState({
     name: editData?.name || '',
     minute: editData?.duration || '',
@@ -78,6 +79,7 @@ const AddNewCourse = ({ coursesReload, setCoursesReload, cancel, editData, addNe
     formData.append('duration', data?.minute);
     formData.append('tags', tagsSelected.join(','));
     formData.append('image', images[0]?.file || '');
+
     for (let i = 0; i < unitDetails?.length; i++) {
       formData.append([`data[${i}][title]`], unitDetails[i]?.title);
       formData.append([`data[${i}][file][${i}]`], unitDetails[i]?.documents[i]);
