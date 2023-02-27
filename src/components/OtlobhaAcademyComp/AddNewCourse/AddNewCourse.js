@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import styles from "./AddNewCourse.module.css";
 import { GoArrowRight } from "react-icons/go";
 import { Editor } from "react-draft-wysiwyg";
@@ -15,8 +15,6 @@ import Button from "../../../UI/Button/Button";
 import { IoAddCircleSharp } from "react-icons/io5";
 import AddUnit from "./AddUnit/AddUnit";
 import { ReactComponent as CopyIcon } from "../../../assets/Icons/copy icon.svg";
-import { ReactComponent as ClearSquare } from "../../../assets/Icons/icon-24-actions-clear_square.svg";
-import { ReactComponent as Arrow } from "../../../assets/Icons/icon-24-chevron_down.svg";
 import { ReactComponent as DeleteIcon } from "../../../assets/Icons/icon-24-delete.svg";
 import { ReactComponent as PlayVideo } from "../../../assets/Icons/video-play.svg";
 import { ReactComponent as PDFIcon } from "../../../assets/Icons/pfd.svg";
@@ -41,11 +39,10 @@ const AddNewCourse = ({ coursesReload, setCoursesReload, cancel, editData, addNe
     link: 'https://www.google.com/search?q=%D8%B1%D8%A7%D8%A8%D8%B7+%D8%AA%D9%8',
   });
   const [tagsSelected, setTagsSelected] = useState(editData?.tags || []);
+
   const [showAddUnit, setShowAddUnit] = useState(false);
   const [unitDetails, setUnitDetails] = useState([]);
   const [copy, setCopy] = useState(false);
-  const [openMenu, setOpenMenu] = useState(false);
-  const [openMenu2, setOpenMenu2] = useState(false);
   const contextStore = useContext(Context);
   const { setEndActionTitle } = contextStore;
   const NotificationStore = useContext(NotificationContext);
@@ -73,6 +70,7 @@ const AddNewCourse = ({ coursesReload, setCoursesReload, cancel, editData, addNe
     }, 5000);
   }
 
+  
   const AddCourse = () => {
     let formData = new FormData();
     formData.append('name', data?.name);

@@ -11,20 +11,29 @@ const ChangeBannerSec = ({ fetchedData, loading, reload, setReload }) => {
 	const token = localStorage.getItem('token');
 	const contextStore = useContext(Context);
 	const { setEndActionTitle } = contextStore;
+
+	// check  switch status 
 	const [bannerstatus1, setBannerStatus1] = useState(true);
 	const [bannerstatus2, setBannerStatus2] = useState(true);
 	const [bannerstatus3, setBannerStatus3] = useState(true);
+
+	// change switch status 
 	useEffect(() => {
 		setBannerStatus1(fetchedData?.data?.Homepages?.banarstatus1 === 'active' ? true : false);
 		setBannerStatus2(fetchedData?.data?.Homepages?.banarstatus2 === 'active' ? true : false);
 		setBannerStatus3(fetchedData?.data?.Homepages?.banarstatus3 === 'active' ? true : false);
-	}, [fetchedData?.data?.Homepages?.banarstatus1, fetchedData?.data?.Homepages?.banarstatus2, fetchedData?.data?.Homepages?.banarstatus3])
+	},
+		[fetchedData?.data?.Homepages?.banarstatus1, fetchedData?.data?.Homepages?.banarstatus2,
+		fetchedData?.data?.Homepages?.banarstatus3]
+	)
+
 	// TO UPLOAD BANNERS
 	const [firstimage, setFirstImage] = useState([]);
 	const [secondimage, setSecondImage] = useState([]);
 	const [thirdimage, setThirdImage] = useState([]);
 	const [previewImage, setPreviewImage] = useState("");
-	// ADD Banners FUNCTION  (complate work Alawi please )
+
+	// ADD Banners FUNCTION  
 	const addBanners = () => {
 		const formData = new FormData();
 		if(firstimage.length !==0){
