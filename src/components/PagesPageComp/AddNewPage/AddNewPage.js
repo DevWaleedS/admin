@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import styles from './AddNewPage.module.css';
 import draftToHtml from 'draftjs-to-html';
-import { EditorState, convertToRaw } from 'draft-js';
+import { EditorState, convertToRaw,ContentState,convertFromHTML } from 'draft-js';
 import Button from '../../../UI/Button/Button';
 import Context from '../../../store/context';
 import { IoMdCloseCircleOutline } from 'react-icons/io';
@@ -22,19 +22,19 @@ const BackDrop = ({ onClick }) => {
 	return <div onClick={onClick} className='fixed back_drop top-0 left-0 h-full w-full bg-slate-900 opacity-50 z-10'></div>;
 };
 
-const AddNewPage = ({ cancel, reload, setReload }) => {
+const AddNewPage = ({ cancel, reload, setReload, eidtData }) => {
 	const token = localStorage.getItem('token');
 	const { fetchedData: pageCategory } = useFetch('https://backend.atlbha.com/api/Admin/selector/page-categories');
 	const { fetchedData: postCategory } = useFetch('https://backend.atlbha.com/api/Admin/selector/post-categories');
 	const [page, setPage] = useState({
-		title: '',
-		desc: '',
-		seo_title: '',
-		seo_link: '',
-		seo_desc: '',
-		tags: [],
-		pageCategory: [],
-		postCategory_id: '',
+		title: eidtData?.title || '',
+		desc: eidtData?.page_desc || '',
+		seo_title: eidtData?.seo_title || '',
+		seo_link: eidtData?.seo_link || '',
+		seo_desc: eidtData?.seo_desc || '',
+		tags: eidtData?.tags || [],
+		pageCategory: eidtData?.pageCategory?.id || [],
+		postCategory_id: eidtData?.postCategory?.id || '',
 	});
 	const [tag, setTag] = useState("");
 	const [images, setImages] = useState([]);
@@ -42,8 +42,13 @@ const AddNewPage = ({ cancel, reload, setReload }) => {
 	const { setEndActionTitle } = contextStore;
 	const [description, setDescription] = useState({
 		htmlValue: '<h1></h1>\n',
-		editorState: EditorState.createEmpty(),
+		editorState: eidtData ? EditorState.createWithContent(
+			ContentState.createFromBlockArray(
+				convertFromHTML(eidtData?.page_content)
+			))
+			: EditorState.createEmpty()
 	});
+	const itsPost = page?.pageCategory?.includes(1);
 	const onEditorStateChange = (editorValue) => {
 		const editorStateInHtml = draftToHtml(convertToRaw(editorValue.getCurrentContent()));
 		setDescription({
@@ -61,7 +66,7 @@ const AddNewPage = ({ cancel, reload, setReload }) => {
 		setImages(imageList);
 	};
 
-	const addPage = () => {
+	const addPage = (type) => {
 		let formData = new FormData();
 		formData.append('title', page?.title);
 		formData.append('page_content', description?.htmlValue);
@@ -70,13 +75,14 @@ const AddNewPage = ({ cancel, reload, setReload }) => {
 		formData.append('seo_link', page?.seo_link);
 		formData.append('seo_desc', page?.seo_desc);
 		formData.append('tags', page?.tags?.join(','));
-		formData.append('postCategory_id', page?.postCategory_id);
 		for (let i = 0; i < page?.pageCategory?.length; i++) {
 			formData.append([`pageCategory[${i}]`], page?.pageCategory[i]);
 		}
-		formData.append('image', images[0]?.file || '');
+		formData.append('postCategory_id', itsPost ? page?.postCategory_id : null);
+		formData.append('image', itsPost ? images[0]?.file : null);
+
 		axios
-			.post("https://backend.atlbha.com/api/Admin/page", formData, {
+			.post(`${type === 'push' ? 'https://backend.atlbha.com/api/Admin/page/publish' : 'https://backend.atlbha.com/api/Admin/page'}`, formData, {
 				headers: {
 					"Content-Type": "multipart/form-data",
 					Authorization: `Bearer ${token}`,
@@ -94,7 +100,44 @@ const AddNewPage = ({ cancel, reload, setReload }) => {
 				}
 			});
 	}
-	console.log(page?.pageCategory);
+
+	const updatePage = (type) => {
+		let formData = new FormData();
+		formData.append('_method', 'PUT');
+		formData.append('title', page?.title);
+		formData.append('page_content', description?.htmlValue);
+		formData.append('page_desc', page?.desc);
+		formData.append('seo_title', page?.seo_title);
+		formData.append('seo_link', page?.seo_link);
+		formData.append('seo_desc', page?.seo_desc);
+		formData.append('tags', page?.tags?.join(','));
+		for (let i = 0; i < page?.pageCategory?.length; i++) {
+			formData.append([`pageCategory[${i}]`], page?.pageCategory[i]);
+		}
+		formData.append('postCategory_id', itsPost ? page?.postCategory_id : null);
+		if (images.length !== 0) {
+			formData.append('image', itsPost ? images[0]?.file : null);
+		}
+		axios
+			.post(`https://backend.atlbha.com/api/Admin/page/${eidtData?.id}`, formData, {
+				headers: {
+					"Content-Type": "multipart/form-data",
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setReload(!reload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setReload(!reload);
+				}
+			});
+	}
+
 	return (
 		<>
 			<BackDrop onClick={cancel} />
@@ -315,120 +358,146 @@ const AddNewPage = ({ cancel, reload, setReload }) => {
 						</div>
 					</div>
 					{
-						<div className='flex flex-row items-center gap-4 md:mt-10 mt-4'>
-							<div className='flex flex-col gap-4'>
-								<label className='md:text-[18px] text-[16px]'>تصنيف المدونة</label>
-								<FormControl className='w-[555px] md:h-[56px] h-[44px] max-w-full'>
-									<Select
-										className={styles.select}
-										value={page?.postCategory_id}
-										onChange={(e) => {
-											setPage({ ...page, postCategory_id: e.target.value });
-										}}
-										displayEmpty
-										IconComponent={(props) => <Arrow fill='#242424' {...props} />}
-										inputProps={{ 'aria-label': 'Without label' }}
-										renderValue={(selected) => {
-											if (page?.postCategory_id === '') {
-												return <h2>اختر الدولة</h2>;
-											}
-											const result = postCategory?.data?.categories?.filter((item) => item?.id === parseInt(selected));
-											return result[0]?.name;
-										}}
-										sx={{
-											height: '3.5rem',
-											backgroundColor: '#FFFFFF',
-											border: '1px solid #F0F0F0',
-											borderRadius: '8px',
-											'& .MuiOutlinedInput-notchedOutline': {
-												border: 'none',
-											},
-										}}
-									>
-										{postCategory?.data?.categories?.map((item, idx) => {
-											return (
-												<MenuItem
-													key={idx}
-													className='souq_storge_category_filter_items'
-													sx={{
-														backgroundColor: '#EFF9FF',
-														height: '3rem',
-														'&:hover': {},
+						itsPost &&
+						(
+							<div className='flex md:flex-row flex-col items-center gap-4 md:mt-10 mt-4'>
+								<div className='w-full flex flex-col gap-4'>
+									<label className='md:text-[18px] text-[16px]'>تصنيف المدونة</label>
+									<FormControl className='w-[555px] md:h-[56px] h-[44px] max-w-full'>
+										<Select
+											className={styles.select}
+											value={page?.postCategory_id}
+											onChange={(e) => {
+												setPage({ ...page, postCategory_id: e.target.value });
+											}}
+											displayEmpty
+											IconComponent={(props) => <Arrow fill='#242424' {...props} />}
+											inputProps={{ 'aria-label': 'Without label' }}
+											renderValue={(selected) => {
+												if (page?.postCategory_id === '') {
+													return <h2>اختر التصنيف</h2>;
+												}
+												const result = postCategory?.data?.categories?.filter((item) => item?.id === parseInt(selected));
+												return result[0]?.name;
+											}}
+											sx={{
+												height: '3.5rem',
+												backgroundColor: '#FFFFFF',
+												border: '1px solid #F0F0F0',
+												borderRadius: '8px',
+												'& .MuiOutlinedInput-notchedOutline': {
+													border: 'none',
+												},
+											}}
+										>
+											{postCategory?.data?.categories?.map((item, idx) => {
+												return (
+													<MenuItem
+														key={idx}
+														className='souq_storge_category_filter_items'
+														sx={{
+															backgroundColor: '#EFF9FF',
+															height: '3rem',
+															'&:hover': {},
+														}}
+														value={`${item?.id}`}
+													>
+														{item?.name}
+													</MenuItem>
+												);
+											})}
+										</Select>
+									</FormControl>
+								</div>
+								<div className='w-full flex flex-col gap-4'>
+									<label className='md:text-[18px] text-[16px]'>صورة المدونة</label>
+									<ImageUploading value={images} onChange={onChange} maxNumber={2} dataURLKey='data_url' acceptType={['jpg', 'png', 'jpeg']}>
+										{({ imageList, onImageUpload, dragProps }) => (
+											// write your building UI
+											<div className='w-full md:h-[56px] h-[44px] max-w-full'>
+												<div
+													className='upload__image-wrapper relative overflow-hidden'
+													style={{
+														border: images[0] ? 'none' : '3px solid #F0F0F0',
+														borderRadius: '10px',
 													}}
-													value={`${item?.id}`}
+													onClick={() => {
+														onImageUpload();
+													}}
+													{...dragProps}
 												>
-													{item?.name}
-												</MenuItem>
-											);
-										})}
-									</Select>
-								</FormControl>
-							</div>
-							<div className='flex flex-col gap-4'>
-								<label className='md:text-[18px] text-[16px]'>صورة المدونة</label>
-								<ImageUploading value={images} onChange={onChange} maxNumber={2} dataURLKey='data_url' acceptType={['jpg', 'png', 'jpeg']}>
-									{({ imageList, onImageUpload, dragProps }) => (
-										// write your building UI
-										<div className='w-[555px] md:h-[56px] h-[44px] max-w-full'>
-											<div
-												className='upload__image-wrapper relative overflow-hidden'
-												style={{
-													border: images[0] ? 'none' : '3px solid #F0F0F0',
-													borderRadius: '10px',
-												}}
-												onClick={() => {
-													onImageUpload();
-												}}
-												{...dragProps}
-											>
-												<div className='image-item w-full flex cursor-pointer md:h-[56px] h-[44px]' style={{ backgroundColor: '#FFFFFF' }}>
-													{!images[0] && (
-														<div className='flex flex-row justify-between items-center py-4 pr-5 h-full w-full'>
-															<h2 style={{ color: '#7C7C7C' }}>( اختر صورة فقط png & jpg )</h2>
-															<div className='flex flex-col justify-center items-center md:px-10 px-5 rounded-lg' style={{ height: '56px', backgroundColor: '#A7A7A7', color: '#ffffff' }}>
-																استعراض
+													<div className='image-item w-full flex cursor-pointer md:h-[56px] h-[44px]' style={{ backgroundColor: '#FFFFFF' }}>
+														{!images[0] && (
+															<div className='flex flex-row justify-between items-center py-4 pr-5 h-full w-full'>
+																<h2 className='md:text-[18px] text-[14px]' style={{ color: '#7C7C7C' }}>( اختر صورة فقط png & jpg )</h2>
+																<div className='flex flex-col justify-center items-center md:px-10 px-5 rounded-lg md:text-[18px] text-[14px]' style={{ height: '56px', backgroundColor: '#A7A7A7', color: '#ffffff' }}>
+																	استعراض
+																</div>
 															</div>
-														</div>
-													)}
-													{images[0] && (
-														<div className='flex flex-row justify-between items-center py-4 pr-5 h-full w-full'>
-															<h2 style={{ color: '#7C7C7C' }}>{images[0].file.name}</h2>
-															<div className='flex flex-col justify-center items-center md:px-10 px-5 rounded-lg' style={{ height: '56px', backgroundColor: '#A7A7A7', color: '#ffffff' }}>
-																استعراض
+														)}
+														{images[0] && (
+															<div className='flex flex-row justify-between items-center py-4 pr-5 h-full w-full'>
+																<h2 style={{ color: '#7C7C7C' }}>{images[0].file.name}</h2>
+																<div className='flex flex-col justify-center items-center md:px-10 px-5 rounded-lg md:text-[18px] text-[14px]' style={{ height: '56px', backgroundColor: '#A7A7A7', color: '#ffffff' }}>
+																	استعراض
+																</div>
 															</div>
+														)}
+
+													</div>
+													{eidtData?.image && (
+														<div className='flex flex-row justify-between items-center mt-3 h-[50px] w-full'>
+															<img className='w-full h-full' src={eidtData?.image} alt="edit-img" />
 														</div>
 													)}
 												</div>
 											</div>
-										</div>
-									)}
-								</ImageUploading>
+										)}
+									</ImageUploading>
+								</div>
 							</div>
-						</div>
+						)
 					}
-					<div className='flex md:my-20 my-8 items-center justify-center md:gap-8 gap-4'>
-						<Button
-							className='md:h-14 h-[45px] md:w-[109px] w-full'
-							fontSize={'md:text-2xl text-[18px] font-normal'}
-							style={{ minWidth: 'fit-content' }}
-							type={'normal'}
-							onClick={() => addPage()}
-						>
-							حفظ
-						</Button>
-						<Button
-							className='md:h-14 h-[45px] md:w-[109px] w-full'
-							fontSize={'md:text-2xl text-[18px] font-normal'}
-							style={{ minWidth: 'fit-content' }}
-							type={'outline'}
-							onClick={() => {
-								setEndActionTitle('تم نشر صفحة جديدة بنجاح');
-								cancel();
-							}}
-						>
-							نشر
-						</Button>
-					</div>
+					{
+						eidtData ?
+							(
+								<div className='flex md:my-20 my-8 items-center justify-center md:gap-8 gap-4'>
+									<Button
+										className='md:h-14 h-[45px] md:w-[109px] w-full'
+										fontSize={'md:text-2xl text-[18px] font-normal'}
+										style={{ minWidth: 'fit-content' }}
+										type={'normal'}
+										onClick={() => updatePage()}
+									>
+										حفظ
+									</Button>
+								</div>
+							)
+							:
+							(
+								<div className='flex md:my-20 my-8 items-center justify-center md:gap-8 gap-4'>
+									<Button
+										className='md:h-14 h-[45px] md:w-[109px] w-full'
+										fontSize={'md:text-2xl text-[18px] font-normal'}
+										style={{ minWidth: 'fit-content' }}
+										type={'normal'}
+										onClick={() => addPage()}
+									>
+										حفظ
+									</Button>
+									<Button
+										className='md:h-14 h-[45px] md:w-[109px] w-full'
+										fontSize={'md:text-2xl text-[18px] font-normal'}
+										style={{ minWidth: 'fit-content' }}
+										type={'outline'}
+										onClick={() => addPage('push')}
+									>
+										نشر
+									</Button>
+								</div>
+							)
+					}
+
 				</div>
 				<div className='my-20'></div>
 			</div>

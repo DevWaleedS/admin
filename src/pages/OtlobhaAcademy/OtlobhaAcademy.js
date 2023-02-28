@@ -13,6 +13,7 @@ const OtlobhaAcademy = () => {
   const [newLessonWindow, setNewLessonWindow] = useState(false);
   const [newCourseWindow, setNewCourseWindow] = useState(false);
   const [editCourseData, setEditCourseData] = useState(null);
+  const [detailsCourseData, setDetailsCourseData] = useState(null);
   const [editLessonData, setEditLessonData] = useState(null);
   const [selectedTab, setSelectTab] = useState();
   return (
@@ -34,6 +35,7 @@ const OtlobhaAcademy = () => {
                   onClick={() => {
                     setNewCourseWindow(true);
                     setEditCourseData(null);
+                    setDetailsCourseData(null);
                   }}
                 >
                   اضافة دورة
@@ -66,6 +68,7 @@ const OtlobhaAcademy = () => {
             setNewCourseWindow(false);
           }}
           editData={editCourseData}
+          detailsData={detailsCourseData}
           addNewLesson={() => setNewLessonWindow(true)}
         ></AddNewCourse>
       )}
@@ -92,10 +95,16 @@ const OtlobhaAcademy = () => {
           EditCourse={(data) => {
             setNewCourseWindow(true);
             setEditCourseData(data);
+            setDetailsCourseData(null);
           }}
           EditLesson={(data) => {
             setNewLessonWindow(true);
             setEditLessonData(data);
+          }}
+          DetailsCourse={(data)=>{
+            setNewCourseWindow(true);
+            setDetailsCourseData(data);
+            setEditCourseData(null);
           }}
           setSelectTab={setSelectTab}
         >

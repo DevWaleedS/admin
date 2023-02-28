@@ -51,6 +51,7 @@ const AcademyLessons = ({ lessons, lessonsLoading, lessonsReload, setLessonsRelo
     setTimeout(() => {
       setCopy(false);
     }, 1000);
+    setId("");
   }
 
   return (

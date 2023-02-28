@@ -11,8 +11,7 @@ import useFetch from '../../hooks/useFetch';
 const PagesPage = () => {
 	const { fetchedData, loading, reload, setReload } = useFetch('https://backend.atlbha.com/api/Admin/page');
 	const [showAddNewPage, setShowAddNewPage] = useState(false);
-
-
+	const [eidtData,setEditData] = useState(null);
 
 	return (
 		<div className={`px-4 md:pt-8 pt-0 md:mt-5 bg-[#FFFFFF] md-bg-[#fafafa]`}>
@@ -41,6 +40,7 @@ const PagesPage = () => {
 						cancel={() => {
 							setShowAddNewPage(false);
 						}}
+						eidtData={eidtData}
 						reload={reload}
 						setReload={setReload}
 					/>
@@ -56,6 +56,10 @@ const PagesPage = () => {
 						loading={loading}
 						reload={reload}
 						setReload={setReload}
+						onEditPage={(data)=>{
+							setShowAddNewPage(true);
+							setEditData(data);
+						}}
 					/>
 				</div>
 			</div>
