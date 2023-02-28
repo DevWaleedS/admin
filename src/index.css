@@ -18,7 +18,7 @@ body:has(.MuiPopover-root) {
 
 ::-webkit-scrollbar {
 	width: 0.9em;
-    cursor: pointer;
+  
 }
 
 ::-webkit-scrollbar-track {
@@ -201,4 +201,13 @@ h2 {
 	.add_new_page_popup .rdw-editor-main {
 		height: 100% !important;
 	}
+	::-webkit-scrollbar {
+	width: 0.6em;
+  
+}
+
+::-webkit-scrollbar-thumb {
+	border: 1px solid transparent;
+
+}
 }

@@ -1,4 +1,4 @@
-import React,{useContext} from 'react';
+import React, { useContext, useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -18,8 +18,14 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { NotificationContext } from "../../../../store/NotificationProvider";
+import { NotificationContext } from '../../../../store/NotificationProvider';
+import Context from '../../../../store/context';
+import axios from 'axios';
+import getDate from '../../../../helpers/getDate';
+
+// icons and images
 import { visuallyHidden } from '@mui/utils';
+import CircularLoading from '../../../../UI/CircularLoading/CircularLoading';
 import { ReactComponent as SortIcon } from '../../../../assets/Icons/icon-24-sort.svg';
 import { ReactComponent as CheckedSquare } from '../../../../assets/Icons/icon-24-square checkmark.svg';
 import { ReactComponent as SwitchIcon } from '../../../../assets/Icons/icon-38-switch.svg';
@@ -29,37 +35,6 @@ import { ReactComponent as EditIcon } from '../../../../assets/Icons/editt 2.svg
 import { MdOutlineKeyboardArrowDown, MdOutlineArrowBackIosNew, MdOutlineArrowForwardIos } from 'react-icons/md';
 
 import styles from './TableComp.module.css';
-
-function createData(id, discountType, expireDate, couponCode, opened, discountPercent, discountValue, useForEveryone, useForOne) {
-	return {
-		id,
-		discountType,
-		expireDate,
-		couponCode,
-		opened,
-		discountPercent,
-		discountValue,
-		useForEveryone,
-		useForOne,
-	};
-}
-
-const rows = [
-	createData(1, 'نسبة مئوية', '13-Sep-2022', 'cb20001', true, '8', '2500', '500', '1'),
-	createData(2, 'مبلع ثابت', '16-Sep-2022', 'ze2201', false, '200', '2500', '500', '1'),
-	createData(3, 'نسبة مئوية', '13-Sep-2022', 'cb20001', true, '8', '2500', '500', '1'),
-	createData(4, 'مبلع ثابت', '16-Sep-2022', 'ze2201', false, '200', '2500', '500', '1'),
-	createData(5, 'نسبة مئوية', '13-Sep-2022', 'cb20001', true, '8', '2500', '500', '1'),
-	createData(6, 'مبلع ثابت', '16-Sep-2022', 'ze2201', false, '200', '2500', '500', '1'),
-	createData(7, 'نسبة مئوية', '13-Sep-2022', 'cb20001', true, '8', '2500', '500', '1'),
-	createData(8, 'مبلع ثابت', '16-Sep-2022', 'ze2201', false, '200', '2500', '500', '1'),
-	createData(9, 'نسبة مئوية', '13-Sep-2022', 'cb20001', true, '8', '2500', '500', '1'),
-	createData(10, 'مبلع ثابت', '16-Sep-2022', 'ze2201', false, '200', '2500', '500', '1'),
-	createData(11, 'نسبة مئوية', '13-Sep-2022', 'cb20001', true, '8', '2500', '500', '1'),
-	createData(12, 'مبلع ثابت', '16-Sep-2022', 'ze2201', false, '200', '2500', '500', '1'),
-	createData(13, 'نسبة مئوية', '13-Sep-2022', 'cb20001', true, '8', '2500', '500', '1'),
-	createData(14, 'مبلع ثابت', '16-Sep-2022', 'ze2201', false, '200', '2500', '500', '1'),
-];
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
@@ -75,18 +50,16 @@ function getComparator(order, orderBy) {
 	return order === 'desc' ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-// This method is created for cross-browser compatibility, if you don't
-// need to support IE11, you can use Array.prototype.sort() directly
 function stableSort(array, comparator) {
-	const stabilizedThis = array.map((el, index) => [el, index]);
-	stabilizedThis.sort((a, b) => {
+	const stabilizedThis = array?.map((el, index) => [el, index]);
+	stabilizedThis?.sort((a, b) => {
 		const order = comparator(a[0], b[0]);
 		if (order !== 0) {
 			return order;
 		}
 		return a[1] - b[1];
 	});
-	return stabilizedThis.map((el) => el[0]);
+	return stabilizedThis?.map((el) => el[0]);
 }
 
 const headCells = [
@@ -188,13 +161,13 @@ EnhancedTableHead.propTypes = {
 	onSelectAllClick: PropTypes.func.isRequired,
 	order: PropTypes.oneOf(['asc', 'desc']).isRequired,
 	orderBy: PropTypes.string.isRequired,
-	rowCount: PropTypes.number.isRequired,
+	rowCount: PropTypes.number,
 };
 
 function EnhancedTableToolbar(props) {
 	const { numSelected, rowCount, onSelectAllClick } = props;
 	const NotificationStore = useContext(NotificationContext);
-	const { setNotificationTitle,setActionTitle } = NotificationStore;
+	const { setNotificationTitle, setActionTitle } = NotificationStore;
 	return (
 		<Toolbar
 			sx={{
@@ -216,14 +189,14 @@ function EnhancedTableToolbar(props) {
 							width: '114px',
 							backgroundColor: 'rgba(255, 159, 26, 0.04)',
 						}}
-						onClick={()=>{
+						onClick={() => {
 							setNotificationTitle('سيتم تعطيل جميع الكوبونات التي قمت بتحديدهم');
-							setActionTitle('تم تعطيل الكوبونات بنجاح');
-						}} 
+							setActionTitle('ChangeStatus');
+						}}
 					>
-					<h2 className={'font-semibold'} style={{ color: '#FF9F1A' }}>
-								تعطيل
-							</h2>
+						<h2 className={'font-semibold'} style={{ color: '#FF9F1A' }}>
+							تعطيل
+						</h2>
 						<Box
 							sx={{
 								'& #Path_820': {
@@ -231,14 +204,14 @@ function EnhancedTableToolbar(props) {
 								},
 							}}
 						>
-							
 							<SwitchIcon
 								style={{
 									cursor: 'pointer',
 									color: 'red',
 									fontSize: '0.5rem',
 								}}
-								className={'w-5'}/>
+								className={'w-5'}
+							/>
 						</Box>
 					</div>
 				)}
@@ -249,10 +222,10 @@ function EnhancedTableToolbar(props) {
 							width: '114px',
 							backgroundColor: 'rgba(255, 56, 56, 0.1)',
 						}}
-						onClick={()=>{
+						onClick={() => {
 							setNotificationTitle('سيتم حذف جميع الكوبونات التي قمت بتحديدهم');
-							setActionTitle('تم حذف الكوبونات بنجاح');
-						}} 
+							setActionTitle('Delete');
+						}}
 					>
 						<h2 className={'font-semibold'} style={{ color: '#FF3838' }}>
 							حذف
@@ -297,17 +270,24 @@ EnhancedTableToolbar.propTypes = {
 	numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable({ setUser }) {
+export default function EnhancedTable({ setUser, fetchedData, loading, reload, setReload }) {
+
+
+	const token = localStorage.getItem('token');
 	const [order, setOrder] = React.useState('asc');
 	const [orderBy, setOrderBy] = React.useState('calories');
 	const [selected, setSelected] = React.useState([]);
 	const [page, setPage] = React.useState(0);
-	const [data, setData] = React.useState(rows);
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [userMenuOpenedId, setUserMenuOpenedId] = React.useState(null);
 	const [rowAnchorEl, setRowAnchorEl] = React.useState(null);
 	const rowsPerPagesCount = [10, 20, 30, 50, 100];
+
+	const contextStore = useContext(Context);
+	const { setEndActionTitle } = contextStore;
+	const NotificationStore = useContext(NotificationContext);
+	const { confirm, setConfirm, actionTitle, setActionTitle } = NotificationStore;
 
 	const handlePagRowsClick = (event) => {
 		setRowAnchorEl(event.currentTarget);
@@ -335,28 +315,106 @@ export default function EnhancedTable({ setUser }) {
 
 	const handleSelectAllClick = (event) => {
 		if (event.target.checked) {
-			const newSelected = data.map((n) => n.name);
+			const newSelected = fetchedData?.data?.coupons.map((n) => n.id);
 			setSelected(newSelected);
 			return;
 		}
 		setSelected([]);
 	};
-	const deleteItems = () => {
-		const array = [...data];
-		selected.forEach((item, idx) => {
-			const findIndex = array.findIndex((i) => item === i.name);
-			array.splice(findIndex, 1);
-		});
-		setData(array);
-		setSelected([]);
+
+	// change Status for single item
+	const changeCouponStatus = (id) => {
+		axios
+
+			.get(`https://backend.atlbha.com/api/Admin/couponchangeSatusall?id[]=${id}`, {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+					setReload(!reload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+					setReload(!reload);
+				}
+			});
 	};
 
-	const handleClick = (event, name) => {
-		const selectedIndex = selected.indexOf(name);
+	// delete single item
+	const deleteCoupon = (id) => {
+		axios
+			.get(`https://backend.atlbha.com/api/Admin/pagedeleteall?id[]=${id}`, {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+					setReload(!reload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+					setReload(!reload);
+				}
+			});
+	};
+
+	// delete all and change all status function
+	useEffect(() => {
+		if (confirm && actionTitle === 'ChangeStatus') {
+			const queryParams = selected.map((id) => `id[]=${id}`).join('&');
+			axios
+				.get(`https://backend.atlbha.com/api/Admin/couponchangeSatusall?${queryParams}`, {
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${token}`,
+					},
+				})
+				.then((res) => {
+					if (res?.data?.success === true && res?.data?.data?.status === 200) {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					} else {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					}
+				});
+			setConfirm(false);
+			setActionTitle(null);
+		}
+		if (confirm && actionTitle === 'Delete') {
+			const queryParams = selected.map((id) => `id[]=${id}`).join('&');
+			axios
+				.get(`https://backend.atlbha.com/api/Admin/coupondeleteall?${queryParams}`, {
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${token}`,
+					},
+				})
+				.then((res) => {
+					if (res?.data?.success === true && res?.data?.data?.status === 200) {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					} else {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					}
+				});
+			setConfirm(false);
+			setActionTitle(null);
+		}
+	}, [confirm]);
+
+	const handleClick = (event, id) => {
+		const selectedIndex = selected.indexOf(id);
 		let newSelected = [];
 
 		if (selectedIndex === -1) {
-			newSelected = newSelected.concat(selected, name);
+			newSelected = newSelected.concat(selected, id);
 		} else if (selectedIndex === 0) {
 			newSelected = newSelected.concat(selected.slice(1));
 		} else if (selectedIndex === selected.length - 1) {
@@ -376,9 +434,10 @@ export default function EnhancedTable({ setUser }) {
 	const isSelected = (name) => selected.indexOf(name) !== -1;
 
 	// Avoid a layout jump when reaching the last page with empty rows.
+	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - fetchedData?.data?.coupons?.length) : 0;
 
 	const allRows = () => {
-		const num = Math.ceil(data.length / rowsPerPage);
+		const num = Math.ceil(fetchedData?.data?.coupons?.length / rowsPerPage);
 		const arr = [];
 		for (let index = 0; index < num; index++) {
 			arr.push(index + 1);
@@ -388,152 +447,164 @@ export default function EnhancedTable({ setUser }) {
 	return (
 		<Box sx={{ width: '100%' }}>
 			<Paper sx={{ width: '100%', mb: 2 }}>
-				<EnhancedTableToolbar onClick={deleteItems} numSelected={selected.length} rowCount={data.length} onSelectAllClick={handleSelectAllClick} />
+				<EnhancedTableToolbar numSelected={selected.length} rowCount={fetchedData?.data?.coupons?.length} onSelectAllClick={handleSelectAllClick} />
 				<TableContainer>
 					<Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={'medium'}>
-						<EnhancedTableHead numSelected={selected.length} order={order} orderBy={orderBy} onSelectAllClick={handleSelectAllClick} onRequestSort={handleRequestSort} rowCount={data.length} />
+						<EnhancedTableHead
+							numSelected={selected.length}
+							order={order}
+							orderBy={orderBy}
+							onSelectAllClick={handleSelectAllClick}
+							onRequestSort={handleRequestSort}
+							rowCount={fetchedData?.data?.coupons?.length}
+						/>
 						<TableBody>
-							{/* if you don't need to support IE11, you can replace the `stableSort` call with:
-                 rows.sort(getComparator(order, orderBy)).slice() */}
-							{stableSort(data, getComparator(order, orderBy))
-								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-								.map((row, index) => {
-									const isItemSelected = isSelected(row.name);
-									const labelId = `enhanced-table-checkbox-${index}`;
+							{loading ? (
+								<TableRow>
+									<TableCell colSpan={6}>
+										<CircularLoading />
+									</TableCell>
+								</TableRow>
+							) : (
+								<Fragment>
+									{stableSort(fetchedData?.data?.coupons, getComparator(order, orderBy))
+										?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+										?.map((row, index) => {
+											const isItemSelected = isSelected(row?.id);
+											const labelId = `enhanced-table-checkbox-${index}`;
 
-									return (
+											return (
+												<TableRow hover role='checkbox' aria-checked={isItemSelected} tabIndex={-1} key={row?.id} selected={isItemSelected}>
+													<TableCell component='th' id={labelId} scope='row'>
+														<Button id={index} aria-controls={userMenuOpenedId ? 'basic-menu' : undefined} aria-haspopup='true' aria-expanded={userMenuOpenedId ? 'true' : undefined} onClick={handleOptionsClick}>
+															<BsThreeDotsVertical
+																onClick={() => {}}
+																style={{
+																	cursor: 'pointer',
+																	color: 'rgba(0, 0, 0, 1)',
+																	fontSize: '1.3rem',
+																}}
+															></BsThreeDotsVertical>
+														</Button>
+														<Menu
+															id='basic-menu'
+															anchorEl={anchorEl}
+															open={userMenuOpenedId == index}
+															onClose={handleClose}
+															MenuListProps={{
+																'aria-labelledby': 'basic-button',
+															}}
+														>
+															<MenuItem
+																className='text-lg font-normal '
+																onClick={() => {
+																	setUser(row?.id);
+																	handleClose();
+																}}
+															>
+																<DocumentIcon className={` w-5 h-5 ml-2 ${styles.detailIcon}`} />
+																التفاصيل
+															</MenuItem>
+															<MenuItem
+																className='text-lg font-normal '
+																onClick={() => {
+																	setUser(row?.id);
+																	handleClose();
+																}}
+															>
+																<EditIcon className={` w-5 h-5 ml-2 ${styles.editIcon}`} />
+																تعديل
+															</MenuItem>
+															<MenuItem onClick={handleClose} className='text-lg font-normal '>
+																<BsTrash className={` w-5 h-5 ml-2 ${styles.deleteIcon}`} onClick={() => deleteCoupon(row?.id)} />
+																حذف
+															</MenuItem>
+														</Menu>
+													</TableCell>
+													<TableCell align='right'>
+														<div className=''>
+															<Switch
+																onChange={() => changeCouponStatus(row?.id)}
+																className=''
+																sx={{
+																	width: '50px',
+																	'& .MuiSwitch-thumb': {
+																		width: '11px',
+																		height: '11px',
+																	},
+																	'& .MuiSwitch-switchBase': {
+																		padding: '6px',
+																		top: '9px',
+																		left: '9px',
+																	},
+																	'& .MuiSwitch-switchBase.Mui-checked': {
+																		left: '-1px',
+																	},
+																	'& .Mui-checked .MuiSwitch-thumb': {
+																		backgroundColor: '#FFFFFF',
+																	},
+																	'& .MuiSwitch-track': {
+																		height: '16px',
+																		borderRadius: '20px',
+																	},
+																	'&.MuiSwitch-root .Mui-checked+.MuiSwitch-track': {
+																		backgroundColor: '#3AE374',
+
+																		opacity: 1,
+																	},
+																}}
+																checked={row?.status === 'نشط' ? true : false}
+															/>
+														</div>
+													</TableCell>
+													<TableCell align='right'>
+														<h2 className='font-normal text-lg'>{row?.discount_type}</h2>
+													</TableCell>
+
+													<TableCell align='right'>
+														<h2 className='font-normal text-lg'>{getDate(row?.expire_date)}</h2>
+													</TableCell>
+													<TableCell align='right'>
+														<h2 className='font-normal text-lg'>{row?.code}</h2>
+													</TableCell>
+
+													<TableCell align='right' className='font-normal text-lg'>
+														{(index + 1).toLocaleString('en-US', {
+															minimumIntegerDigits: 2,
+															useGrouping: false,
+														})}
+													</TableCell>
+													<TableCell padding='none' align={'right'}>
+														<Checkbox
+															checkedIcon={<CheckedSquare />}
+															sx={{
+																color: '#011723',
+																'& .MuiSvgIcon-root': {
+																	color: '#011723',
+																},
+															}}
+															checked={isItemSelected}
+															onClick={(event) => handleClick(event, row?.id)}
+															inputProps={{
+																'aria-labelledby': labelId,
+															}}
+														/>
+													</TableCell>
+												</TableRow>
+											);
+										})}
+
+									{emptyRows > 0 && (
 										<TableRow
-											hover
-											//   onClick={(event) => handleClick(event, row.name)}
-											role='checkbox'
-											aria-checked={isItemSelected}
-											tabIndex={-1}
-											key={row.name}
-											selected={isItemSelected}
+											style={{
+												height: 53 * emptyRows,
+											}}
 										>
-											<TableCell component='th' id={labelId} scope='row'>
-												<Button id={index} aria-controls={userMenuOpenedId ? 'basic-menu' : undefined} aria-haspopup='true' aria-expanded={userMenuOpenedId ? 'true' : undefined} onClick={handleOptionsClick}>
-													<BsThreeDotsVertical
-														onClick={() => {}}
-														style={{
-															cursor: 'pointer',
-															color: 'rgba(0, 0, 0, 1)',
-															fontSize: '1.3rem',
-														}}
-													></BsThreeDotsVertical>
-												</Button>
-												<Menu
-													id='basic-menu'
-													anchorEl={anchorEl}
-													open={userMenuOpenedId == index}
-													onClose={handleClose}
-													MenuListProps={{
-														'aria-labelledby': 'basic-button',
-													}}
-												>
-													<MenuItem
-														className='text-lg font-normal '
-														onClick={() => {
-															setUser(row);
-															handleClose();
-														}}
-													>
-														<DocumentIcon className={` w-5 h-5 ml-2 ${styles.detailIcon}`} />
-														التفاصيل
-													</MenuItem>
-													<MenuItem
-														className='text-lg font-normal '
-														onClick={() => {
-															setUser(row);
-															handleClose();
-														}}
-													>
-														<EditIcon className={` w-5 h-5 ml-2 ${styles.editIcon}`} />
-														تعديل
-													</MenuItem>
-													<MenuItem onClick={handleClose} className='text-lg font-normal '>
-														<BsTrash className={` w-5 h-5 ml-2 ${styles.deleteIcon}`} />
-														حذف
-													</MenuItem>
-												</Menu>
-											</TableCell>
-											<TableCell align='right'>
-												<div className=''>
-													<Switch
-														onChange={() => {
-															const findIndex = data.findIndex((item) => item.id === row.id);
-															const arr = [...data];
-															arr[findIndex].opened = !arr[findIndex].opened;
-															setData(arr);
-														}}
-														className=''
-														sx={{
-															width: '50px',
-															'& .MuiSwitch-thumb': {
-																width: '11px',
-																height: '11px',
-															},
-															'& .MuiSwitch-switchBase': {
-																padding: '6px',
-																top: '9px',
-																left: '9px',
-															},
-															'& .MuiSwitch-switchBase.Mui-checked': {
-																left: '-1px',
-															},
-															'& .Mui-checked .MuiSwitch-thumb': {
-																backgroundColor: '#FFFFFF',
-															},
-															'& .MuiSwitch-track': {
-																height: '16px',
-																borderRadius: '20px',
-															},
-															'&.MuiSwitch-root .Mui-checked+.MuiSwitch-track': {
-																backgroundColor: '#3AE374',
-
-																opacity: 1,
-															},
-														}}
-														checked={row.opened}
-													/>
-												</div>
-											</TableCell>
-											<TableCell align='right'>
-												<h2 className='font-normal text-lg'>{row.discountType}</h2>
-											</TableCell>
-
-											<TableCell align='right'>
-												<h2 className='font-normal text-lg'>{row.expireDate}</h2>
-											</TableCell>
-											<TableCell align='right'>
-												<h2 className='font-normal text-lg'>{row.couponCode}</h2>
-											</TableCell>
-
-											<TableCell align='right' className='font-normal text-lg'>
-												{(index + 1).toLocaleString('en-US', {
-													minimumIntegerDigits: 2,
-													useGrouping: false,
-												})}
-											</TableCell>
-											<TableCell padding='none' align={'right'}>
-												<Checkbox
-													checkedIcon={<CheckedSquare />}
-													sx={{
-														color: '#011723',
-														'& .MuiSvgIcon-root': {
-															color: '#011723',
-														},
-													}}
-													checked={isItemSelected}
-													onClick={(event) => handleClick(event, row.name)}
-													inputProps={{
-														'aria-labelledby': labelId,
-													}}
-												/>
-											</TableCell>
+											<TableCell colSpan={6} />
 										</TableRow>
-									);
-								})}
+									)}
+								</Fragment>
+							)}
 						</TableBody>
 					</Table>
 				</TableContainer>
@@ -616,6 +687,7 @@ export default function EnhancedTable({ setUser }) {
 							);
 						})}
 					</div>
+
 					<MdOutlineArrowForwardIos
 						className='cursor-pointer'
 						style={{ visibility: page + 1 === allRows().length && 'hidden' }}
