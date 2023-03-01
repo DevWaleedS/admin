@@ -270,7 +270,7 @@ EnhancedTableToolbar.propTypes = {
 	numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable({ setUser, fetchedData, loading, reload, setReload }) {
+export default function EnhancedTable({ fetchedData, loading, reload, setReload,EditCoupon,showDetails }) {
 
 
 	const token = localStorage.getItem('token');
@@ -498,7 +498,7 @@ export default function EnhancedTable({ setUser, fetchedData, loading, reload, s
 															<MenuItem
 																className='text-lg font-normal '
 																onClick={() => {
-																	setUser(row?.id);
+																	showDetails(row);
 																	handleClose();
 																}}
 															>
@@ -508,7 +508,7 @@ export default function EnhancedTable({ setUser, fetchedData, loading, reload, s
 															<MenuItem
 																className='text-lg font-normal '
 																onClick={() => {
-																	setUser(row?.id);
+																	EditCoupon(row);
 																	handleClose();
 																}}
 															>

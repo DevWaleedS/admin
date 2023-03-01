@@ -113,6 +113,22 @@ const AddNewLesson = ({ cancel, lessonsReload, setLessonsReload, editLessonData 
         }
       });
   }
+  console.log(editLessonData);
+  const deleteVideo = () =>{
+    axios.get(`https://backend.atlbha.com/api/Admin/deletevideo/${editLessonData?.id}`, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res?.data?.success === true && res?.data?.data?.status === 200) {
+          setEndActionTitle(res?.data?.message?.ar);
+        } else {
+          setEndActionTitle(res?.data?.message?.ar);
+        }
+      });
+  }
 
   return (
     <Fragment>
@@ -352,6 +368,7 @@ const AddNewLesson = ({ cancel, lessonsReload, setLessonsReload, editLessonData 
                   textStyle={{ color: "#FF3838" }}
                   svg={<DeleteIcon />}
                   type={"outline"}
+                  onClick={()=>deleteVideo(editLessonData)}
                 >
                   حذف الفيديو
                 </Button>
