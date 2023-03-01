@@ -1,19 +1,12 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { IoMdCloseCircleOutline } from 'react-icons/io';
-import Cam1 from '../../../../assets/images/cam1.png';
-import Cam2 from '../../../../assets/images/cam2.png';
-import Cam3 from '../../../../assets/images/cam3.png';
 import useFetch from '../../../../hooks/useFetch';
 
 const BackDrop = ({ onClick }) => {
 	return <div onClick={onClick} className='fixed back_drop top-0 left-0 h-full w-full bg-slate-900 opacity-50 z-10'></div>;
 };
 
-const images = [
-	{ id: 1, url: Cam1 },
-	{ id: 2, url: Cam2 },
-	{ id: 3, url: Cam3 },
-];
+
 
 const ProductDetails = ({ cancel, details }) => {
 	const { fetchedData } = useFetch(`https://backend.atlbha.com/api/Admin/product/${details}`);
