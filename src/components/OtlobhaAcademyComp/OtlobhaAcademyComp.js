@@ -15,6 +15,7 @@ const OtlobhaAcademyComp = ({
   setLessonsReload,
   setSelectTab,
   EditCourse,
+  DetailsCourse,
   EditLesson
 }) => {
   const [selectedId, setSelectedId] = useState(1);
@@ -46,6 +47,7 @@ const OtlobhaAcademyComp = ({
           coursesReload={coursesReload}
           setCoursesReload={setCoursesReload}
           EditCourse={EditCourse}
+          DetailsCourse={DetailsCourse}
         />
         :
         <AcademyLessons

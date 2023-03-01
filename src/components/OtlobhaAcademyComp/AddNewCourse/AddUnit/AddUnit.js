@@ -1,10 +1,9 @@
 import React, { useState, useContext } from "react";
+import axios from "axios";
 import Button from "../../../../UI/Button/Button";
 import Context from "../../../../store/context";
 import styles from "./AddUnit.module.css";
 import Box from "@mui/material/Box";
-
-
 import { GrAttachment } from "react-icons/gr";
 import { ReactComponent as AddIcon } from "../../../../assets/Icons/icon-34-add.svg";
 
@@ -29,6 +28,7 @@ const formInputStyle = {
 };
 
 const AddUnit = ({ cancel , unitDetails }) => {
+  const token = localStorage.getItem('token');
   const contextStore = useContext(Context);
   const { setEndActionTitle } = contextStore;
   const [unit,setUnit] = useState({
@@ -36,6 +36,8 @@ const AddUnit = ({ cancel , unitDetails }) => {
 		documents:[],
 		videos:[],
   });
+  const [firstDuration,setFirstDuration] = useState(0);
+  const [secondDuration,setSecondDuration] = useState(0);
   const firstVideoRef = React.useRef();
   const secondVideoRef = React.useRef();
   const [source, setSource] = React.useState();
@@ -44,6 +46,22 @@ const AddUnit = ({ cancel , unitDetails }) => {
     const url = URL.createObjectURL(file);
     setSource(url);
 	setUnit({...unit,videos: [...unit.videos, event.target.files[0]] });
+	let formData = new FormData();
+    formData.append('video', file);
+	axios
+      .post('https://backend.atlbha.com/api/showVideoDuration', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res?.status===200 &&  res?.data?.data !== null) {
+			setFirstDuration(res?.data);
+        } else {
+          console.log(res);
+        }
+      });
   };
 
   const handleSecondVideoChange = (event) => {
@@ -51,6 +69,22 @@ const AddUnit = ({ cancel , unitDetails }) => {
     const url = URL.createObjectURL(file);
     setSource(url);
 	setUnit({...unit,videos: [...unit.videos, event.target.files[0]] });
+	let formData = new FormData();
+    formData.append('video', file);
+	axios
+      .post('https://backend.atlbha.com/api/showVideoDuration', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res?.status===200 && res?.data?.data !== null) {
+			setSecondDuration(res?.data);
+        } else {
+          console.log(res);
+        }
+      });
   };
 
   const firstHandleChoose = (event) => {
@@ -138,7 +172,7 @@ const AddUnit = ({ cancel , unitDetails }) => {
 													border: '1px solid #A7A7A7',
 												}}
 											>
-												<h2 className="md:text-[18px] text-[16px] whitespace-nowrap" style={{ color: '#ADB5B9' }}>0 دقيقة</h2>
+												<h2 className="md:text-[18px] text-[16px] whitespace-nowrap" style={{ color: '#ADB5B9' }}>{firstDuration} دقيقة</h2>
 											</div>
 										</div>
 										<div className='md:w-[555px] w-full md:h-14 h-[45px] flex gap-5 mb-5'>
@@ -177,7 +211,7 @@ const AddUnit = ({ cancel , unitDetails }) => {
 													border: '2px dashed #A7A7A7',
 												}}
 											>
-												<h2 className="md:text-[18px] text-[16px] whitespace-nowrap" style={{ color: '#ADB5B9' }}>0 دقيقة</h2>
+												<h2 className="md:text-[18px] text-[16px] whitespace-nowrap" style={{ color: '#ADB5B9' }}>{secondDuration} دقيقة</h2>
 											</div>
 										</div>
 									</div>

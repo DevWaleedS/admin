@@ -263,7 +263,7 @@ EnhancedTableToolbar.propTypes = {
 	numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable({ fetchedData, loading, reload, setReload }) {
+export default function EnhancedTable({ fetchedData, loading, reload, setReload,onEditPage }) {
 	const token = localStorage.getItem('token');
 	const [order, setOrder] = React.useState('asc');
 	const [orderBy, setOrderBy] = React.useState('calories');
@@ -512,6 +512,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload 
 																	}}
 																></DeleteIcon>
 																<EditIcon
+																	onClick={()=>onEditPage(row)}
 																	style={{
 																		cursor: 'pointer',
 																		fontSize: '1.2rem',

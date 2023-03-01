@@ -51,7 +51,7 @@ const AddNewLesson = ({ cancel, lessonsReload, setLessonsReload, editLessonData 
         },
       })
       .then((res) => {
-        if (res?.status===200 ) {
+        if (res?.status===200 && res?.data?.data !== null) {
           setDuration(res?.data);
         } else {
           console.log(res);

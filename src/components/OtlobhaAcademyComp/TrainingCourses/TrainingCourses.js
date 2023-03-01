@@ -3,19 +3,22 @@ import { BsPlayCircle } from "react-icons/bs";
 import { ReactComponent as BsTrash } from "../../../assets/Icons/icon-24-delete.svg";
 import { ReactComponent as Copy } from "../../../assets/Icons/copy icon.svg";
 import { ReactComponent as Edit } from "../../../assets/Icons/editt 2.svg";
+import { ReactComponent as TrueIcon } from "../../../assets/Icons/icon-24- true.svg";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { NotificationContext } from "../../../store/NotificationProvider";
 import Context from '../../../store/context';
 import CircularLoading from '../../../UI/CircularLoading/CircularLoading';
 import axios from "axios";
 
-const TrainingCourses = ({ courses, coursesLoading, coursesReload, setCoursesReload, EditCourse }) => {
+const TrainingCourses = ({ courses, coursesLoading, coursesReload, setCoursesReload, EditCourse,DetailsCourse }) => {
   const token = localStorage.getItem('token');
   const [id,setId] = useState("");
   const NotificationStore = useContext(NotificationContext);
   const { setNotificationTitle,confirm, setConfirm,actionTitle,setActionTitle } = NotificationStore;
   const contextStore = useContext(Context);
 	const { setEndActionTitle } = contextStore;
+  const [copy, setCopy] = useState(false);
+
   useEffect(() => {
 		if (confirm && actionTitle==='DeleteCourse') {
 			axios
@@ -40,6 +43,17 @@ const TrainingCourses = ({ courses, coursesLoading, coursesReload, setCoursesRel
       setId("");
 		}
 	}, [confirm]);
+
+  const handelCopy = (courseId) => {
+    const course = courses?.data?.courses?.filter((course) => (course?.id === courseId));
+    navigator.clipboard.writeText(course[0]?.url);
+    setCopy(true);
+    setTimeout(() => {
+      setCopy(false);
+    }, 1000);
+    setId("");
+  }
+
   return (
     <div className="md:mt-12 mt-6">
       {
@@ -80,9 +94,9 @@ const TrainingCourses = ({ courses, coursesLoading, coursesReload, setCoursesRel
                     </div>
                   </div>
                   <div className="flex flex-row items-center justify-center gap-5 md:pl-6 pr-2">
-                    <Copy ></Copy>
+                    {id === course?.id && copy ? (<TrueIcon />) : (<Copy className="cursor-pointer" onClick={() => {handelCopy(course?.id);setId(course?.id);}} />)}
                     <Edit className="cursor-pointer" onClick={() => { EditCourse(course); }}></Edit>
-                    <VisibilityIcon style={{ color: '#1DBBBE' }}></VisibilityIcon>
+                    <VisibilityIcon style={{ color: '#1DBBBE' }} className="cursor-pointer" onClick={() => { DetailsCourse(course); }}></VisibilityIcon>
                     <BsTrash
                       className="cursor-pointer"
                       onClick={() => {
