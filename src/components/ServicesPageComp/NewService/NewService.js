@@ -55,7 +55,7 @@ const NewService = ({ cancel, reload, setReload }) => {
 	// handle function to set new service
 	const addNewService = () => {
 		const formData = new FormData();
-		formData.append('file', images[0]?.file || '');
+		formData.append('file', images[0]?.file || null);
 		formData.append('name', servicesData?.name);
 		formData.append('description', servicesData?.description);
 		formData.append('price', servicesData?.price);

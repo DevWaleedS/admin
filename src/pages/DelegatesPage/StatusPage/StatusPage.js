@@ -1,26 +1,74 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Context from '../../../store/context';
+import axios from 'axios';
 import PageNavigate from '../../../components/PageNavigate/PageNavigate';
 import Select from '@mui/material/Select';
 
 import MenuItem from '@mui/material/MenuItem';
 
+// icons
 import { IoIosArrowDown } from 'react-icons/io';
 import Button from '../../../UI/Button/Button';
 
-const activate = ['مفعل', 'غير مفعل'];
+
+const activate = [
+	{ id: 1, name: 'مفعل', name_en: 'active' },
+	{ id: 2, name: 'غير مفعل', name_en: 'not_active' },
+];
 
 const StatusPage = () => {
-	const [specialProduct, setSpecialProduct] = useState('');
 
-	const [isActive, setIsActive] = useState('');
+	// const { fetchedData, loading, reload, setReload } = useFetch('https://backend.atlbha.com/api/Admin/marketer');
+	
+	const token = localStorage.getItem('token');
+	const [reload, setReload] = useState(false);
+	const contextStore = useContext(Context);
+	const { setEndActionTitle } = contextStore;
+	
 
-	const handleSpecialProductChange = (event) => {
-		setSpecialProduct(event.target.value);
+	// to set all value to api
+	const [status, setStatus] = useState({
+		registration_marketer: '',
+		status_marketer: '',
+	});
+
+	// to set onchange function to all inputs
+	const handleStatus = (event) => {
+		const { name, value } = event.target;
+
+		setStatus((prevState) => {
+			return { ...prevState, [name]: value };
+		});
 	};
 
-	const handleIsActive = (event) => {
-		setIsActive(event.target.value);
+	// define this functions to post all add market data to server
+	const changeStatus = () => {
+
+		let formData = new FormData();
+		formData.append('registration_marketer', status?.registration_marketer);
+		formData.append('status_marketer', status?.status_marketer);
+
+		axios
+			.post('https://backend.atlbha.com/api/Admin/registrationMarketer', formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+				
+					setReload(!reload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+					
+					setReload(!reload);
+				}
+			});
 	};
+
 	return (
 		<div className={`mt-5 px-4 md:pt-4 md:pl-36 h-full`} style={{ backgroundColor: '#F7F7F7' }}>
 			<div className='md:mt-6'>
@@ -36,15 +84,17 @@ const StatusPage = () => {
 						IconComponent={() => {
 							return <IoIosArrowDown size={'1rem'} />;
 						}}
-						value={isActive}
-						onChange={handleIsActive}
+						name='registration_marketer'
+						value={status?.registration_marketer}
+						onChange={handleStatus}
 						displayEmpty
 						inputProps={{ 'aria-label': 'Without label' }}
 						renderValue={(selected) => {
-							if (isActive === '') {
-								return <h2>تفعيل</h2>;
+							if (status?.registration_marketer === '') {
+								return <h2> تفعيل</h2>;
 							}
-							return selected;
+							const result = activate?.filter((item) => item?.name_en === selected);
+							return result[0]?.name;
 						}}
 						sx={{
 							height: '100%',
@@ -59,9 +109,10 @@ const StatusPage = () => {
 							},
 						}}
 					>
-						{activate.map((item) => {
+						{activate.map((item, idx) => {
 							return (
 								<MenuItem
+									key={idx}
 									className=''
 									sx={{
 										backgroundColor: '#fff',
@@ -72,9 +123,9 @@ const StatusPage = () => {
 											padding: '0',
 										},
 									}}
-									value={`${item}`}
+									value={`${item?.name_en}`}
 								>
-									{item}
+									{item?.name}
 								</MenuItem>
 							);
 						})}
@@ -86,18 +137,20 @@ const StatusPage = () => {
 					</h2>
 					<Select
 						className='md:h-14 h-[45px] font-normal md:text-lg text-[16px] rounded'
-						value={specialProduct}
 						IconComponent={() => {
 							return <IoIosArrowDown size={'1rem'} />;
 						}}
-						onChange={handleSpecialProductChange}
+						name='status_marketer'
+						value={status?.status_marketer}
+						onChange={handleStatus}
 						displayEmpty
 						inputProps={{ 'aria-label': 'Without label' }}
 						renderValue={(selected) => {
-							if (specialProduct === '') {
-								return <h2>تفعيل</h2>;
+							if (status?.status_marketer === '') {
+								return <h2> تفعيل</h2>;
 							}
-							return selected;
+							const result = activate?.filter((item) => item?.name_en === selected);
+							return result[0]?.name;
 						}}
 						sx={{
 							height: '100%',
@@ -112,9 +165,10 @@ const StatusPage = () => {
 							},
 						}}
 					>
-						{activate.map((item) => {
+						{activate.map((item, idx) => {
 							return (
 								<MenuItem
+									key={idx}
 									className=''
 									sx={{
 										backgroundColor: '#fff',
@@ -125,9 +179,9 @@ const StatusPage = () => {
 											padding: '0',
 										},
 									}}
-									value={`${item}`}
+									value={`${item?.name_en}`}
 								>
-									{item}
+									{item?.name}
 								</MenuItem>
 							);
 						})}
@@ -135,7 +189,7 @@ const StatusPage = () => {
 				</div>
 			</div>
 
-			<Button type={'normal'} className={'w-full h-14 text-xl font-medium mt-14 py-4'} style={{}}>
+			<Button type={'normal'} className={'w-full h-14 text-xl font-medium mt-14 py-4'} onClick={changeStatus}>
 				حفظ
 			</Button>
 		</div>

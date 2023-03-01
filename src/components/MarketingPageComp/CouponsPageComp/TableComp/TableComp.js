@@ -474,7 +474,8 @@ export default function EnhancedTable({ setUser, fetchedData, loading, reload, s
 											const labelId = `enhanced-table-checkbox-${index}`;
 
 											return (
-												<TableRow hover role='checkbox' aria-checked={isItemSelected} tabIndex={-1} key={row?.id} selected={isItemSelected}>
+												<TableRow hover role='checkbox' aria-checked={isItemSelected} tabIndex={-1}
+													key={row?.id} selected={isItemSelected}>
 													<TableCell component='th' id={labelId} scope='row'>
 														<Button id={index} aria-controls={userMenuOpenedId ? 'basic-menu' : undefined} aria-haspopup='true' aria-expanded={userMenuOpenedId ? 'true' : undefined} onClick={handleOptionsClick}>
 															<BsThreeDotsVertical
@@ -516,7 +517,8 @@ export default function EnhancedTable({ setUser, fetchedData, loading, reload, s
 																تعديل
 															</MenuItem>
 															<MenuItem onClick={handleClose} className='text-lg font-normal '>
-																<BsTrash className={` w-5 h-5 ml-2 ${styles.deleteIcon}`} onClick={() => deleteCoupon(row?.id)} />
+																<BsTrash className={` w-5 h-5 ml-2 ${styles.deleteIcon}`}
+																	onClick={() => deleteCoupon(row?.id)} />
 																حذف
 															</MenuItem>
 														</Menu>

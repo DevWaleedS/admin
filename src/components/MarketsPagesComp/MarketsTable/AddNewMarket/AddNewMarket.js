@@ -22,7 +22,10 @@ const BackDrop = ({ onClick }) => {
 	return <div onClick={onClick} className={`fixed back_drop bottom-0 left-0  w-full bg-slate-900  z-10 ${styles.back_drop}`} style={{ height: 'calc(100% - 4rem)' }}></div>;
 };
 const planeTime = [{id:1,name:'سنوي',name_en:'year'},{id:2,name:'شهري (6 شهور)',name_en:'6months'}];
-const conditions = [{id:1,name:'مفعل',name_en:'active'},{id:2,name:'غير مفعل',name_en:'not_active'}];
+const conditions = [
+	{ id: 1, name: 'مفعل', name_en: 'active' },
+	{ id: 2, name: 'غير مفعل', name_en: 'not_active' }
+];
 
 const AddNewMarket = ({ cancel,reload,setReload }) => {
 	const token = localStorage.getItem('token');
@@ -101,8 +104,10 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 		formData.append('userphonenumber', personInfo?.userphonenumber);
 		formData.append('user_country_id', personInfo?.user_country_id);
 		formData.append('user_city_id', personInfo?.user_city_id);
+
 		// here we tell formData if images[0].file its has been file got it if not just put empty stings
-		formData.append('image', images[0]?.file || '');
+		
+		formData.append('image', images[0]?.file || null);
 		formData.append('status', personInfo?.status);
 
 		axios

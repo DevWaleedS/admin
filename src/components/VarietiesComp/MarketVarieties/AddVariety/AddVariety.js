@@ -25,7 +25,7 @@ const NewProduct = ({ cancel, data, setShowAddSubVariety }) => {
   const contextStore = useContext(Context);
   const { setEndActionTitle } = contextStore;
   const [images, setImages] = useState([]);
-  console.log(data);
+
 
   console.log(images);
   const maxNumber = 2;
