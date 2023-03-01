@@ -1,4 +1,4 @@
-import React, { useState,useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { AiFillStar } from "react-icons/ai";
@@ -43,7 +43,6 @@ const AddNewPackagePlan = ({ reload, setReload, cancel, selectedTemplate, setCho
     plan: [],
     template: [],
   });
-  console.log(datapackage)
   const AddPackagePlan = () => {
     const data = {
       name: datapackage?.name,
@@ -73,15 +72,13 @@ const AddNewPackagePlan = ({ reload, setReload, cancel, selectedTemplate, setCho
       });
   }
   const updatePackagePlan = () => {
-    
-    const editTemplate = editPackageDetails?.templates.map((item)=>item?.id);
     const data = {
       name: datapackage?.name,
       monthly_price: datapackage?.monthly_price,
       yearly_price: datapackage?.yearly_price,
       discount: datapackage?.discount,
-      plan: datapackage?.plan,
-      template: selectedTemplate,
+      plan: datapackage?.plan || editPackageDetails?.plans?.map(item => item?.id),
+      template: selectedTemplate || editPackageDetails?.templates?.map(item => item?.id),
     };
     axios
       .put(`https://backend.atlbha.com/api/Admin/package/${editPackageDetails?.id}`, data, {
@@ -101,7 +98,8 @@ const AddNewPackagePlan = ({ reload, setReload, cancel, selectedTemplate, setCho
           setReload(!reload);
         }
       });
-    }
+  }
+
   return (
     <div
       className="absolute md:pb-20 md:py-[40px] md:pl-[102px] md:pr-4 p-4 pt-0 top-0 right-0  z-10 w-full md:h-auto h-full"
@@ -216,7 +214,8 @@ const AddNewPackagePlan = ({ reload, setReload, cancel, selectedTemplate, setCho
                     MenuProps={MenuProps}
                     inputProps={{ "aria-label": "Without label" }}
                   >
-                    {planList?.data?.plans?.map((option, index) => (
+                    {
+                      planList?.data?.plans?.map((option, index) => (
                       <MenuItem className="souq_storge_category_filter_items"
                         key={index}
                         value={option?.id}
