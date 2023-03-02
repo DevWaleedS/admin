@@ -86,7 +86,7 @@ function App() {
 					{/* المندوبين */}
 					<Route path='/عرض_المناديب' element={<DelegatesTablePage />} />
 					<Route path='/إضافة_مندوب_جديد' element={<AddNewDelegatePage />} />
-					<Route path='/تعديل_مندوب' element={<EditDelegatePage />} />
+					<Route path='/:id/تعديل_مندوب' element={<EditDelegatePage />} />
 					<Route path='/حالة_تسجيل_المندوبين' element={<StatusPage />} />
 
 					{/* التصنيفات */}

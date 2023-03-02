@@ -10,7 +10,6 @@ import styles from './TabsComp.module.css';
 import ImageUploading from 'react-images-uploading';
 import useFetch from '../../../../hooks/useFetch';
 
-
 // icons
 import { IoIosArrowDown } from 'react-icons/io';
 import { BsSnapchat, BsYoutube } from 'react-icons/bs';
@@ -20,8 +19,8 @@ import { ReactComponent as BsFacebook } from '../../../../assets/Icons/icon-24-f
 import { ReactComponent as BsTwitter } from '../../../../assets/Icons/icon-24-twitter.svg';
 import { ReactComponent as BsInstagram } from '../../../../assets/Icons/icon-32-instagram.svg';
 
-const TabsComp = ({ handleMainInfo, mainInfo, images, onChange }) => {
-	
+const TabsComp = ({ handleMainInfo, mainInfo,images,onChange }) => {
+
 	const activate = [
 		{ id: 1, name: 'نشط', name_en: 'active' },
 		{ id: 2, name: ' غير نشط', name_en: 'not_active' },
@@ -171,7 +170,7 @@ const TabsComp = ({ handleMainInfo, mainInfo, images, onChange }) => {
 									{images[0] ? <img className='w-full h-full rounded-md' src={images[0]?.data_url} alt='img' /> : <CheckMarkImageIcon style={{ width: '32px', height: '32px' }} />}
 								</div>
 								<div className='w-full'>
-									<ImageUploading value={images} onChange={onChange} maxNumber={1} dataURLKey='data_url' acceptType={['jpg', 'png', 'jpeg']} className='w-full'>
+									<ImageUploading value={images} onChange={onChange} maxNumber={2} dataURLKey='data_url' acceptType={['jpg', 'png', 'jpeg']} className='w-full'>
 										{({ imageList, onImageUpload, dragProps }) => (
 											// write your building UI
 											<div>
@@ -452,7 +451,7 @@ const TabsComp = ({ handleMainInfo, mainInfo, images, onChange }) => {
 									const result = activate?.filter((item) => item?.name_en === selected);
 									return result[0]?.name;
 								}}
-							
+
 								className='bg-white outline-none w-full px-5 py-[14px] rounded-md'
 								sx={{
 									height: '3.5rem',

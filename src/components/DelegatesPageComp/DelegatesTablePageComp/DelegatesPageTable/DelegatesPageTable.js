@@ -403,7 +403,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload 
 															<EditIcon
 																className='cursor-pointer'
 																onClick={() => {
-																	navigate('/تعديل_مندوب');
+																	navigate(`/${row?.id}/تعديل_مندوب`);
 																}}
 																width={'20px'}
 															></EditIcon>
