@@ -394,9 +394,7 @@ export default function EnhancedTable({ editSection, fetchedData, reload, setRel
 													<div className='flex items-center gap-2'>
 														<EditIcon
 															className={'cursor-pointer'}
-															onClick={() => {
-																editSection(row);
-															}}
+															onClick={() => editSection(row)}
 															width={'20px'}
 														></EditIcon>
 														<BsTrash

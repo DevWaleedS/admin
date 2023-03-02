@@ -44,24 +44,33 @@ const ShopVarieties = () => {
 				</div>
 				<FilteringOptions />
 
+				{/** --------------------------------------------------------------- */}
+
+				{/** add new  category */}
 				{showAddVarietyPage && (
 					<AddVariety
+						reload={reload}
+						setReload={setReload}
+						data={editVariety}
+						setShowAddSubVariety={setShowAddSubVariety}
 						cancel={() => {
 							setShowAddVarietyPage(false);
 						}}
-						data={editVariety}
-						setShowAddSubVariety={setShowAddSubVariety}
-					></AddVariety>
+					/>
 				)}
+
+				{/** --------------------------------------------------------------- */}
+
+				{/** add new sub category */}
 				{showAddSubVariety && (
 					<AddSubVariety
 						cancel={() => {
 							setShowAddSubVariety(false);
 						}}
 					/>
-      )}
-      
-      {/** Markets Table  */}
+				)}
+
+				{/** Markets Table  */}
 				<div dir='ltr' className='md:mt-10 mt-6'>
 					<ShopVarietiesTable
 						editSection={(item) => {

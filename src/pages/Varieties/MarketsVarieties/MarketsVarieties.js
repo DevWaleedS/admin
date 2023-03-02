@@ -16,14 +16,10 @@ const ShopVarieties = () => {
 	const { fetchedData, loading, reload, setReload } = useFetch('https://backend.atlbha.com/api/Admin/category');
 
 	const [showAddVarietyPage, setShowAddVarietyPage] = useState(false);
-	const [editVariety, setEditVariety] = useState(null);
-	const [editCategory, setEditCategory] = useState(null);
-	const [detailsCategory, setDetailsCategory] = useState(null);
-
 	const [showAddSubVariety, setShowAddSubVariety] = useState(false);
+	const [editVariety, setEditVariety] = useState(null);
 
 	
-
 	return (
 		<div className={`md:px-4 md:pt-8 md:pl-36 p-4 pt-0 md:mt-5 mt-0 md:bg-[#F6F6F6] bg-[#FFFFFF]`}>
 			<div className='md:mt-6 mt-0 flex md:flex-row flex-col md:items-center items-start justify-between gap-4'>
@@ -52,8 +48,6 @@ const ShopVarieties = () => {
 				<AddVariety
 					data={editVariety}
 					reload={reload}
-					editCategory={editCategory}
-					detailsCategory={detailsCategory}
 					setReload={setReload}
 					setShowAddSubVariety={setShowAddSubVariety}
 					cancel={() => {

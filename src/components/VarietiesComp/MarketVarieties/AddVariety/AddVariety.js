@@ -246,7 +246,8 @@ const NewProduct = ({ cancel, data, setReload, reload, setShowAddSubVariety }) =
 										<DeleteIcon fill='#FF3838' />
 									</div>
 								</div>
-							))}
+							))
+						}
 
 						<div className='flex flex-row items-center justify-end'>
 							<div
