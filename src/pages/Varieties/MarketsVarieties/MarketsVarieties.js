@@ -16,59 +16,13 @@ const ShopVarieties = () => {
 	const { fetchedData, loading, reload, setReload } = useFetch('https://backend.atlbha.com/api/Admin/category');
 
 	const [showAddVarietyPage, setShowAddVarietyPage] = useState(false);
-	const [editVariety, setEditVariety] = useState(fetchedData);
+	const [editVariety, setEditVariety] = useState(null);
+	const [editCategory, setEditCategory] = useState(null);
+	const [detailsCategory, setDetailsCategory] = useState(null);
+
 	const [showAddSubVariety, setShowAddSubVariety] = useState(false);
 
-	const token = localStorage.getItem('token');
-	const contextStore = useContext(Context);
-	const { setEndActionTitle } = contextStore;
-
-	// upload new image
-	const [images, setImages] = useState([]);
-	const maxNumber = 2;
-	const onChange = (imageList, addUpdateIndex) => {
-		// data for submit
-		setImages(imageList);
-	};
-
-	const [subCategories, setSubCategories] = useState([
-		{
-			name: '',
-		},
-	]);
-	const [mainCategory, setMainCategory] = useState({
-		name: editVariety?.name || '',
-	});
-
-	// to add new category
-	const addNewCategory = () => {
-		let formData = new FormData();
-		formData.append('name', mainCategory?.name);
-		formData.append('icon', images[0]?.file || null);
-
-		// to select all subcategories names
-		for (let i = 0; i < subCategories?.length; i++) {
-			formData.append([`data[${i}][name]`], subCategories[i]?.name);
-		}
-		axios
-			.post(`https://backend.atlbha.com/api/Admin/category`, formData, {
-				headers: {
-					'Content-Type': 'multipart/form-data',
-					Authorization: `Bearer ${token}`,
-				},
-			})
-			.then((res) => {
-				if (res?.data?.success === true && res?.data?.data?.status === 200) {
-					setEndActionTitle(res?.data?.message?.ar);
-					setShowAddVarietyPage(false);
-					setReload(!reload);
-				} else {
-					setEndActionTitle(res?.data?.message?.ar);
-					setShowAddVarietyPage(false);
-					setReload(!reload);
-				}
-			});
-	};
+	
 
 	return (
 		<div className={`md:px-4 md:pt-8 md:pl-36 p-4 pt-0 md:mt-5 mt-0 md:bg-[#F6F6F6] bg-[#FFFFFF]`}>
@@ -98,16 +52,10 @@ const ShopVarieties = () => {
 				<AddVariety
 					data={editVariety}
 					reload={reload}
+					editCategory={editCategory}
+					detailsCategory={detailsCategory}
 					setReload={setReload}
-					images={images}
-					mainCategory={mainCategory}
-					subCategories={subCategories}
-					setSubCategories={setSubCategories}
-					setMainCategoryValues={setMainCategory}
 					setShowAddSubVariety={setShowAddSubVariety}
-					maxNumber={maxNumber}
-					onChangeFuncToUploadImage={onChange}
-					addNewCategoryFunction={addNewCategory}
 					cancel={() => {
 						setShowAddVarietyPage(false);
 					}}
@@ -119,8 +67,6 @@ const ShopVarieties = () => {
 			{/** add new sub category */}
 			{showAddSubVariety && (
 				<AddSubVariety
-					subCategories={subCategories}
-					setSubCategories={setSubCategories}
 					cancel={() => {
 						setShowAddSubVariety(false);
 					}}

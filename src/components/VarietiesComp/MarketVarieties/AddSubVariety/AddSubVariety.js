@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { Fragment, useContext } from 'react';
+import Context from '../../../../store/context';
+// icons
 import Button from '../../../../UI/Button/Button';
 import { IoMdCloseCircleOutline } from 'react-icons/io';
 
@@ -6,9 +8,12 @@ const BackDrop = ({ onClick }) => {
 	return <div onClick={onClick} className='fixed back_drop top-0 left-0 h-full w-full bg-slate-900 opacity-50 z-40'></div>;
 };
 
-const AddSubVariety = ({ cancel, subCategories, setSubCategories }) => {
+const AddSubVariety = ({ cancel }) => {
+	const contextStore = useContext(Context);
+	const { subCategories, setSubCategories } = contextStore;
+
 	return (
-		<>
+		<Fragment>
 			<BackDrop onClick={cancel} />
 			<div className='absolute flex flex-col top-5 translate-x-2/4  right-2/4 z-50 rounded-lg overflow-hidden' style={{ width: '60.25rem', maxWidth: '90%' }}>
 				<div className='h-16 w-full flex items-center justify-between py-4 px-4 trader_alert' style={{ backgroundColor: '#02466A' }}>
@@ -31,7 +36,7 @@ const AddSubVariety = ({ cancel, subCategories, setSubCategories }) => {
 								name='name'
 								value={subCategories?.name}
 								onChange={(e) => {
-									setSubCategories([{ ...subCategories, name: e.target.value }]);
+									setSubCategories([{ name: e.target.value }]);
 								}}
 							/>
 						</div>
@@ -62,7 +67,7 @@ const AddSubVariety = ({ cancel, subCategories, setSubCategories }) => {
 					</div>
 				</div>
 			</div>
-		</>
+		</Fragment>
 	);
 };
 
