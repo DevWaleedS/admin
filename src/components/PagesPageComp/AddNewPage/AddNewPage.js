@@ -82,7 +82,7 @@ const AddNewPage = ({ cancel, reload, setReload, eidtData }) => {
 		formData.append('image', itsPost ? images[0]?.file : null);
 
 		axios
-			.post(`${type === 'push' ? 'https://backend.atlbha.com/api/Admin/page/publish' : 'https://backend.atlbha.com/api/Admin/page'}`, formData, {
+			.post(`${type === 'push' ? 'https://backend.atlbha.com/api/Admin/page-publish' : 'https://backend.atlbha.com/api/Admin/page'}`, formData, {
 				headers: {
 					"Content-Type": "multipart/form-data",
 					Authorization: `Bearer ${token}`,
