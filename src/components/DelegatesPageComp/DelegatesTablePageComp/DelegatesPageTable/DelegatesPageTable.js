@@ -159,7 +159,7 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
-	const { numSelected, onClick, rowCount, onSelectAllClick } = props;
+	const { numSelected, rowCount, onSelectAllClick } = props;
 	const NotificationStore = useContext(NotificationContext);
 	const { setNotificationTitle, setActionTitle } = NotificationStore;
 	return (
@@ -387,7 +387,8 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload 
 											const labelId = `enhanced-table-checkbox-${index}`;
 
 											return (
-												<TableRow hover role='checkbox' tabIndex={-1} aria-checked={isItemSelected} key={row?.id} selected={isItemSelected}>
+												<TableRow hover role='checkbox' tabIndex={-1} aria-checked={isItemSelected}
+													key={row?.id} selected={isItemSelected}>
 													<TableCell component='th' id={labelId} scope='row'>
 														<div className='flex items-center gap-2'>
 															<BsTrash
@@ -413,34 +414,34 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload 
 														<div
 															className='w-20 h-full py-1 rounded-xl'
 															style={{
-																backgroundColor: row?.user?.status === 'نشط' ? '#3AE37466' : '#ECECEC',
+																backgroundColor: row?.status === 'نشط' ? '#3AE37466' : '#ECECEC',
 																marginLeft: 'auto',
 															}}
 														>
 															<h2
 																className='md:text-lg text-[16px]'
 																style={{
-																	color: row?.user?.status === 'نشط' ? '#011723' : '#67747B',
+																	color: row?.status === 'نشط' ? '#011723' : '#67747B',
 																}}
 															>
-																{row?.user?.status === 'نشط' ? 'نشط' : 'غير نشط'}
+																{row?.status === 'نشط' ? 'نشط' : 'غير نشط'}
 															</h2>
 														</div>
 													</TableCell>
 
 													<TableCell align='right'>
 														<div>
-															<h2 className='font-normal md:text-lg text-[16px] whitespace-normal'>{row?.user?.city?.name}</h2>
+															<h2 className='font-normal md:text-lg text-[16px] whitespace-normal'>{row?.city?.name}</h2>
 														</div>
 													</TableCell>
 
 													<TableCell align='right'>
 														<div>
-															<h2 className='font-normal md:text-lg text-[16px] whitespace-normal'>{row?.user?.user_name}</h2>
+															<h2 className='font-normal md:text-lg text-[16px] whitespace-normal'>{row?.user_name}</h2>
 														</div>
 													</TableCell>
 													<TableCell align='right'>
-														<h2 className='inline font-normal md:text-lg text-[16px] whitespace-normal'>{row?.user?.name}</h2>
+														<h2 className='inline font-normal md:text-lg text-[16px] whitespace-normal'>{row?.name}</h2>
 													</TableCell>
 													<TableCell align='right' className='font-normal md:text-lg text-[16px] whitespace-normal'>
 														{(index + 1).toLocaleString('en-US', {
