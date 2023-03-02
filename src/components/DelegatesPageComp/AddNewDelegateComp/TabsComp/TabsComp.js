@@ -238,15 +238,15 @@ const TabsComp = ({ handleMainInfo, mainInfo, images, onChange }) => {
 										const result = countryList?.data?.countries?.filter((item) => item?.id === parseInt(selected));
 										return result[0]?.name;
 									}}
-									className='bg-white outline-none w-full px-5 py-[14px] rounded-md'
+									className='bg-white outline-none w-full py-[14px] rounded-md'
 									sx={{
 										height: '3.5rem',
 										pl: '1rem',
 										'& .MuiOutlinedInput-notchedOutline': {
 											border: '1px solid #E9E9E9',
 										},
-										'& .Mui-focused .MuiOutlinedInput-notchedOutline': {
-											border: 'none',
+										'&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+											border: '1px solid #03787A',
 										},
 									}}
 								>
@@ -287,15 +287,16 @@ const TabsComp = ({ handleMainInfo, mainInfo, images, onChange }) => {
 										const result = citiesList?.data?.cities?.filter((item) => item?.id === parseInt(selected));
 										return result[0]?.name;
 									}}
-									className='bg-white outline-none w-full px-10 py-[14px] rounded-md'
+									className='bg-white outline-none w-full py-[14px] rounded-md'
 									sx={{
+										
 										height: '3.5rem',
 										pl: '1rem',
 										'& .MuiOutlinedInput-notchedOutline': {
 											border: '1px solid #E9E9E9',
 										},
-										'& .Mui-focused .MuiOutlinedInput-notchedOutline': {
-											border: 'none',
+										'&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+											border: '1px solid #03787A',
 										},
 									}}
 								>
@@ -452,10 +453,10 @@ const TabsComp = ({ handleMainInfo, mainInfo, images, onChange }) => {
 									const result = activate?.filter((item) => item?.name_en === selected);
 									return result[0]?.name;
 								}}
-							
-								className='bg-white outline-none w-full px-5 py-[14px] rounded-md'
+								className='bg-white outline-none w-full  py-[14px] rounded-md'
 								sx={{
 									height: '3.5rem',
+									pl: '1rem',
 									backgroundColor: '#fff',
 									width: '100%',
 									'& .MuiOutlinedInput-notchedOutline': {
@@ -487,6 +488,8 @@ const TabsComp = ({ handleMainInfo, mainInfo, images, onChange }) => {
 									);
 								})}
 							</Select>
+
+						
 						</div>
 					</TabPanel>
 				</Box>

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import PageNavigate from '../../../components/PageNavigate/PageNavigate';
 import TabsComp from '../../../components/DelegatesPageComp/AddNewDelegateComp/TabsComp/TabsComp';
@@ -13,12 +13,12 @@ import axios from 'axios';
 
 const DelegatesTablePage = () => {
 	const navigate = useNavigate();
-	
+
 	const token = localStorage.getItem('token');
 	const [reload, setReload] = useState(false);
 	const contextStore = useContext(Context);
 	const { setEndActionTitle } = contextStore;
-	
+
 	// to disable || enable submit button
 	const [valid, setValid] = useState(false);
 
@@ -51,8 +51,6 @@ const DelegatesTablePage = () => {
 		// city and country
 		city_id: '',
 		country_id: '',
-
-	
 
 		// status
 		status: '',
@@ -109,12 +107,12 @@ const DelegatesTablePage = () => {
 			.then((res) => {
 				if (res?.data?.success === true && res?.data?.data?.status === 200) {
 					setEndActionTitle(res?.data?.message?.ar);
-					navigate('/عرض_المناديب');
 					setReload(!reload);
+					navigate('/عرض_المناديب');
 				} else {
 					setEndActionTitle(res?.data?.message?.ar);
-					navigate('/عرض_المناديب');
 					setReload(!reload);
+					navigate('/عرض_المناديب');
 				}
 			});
 	};

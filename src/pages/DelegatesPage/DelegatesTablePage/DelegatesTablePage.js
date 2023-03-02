@@ -11,6 +11,7 @@ import { AiOutlinePlus, AiOutlineSearch } from 'react-icons/ai';
 
 const DelegatesTablePage = () => {
 	const { fetchedData, loading, reload, setReload } = useFetch('https://backend.atlbha.com/api/Admin/marketer');
+	
 
 	const navigate = useNavigate();
 
