@@ -30,12 +30,14 @@ const formInputStyle = {
 const AddUnit = ({ cancel , unitDetails }) => {
   const token = localStorage.getItem('token');
   const contextStore = useContext(Context);
-  const { setEndActionTitle } = contextStore;
+	const { setEndActionTitle } = contextStore;
+	
   const [unit,setUnit] = useState({
 		title:'',
 		documents:[],
 		videos:[],
-  });
+	});
+	
   const [firstDuration,setFirstDuration] = useState(0);
   const [secondDuration,setSecondDuration] = useState(0);
   const firstVideoRef = React.useRef();
@@ -67,7 +69,8 @@ const AddUnit = ({ cancel , unitDetails }) => {
   const handleSecondVideoChange = (event) => {
     const file = event.target.files[0];
     const url = URL.createObjectURL(file);
-    setSource(url);
+		setSource(url);
+		
 	setUnit({...unit,videos: [...unit.videos, event.target.files[0]] });
 	let formData = new FormData();
     formData.append('video', file);

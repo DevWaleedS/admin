@@ -77,11 +77,13 @@ const AddNewCourse = ({ coursesReload, setCoursesReload, cancel, editData, detai
     formData.append('duration', data?.minute);
     formData.append('tags', tagsSelected.join(","));
     formData.append('image', images[0]?.file || '');
+
     for (let i = 0; i < unitDetails?.length; i++) {
       formData.append([`data[${i}][title]`], unitDetails[i]?.title);
       for (let  d = 0; d < unitDetails[i]?.documents?.length; d++) {
         formData.append([`data[${i}][file][${d}]`], unitDetails[i]?.documents[d]);
       }
+      
       for (let v = 0; v < unitDetails[i]?.videos?.length; v++) {
       formData.append([`data[${i}][video][${v}]`], unitDetails[i]?.videos[v]);
       }
@@ -141,7 +143,7 @@ const AddNewCourse = ({ coursesReload, setCoursesReload, cancel, editData, detai
     <div className='absolute md:pl-[140px] md:pr-5 md:py-[43px] top-0 right-0 z-30 md:pb-36 w-full md:bg-[#fafafa] bg-[#FFFFFF] otlobha_acadmic'>
       {showAddUnit && (
         <AddUnit
-          unitDetails={details => setUnitDetails([...unitDetails, details])}
+          unitDetails={ details => setUnitDetails([...unitDetails, details])}
           cancel={() => {
             setShowAddUnit(false);
           }}

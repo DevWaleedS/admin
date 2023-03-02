@@ -9,8 +9,6 @@ import Button from '../../../../UI/Button/Button';
 import styles from './FilteringOptions.module.css';
 import { IoIosArrowDown } from 'react-icons/io';
 
-
-
 const category = ['ملابس أطفال', 'ملابس شباب', 'ملابس نسائية', 'ملابس رجال'];
 const sections = ['قميص', 'جينز', 'سيليكون', 'تي شيرت'];
 
@@ -60,9 +58,10 @@ const FilteringOptions = ({ showFilteringOptions, hideFilteringOptions }) => {
 							},
 						}}
 					>
-						{category.map((item) => {
+						{category.map((item, idx) => {
 							return (
 								<MenuItem
+									key={idx}
 									className='souq_storge_category_filter_items'
 									sx={{
 										backgroundColor: 'rgba(211, 211, 211, 1)',
@@ -107,9 +106,9 @@ const FilteringOptions = ({ showFilteringOptions, hideFilteringOptions }) => {
 							},
 						}}
 					>
-						{sections.map((name) => (
+						{sections.map((name, idx) => (
 							<MenuItem
-								key={name}
+								key={idx}
 								value={name}
 								className='souq_storge_category_filter_items multiple_select'
 								sx={{

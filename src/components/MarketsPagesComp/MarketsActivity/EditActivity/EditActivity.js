@@ -28,7 +28,7 @@ const EditActivity = ({ cancel, Product, reload, setReload }) => {
 		formData.append('_method', 'PUT');
 		formData.append('name', activiyName);
 		if(images.length !==0){
-			formData.append('icon',images[0]?.file || '');
+			formData.append('icon',images[0]?.file || null);
 		}
 
 		axios

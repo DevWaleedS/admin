@@ -51,7 +51,12 @@ const DelegatesTablePage = () => {
 			</div>
 
 			<div className='md:mt-10 mt-4' dir={'ltr'}>
-				<DelegatesPageTable fetchedData={fetchedData} loading={loading} reload={reload} setReload={setReload} />
+				<DelegatesPageTable
+					fetchedData={fetchedData} 
+					loading={loading}
+					reload={reload}
+					setReload={setReload} 
+				/>
 			</div>
 		</div>
 	);

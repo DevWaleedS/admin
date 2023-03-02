@@ -28,6 +28,7 @@ const AddNewUser = ({ reload, setReload, cancel, editCoupon, detailsCoupon }) =>
 	const [numberOfUesedPercent, setNumberOfUesedPercent] = useState('');
 	const [numberOfUesedFixed, setNumberOfUesedFixed] = useState('');
 
+	
 	useEffect(() => {
 		if (editCoupon) {
 			if (editCoupon.discount_type === 'مبلغ ثابت') {

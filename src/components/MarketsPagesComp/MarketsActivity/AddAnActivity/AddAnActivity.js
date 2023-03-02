@@ -25,7 +25,7 @@ const AddAnActivity = ({ cancel, reload, setReload }) => {
 	// add activity form
 	const addActivity = () => {
 		let formData = new FormData();
-		formData.append('icon', images[0]?.file || '');
+		formData.append('icon', images[0]?.file || null);
 		formData.append('name', activiyName);
 
 		axios

@@ -337,7 +337,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
 		return arr;
 	};
 
-	// change stutus for single item
+	// change status for single item
 	const changePageStatus = (id) => {
 		axios
 		.get(`https://backend.atlbha.com/api/Admin/pagechangeSatusall?id[]=${id}`, {
