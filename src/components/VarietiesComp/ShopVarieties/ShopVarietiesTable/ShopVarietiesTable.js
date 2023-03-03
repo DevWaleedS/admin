@@ -210,7 +210,6 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function EnhancedTable({ editSection, fetchedData, reload, setReload, loading }) {
-
 	const token = localStorage.getItem('token');
 	const NotificationStore = useContext(NotificationContext);
 	const { confirm, setConfirm, actionTitle, setActionTitle } = NotificationStore;
@@ -392,11 +391,7 @@ export default function EnhancedTable({ editSection, fetchedData, reload, setRel
 											<TableRow hover role='checkbox' aria-checked={isItemSelected} tabIndex={-1} key={row?.id} selected={isItemSelected}>
 												<TableCell component='th' id={labelId} scope='row'>
 													<div className='flex items-center gap-2'>
-														<EditIcon
-															className={'cursor-pointer'}
-															onClick={() => editSection(row)}
-															width={'20px'}
-														></EditIcon>
+														<EditIcon className={'cursor-pointer'} onClick={() => editSection(row)} width={'20px'}></EditIcon>
 														<BsTrash
 															onClick={() => deleteCategory(row?.id)}
 															style={{
@@ -447,7 +442,7 @@ export default function EnhancedTable({ editSection, fetchedData, reload, setRel
 												 */}
 												<TableCell align='right'>
 													<div dir={'rtl'} className='flex items-center gap-8'>
-														{row?.subcategory.map((tag, idx) => {
+														{row?.subcategory.slice(0, 3).map((tag, idx) => {
 															return (
 																<div
 																	key={idx}

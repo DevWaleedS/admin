@@ -24,6 +24,7 @@ import { NotificationContext } from '../../../../store/NotificationProvider';
 
 // icons
 import { ReactComponent as EditIcon } from '../../../../assets/Icons/editt 2.svg';
+import { ReactComponent as InfoIcon } from '../../../../assets/Icons/icon-24-actions-info_outined.svg';
 import { ReactComponent as BsTrash } from '../../../../assets/Icons/icon-24-delete.svg';
 import { ReactComponent as SwitchIcon } from '../../../../assets/Icons/icon-38-switch.svg';
 import { ReactComponent as SortIcon } from '../../../../assets/Icons/icon-24-sort.svg';
@@ -393,12 +394,10 @@ export default function EnhancedTable({ editSection, fetchedData, loading, reloa
 											<TableRow hover role='checkbox' aria-checked={isItemSelected} tabIndex={-1} key={row?.id} selected={isItemSelected}>
 												<TableCell component='th' id={labelId} scope='row'>
 													<div className='flex items-center gap-2'>
-														<EditIcon
-															className={'cursor-pointer'}
-														
-															onClick={() => editSection(row)}
-															width={'20px'}
-														></EditIcon>
+													
+
+														<EditIcon className={'cursor-pointer'} onClick={() => editSection(row)} width={'20px'} />
+
 														<BsTrash
 															onClick={() => deleteCategory(row?.id)}
 															style={{
@@ -406,7 +405,7 @@ export default function EnhancedTable({ editSection, fetchedData, loading, reloa
 																color: 'red',
 																fontSize: '1.2rem',
 															}}
-														></BsTrash>
+														/>
 													</div>
 												</TableCell>
 												<TableCell align='right'>
