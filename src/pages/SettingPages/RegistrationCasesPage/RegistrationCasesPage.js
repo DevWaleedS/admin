@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import PageNavigate from "../../../components/PageNavigate/PageNavigate";
-// import PagesPageTable from "../../components/PagesPageComp/PagesPageTable/PagesPageTable";
-// import Filtering from "../../components/PagesPageComp/Filtering/Filtering";
+
 import Switch from "@mui/material/Switch";
 
 const cases = [{ id: 1, name: 'التسجيل مع موافقة الادارة', active: true }, { id: 2, name: 'ايقاف التسجيل', active: false }, { id: 3, name: 'التسجيل تلقائي', active: false }];

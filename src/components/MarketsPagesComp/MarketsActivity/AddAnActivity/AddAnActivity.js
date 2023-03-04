@@ -19,6 +19,8 @@ const AddAnActivity = ({ cancel, reload, setReload }) => {
 
 	const onChange = (imageList, addUpdateIndex) => {
 		// data for submit
+
+	
 		setImages(imageList);
 	};
 

@@ -124,17 +124,20 @@ function EnhancedTableToolbar(props) {
 				justifyContent: 'flex-end',
 			}}
 		>
-			<div className='fcc gap-2 px-4 rounded-full' style={{ backgroundColor: 'rgba(255, 159, 26, 0.04)' }}>
+			<div className='flex flex-col md:flex-row py-1 md:py-1 gap-2 items-center'>
 				{numSelected > 0 && (
 					<div
 						className='fcc gap-4 px-4 rounded-full'
-						style={{ minWidth: '114px', backgroundColor: '#FF9F1A0A' }}
+						style={{
+							width: '114px',
+							backgroundColor: 'rgba(255, 159, 26, 0.04)',
+						}}
 						onClick={() => {
-							setNotificationTitle('سيتم تعطيل جميع التصنيفات التي قمت بتحديدها');
+							setNotificationTitle('سيتم تعطيل جميع التصنيفات التي قمت بتحديدهم');
 							setActionTitle('changeStatus');
 						}}
 					>
-						<h2 className={'font-medium md:text-[18px] text-[16px] whitespace-nowrap'} style={{ color: '#FF9F1A' }}>
+						<h2 className={'font-semibold'} style={{ color: '#FF9F1A' }}>
 							تعطيل
 						</h2>
 						<Box
@@ -151,34 +154,35 @@ function EnhancedTableToolbar(props) {
 									fontSize: '0.5rem',
 								}}
 								className={'w-5'}
-							></SwitchIcon>
+							/>
 						</Box>
 					</div>
 				)}
-			</div>
-			<div className='flex gap-2 items-center'>
 				{numSelected > 0 && (
-					<Tooltip
+					<div
+						className='fcc gap-2 px-4 rounded-full'
+						style={{
+							width: '114px',
+							backgroundColor: 'rgba(255, 56, 56, 0.1)',
+						}}
 						onClick={() => {
-							setNotificationTitle('سيتم حذف جميع التصنيفات التي قمت بتحديدها');
+							setNotificationTitle('سيتم حذف جميع التصنيفات التي قمت بتحديدهم');
 							setActionTitle('Delete');
 						}}
 					>
-						<div className='fcc gap-2 px-4 rounded-full' style={{ width: '114px', backgroundColor: '#FF38381A' }}>
-							<h2 className={'font-medium md:text-[18px] text-[16px] whitespace-nowrap'} style={{ color: '#FF3838' }}>
-								حذف
-							</h2>
-							<IconButton>
-								<BsTrash
-									style={{
-										cursor: 'pointer',
-										color: 'red',
-										fontSize: '1rem',
-									}}
-								></BsTrash>
-							</IconButton>
-						</div>
-					</Tooltip>
+						<h2 className={'font-semibold'} style={{ color: '#FF3838' }}>
+							حذف
+						</h2>
+						<IconButton>
+							<BsTrash
+								style={{
+									cursor: 'pointer',
+									color: 'red',
+									fontSize: '1rem',
+								}}
+							></BsTrash>
+						</IconButton>
+					</div>
 				)}
 			</div>
 

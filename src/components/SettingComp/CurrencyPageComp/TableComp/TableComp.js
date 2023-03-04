@@ -1,4 +1,5 @@
-import React,{useContext} from 'react';
+import React, { useEffect, useContext, Fragment } from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -14,8 +15,11 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
-import { NotificationContext } from "../../../../store/NotificationProvider";
-import { visuallyHidden } from '@mui/utils';
+import Context from '../../../../store/context';
+import { NotificationContext } from '../../../../store/NotificationProvider';
+
+// icons
+import CircularLoading from '../../../../UI/CircularLoading/CircularLoading';
 import { ReactComponent as SortIcon } from '../../../../assets/Icons/icon-24-sort.svg';
 import { ReactComponent as CheckedSquare } from '../../../../assets/Icons/icon-24-square checkmark.svg';
 import { ReactComponent as BsTrash } from '../../../../assets/Icons/icon-24-delete.svg';
@@ -81,11 +85,6 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-	const { order, orderBy, onRequestSort } = props;
-	const createSortHandler = (property) => (event) => {
-		onRequestSort(event, property);
-	};
-
 	return (
 		<TableHead sx={{ backgroundColor: '#eaecd0' }}>
 			<TableRow>
@@ -95,11 +94,10 @@ function EnhancedTableHead(props) {
 						key={headCell.id}
 						align={headCell.numeric ? 'right' : 'center'}
 						padding={headCell.disablePadding ? 'none' : 'normal'}
-						sortDirection={orderBy === headCell.id ? order : false}
 						sx={{
 							width: headCell.width ? headCell.width : 'auto',
 							color: '#02466A',
-							whiteSpace:'nowrap'
+							whiteSpace: 'nowrap',
 						}}
 					>
 						{headCell.sort && (
@@ -107,16 +105,8 @@ function EnhancedTableHead(props) {
 								IconComponent={() => {
 									return <SortIcon />;
 								}}
-								active={orderBy === headCell.id}
-								direction={orderBy === headCell.id ? order : 'asc'}
-								onClick={createSortHandler(headCell.id)}
 							>
 								{headCell.label}
-								{!orderBy === headCell.id ? (
-									<Box component='span' sx={visuallyHidden}>
-										{order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-									</Box>
-								) : null}
 							</TableSortLabel>
 						)}
 						{!headCell.sort && headCell.label}
@@ -130,17 +120,14 @@ function EnhancedTableHead(props) {
 
 EnhancedTableHead.propTypes = {
 	numSelected: PropTypes.number.isRequired,
-	onRequestSort: PropTypes.func.isRequired,
 	onSelectAllClick: PropTypes.func.isRequired,
-	order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-	orderBy: PropTypes.string.isRequired,
-	rowCount: PropTypes.number.isRequired,
+	rowCount: PropTypes.number,
 };
 
 function EnhancedTableToolbar(props) {
-	const { numSelected, onClick, rowCount, onSelectAllClick } = props;
+	const { numSelected, rowCount, onSelectAllClick } = props;
 	const NotificationStore = useContext(NotificationContext);
-	const { setNotificationTitle,setActionTitle } = NotificationStore;
+	const { setNotificationTitle, setActionTitle } = NotificationStore;
 	return (
 		<Toolbar
 			sx={{
@@ -157,13 +144,13 @@ function EnhancedTableToolbar(props) {
 			<div className='fcc gap-2 px-4 rounded-full' style={{ backgroundColor: 'rgba(255, 159, 26, 0.04)' }}></div>
 			<div className='flex gap-2 items-center'>
 				{numSelected > 0 && (
-					<div 
-						className='fcc gap-4 px-4 rounded-full' 
+					<div
+						className='fcc gap-4 px-4 rounded-full'
 						style={{ minWidth: '114px', backgroundColor: '#FF9F1A0A' }}
-						onClick={()=>{
+						onClick={() => {
 							setNotificationTitle('سيتم تعطيل جميع العملات التي قمت بتحديدهم');
-							setActionTitle('تم تعطيل العملات بنجاح');
-						}} 
+							setActionTitle('changeStatus');
+						}}
 					>
 						<h2 className={'font-medium md:text-[18px] text-[16px]'} style={{ color: '#FF9F1A' }}>
 							تعطيل
@@ -215,12 +202,15 @@ EnhancedTableToolbar.propTypes = {
 	numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable({ data,loading,reload,setReload,setDataRow }) {
-	const [order, setOrder] = React.useState('asc');
-	const [orderBy, setOrderBy] = React.useState('calories');
+export default function EnhancedTable({ setDataRow, fetchedData, reload, setReload, loading }) {
+	const token = localStorage.getItem('token');
+	const NotificationStore = useContext(NotificationContext);
+	const { confirm, setConfirm, actionTitle, setActionTitle } = NotificationStore;
+	const contextStore = useContext(Context);
+	const { setEndActionTitle } = contextStore;
 	const [selected, setSelected] = React.useState([]);
 	const [page, setPage] = React.useState(0);
-	const [rowsPerPage, setRowsPerPage] = React.useState(10);
+	const [rowsPerPage, setRowsPerPage] = React.useState(4);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [userMenuOpenedId, setUserMenuOpenedId] = React.useState(null);
 	const [rowAnchorEl, setRowAnchorEl] = React.useState(null);
@@ -240,20 +230,58 @@ export default function EnhancedTable({ data,loading,reload,setReload,setDataRow
 		setUserMenuOpenedId(null);
 	};
 
-	const handleRequestSort = (event, property) => {
-		const isAsc = orderBy === property && order === 'asc';
-		setOrder(isAsc ? 'desc' : 'asc');
-		setOrderBy(property);
-	};
-
 	const handleSelectAllClick = (event) => {
 		if (event.target.checked) {
-			const newSelected = data?.map((n) => n.id);
+			const newSelected = fetchedData?.data?.Currencies.map((n) => n.id);
 			setSelected(newSelected);
 			return;
 		}
 		setSelected([]);
 	};
+
+	// Delete single item
+	const deleteCurrency = (id) => {
+		axios
+			.delete(`https://backend.atlbha.com/api/Admin/currency/${id}`, {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+					setReload(!reload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+					setReload(!reload);
+				}
+			});
+	};
+	// Delete all items
+	useEffect(() => {
+		if (confirm && actionTitle === 'changeStatus') {
+			const queryParams = selected.map((id) => `id[]=${id}`).join('&');
+			axios
+				.get(`https://backend.atlbha.com/api/Admin/currencychangeSatusall?${queryParams}`, {
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${token}`,
+					},
+				})
+				.then((res) => {
+					if (res?.data?.success === true && res?.data?.data?.status === 200) {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload((prev) => !prev);
+					} else {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload((prev) => !prev);
+					}
+				});
+			setActionTitle(null);
+			setConfirm(false);
+		}
+	}, [confirm]);
 
 	const handleClick = (event, id) => {
 		const selectedIndex = selected.indexOf(id);
@@ -280,9 +308,9 @@ export default function EnhancedTable({ data,loading,reload,setReload,setDataRow
 	const isSelected = (name) => selected.indexOf(name) !== -1;
 
 	// Avoid a layout jump when reaching the last page with empty rows.
-	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data?.length) : 0;
+	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - fetchedData?.data?.Currencies.length) : 0;
 	const allRows = () => {
-		const num = Math.ceil(data?.length / rowsPerPage);
+		const num = Math.ceil(fetchedData?.data?.Currencies.length / rowsPerPage);
 		const arr = [];
 		for (let index = 0; index < num; index++) {
 			arr.push(index + 1);
@@ -292,72 +320,79 @@ export default function EnhancedTable({ data,loading,reload,setReload,setDataRow
 	return (
 		<Box sx={{ width: '100%' }}>
 			<Paper sx={{ width: '100%', mb: 2 }}>
-				<EnhancedTableToolbar numSelected={selected.length} rowCount={data?.length} onSelectAllClick={handleSelectAllClick} />
+				<EnhancedTableToolbar numSelected={selected.length} rowCount={fetchedData?.data?.Currencies.length} onSelectAllClick={handleSelectAllClick} />
 				<TableContainer>
 					<Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={'medium'}>
-						<EnhancedTableHead numSelected={selected.length} order={order} orderBy={orderBy} onSelectAllClick={handleSelectAllClick} onRequestSort={handleRequestSort} rowCount={data?.length} />
+						<EnhancedTableHead numSelected={selected.length} onSelectAllClick={handleSelectAllClick} rowCount={fetchedData?.data?.Currencies.length} />
 						<TableBody>
-							
-							{stableSort(data, getComparator(order, orderBy))
-								?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-								?.map((row, index) => {
-									const isItemSelected = isSelected(row.id);
-									const labelId = `enhanced-table-checkbox-${index}`;
-
-									return (
-										<TableRow hover role='checkbox' aria-checked={isItemSelected} tabIndex={-1} key={row.id} selected={isItemSelected}>
-											<TableCell component='th' id={labelId} scope='row'>
-												<BsTrash
-													onClick={()=>''}
-													style={{
-														cursor: 'pointer',
-														color: 'red',
-														fontSize: '1rem',
-													}}
-												></BsTrash>
-											</TableCell>
-
-											<TableCell align='right'>
-												<h2 style={{ color: '#4D4F5C' }} className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>
-													{row?.name}
-												</h2>
-											</TableCell>
-
-											<TableCell align='right'>
-												<img src={row?.image} alt={row?.name} />
-											</TableCell>
-											<TableCell align='right' className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>
-												{(index + 1).toLocaleString('en-US', {
-													minimumIntegerDigits: 2,
-													useGrouping: false,
-												})}
-											</TableCell>
-											<TableCell padding='none' align={'right'}>
-												<Checkbox
-													sx={{
-														color: '#1DBBBE',
-														'& .MuiSvgIcon-root': {
-															color: '#011723',
-														},
-													}}
-													checked={isItemSelected}
-													onClick={(event) => handleClick(event, row.id)}
-													inputProps={{
-														'aria-labelledby': labelId,
-													}}
-												/>
-											</TableCell>
-										</TableRow>
-									);
-								})}
-							{emptyRows > 0 && (
-								<TableRow
-									style={{
-										height: 53 * emptyRows,
-									}}
-								>
-									<TableCell colSpan={6} />
+							{loading ? (
+								<TableRow>
+									<TableCell colSpan={4}>
+										<CircularLoading />
+									</TableCell>
 								</TableRow>
+							) : (
+								<Fragment>
+									{fetchedData?.data?.Currencies.map((row, index) => {
+										const isItemSelected = isSelected(row?.id);
+										const labelId = `enhanced-table-checkbox-${index}`;
+
+										return (
+											<TableRow hover role='checkbox' aria-checked={isItemSelected} tabIndex={-1} key={row?.id} selected={isItemSelected}>
+												<TableCell component='th' id={labelId} scope='row'>
+													<BsTrash
+														onClick={() => deleteCurrency(row?.id)}
+														style={{
+															cursor: 'pointer',
+															color: 'red',
+															fontSize: '1rem',
+														}}
+													></BsTrash>
+												</TableCell>
+
+												<TableCell align='right'>
+													<h2 style={{ color: '#4D4F5C' }} className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>
+														{row?.name}
+													</h2>
+												</TableCell>
+
+												<TableCell align='right'>
+													<img className='w-6 h-6' style={{ marginLeft: 'auto' }} src={row?.image} alt={row?.name} />
+												</TableCell>
+												<TableCell align='right' className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>
+													{(index + 1).toLocaleString('en-US', {
+														minimumIntegerDigits: 2,
+														useGrouping: false,
+													})}
+												</TableCell>
+												<TableCell padding='none' align={'right'}>
+													<Checkbox
+														sx={{
+															color: '#1DBBBE',
+															'& .MuiSvgIcon-root': {
+																color: '#011723',
+															},
+														}}
+														checked={isItemSelected}
+														onClick={(event) => handleClick(event, row?.id)}
+														inputProps={{
+															'aria-labelledby': labelId,
+														}}
+													/>
+												</TableCell>
+											</TableRow>
+										);
+									})}
+									{emptyRows > 0 && (
+										<TableRow
+											style={{
+												height: 53 * emptyRows,
+											}}
+										>
+											<TableCell colSpan={6} />
+										</TableRow>
+									)}
+								</Fragment>
 							)}
 						</TableBody>
 					</Table>

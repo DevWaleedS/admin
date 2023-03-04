@@ -1,15 +1,18 @@
-import React, { useState } from "react";
-import PageNavigate from "../../../components/PageNavigate/PageNavigate";
-import TableComp from "../../../components/SettingComp/CurrencyPageComp/TableComp/TableComp";
-import AddNewCurrency from "../../../components/SettingComp/CurrencyPageComp/AddNewCurrency/AddNewCurrency";
-import Button from "../../../UI/Button/Button";
-import { AiOutlinePlus } from "react-icons/ai";
+import React, { useState } from 'react';
+
 import useFetch from '../../../hooks/useFetch';
+import PageNavigate from '../../../components/PageNavigate/PageNavigate';
+import TableComp from '../../../components/SettingComp/CurrencyPageComp/TableComp/TableComp';
+import AddNewCurrency from '../../../components/SettingComp/CurrencyPageComp/AddNewCurrency/AddNewCurrency';
+
+import Button from '../../../UI/Button/Button';
+import { AiOutlinePlus } from 'react-icons/ai';
 
 const CurrencyPage = () => {
-	const { fetchedData, loading, reload, setReload } = useFetch('https://backend.atlbha.com/api/Admin/currency');
+	// get data from api
+	const { fetchedData, reload, setReload, loading } = useFetch('https://backend.atlbha.com/api/Admin/currency');
+	
 	const [showAddCurrency, setShowAddCurrency] = useState(false);
-
 	return (
 		<div className={`md:px-4 md:pt-6 md:pl-36 md:pb-20 p-4 pt-0`} style={{ backgroundColor: '#F7F7F7' }}>
 			<div className='flex md:flex-row flex-col md:items-center items-start justify-between gap-y-4'>
@@ -34,15 +37,12 @@ const CurrencyPage = () => {
 					}}
 					reload={reload}
 					setReload={setReload}
-				></AddNewCurrency>
-			)}
-			<div className='md:mt-16 mt-6' dir='ltr'>
-				<TableComp
-					data={fetchedData?.data?.Currencies}
 					loading={loading}
-					reload={reload}
-					setReload={setReload}
 				/>
+			)}
+
+			<div className='md:mt-16 mt-6' dir='ltr'>
+				<TableComp fetchedData={fetchedData} reload={reload} setReload={setReload} loading={loading} />
 			</div>
 		</div>
 	);
