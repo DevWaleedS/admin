@@ -27,6 +27,7 @@ import {
 	DelegatesTablePage,
 	AddNewDelegatePage,
 	EditDelegatePage,
+	ShowDelegatePage,
 	StatusPage,
 	ShopVarieties,
 	MarketsVarieties,
@@ -87,6 +88,7 @@ function App() {
 					<Route path='/عرض_المناديب' element={<DelegatesTablePage />} />
 					<Route path='/إضافة_مندوب_جديد' element={<AddNewDelegatePage />} />
 					<Route path='/:id/تعديل_مندوب' element={<EditDelegatePage />} />
+					<Route path='/:id/تفاصيل_المندوب' element={<ShowDelegatePage />} />
 					<Route path='/حالة_تسجيل_المندوبين' element={<StatusPage />} />
 
 					{/* التصنيفات */}

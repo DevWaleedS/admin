@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import useFetch from '../../../hooks/useFetch';
 import Button from "../../../UI/Button/Button";
 import styles from "./ComplaintDetails.module.css";
 import { GoArrowRight } from "react-icons/go";
@@ -9,12 +10,13 @@ import { ReactComponent as SupportIcon } from "../../../assets/Icons/icon-suppor
 import { ReactComponent as DateIcon } from "../../../assets/Icons/icon-date.svg";
 import { ReactComponent as StatusIcon } from "../../../assets/Icons/status.svg";
 import { ReactComponent as TypeSupportIcon } from "../../../assets/Icons/type support.svg";
-import { ReactComponent as GiftIcon } from "../../../assets/Icons/icon-26-gift.svg";
 import { Editor } from "react-draft-wysiwyg";
 import draftToHtml from "draftjs-to-html";
-import { EditorState, convertToRaw } from "draft-js";
+import { EditorState, convertToRaw,ContentState,convertFromHTML } from 'draft-js';
+import moment from 'moment/moment';
+import CircularLoading from '../../../UI/CircularLoading/CircularLoading';
 
-const BackDrop = ({ onClick, complaintDetails }) => {
+const BackDrop = ({ onClick }) => {
   return (
     <div
       onClick={onClick}
@@ -43,42 +45,42 @@ const stateChanges = [
 ];
 
 const AddCountry = ({ cancel, complaintDetails }) => {
+  const { fetchedData, loading } = useFetch(`https://backend.atlbha.com/api/Admin/technicalSupport/${complaintDetails}`);
   const [description, setDescription] = useState({
-    htmlValue: "<h1></h1>\n",
+    htmlValue: '',
     editorState: EditorState.createEmpty(),
   });
 
   const findStateChanges = stateChanges.find(
-    (i) => complaintDetails.state === i.value
+    (i) => fetchedData?.data?.technicalSupports?.supportstatus === i.value
   );
 
   const onEditorStateChange = (editorValue) => {
     const editorStateInHtml = draftToHtml(
       convertToRaw(editorValue.getCurrentContent())
     );
-    console.log(editorStateInHtml);
-
     setDescription({
       htmlValue: editorStateInHtml,
-      editorState: editorValue,
+      editorState: editorValue ,
     });
   };
 
-  // useEffect(() => {
-  //   if (data) {
-  //     setCountryNumber(data.CountryNumber);
-  //     setCityNumber(data.cityNumber);
-  //     setArabicCountryName(data.name);
-  //     setEnglishCountryName(data.nameEn);
-  //   }
-  // }, [data]);
-
+  useEffect(()=>{
+    setDescription({
+      htmlValue: '',
+      editorState: EditorState.createWithContent(
+        ContentState.createFromBlockArray(
+          convertFromHTML(fetchedData?.data?.technicalSupports?.content || '')
+        )
+      ),
+    });
+  },[fetchedData?.data?.technicalSupports?.content])
   return (
     <>
       <BackDrop onClick={cancel}></BackDrop>
       <div
         className={`fixed bottom-0 left-0 bg-slate-50 z-30 ${styles.container}`}
-        style={{ width: "1104px",maxWidth:"100%", height: "calc(100% - 5rem)" }}
+        style={{ width: "1104px", maxWidth: "100%", height: "calc(100% - 5rem)" }}
       >
         <div className="flex h-full flex-col justify-between">
           <div
@@ -114,180 +116,192 @@ const AddCountry = ({ cancel, complaintDetails }) => {
             className={`flex-1 flex flex-col md:items-start items-center overflow-y-scroll md:pt-[30px] md:pb-[10px] md:pr-[70px] md:pl-[155px] p-4 ${styles.content}`}
             style={{ backgroundColor: "#F6F6F6" }}
           >
-            <h2 style={{ fontSize: '16px', color: "#4D4F5C" }}>
-              رقم الشكوى
-            </h2>
-            <div
-              className="mt-[10px] flex items-center rounded-lg justify-center  md:min-h-[60px] min-h-[45px] w-[180px]"
-              style={{ backgroundColor: "#237EAE" }}
-            >
-              <h2 style={{ color: '#EFF9FF' }} className="md:text-[24px] text-[20px] font-bold">
-                {complaintDetails.stateNumber}
+            {loading ?
+            (
+              <div className="w-full flex flex-col items-center">
+                <CircularLoading />
+              </div>
+            )
+            :
+            (
+              <div>
+              <h2 style={{ fontSize: '16px', color: "#4D4F5C" }}>
+                رقم الشكوى
               </h2>
-            </div>
-            <div
-              className={"mt-[20px] md:gap-12 gap-4 p-[20px] pr-[22px] flex md:flex-row flex-col justify-between rounded-lg"}
-              style={{ width: "752px",maxWidth:"100%", backgroundColor: "#fff", boxShadow: '0px 3px 6px #0000000F' }}
-            >
-              <div className="flex-1 flex flex-col gap-5">
-                <div className="flex md:flex-row flex-col md:items-center items-start md:gap-4 gap-3">
-                  <div className="flex gap-[10px]" style={{ width: "136px" }}>
-                    <StoreIcon className={styles.icons}></StoreIcon>
-                    <h2 style={{ fontSize: '18px', color: '#011723', whiteSpace: 'nowrap' }}>اسم المتجر</h2>
-                  </div>
-                  <div
-                    className={"md:w-[180px] w-full md:h-[70px] h-[45px] flex items-center justify-center rounded-lg"}
-                    style={{
-                      backgroundColor: "#EFF9FF",
-                      boxShadow: '0px 3px 6px #0000000F',
-                      height: "70px",
-                      width: "180px",
-                    }}
-                  >
-                    <h2 style={{ fontSize: '18px', color: "#0077FF" }}>
-                      {complaintDetails.marketName}
-                    </h2>
-                  </div>
-                </div>
-                <div className="flex md:flex-row flex-col md:items-center items-start md:gap-4 gap-3">
-                  <div className="flex gap-[10px]" style={{ width: "136px" }}>
-                    <Category className={styles.icons}></Category>
-                    <h2 style={{ fontSize: '18px', color: '#011723', whiteSpace: 'nowrap' }}>التصنيف</h2>
-                  </div>
-                  <div
-                    className={"md:w-[180px] w-full md:h-[70px] h-[45px] flex items-center justify-center rounded-lg"}
-                    style={{
-                      backgroundColor: "#EFF9FF",
-                      boxShadow: '0px 3px 6px #0000000F',
-                    }}
-                  >
-                    <h2 className="flex flex-row gap-[14px]" style={{ fontSize: '18px', color: "#0077FF" }}>
-                      <GiftIcon />
-                      {complaintDetails.variety}
-                    </h2>
-                  </div>
-                </div>
-
-                <div className="flex md:flex-row flex-col md:items-center items-start md:gap-4 gap-3">
-                  <div className="flex gap-[10px]" style={{ width: "136px" }}>
-                    <CallIcon className={styles.icons}></CallIcon>
-                    <h2 style={{ fontSize: '18px', color: '#011723', whiteSpace: 'nowrap' }}>الهاتف</h2>
-                  </div>
-                  <div
-                    className={"md:w-[180px] w-full md:h-[70px] h-[45px] flex items-center justify-center rounded-lg"}
-                    style={{
-                      backgroundColor: "#EFF9FF",
-                      boxShadow: '0px 3px 6px #0000000F',
-                    }}
-                  >
-                    <h2 style={{ fontSize: '18px', color: "#0077FF" }}>
-                      {complaintDetails.phoneNumber}
-                    </h2>
-                  </div>
-                </div>
-
-                <div className="flex md:flex-row flex-col md:items-center items-start md:gap-4 gap-3">
-                  <div className="flex gap-[10px]" style={{ width: "136px" }}>
-                    <StatusIcon className={styles.icons}></StatusIcon>
-                    <h2 style={{ fontSize: '18px', color: '#011723', whiteSpace: 'nowrap' }}>الحالة</h2>
-                  </div>
-                  <div
-                    className={"md:w-[180px] w-full md:h-[70px] h-[45px] flex items-center justify-center rounded-lg"}
-                    style={{
-                      backgroundColor: findStateChanges.BgColor,
-                      boxShadow: '0px 3px 6px #0000000F',
-                    }}
-                  >
-                    <h2 style={{ fontSize: '18px', color: findStateChanges.color }}>
-                      {complaintDetails.state}
-                    </h2>
-                  </div>
-                </div>
-              </div>
-              <div className="flex-1 flex flex-col gap-5">
-                <div className="flex md:flex-row flex-col md:items-center items-start md:gap-4 gap-3">
-                  <div
-                    className="flex gap-[10px]"
-                    style={{ width: "136px" }}
-                  >
-                    <DateIcon className={styles.icons}></DateIcon>
-                    <h2 style={{ fontSize: '18px', color: '#011723', whiteSpace: 'nowrap' }}>تاريخ الشكوى</h2>
-                  </div>
-                  <div
-                    className={"md:w-[180px] w-full md:h-[70px] h-[45px] flex items-center justify-center rounded-lg"}
-                    style={{
-                      backgroundColor: "#EFF9FF",
-                      boxShadow: '0px 3px 6px #0000000F',
-                    }}
-                  >
-                    <h2 style={{ fontSize: '18px', color: "#0077FF" }}>
-                      {complaintDetails.complaintDate}
-                    </h2>
-                  </div>
-                </div>
-
-                <div className="flex md:flex-row flex-col md:items-center items-start md:gap-4 gap-3">
-                  <div className="flex gap-[10px]" style={{ width: "136px" }}>
-                    <TypeSupportIcon className={styles.icons}></TypeSupportIcon>
-                    <h2 style={{ fontSize: '18px', color: '#011723', whiteSpace: 'nowrap' }}>نوع الاتصال</h2>
-                  </div>
-                  <div
-                    className={"md:w-[180px] w-full md:h-[70px] h-[45px] flex items-center justify-center rounded-lg"}
-                    style={{
-                      backgroundColor: "#FF00000A",
-                      boxShadow: '0px 3px 6px #0000000F',
-                    }}
-                  >
-                    <h2 style={{ fontSize: '18px', color: "#0077FF" }}>
-                      {complaintDetails.connectionType}
-                    </h2>
-                  </div>
-                </div>
-
-                <div className="flex md:flex-row flex-col md:items-center items-start md:gap-4 gap-3">
-                  <div className="flex gap-[10px]" style={{ width: "136px" }}>
-                    <SupportIcon className={styles.icons}></SupportIcon>
-                    <h2 style={{ fontSize: '18px', color: '#011723', whiteSpace: 'nowrap' }}>عنوان الشكوى</h2>
-                  </div>
-                  <div
-                    className={"md:w-[180px] w-full md:h-[70px] h-[45px] flex items-center justify-center rounded-lg"}
-                    style={{
-                      backgroundColor: "#EFF9FF",
-                      boxShadow: '0px 3px 6px #0000000F',
-                    }}
-                  >
-                    <h2 style={{ fontSize: '18px', color: "#0077FF" }}>
-                      {complaintDetails.complaintAddress}
-                    </h2>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="mt-10 flex flex-col gap-[10px] max-w-full">
-              <h2 style={{ fontSize: '18px', color: '#011723' }}>محتوى الشكوى</h2>
               <div
-                className={styles.editor}
+                className="mt-[10px] flex items-center rounded-lg justify-center  md:min-h-[60px] min-h-[45px] w-[180px]"
+                style={{ backgroundColor: "#237EAE" }}
               >
-                <Editor
-                  toolbarHidden={false}
-                  editorState={description.editorState}
-                  onEditorStateChange={onEditorStateChange}
-                  inDropdown={true}
-                  placeholder="هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف التى يولدها التطبيق. إذا كنت تحتاج إلى عدد أكبر من الفقرات يتيح لك مولد النص العربى زيادة عدد الفقرات كما تريد، النص لن يبدو مقسما ولا يحوي أخطاء لغوية، مولد النص العربى مفيد لمصممي المواقع على وجه الخصوص، حيث يحتاج العميل فى كثير من الأحيان أن يطلع على صورة حقيقية لتصميم الموقع."
-                  wrapperClassName="demo-wrapper"
-                  editorClassName="demo-editor"
-                  toolbar={{
-                    options: ["inline", "textAlign", "image", "list"],
-                    inline: {
-                      options: ["bold"],
-                    },
-                    list: {
-                      options: ["unordered", "ordered"],
-                    },
-                  }}
-                />
+                <h2 style={{ color: '#EFF9FF' }} className="md:text-[24px] text-[20px] font-bold">
+                  {fetchedData?.data?.technicalSupports?.id}
+                </h2>
+              </div>
+              <div
+                className={"mt-[20px] md:gap-12 gap-4 p-[20px] pr-[22px] flex md:flex-row flex-col justify-between rounded-lg"}
+                style={{ width: "752px", maxWidth: "100%", backgroundColor: "#fff", boxShadow: '0px 3px 6px #0000000F' }}
+              >
+                <div className="flex-1 flex flex-col gap-5">
+                  <div className="flex md:flex-row flex-col md:items-center items-start md:gap-4 gap-3">
+                    <div className="flex gap-[10px]" style={{ width: "136px" }}>
+                      <StoreIcon className={styles.icons}></StoreIcon>
+                      <h2 style={{ fontSize: '18px', color: '#011723', whiteSpace: 'nowrap' }}>اسم المتجر</h2>
+                    </div>
+                    <div
+                      className={"md:w-[180px] w-full md:h-[70px] h-[45px] flex items-center justify-center rounded-lg"}
+                      style={{
+                        backgroundColor: "#EFF9FF",
+                        boxShadow: '0px 3px 6px #0000000F',
+                        height: "70px",
+                        width: "180px",
+                      }}
+                    >
+                      <h2 style={{ fontSize: '18px', color: "#0077FF" }}>
+                        {fetchedData?.data?.technicalSupports?.store?.store_name}
+                      </h2>
+                    </div>
+                  </div>
+                  <div className="flex md:flex-row flex-col md:items-center items-start md:gap-4 gap-3">
+                    <div className="flex gap-[10px]" style={{ width: "136px" }}>
+                      <Category className={styles.icons}></Category>
+                      <h2 style={{ fontSize: '18px', color: '#011723', whiteSpace: 'nowrap' }}>التصنيف</h2>
+                    </div>
+                    <div
+                      className={"md:w-[180px] w-full md:h-[70px] h-[45px] flex items-center justify-center rounded-lg"}
+                      style={{
+                        backgroundColor: "#EFF9FF",
+                        boxShadow: '0px 3px 6px #0000000F',
+                      }}
+                    >
+                      <h2 className="flex flex-row gap-[14px]" style={{ fontSize: '18px', color: "#0077FF" }}>
+                        <img src={fetchedData?.data?.technicalSupports?.store?.activity[0]?.icon} alt={fetchedData?.data?.technicalSupports?.store?.activity[0]?.name} />
+                        {fetchedData?.data?.technicalSupports?.store?.activity[0]?.name}
+                      </h2>
+                    </div>
+                  </div>
+
+                  <div className="flex md:flex-row flex-col md:items-center items-start md:gap-4 gap-3">
+                    <div className="flex gap-[10px]" style={{ width: "136px" }}>
+                      <CallIcon className={styles.icons}></CallIcon>
+                      <h2 style={{ fontSize: '18px', color: '#011723', whiteSpace: 'nowrap' }}>الهاتف</h2>
+                    </div>
+                    <div
+                      className={"md:w-[180px] w-full md:h-[70px] h-[45px] flex items-center justify-center rounded-lg"}
+                      style={{
+                        backgroundColor: "#EFF9FF",
+                        boxShadow: '0px 3px 6px #0000000F',
+                      }}
+                    >
+                      <h2 style={{ fontSize: '18px', color: "#0077FF" }}>
+                        {fetchedData?.data?.technicalSupports?.store?.phonenumber}
+                      </h2>
+                    </div>
+                  </div>
+
+                  <div className="flex md:flex-row flex-col md:items-center items-start md:gap-4 gap-3">
+                    <div className="flex gap-[10px]" style={{ width: "136px" }}>
+                      <StatusIcon className={styles.icons}></StatusIcon>
+                      <h2 style={{ fontSize: '18px', color: '#011723', whiteSpace: 'nowrap' }}>الحالة</h2>
+                    </div>
+                    <div
+                      className={"md:w-[180px] w-full md:h-[70px] h-[45px] flex items-center justify-center rounded-lg"}
+                      style={{
+                        backgroundColor: findStateChanges?.BgColor,
+                        boxShadow: '0px 3px 6px #0000000F',
+                      }}
+                    >
+                      <h2 style={{ fontSize: '18px', color: findStateChanges?.color }}>
+                       {findStateChanges?.value}
+                      </h2>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex-1 flex flex-col gap-5">
+                  <div className="flex md:flex-row flex-col md:items-center items-start md:gap-4 gap-3">
+                    <div
+                      className="flex gap-[10px]"
+                      style={{ width: "136px" }}
+                    >
+                      <DateIcon className={styles.icons}></DateIcon>
+                      <h2 style={{ fontSize: '18px', color: '#011723', whiteSpace: 'nowrap' }}>تاريخ الشكوى</h2>
+                    </div>
+                    <div
+                      className={"md:w-[180px] w-full md:h-[70px] h-[45px] flex items-center justify-center rounded-lg"}
+                      style={{
+                        backgroundColor: "#EFF9FF",
+                        boxShadow: '0px 3px 6px #0000000F',
+                      }}
+                    >
+                      <h2 style={{ fontSize: '18px', color: "#0077FF" }}>
+                        {moment(fetchedData?.data?.technicalSupports?.created_at).format('DD/MM/YYYY')}
+                      </h2>
+                    </div>
+                  </div>
+
+                  <div className="flex md:flex-row flex-col md:items-center items-start md:gap-4 gap-3">
+                    <div className="flex gap-[10px]" style={{ width: "136px" }}>
+                      <TypeSupportIcon className={styles.icons}></TypeSupportIcon>
+                      <h2 style={{ fontSize: '18px', color: '#011723', whiteSpace: 'nowrap' }}>نوع الاتصال</h2>
+                    </div>
+                    <div
+                      className={"md:w-[180px] w-full md:h-[70px] h-[45px] flex items-center justify-center rounded-lg"}
+                      style={{
+                        backgroundColor: "#FF00000A",
+                        boxShadow: '0px 3px 6px #0000000F',
+                      }}
+                    >
+                      <h2 style={{ fontSize: '18px', color: "#0077FF" }}>
+                        {fetchedData?.data?.technicalSupports?.type}
+                      </h2>
+                    </div>
+                  </div>
+
+                  <div className="flex md:flex-row flex-col md:items-center items-start md:gap-4 gap-3">
+                    <div className="flex gap-[10px]" style={{ width: "136px" }}>
+                      <SupportIcon className={styles.icons}></SupportIcon>
+                      <h2 style={{ fontSize: '18px', color: '#011723', whiteSpace: 'nowrap' }}>عنوان الشكوى</h2>
+                    </div>
+                    <div
+                      className={"md:w-[180px] w-full md:h-[70px] h-[45px] flex items-center justify-center rounded-lg"}
+                      style={{
+                        backgroundColor: "#EFF9FF",
+                        boxShadow: '0px 3px 6px #0000000F',
+                      }}
+                    >
+                      <h2 style={{ fontSize: '18px', color: "#0077FF" }}>
+                        {fetchedData?.data?.technicalSupports?.title}
+                      </h2>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-10 flex flex-col gap-[10px] max-w-full">
+                <h2 style={{ fontSize: '18px', color: '#011723' }}>محتوى الشكوى</h2>
+                <div
+                  className={styles.editor}
+                >
+                  <Editor
+                    toolbarHidden={false}
+                    editorState={description.editorState}
+                    onEditorStateChange={onEditorStateChange}
+                    inDropdown={true}
+                    wrapperClassName="demo-wrapper"
+                    editorClassName="demo-editor"
+                    toolbar={{
+                      options: ["inline", "textAlign", "image", "list"],
+                      inline: {
+                        options: ["bold"],
+                      },
+                      list: {
+                        options: ["unordered", "ordered"],
+                      },
+                    }}
+                  />
+                </div>
               </div>
             </div>
+            )
+            }
+            
           </div>
           <div className="p-8 flex justify-center items-center gap-4 md:h-[135px] h-[100px] md:bg-[#ebebeb] bg-[#F6F6F6]">
             <Button

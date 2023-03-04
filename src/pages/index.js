@@ -35,6 +35,7 @@ export { default as CouponsPage } from "./MarketingPages/CouponsPage/CouponsPage
 export { default as DelegatesTablePage } from "./DelegatesPage/DelegatesTablePage/DelegatesTablePage";
 export { default as AddNewDelegatePage } from "./DelegatesPage/AddNewDelegatePage/AddNewDelegatePage";
 export { default as EditDelegatePage } from "./DelegatesPage/EditDelegatePage/EditDelegatePage";
+export { default as ShowDelegatePage } from "./DelegatesPage/ShowDelegatePage/ShowDelegatePage";
 export { default as StatusPage } from "./DelegatesPage/StatusPage/StatusPage";
 // Varieties
 export { default as ShopVarieties } from "./Varieties/ShopVarieties/ShopVarieties";

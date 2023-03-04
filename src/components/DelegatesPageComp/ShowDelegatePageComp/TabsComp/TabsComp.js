@@ -8,10 +8,7 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import Button from "../../../../UI/Button/Button";
 import Context from "../../../../store/context";
-import ImageUploading from "react-images-uploading";
-import { useNavigate } from "react-router-dom";
 import useFetch from '../../../../hooks/useFetch';
 import axios from 'axios';
 
@@ -24,13 +21,8 @@ import { ReactComponent as BsTwitter } from '../../../../assets/Icons/icon-24-tw
 import { ReactComponent as BsInstagram } from '../../../../assets/Icons/icon-32-instagram.svg';
 import CircularLoading from "../../../../UI/CircularLoading/CircularLoading";
 
-const activate = [
-  { id: 1, name: 'نشط', name_en: 'active' },
-  { id: 2, name: ' غير نشط', name_en: 'not_active' },
-];
-
 const TabsComp = () => {
-  let {id} = useParams();
+  let { id } = useParams();
   const token = localStorage.getItem('token');
   const [loading, setLoading] = useState(false);
   const contextStore = useContext(Context);
@@ -60,26 +52,11 @@ const TabsComp = () => {
     // status
     status: '',
   });
-  const [images, setImages] = useState([]);
   const [previewImage, setPreviewImage] = useState("");
-  const onChange = (imageList, addUpdateIndex) => {
-    // data for submit
-    setImages(imageList);
-  };
-  const navigate = useNavigate();
   const [value, setValue] = React.useState("1");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-  };
-
-  // to set onchange function to all inputs
-  const handleMainInfo = (event) => {
-    const { name, value } = event.target;
-
-    setMainInfo((prevState) => {
-      return { ...prevState, [name]: value };
-    });
   };
 
   // to get selectors from api
@@ -111,8 +88,8 @@ const TabsComp = () => {
               whatsapp: res?.data?.data?.$marketers?.whatsapp,
               youtube: res?.data?.data?.$marketers?.youtube,
               instegram: res?.data?.data?.$marketers?.instegram,
-              city_id: res?.data?.data?.$marketers?.city?.id,
-              country_id: res?.data?.data?.$marketers?.country?.id,
+              city_id: citiesList?.data?.cities?.filter((item) => item?.id === res?.data?.data?.$marketers?.city?.id),
+              country_id: countryList?.data?.countries?.filter((item) => item?.id === res?.data?.data?.$marketers?.country?.id),
               status: res?.data?.data?.$marketers?.status
             });
             setPreviewImage(res?.data?.data?.$marketers?.image);
@@ -125,49 +102,6 @@ const TabsComp = () => {
     }
     getMarketer();
   }, []);
-  const updateMarkter = () => {
-    let formData = new FormData();
-    formData.append('_method', 'PUT');
-    formData.append('name', mainInfo?.name);
-    formData.append('email', mainInfo?.email);
-    formData.append('phonenumber', mainInfo?.phonenumber);
-    //formData.append('password', mainInfo?.password);
-    //formData.append('password_confirm', mainInfo?.password_confirm);
-    formData.append('user_name', mainInfo?.user_name);
-    //formData.append('periodtype', mainInfo?.periodtype);
-
-    /** ------------------------------------------- */
-    formData.append('city_id', mainInfo?.city_id);
-    formData.append('country_id', mainInfo?.country_id);
-
-    /** ------------------------------------------- */
-    if(images.length !==0){
-    formData.append('image', images[0]?.file || null);
-    }
-    /** ------------------------------------------- */
-    formData.append('snapchat', mainInfo?.snapchat);
-    formData.append('facebook', mainInfo?.facebook);
-    formData.append('twiter', mainInfo?.twiter);
-    formData.append('whatsapp', mainInfo?.whatsapp);
-    formData.append('youtube', mainInfo?.youtube);
-    formData.append('instegram', mainInfo?.instegram);
-
-    axios
-      .post('https://backend.atlbha.com/api/Admin/marketer/7', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        if (res?.data?.success === true && res?.data?.data?.status === 200) {
-          setEndActionTitle(res?.data?.message?.ar);
-        } else {
-          setEndActionTitle(res?.data?.message?.ar);
-        }
-      });
-  };
-
   return (
     <Box className="md:mt-16 mt-6">
       <TabContext value={value}>
@@ -226,7 +160,7 @@ const TabsComp = () => {
                       placeholder='عبد العزيز محمد'
                       name='name'
                       value={mainInfo?.name}
-                      onChange={handleMainInfo}
+                      disabled={true}
                     />
                   </div>
                   <div className="flex flex-col gap-[10px]">
@@ -238,7 +172,7 @@ const TabsComp = () => {
                       placeholder='Abed32'
                       name='user_name'
                       value={mainInfo?.user_name}
-                      onChange={handleMainInfo}
+                      disabled={true}
                     />
                   </div>
                   <div className='flex md:flex-row flex-col gap-[18px]'>
@@ -251,7 +185,7 @@ const TabsComp = () => {
                         placeholder='•••••••'
                         name='password'
                         value={mainInfo?.password}
-                        onChange={handleMainInfo}
+                        disabled={true}
                       />
                     </div>
                     <div className='w-full flex flex-col gap-[10px]'>
@@ -263,7 +197,7 @@ const TabsComp = () => {
                         placeholder='•••••••'
                         name='password_confirm'
                         value={mainInfo?.password_confirm}
-                        onChange={handleMainInfo}
+                        disabled={true}
                       />
                     </div>
                   </div>
@@ -277,7 +211,7 @@ const TabsComp = () => {
                         placeholder='Abed@gmail.com'
                         name='email'
                         value={mainInfo?.email}
-                        onChange={handleMainInfo}
+                        disabled={true}
                       />
                     </div>
                     <div className='w-full flex flex-col gap-[10px]'>
@@ -290,7 +224,7 @@ const TabsComp = () => {
                           placeholder='21513515'
                           name='phonenumber'
                           value={mainInfo?.phonenumber}
-                          onChange={handleMainInfo}
+                          disabled={true}
                         />
                         <span style={{ color: '#000000', fontSize: '16px' }}>966</span>
                       </div>
@@ -305,180 +239,35 @@ const TabsComp = () => {
                         width: "130px",
                       }}
                     >
-                      
-                      <img className="rounded-md w-full h-full" src={images[0] ?images[0]?.data_url: previewImage} alt="img" />
-                    </div>
-                    <div className="w-full">
-                      <ImageUploading
-                        value={images}
-                        onChange={onChange}
-                        maxNumber={1}
-                        dataURLKey="data_url"
-                        acceptType={["jpg", "png", "jpeg"]}
-                        className="w-full"
-                      >
-                        {({
-                          imageList,
-                          onImageUpload,
-                          dragProps,
-                        }) => (
-                          // write your building UI
-                          <div>
-                            <div
-                              className="upload__image-wrapper relative overflow-hidden"
-                              style={{
-                                width: "100%",
 
-                                border: images[0] ? "1px solid #E9E9E9" : "1px solid #E9E9E9",
-                                borderRadius: "4px",
-                              }}
-                              onClick={() => {
-                                onImageUpload();
-                              }}
-                              {...dragProps}
-                            >
-                              <div
-                                className="image-item w-full flex cursor-pointer"
-                                style={{ height: "56px" }}
-                              >
-                                {/* <button
-                          style={isDragging ? { color: "red" } : null}
-                          onClick={onImageUpload}
-                          {...dragProps}
-                        >
-                          Click or Drop here
-                        </button> */}
-                                {!images[0] && (
-                                  <div className="flex flex-1">
-                                    <div className="flex-1"></div>
-                                    <div className="flex flex-col justify-center items-center px-10 rounded-lg"
-                                      style={{ width: "180px", height: '56px', backgroundColor: '#237EAE', color: '#ffffff' }}
-                                    >
-                                      استعراض
-                                    </div>
-                                  </div>
-                                )}
-                                {images[0] && (
-                                  <div className="flex flex-1">
-                                    <div className="flex-1 flex flex-col items-center justify-center">
-                                      <h6 style={{ fontSize: '18px', color: '#000000', fontWeight: '500' }}>{images[0].file.name}</h6>
-                                    </div>
-                                    <div className="flex flex-col justify-center items-center px-10 rounded-lg"
-                                      style={{ width: "180px", height: '56px', backgroundColor: '#237EAE', color: '#ffffff' }}
-                                    >
-                                      استعراض
-                                    </div>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        )}
-                      </ImageUploading>
+                      <img className="rounded-md w-full h-full" src={previewImage} alt="img" />
                     </div>
                   </div>
                 </div >
               </TabPanel >
               <TabPanel value="2" className='md:pr-[18px] p-0'>
                 <div className='flex flex-col gap-5'>
-                  <div className='flex flex-col gap-[10px]'>
-                    <label style={{ color: '#000000', fontSize: '18px' }}>الدولة</label>
-
-                    <Select
-                      displayEmpty
-                      style={{ fontSize: '18px', border: '1px solid #E9E9E9' }}
-                      name='country_id'
-                      value={mainInfo?.country_id}
-                      onChange={handleMainInfo}
-                      IconComponent={() => {
-                        return <IoIosArrowDown size={'1rem'} />;
-                      }}
-                      inputProps={{ 'aria-label': 'Without label' }}
-                      renderValue={(selected) => {
-                        if (mainInfo?.country_id === '') {
-                          return <h2>اختر الدولة</h2>;
-                        }
-                        const result = countryList?.data?.countries?.filter((item) => item?.id === parseInt(selected) || mainInfo?.country_id);
-                        return result[0]?.name;
-                      }}
+                  <div className="flex flex-col gap-[10px]">
+                    <label style={{ color: '#67747B', fontSize: '18px' }}>اسم المندوب</label>
+                    <input
                       className='bg-white outline-none w-full px-5 py-[14px] rounded-md'
-                      sx={{
-                        height: '3.5rem',
-                        pl: '1rem',
-                        '& .MuiOutlinedInput-notchedOutline': {
-                          border: '1px solid #E9E9E9',
-                        },
-                        '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
-                          border: 'none',
-                        },
-                      }}
-                    >
-                      {countryList?.data?.countries?.map((item) => {
-                        return (
-                          <MenuItem
-                            key={item.id}
-                            className='w-full'
-                            sx={{
-                              width: '100%',
-                              backgroundColor: '#fff',
-                              height: '3rem',
-                            }}
-                            value={`${item?.id}`}
-                          >
-                            {item?.name}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
+                      style={{ border: '1px solid #E9E9E9' }}
+                      type='text'
+                      name='name'
+                      value={mainInfo?.country_id?.length===0 || mainInfo?.country_id===undefined ? '' : mainInfo?.country_id[0]?.name}
+                      disabled={true}
+                    />
                   </div>
-                  <div className='flex flex-col gap-[10px]'>
-                    <label style={{ color: '#000000', fontSize: '18px' }}>المدينة:</label>
-                    <Select
-                      displayEmpty
-                      style={{ fontSize: '18px', border: '1px solid #E9E9E9' }}
-                      name='city_id'
-                      value={mainInfo?.city_id}
-                      onChange={handleMainInfo}
-                      IconComponent={() => {
-                        return <IoIosArrowDown size={'1rem'} />;
-                      }}
-                      inputProps={{ 'aria-label': 'Without label' }}
-                      renderValue={(selected) => {
-                        if (mainInfo?.city_id === '') {
-                          return <h2>اختر المدينة</h2>;
-                        }
-                        const result = citiesList?.data?.cities?.filter((item) => item?.id === parseInt(selected) || mainInfo?.city_id);
-                        return result[0]?.name;
-                      }}
-                      className='bg-white outline-none w-full px-10 py-[14px] rounded-md'
-                      sx={{
-                        height: '3.5rem',
-                        pl: '1rem',
-                        '& .MuiOutlinedInput-notchedOutline': {
-                          border: '1px solid #E9E9E9',
-                        },
-                        '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
-                          border: 'none',
-                        },
-                      }}
-                    >
-                      {citiesList?.data?.cities?.map((item) => {
-                        return (
-                          <MenuItem
-                            key={item.id}
-                            className='w-full'
-                            sx={{
-                              width: '100%',
-                              backgroundColor: '#fff',
-                              height: '3rem',
-                            }}
-                            value={`${item?.id}`}
-                          >
-                            {item?.name}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
+                  <div className="flex flex-col gap-[10px]">
+                    <label style={{ color: '#67747B', fontSize: '18px' }}>اسم المندوب</label>
+                    <input
+                      className='bg-white outline-none w-full px-5 py-[14px] rounded-md'
+                      style={{ border: '1px solid #E9E9E9' }}
+                      type='text'
+                      name='name'
+                      value={mainInfo?.city_id?.length===0 || mainInfo?.city_id===undefined ? '' : mainInfo?.city_id[0]?.name}
+                      disabled={true}
+                    />
                   </div>
                 </div>
               </TabPanel>
@@ -495,7 +284,7 @@ const TabsComp = () => {
                         }}
                         name='whatsapp'
                         value={mainInfo?.whatsapp}
-                        onChange={handleMainInfo}
+                        disabled={true}
                       />
                       <div className={`absolute top-1/2 right-4 -translate-y-2/4`}>
                         <BsWhatsapp className={styles.icons} width='20px' height='20px'></BsWhatsapp>
@@ -513,7 +302,7 @@ const TabsComp = () => {
                         }}
                         name='snapchat'
                         value={mainInfo?.snapchat}
-                        onChange={handleMainInfo}
+                        disabled={true}
                       />
                       <div className={`absolute top-1/2 right-4 -translate-y-2/4`}>
                         <BsSnapchat className={styles.icons} width='20px' height='20px'></BsSnapchat>
@@ -532,7 +321,7 @@ const TabsComp = () => {
                         }}
                         name='facebook'
                         value={mainInfo?.facebook}
-                        onChange={handleMainInfo}
+                        disabled={true}
                       />
                       <div className={`absolute top-1/2 right-4 -translate-y-2/4`}>
                         <BsFacebook className={styles.icons} width='20px' height='20px'></BsFacebook>
@@ -550,7 +339,7 @@ const TabsComp = () => {
                         }}
                         name='twiter'
                         value={mainInfo?.twiter}
-                        onChange={handleMainInfo}
+                        disabled={true}
                       />
                       <div className={`absolute top-1/2 right-4 -translate-y-2/4`}>
                         <BsTwitter className={styles.icons} width='20px' height='20px'></BsTwitter>
@@ -568,7 +357,7 @@ const TabsComp = () => {
                         }}
                         name='instegram'
                         value={mainInfo?.instegram}
-                        onChange={handleMainInfo}
+                        disabled={true}
                       />
                       <div className={`absolute top-1/2 right-4 -translate-y-2/4`}>
                         <BsInstagram className={styles.icons} width='20px' height='20px'></BsInstagram>
@@ -586,7 +375,7 @@ const TabsComp = () => {
                         }}
                         name='youtube'
                         value={mainInfo?.youtube}
-                        onChange={handleMainInfo}
+                        disabled={true}
                       />
                       <div className={`absolute top-1/2 right-4 -translate-y-2/4`}>
                         <BsYoutube className={styles.icons} width='20px' height='20px'></BsYoutube>
@@ -596,73 +385,22 @@ const TabsComp = () => {
                 </div>
               </TabPanel>
               <TabPanel value='4' className='md:pr-[18px] p-0'>
-                <div className='flex flex-col gap-[10px]'>
-                  <label style={{ color: '#000000', fontSize: '18px' }}>الحالة</label>
-                  <Select
-                    name='status'
-                    value={mainInfo?.status}
-                    onChange={handleMainInfo}
-                    style={{ fontSize: '18px', border: '1px solid #E9E9E9' }}
-                    IconComponent={() => {
-                      return <IoIosArrowDown size={'1rem'} />;
-                    }}
-                    displayEmpty
-                    inputProps={{ 'aria-label': 'Without label' }}
-                    renderValue={(selected) => {
-                      if (mainInfo?.status === '') {
-                        return <h2> تفعيل</h2>;
-                      }
-                      const result = activate?.filter((item) => item?.name_en === selected);
-                      return result[0]?.name;
-                    }}
-
+                <div className="flex flex-col gap-[10px]">
+                  <label style={{ color: '#67747B', fontSize: '18px' }}>الحالة</label>
+                  <input
                     className='bg-white outline-none w-full px-5 py-[14px] rounded-md'
-                    sx={{
-                      height: '3.5rem',
-                      backgroundColor: '#fff',
-                      width: '100%',
-                      '& .MuiOutlinedInput-notchedOutline': {
-                        border: '1px solid #E9E9E9',
-                      },
-                      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                        border: '1px solid #03787A',
-                      },
-                    }}
-                  >
-                    {activate.map((item, idx) => {
-                      return (
-                        <MenuItem
-                          key={idx}
-                          className=''
-                          sx={{
-                            backgroundColor: '#fff',
-                            height: '3rem',
-
-                            '&:hover': {},
-                            'ul:has(&)': {
-                              padding: '0',
-                            },
-                          }}
-                          value={`${item?.name_en}`}
-                        >
-                          {item?.name}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
+                    style={{ border: '1px solid #E9E9E9' }}
+                    type='text'
+                    name='name'
+                    value={mainInfo?.status}
+                    disabled={true}
+                  />
                 </div>
               </TabPanel>
             </Box >
           )
         }
       </TabContext >
-      <Button
-        onClick={updateMarkter}
-        className={"w-full mt-10"}
-        type={"normal"}
-      >
-        حفظ
-      </Button>
     </Box >
   );
 };

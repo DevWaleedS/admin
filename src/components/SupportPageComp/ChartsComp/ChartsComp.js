@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import PieChartSec from "./PieChartSec/PieChartSec";
 import { ReactComponent as StoreIcon } from "../../../assets/Icons/icon-24-store.svg";
 
-const ChartsComp = () => {
+const ChartsComp = ({storeTechnicalSupports,percentStoreTechnicalSupports,pending,finished}) => {
   return (
     <div className="flex md:flex-row flex-col gap-4 md:h-[190px] h-full">
       <div
@@ -18,17 +18,18 @@ const ChartsComp = () => {
             متاجر قدمت شكوى
           </h2>
         </div>
-        <div>
+        <div className="flex flex-row items-baseline gap-4">
           <h2 className="text-3xl font-semibold" style={{ color: "#02466A" }}>
-            23
+            {storeTechnicalSupports}
           </h2>
+          <span className="text-[14px] font-light" style={{ color: "#B6BE34" }}>{percentStoreTechnicalSupports}</span>
         </div>
       </div>
       <div
         className="flex-1 flex items-center rounded-lg md:py-10 px-5 py-5"
         style={{ backgroundColor: "#FAFAFA",boxShadow:"0px 3px 6px #0000000F" }}
       >
-        <PieChartSec></PieChartSec>
+        <PieChartSec pending={pending} finished={finished}/>
       </div>
     </div>
   );

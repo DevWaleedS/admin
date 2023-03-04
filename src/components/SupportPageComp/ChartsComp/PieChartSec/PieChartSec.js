@@ -1,59 +1,19 @@
-// import { PieChart, Pie, Sector, Cell } from "recharts";
 import { Pie } from "@ant-design/plots";
 
-const data = [
-  { name: "Group A", value: 32 },
-  { name: "Group B", value: 16 },
-];
-const COLORS = ["#B6BE34", "#02466A"];
-const TITLES = ["شكاوى تمت معالجتها", "شكاوى قيد المعالجة"];
-const total = data.reduce((a, b) => {
-  if (b < 5) {
-    return;
-  }
-  return a + b.value;
-}, 0);
-
-// const renderActiveShape = (props: any) => {
-//   const { cx, cy, innerRadius, outerRadius, startAngle, endAngle, fill } =
-//     props;
-
-//   return (
-//     <g className="flex">
-//       <text
-//         className="text-xl font-medium -translate-y-4"
-//         x={cx}
-//         y={cy}
-//         dy={8}
-//         textAnchor="middle"
-//         fill={"#000"}
-//       >
-//         1111dsad
-//       </text>
-//       <text
-//         className="text-xl font-medium translate-y-4"
-//         x={cx}
-//         y={cy}
-//         dy={8}
-//         textAnchor="middle"
-//         fill={"#000"}
-//       >
-//         1111dsaxsadd
-//       </text>
-//       <Sector
-//         cx={cx}
-//         cy={cy}
-//         innerRadius={innerRadius}
-//         outerRadius={outerRadius}
-//         startAngle={startAngle}
-//         endAngle={endAngle}
-//         fill={fill}
-//       />
-//     </g>
-//   );
-// };
-
-const PieChartSec = () => {
+const PieChartSec = ({pending,finished}) => {
+  const data = [
+    { name: "Group A", value: finished },
+    { name: "Group B", value: pending },
+  ];
+  const COLORS = ["#B6BE34", "#02466A"];
+  const TITLES = ["شكاوى تمت معالجتها", "شكاوى قيد المعالجة"];
+  const total = data.reduce((a, b) => {
+    if (b < 5) {
+      return;
+    }
+    return a + b.value;
+  }, 0);
+  
   const config = {
     appendPadding: 10,
     data,

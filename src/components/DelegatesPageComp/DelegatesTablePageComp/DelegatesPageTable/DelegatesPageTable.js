@@ -441,7 +441,11 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload 
 														</div>
 													</TableCell>
 													<TableCell align='right'>
-														<h2 className='inline font-normal md:text-lg text-[16px] whitespace-normal'>{row?.name}</h2>
+														<h2 
+														onClick={() => {
+															navigate(`/${row?.id}/تفاصيل_المندوب`);
+														}}
+														className='inline font-normal md:text-lg text-[16px] whitespace-normal'>{row?.name}</h2>
 													</TableCell>
 													<TableCell align='right' className='font-normal md:text-lg text-[16px] whitespace-normal'>
 														{(index + 1).toLocaleString('en-US', {
