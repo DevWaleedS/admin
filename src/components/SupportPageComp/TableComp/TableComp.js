@@ -1,4 +1,4 @@
-import React,{useContext} from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -16,51 +16,22 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { Gift } from '../../../assets/Icons/index';
 import { visuallyHidden } from '@mui/utils';
 import styles from './TableComp.module.css';
 import { NotificationContext } from "../../../store/NotificationProvider";
+import Context from '../../../store/context';
 import { ReactComponent as SortIcon } from '../../../assets/Icons/icon-24-sort.svg';
 import { ReactComponent as BsTrash } from '../../../assets/Icons/icon-24-delete.svg';
 import { ReactComponent as SwitchIcon } from '../../../assets/Icons/icon-38-switch.svg';
 import { ReactComponent as DocumentIcon } from '../../../assets/Icons/document_text_outlined.svg';
-
 import { FaCheck } from 'react-icons/fa';
 import { BsClockHistory } from 'react-icons/bs';
 import { CgSandClock } from 'react-icons/cg';
-import { IoDocumentTextOutline } from 'react-icons/io5';
-
 import { MdOutlineKeyboardArrowDown, MdOutlineArrowBackIosNew, MdOutlineArrowForwardIos } from 'react-icons/md';
+import { ListMoreCategory } from '../../../assets/Icons/index';
+import axios from "axios";
+import CircularLoading from '../../../UI/CircularLoading/CircularLoading';
 
-function createData(id, state, stateNumber, connectionType, variety, marketName, complaintDate, phoneNumber, complaintAddress, complaintContent) {
-	return {
-		id,
-		state,
-		stateNumber,
-		connectionType,
-		variety,
-		marketName,
-		complaintDate,
-		phoneNumber,
-		complaintAddress,
-		complaintContent,
-	};
-}
-
-const rows = [
-	createData(1, 'منتهية', '23', 'شكوى', 'هدايا وألعاب', 'أمازون', '20/08/2022', '9663222335', 'خدمات السيرفر', 'رجاء المساعدة'),
-	createData(2, 'غير منتهية', '35', 'اقتراح', 'مستلزمات طبية', 'صحتى', '21/08/2022', '9669222335', 'خدمات السيرفر', 'تقديم خدمة أفضل'),
-	createData(3, 'قيد المعالجة', '40', 'استفسار', 'الكتروتيات', 'تسعة', '26/08/2022', '9669228335', 'السحب', 'كيفية سحب الأموال'),
-	createData(4, 'منتهية', '23', 'شكوى', 'هدايا وألعاب', 'أمازون', '20/08/2022', '9663222335', 'خدمات السيرفر', 'رجاء المساعدة'),
-	createData(5, 'غير منتهية', '35', 'اقتراح', 'مستلزمات طبية', 'صحتى', '21/08/2022', '9669222335', 'خدمات السيرفر', 'تقديم خدمة أفضل'),
-	createData(6, 'قيد المعالجة', '40', 'استفسار', 'الكتروتيات', 'تسعة', '26/08/2022', '9669228335', 'السحب', 'كيفية سحب الأموال'),
-	createData(7, 'منتهية', '23', 'شكوى', 'هدايا وألعاب', 'أمازون', '20/08/2022', '9663222335', 'خدمات السيرفر', 'رجاء المساعدة'),
-	createData(8, 'غير منتهية', '35', 'اقتراح', 'مستلزمات طبية', 'صحتى', '21/08/2022', '9669222335', 'خدمات السيرفر', 'تقديم خدمة أفضل'),
-	createData(9, 'قيد المعالجة', '40', 'استفسار', 'الكتروتيات', 'تسعة', '26/08/2022', '9669228335', 'السحب', 'كيفية سحب الأموال'),
-	createData(10, 'منتهية', '23', 'شكوى', 'هدايا وألعاب', 'أمازون', '20/08/2022', '9663222335', 'خدمات السيرفر', 'رجاء المساعدة'),
-	createData(11, 'غير منتهية', '35', 'اقتراح', 'مستلزمات طبية', 'صحتى', '21/08/2022', '9669222335', 'خدمات السيرفر', 'تقديم خدمة أفضل'),
-	createData(12, 'قيد المعالجة', '40', 'استفسار', 'الكتروتيات', 'تسعة', '26/08/2022', '9669228335', 'السحب', 'كيفية سحب الأموال'),
-];
 const stateChanges = [
 	{ value: 'منتهية', color: '#3AE374', icon: <FaCheck fill='#fff' /> },
 	{
@@ -90,15 +61,15 @@ function getComparator(order, orderBy) {
 }
 
 function stableSort(array, comparator) {
-	const stabilizedThis = array.map((el, index) => [el, index]);
-	stabilizedThis.sort((a, b) => {
+	const stabilizedThis = array?.map((el, index) => [el, index]);
+	stabilizedThis?.sort((a, b) => {
 		const order = comparator(a[0], b[0]);
 		if (order !== 0) {
 			return order;
 		}
 		return a[1] - b[1];
 	});
-	return stabilizedThis.map((el) => el[0]);
+	return stabilizedThis?.map((el) => el[0]);
 }
 
 const headCells = [
@@ -164,7 +135,7 @@ function EnhancedTableHead(props) {
 						sx={{
 							width: headCell.width ? headCell.width : 'auto',
 							color: '#EFF9FF',
-							whiteSpace:'nowrap'
+							whiteSpace: 'nowrap'
 						}}
 					>
 						{headCell.sort && (
@@ -205,7 +176,7 @@ EnhancedTableHead.propTypes = {
 function EnhancedTableToolbar(props) {
 	const { numSelected, onClick, rowCount, onSelectAllClick } = props;
 	const NotificationStore = useContext(NotificationContext);
-	const { setNotificationTitle,setActionTitle } = NotificationStore;
+	const { setNotificationTitle, setActionTitle } = NotificationStore;
 	return (
 		<Toolbar
 			sx={{
@@ -221,13 +192,13 @@ function EnhancedTableToolbar(props) {
 		>
 			<div className='fcc gap-2 px-4 rounded-full' style={{ backgroundColor: 'rgba(255, 159, 26, 0.04)' }}>
 				{numSelected > 0 && (
-					<div 
-						className='fcc gap-4 px-4 rounded-full' 
+					<div
+						className='fcc gap-4 px-4 rounded-full'
 						style={{ minWidth: '114px', backgroundColor: '#FF9F1A0A' }}
-						onClick={()=>{
+						onClick={() => {
 							setNotificationTitle('سيتم تعطيل جميع الشكاوى والاستفسارات التي قمت بتحديدهم');
-							setActionTitle('تم تعطيل الشكاوى والاستفسارات بنجاح');
-						}} 
+							setActionTitle('changeStatus');
+						}}
 					>
 						<h2 className={'font-medium md:text-lg text-[16px] whitespace-nowrap'} style={{ color: '#FF9F1A' }}>
 							تعطيل
@@ -251,8 +222,8 @@ function EnhancedTableToolbar(props) {
 					</div>
 				)}
 			</div>
-		
-	
+
+
 
 			<div className='flex items-center'>
 				<h2 className='font-medium md:text-lg text-[16px] whitespace-nowrap'>تحديد الكل</h2>
@@ -280,23 +251,37 @@ EnhancedTableToolbar.propTypes = {
 	numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable({ setUser }) {
+export default function EnhancedTable({ technicalsupports, loading, reload, setReload, setUser }) {
+	const token = localStorage.getItem('token');
 	const [order, setOrder] = React.useState('asc');
 	const [orderBy, setOrderBy] = React.useState('calories');
 	const [selected, setSelected] = React.useState([]);
 	const [page, setPage] = React.useState(0);
-	const [data, setData] = React.useState(rows);
 	const [rowsPerPage, setRowsPerPage] = React.useState(9);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [userMenuOpenedId, setUserMenuOpenedId] = React.useState(null);
 	const [rowAnchorEl, setRowAnchorEl] = React.useState(null);
 	const rowsPerPagesCount = [10, 20, 30, 50, 100];
+	const [activityAnchorEl, setActivityAnchorEl] = React.useState(null);
+	const activityOpen = Boolean(activityAnchorEl);
+	const contextStore = useContext(Context);
+	const { setEndActionTitle } = contextStore;
+	const NotificationStore = useContext(NotificationContext);
+	const { confirm, setConfirm,actionTitle,setActionTitle } = NotificationStore;
 
 	const handlePagRowsClick = (event) => {
 		setRowAnchorEl(event.currentTarget);
 	};
 	const handleRowMenuClose = () => {
 		setRowAnchorEl(null);
+	};
+
+	const activityHandleClick = (event) => {
+		setActivityAnchorEl(event.currentTarget);
+	};
+
+	const activityHandleClose = () => {
+		setActivityAnchorEl(null);
 	};
 
 	const rowMenuOpen = Boolean(rowAnchorEl);
@@ -318,19 +303,10 @@ export default function EnhancedTable({ setUser }) {
 
 	const handleSelectAllClick = (event) => {
 		if (event.target.checked) {
-			const newSelected = data.map((n) => n.id);
+			const newSelected = technicalsupports?.map((n) => n.id);
 			setSelected(newSelected);
 			return;
 		}
-		setSelected([]);
-	};
-	const deleteItems = () => {
-		const array = [...data];
-		selected.forEach((item, idx) => {
-			const findIndex = array.findIndex((i) => item === i.id);
-			array.splice(findIndex, 1);
-		});
-		setData(array);
 		setSelected([]);
 	};
 
@@ -358,136 +334,214 @@ export default function EnhancedTable({ setUser }) {
 
 	const isSelected = (name) => selected.indexOf(name) !== -1;
 
-	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - technicalsupports?.length) : 0;
 	const allRows = () => {
-		const num = Math.ceil(data.length / rowsPerPage);
+		const num = Math.ceil(technicalsupports?.length / rowsPerPage);
 		const arr = [];
 		for (let index = 0; index < num; index++) {
 			arr.push(index + 1);
 		}
 		return arr;
 	};
+
+	const deleteTechnical = (id) => {
+		axios
+			.delete(`https://backend.atlbha.com/api/Admin/technicalSupport/${id}`, {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+					setReload(!reload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+					setReload(!reload);
+				}
+			});
+	};
+
+
+	// Delete all items
+	useEffect(() => {
+		if (confirm && actionTitle==='changeStatus') {
+			const queryParams = selected.map(id => `id[]=${id}`).join('&');
+			axios
+				.get(`https://backend.atlbha.com/api/Admin/technicalSupportchangeStatusall?${queryParams}`, {
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+					},
+				})
+				.then((res) => {
+					if (res?.data?.success === true && res?.data?.data?.status === 200) {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					} else {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					}
+				});
+			setActionTitle(null);
+			setConfirm(false);
+		}
+	}, [confirm]);
+
 	return (
 		<Box sx={{ width: '100%' }}>
 			<Paper sx={{ width: '100%', mb: 2 }}>
-				<EnhancedTableToolbar onClick={deleteItems} numSelected={selected.length} rowCount={data.length} onSelectAllClick={handleSelectAllClick} />
+				<EnhancedTableToolbar numSelected={selected.length} rowCount={technicalsupports?.length} onSelectAllClick={handleSelectAllClick} />
 				<TableContainer>
 					<Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={'medium'}>
-						<EnhancedTableHead numSelected={selected.length} order={order} orderBy={orderBy} onSelectAllClick={handleSelectAllClick} onRequestSort={handleRequestSort} rowCount={data.length} />
+						<EnhancedTableHead numSelected={selected.length} order={order} orderBy={orderBy} onSelectAllClick={handleSelectAllClick} onRequestSort={handleRequestSort} rowCount={technicalsupports?.length} />
 						<TableBody>
-							{stableSort(data, getComparator(order, orderBy))
-								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-								.map((row, index) => {
-									const isItemSelected = isSelected(row.id);
-									const labelId = `enhanced-table-checkbox-${index}`;
-									const findStateChanges = stateChanges.find((i) => row.state == i.value);
-									return (
-										<TableRow hover role='checkbox' aria-checked={isItemSelected} tabIndex={-1} key={row.id} selected={isItemSelected}>
-											<TableCell component='th' id={labelId} scope='row'>
-												<Button id={index} aria-controls={userMenuOpenedId ? 'basic-menu' : undefined} aria-haspopup='true' aria-expanded={userMenuOpenedId ? 'true' : undefined} onClick={handleOptionsClick}>
-													<BsThreeDotsVertical
-														onClick={() => {}}
-														style={{
-															cursor: 'pointer',
-															color: '#000000',
-															fontSize: '1.2rem',
-														}}
-													></BsThreeDotsVertical>
-												</Button>
-												<Menu
-													id='basic-menu'
-													anchorEl={anchorEl}
-													open={userMenuOpenedId == index}
-													onClose={handleClose}
-													MenuListProps={{
-														'aria-labelledby': 'basic-button',
-													}}
-												>
-													<MenuItem
-														className='md:text-lg text-[16px] whitespace-nowrap font-normal'
-														onClick={() => {
-															setUser(row);
-															handleClose();
-														}}
-													>
-														<DocumentIcon
-															className={`w-5 h-5 ml-2 ${styles.deleteIcon} `}
-															style={{
-																cursor: 'pointer',
-																color: '#67747B',
-															}}
-														></DocumentIcon>
-														التفاصيل
-													</MenuItem>
-													<MenuItem onClick={handleClose} className='md:text-lg text-[16px] whitespace-nowrap'>
-														<BsTrash
-															className={`w-5 h-5 ml-2 ${styles.deleteIcon}`}
-															style={{
-																cursor: 'pointer',
-																color: '#67747B',
-															}}
-														></BsTrash>
-														حذف
-													</MenuItem>
-												</Menu>
-											</TableCell>
-											<TableCell className='pr-0' align='right' sx={{ '& path': { fill: '#fff' } }}>
-												<div
-													className={'flex ml-auto gap-2 items-center justify-center rounded-full p-2'}
-													style={{
-														backgroundColor: findStateChanges?.color,
-														width: '131px',
-													}}
-												>
-													<h2 className='font-normal text-base text-slate-50'>{row.state}</h2>
-													<div className={`w-4 h-4 flex items-center justify-center ${styles.icons}`}>{findStateChanges?.icon} </div>
-												</div>
-											</TableCell>
-											<TableCell align='right'>
-												<h2 className='font-normal md:text-lg text-[16px] whitespace-nowrap'>{row.connectionType}</h2>
-											</TableCell>
+							{loading ?
+								(
+									<TableRow>
+										<TableCell colSpan={6}>
+											<CircularLoading />
+										</TableCell>
+									</TableRow>
+								)
+								:
+								(
+									<>
+										{stableSort(technicalsupports, getComparator(order, orderBy))
+											?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+											?.map((row, index) => {
+												const isItemSelected = isSelected(row.id);
+												const labelId = `enhanced-table-checkbox-${index}`;
+												const findStateChanges = stateChanges.find((i) => row.supportstatus === i.value);
+												return (
+													<TableRow hover role='checkbox' aria-checked={isItemSelected} tabIndex={-1} key={row.id} selected={isItemSelected}>
+														<TableCell component='th' id={labelId} scope='row'>
+															<Button id={index} aria-controls={userMenuOpenedId ? 'basic-menu' : undefined} aria-haspopup='true' aria-expanded={userMenuOpenedId ? 'true' : undefined} onClick={handleOptionsClick}>
+																<BsThreeDotsVertical
+																	onClick={() => { }}
+																	style={{
+																		cursor: 'pointer',
+																		color: '#000000',
+																		fontSize: '1.2rem',
+																	}}
+																></BsThreeDotsVertical>
+															</Button>
+															<Menu
+																id='basic-menu'
+																anchorEl={anchorEl}
+																open={userMenuOpenedId == index}
+																onClose={handleClose}
+																MenuListProps={{
+																	'aria-labelledby': 'basic-button',
+																}}
+															>
+																<MenuItem
+																	className='md:text-lg text-[16px] whitespace-nowrap font-normal'
+																	onClick={() => {
+																		setUser(row?.id);
+																		handleClose();
+																	}}
+																>
+																	<DocumentIcon
+																		className={`w-5 h-5 ml-2 ${styles.deleteIcon} `}
+																		style={{
+																			cursor: 'pointer',
+																			color: '#67747B',
+																		}}
+																	></DocumentIcon>
+																	التفاصيل
+																</MenuItem>
+																<MenuItem onClick={handleClose} className='md:text-lg text-[16px] whitespace-nowrap'>
+																	<BsTrash
+																		onClick={() => deleteTechnical(row.id)}
+																		className={`w-5 h-5 ml-2 ${styles.deleteIcon}`}
+																		style={{
+																			cursor: 'pointer',
+																			color: '#67747B',
+																		}}
+																	></BsTrash>
+																	حذف
+																</MenuItem>
+															</Menu>
+														</TableCell>
+														<TableCell className='pr-0' align='right' sx={{ '& path': { fill: '#fff' } }}>
+															<div
+																className={'flex ml-auto gap-2 items-center justify-center rounded-full p-2'}
+																style={{
+																	backgroundColor: findStateChanges?.color,
+																	width: '131px',
+																}}
+															>
+																<h2 className='font-normal text-base text-slate-50'>{row?.supportstatus}</h2>
+																<div className={`w-4 h-4 flex items-center justify-center ${styles.icons}`}>{findStateChanges?.icon} </div>
+															</div>
+														</TableCell>
+														<TableCell align='right'>
+															<h2 className='font-normal md:text-lg text-[16px] whitespace-nowrap'>{row?.type}</h2>
+														</TableCell>
+														<TableCell className='min-w-[200px]' align='right'>
+														<div className='flex flex-row items-center justify-end gap-3'>
+															{row?.activity?.length > 1 && (
+																<>
+																	<img className='cursor-pointer' src={ListMoreCategory} alt='list-more-category' onClick={activityHandleClick} />
+																	<Menu className={styles.activity_menu} anchorEl={activityAnchorEl} open={activityOpen} onClose={activityHandleClose}>
+																		{row?.store?.activity?.map((item, index) => (
+																			<MenuItem key={index} className='flex flex-row items-center justify-center gap-2' style={{ color: '#4D4F5C' }} onClick={activityHandleClose}>
+																				<div className='flex flex-row items-center justify-center md:w-[30px] w-[20px] md:h-[30px] h-[20px] p-[0.2rem]' style={{ borderRadius: '50%', backgroundColor: '#8D8AD333' }}>
+																					<img src={item?.icon} alt={item?.name} />
+																				</div>
+																				{item?.name}
+																			</MenuItem>
+																		))}
+																	</Menu>
+																</>
+															)}
+															<h2 style={{ color: '#4D4F5C' }} className='md:text-[16px] text-[14px] inline whitespace-nowrap font-normal'>
+																{row?.store?.activity?.[0]?.name}
+															</h2>
+															<img src={row?.store?.activity?.[0]?.icon} alt={row?.store?.activity?.[0]?.name} className='w-[20px] h-[20px] rounded-full' />
+														</div>
+													</TableCell>
+														<TableCell align='right'>
+															<h2 className='font-normal md:text-lg text-[16px] whitespace-nowrap'>{row?.store?.store_name}</h2>
+														</TableCell>
 
-											<TableCell align='right' sx={{ display: 'flex', gap: '0.5rem', p: '24px 0' }}>
-												<img src={Gift} alt='' />
-												<h2 className='font-normal md:text-lg text-[16px] whitespace-nowrap'>{row.variety}</h2>
-											</TableCell>
-											<TableCell align='right'>
-												<h2 className='font-normal md:text-lg text-[16px] whitespace-nowrap'>{row.marketName}</h2>
-											</TableCell>
-
-											<TableCell align='right' className='font-normal md:text-lg text-[16px] whitespace-nowrap'>
-												{(index + 1).toLocaleString('en-US', {
-													minimumIntegerDigits: 2,
-													useGrouping: false,
-												})}
-											</TableCell>
-											<TableCell padding='none' align={'right'}>
-												<Checkbox
-													sx={{
-														color: '#1DBBBE',
-														'& .MuiSvgIcon-root': {
-															color: '#011723',
-														},
-													}}
-													checked={isItemSelected}
-													onClick={(event) => handleClick(event, row.id)}
-													inputProps={{
-														'aria-labelledby': labelId,
-													}}
-												/>
-											</TableCell>
-										</TableRow>
-									);
-								})}
-							{emptyRows > 0 && (
-								<TableRow
-									style={{
-										height: 53 * emptyRows,
-									}}
-								>
-									<TableCell colSpan={6} />
-								</TableRow>
-							)}
+														<TableCell align='right' className='font-normal md:text-lg text-[16px] whitespace-nowrap'>
+															{(index + 1).toLocaleString('en-US', {
+																minimumIntegerDigits: 2,
+																useGrouping: false,
+															})}
+														</TableCell>
+														<TableCell padding='none' align={'right'}>
+															<Checkbox
+																sx={{
+																	color: '#1DBBBE',
+																	'& .MuiSvgIcon-root': {
+																		color: '#011723',
+																	},
+																}}
+																checked={isItemSelected}
+																onClick={(event) => handleClick(event, row.id)}
+																inputProps={{
+																	'aria-labelledby': labelId,
+																}}
+															/>
+														</TableCell>
+													</TableRow>
+												);
+											})}
+										{emptyRows > 0 && (
+											<TableRow
+												style={{
+													height: 53 * emptyRows,
+												}}
+											>
+												<TableCell colSpan={6} />
+											</TableRow>
+										)}
+									</>
+								)}
 						</TableBody>
 					</Table>
 				</TableContainer>

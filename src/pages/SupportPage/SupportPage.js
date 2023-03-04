@@ -1,17 +1,24 @@
 import React, { useState } from 'react';
+import useFetch from '../../hooks/useFetch';
 import ChartsComp from '../../components/SupportPageComp/ChartsComp/ChartsComp';
 import TableComp from '../../components/SupportPageComp/TableComp/TableComp';
 import ComplaintDetails from '../../components/SupportPageComp/ComplaintDetails/ComplaintDetails';
-
 import FormControl from '@mui/material/FormControl';
 import { AiOutlineSearch } from 'react-icons/ai';
 
 const SupportPage = () => {
+	const { fetchedData, loading, reload, setReload } = useFetch('https://backend.atlbha.com/api/Admin/technicalSupport');
 	const [showComplaintDetails, setShowComplaintDetails] = useState(false);
 	const [complaintDetails, setComplaintDetails] = useState(null);
 	return (
 		<div className='relative md:pt-10 md:pl-36 md:pr-8 p-4 md:bg-[#F7F7F7] bg-[#FFFFFF]'>
-			<ChartsComp></ChartsComp>
+			<ChartsComp
+				storeTechnicalSupports={fetchedData?.data?.data?.Store_Technicalsupports}
+				percentStoreTechnicalSupports={fetchedData?.data?.percent_of_Store_Technicalsupports}
+				// technicalCount={fetchedData?.data?.TechnicalsupportsCount}
+				pending={fetchedData?.data?.pending_Technicalsupports}
+				finished={fetchedData?.data?.finished_Technicalsupports}
+			/>
 			<div className={'mt-8'} style={{ backgroundColor: '#FFF' }}>
 				<div className='p-4'>
 					<div className='flex md:flex-row flex-col justify-between'>
@@ -32,10 +39,10 @@ const SupportPage = () => {
 											placeholder=' ادخل رقم الشكوى'
 											type='text'
 											name='name'
-											onChange={() => {}}
+											onChange={() => { }}
 											style={{
 												border: '1px solid #7FFCFF',
-												maxWidth:'100%'
+												maxWidth: '100%'
 											}}
 										/>
 										<div className={`absolute top-1/2 right-4 -translate-y-2/4`}>
@@ -56,11 +63,15 @@ const SupportPage = () => {
 					)}
 					<div dir={'ltr'}>
 						<TableComp
+							technicalsupports={fetchedData?.data?.Technicalsupports}
+							loading={loading}
+							reload={reload}
+							setReload={setReload}
 							setUser={(row) => {
 								setComplaintDetails(row);
 								setShowComplaintDetails(true);
 							}}
-						></TableComp>
+						/>
 					</div>
 				</div>
 			</div>
