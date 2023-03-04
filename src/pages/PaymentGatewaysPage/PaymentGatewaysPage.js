@@ -1,35 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React, {  useContext } from 'react';
 
 import axios from 'axios';
 import Context from '../../store/context';
 import Switch from '@mui/material/Switch';
 import useFetch from '../../hooks/useFetch';
 
-// icons
-import mada from '../../assets/images/mada.png';
-import stc from '../../assets/images/stc.png';
-import paypal from '../../assets/images/paypal.png';
 
-const payments = [
-	{
-		id: 1,
-		name: 'mada',
-		img: mada,
-		active: true,
-	},
-	{
-		id: 2,
-		name: 'stc',
-		img: stc,
-		active: true,
-	},
-	{
-		id: 3,
-		name: 'paypal',
-		img: paypal,
-		active: true,
-	},
-];
 
 const PaymentGatewaysPage = () => {
 	const { fetchedData, reload, setReload } = useFetch('https://backend.atlbha.com/api/Admin/paymenttype');

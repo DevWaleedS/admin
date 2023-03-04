@@ -401,7 +401,7 @@ const TabsComp = () => {
                         const result = countryList?.data?.countries?.filter((item) => item?.id === parseInt(selected) || mainInfo?.country_id);
                         return result[0]?.name;
                       }}
-                      className='bg-white outline-none w-full px-5 py-[14px] rounded-md'
+                      className='bg-white outline-none w-full  py-[14px] rounded-md'
                       sx={{
                         height: '3.5rem',
                         pl: '1rem',
@@ -450,7 +450,7 @@ const TabsComp = () => {
                         const result = citiesList?.data?.cities?.filter((item) => item?.id === parseInt(selected) || mainInfo?.city_id);
                         return result[0]?.name;
                       }}
-                      className='bg-white outline-none w-full px-10 py-[14px] rounded-md'
+                      className='bg-white outline-none w-full  py-[14px] rounded-md'
                       sx={{
                         height: '3.5rem',
                         pl: '1rem',
@@ -610,15 +610,16 @@ const TabsComp = () => {
                     inputProps={{ 'aria-label': 'Without label' }}
                     renderValue={(selected) => {
                       if (mainInfo?.status === '') {
-                        return <h2> تفعيل</h2>;
+                        return <h2>تفعيل</h2>;
                       }
                       const result = activate?.filter((item) => item?.name_en === selected);
                       return result[0]?.name;
                     }}
 
-                    className='bg-white outline-none w-full px-5 py-[14px] rounded-md'
+                    className='bg-white outline-none w-full  py-[14px] rounded-md'
                     sx={{
                       height: '3.5rem',
+                      pl:'1rem',
                       backgroundColor: '#fff',
                       width: '100%',
                       '& .MuiOutlinedInput-notchedOutline': {

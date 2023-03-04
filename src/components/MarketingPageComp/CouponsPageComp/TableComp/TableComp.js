@@ -181,7 +181,7 @@ function EnhancedTableToolbar(props) {
 				justifyContent: 'flex-end',
 			}}
 		>
-			<div className='flex gap-2 items-center'>
+			<div className='flex flex-col md:flex-row py-1 md:py-1 gap-2 items-center'>
 				{numSelected > 0 && (
 					<div
 						className='fcc gap-4 px-4 rounded-full'
