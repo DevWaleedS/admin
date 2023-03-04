@@ -18,19 +18,9 @@ import { NotificationContext } from "../../../../store/NotificationProvider";
 import { visuallyHidden } from '@mui/utils';
 import { ReactComponent as SortIcon } from '../../../../assets/Icons/icon-24-sort.svg';
 import { ReactComponent as CheckedSquare } from '../../../../assets/Icons/icon-24-square checkmark.svg';
-import { ReactComponent as DollarIcon } from '../../../../assets/Icons/dolar icon.svg';
 import { ReactComponent as BsTrash } from '../../../../assets/Icons/icon-24-delete.svg';
 import { ReactComponent as SwitchIcon } from '../../../../assets/Icons/icon-38-switch.svg';
 import { MdOutlineKeyboardArrowDown, MdOutlineArrowBackIosNew, MdOutlineArrowForwardIos } from 'react-icons/md';
-
-function createData(id, currencyName) {
-	return {
-		id,
-		currencyName,
-	};
-}
-
-const rows = [createData(1, 'دولار'), createData(2, 'دولار'), createData(3, 'دولار'), createData(4, 'دولار')];
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
@@ -49,15 +39,15 @@ function getComparator(order, orderBy) {
 // This method is created for cross-browser compatibility, if you don't
 // need to support IE11, you can use Array.prototype.sort() directly
 function stableSort(array, comparator) {
-	const stabilizedThis = array.map((el, index) => [el, index]);
-	stabilizedThis.sort((a, b) => {
+	const stabilizedThis = array?.map((el, index) => [el, index]);
+	stabilizedThis?.sort((a, b) => {
 		const order = comparator(a[0], b[0]);
 		if (order !== 0) {
 			return order;
 		}
 		return a[1] - b[1];
 	});
-	return stabilizedThis.map((el) => el[0]);
+	return stabilizedThis?.map((el) => el[0]);
 }
 
 const headCells = [
@@ -225,13 +215,12 @@ EnhancedTableToolbar.propTypes = {
 	numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable({ setDataRow }) {
+export default function EnhancedTable({ data,loading,reload,setReload,setDataRow }) {
 	const [order, setOrder] = React.useState('asc');
 	const [orderBy, setOrderBy] = React.useState('calories');
 	const [selected, setSelected] = React.useState([]);
 	const [page, setPage] = React.useState(0);
-	const [data, setData] = React.useState(rows);
-	const [rowsPerPage, setRowsPerPage] = React.useState(4);
+	const [rowsPerPage, setRowsPerPage] = React.useState(10);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [userMenuOpenedId, setUserMenuOpenedId] = React.useState(null);
 	const [rowAnchorEl, setRowAnchorEl] = React.useState(null);
@@ -259,19 +248,10 @@ export default function EnhancedTable({ setDataRow }) {
 
 	const handleSelectAllClick = (event) => {
 		if (event.target.checked) {
-			const newSelected = data.map((n) => n.id);
+			const newSelected = data?.map((n) => n.id);
 			setSelected(newSelected);
 			return;
 		}
-		setSelected([]);
-	};
-	const deleteItems = () => {
-		const array = [...data];
-		selected.forEach((item, idx) => {
-			const findIndex = array.findIndex((i) => item === i.id);
-			array.splice(findIndex, 1);
-		});
-		setData(array);
 		setSelected([]);
 	};
 
@@ -300,9 +280,9 @@ export default function EnhancedTable({ setDataRow }) {
 	const isSelected = (name) => selected.indexOf(name) !== -1;
 
 	// Avoid a layout jump when reaching the last page with empty rows.
-	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data?.length) : 0;
 	const allRows = () => {
-		const num = Math.ceil(data.length / rowsPerPage);
+		const num = Math.ceil(data?.length / rowsPerPage);
 		const arr = [];
 		for (let index = 0; index < num; index++) {
 			arr.push(index + 1);
@@ -312,16 +292,15 @@ export default function EnhancedTable({ setDataRow }) {
 	return (
 		<Box sx={{ width: '100%' }}>
 			<Paper sx={{ width: '100%', mb: 2 }}>
-				<EnhancedTableToolbar onClick={deleteItems} numSelected={selected.length} rowCount={data.length} onSelectAllClick={handleSelectAllClick} />
+				<EnhancedTableToolbar numSelected={selected.length} rowCount={data?.length} onSelectAllClick={handleSelectAllClick} />
 				<TableContainer>
 					<Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={'medium'}>
-						<EnhancedTableHead numSelected={selected.length} order={order} orderBy={orderBy} onSelectAllClick={handleSelectAllClick} onRequestSort={handleRequestSort} rowCount={data.length} />
+						<EnhancedTableHead numSelected={selected.length} order={order} orderBy={orderBy} onSelectAllClick={handleSelectAllClick} onRequestSort={handleRequestSort} rowCount={data?.length} />
 						<TableBody>
-							{/* if you don't need to support IE11, you can replace the `stableSort` call with:
-                 rows.sort(getComparator(order, orderBy)).slice() */}
+							
 							{stableSort(data, getComparator(order, orderBy))
-								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-								.map((row, index) => {
+								?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+								?.map((row, index) => {
 									const isItemSelected = isSelected(row.id);
 									const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -329,12 +308,7 @@ export default function EnhancedTable({ setDataRow }) {
 										<TableRow hover role='checkbox' aria-checked={isItemSelected} tabIndex={-1} key={row.id} selected={isItemSelected}>
 											<TableCell component='th' id={labelId} scope='row'>
 												<BsTrash
-													onClick={() => {
-														const findIndex = data.findIndex((item) => item.name === row.id);
-														const arr = [...data];
-														arr.splice(findIndex, 1);
-														setData(arr);
-													}}
+													onClick={()=>''}
 													style={{
 														cursor: 'pointer',
 														color: 'red',
@@ -345,12 +319,12 @@ export default function EnhancedTable({ setDataRow }) {
 
 											<TableCell align='right'>
 												<h2 style={{ color: '#4D4F5C' }} className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>
-													{row.currencyName}
+													{row?.name}
 												</h2>
 											</TableCell>
 
 											<TableCell align='right'>
-												<DollarIcon fill='#02466A' className='w-6 h-6' style={{ marginLeft: 'auto' }}></DollarIcon>
+												<img src={row?.image} alt={row?.name} />
 											</TableCell>
 											<TableCell align='right' className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>
 												{(index + 1).toLocaleString('en-US', {
@@ -452,6 +426,7 @@ export default function EnhancedTable({ setDataRow }) {
 						{allRows().map((item, itemIdx) => {
 							return (
 								<div
+									key={itemIdx}
 									className='cursor-pointer font-medium rounded-lg flex justify-center items-center w-6 h-6'
 									style={{
 										backgroundColor: item === page + 1 && '#B6BE34',
