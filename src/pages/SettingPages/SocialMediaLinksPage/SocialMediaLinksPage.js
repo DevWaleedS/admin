@@ -20,7 +20,7 @@ const SocialMediaLinksPage = () => {
 						cancel={() => {
 							setShowAddNewLink(false);
 						}}
-					
+						fetchedData={fetchedData}
 						reload={reload}
 						setReload={setReload}
 						loading={loading}
