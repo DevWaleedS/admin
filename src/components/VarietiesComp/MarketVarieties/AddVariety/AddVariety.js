@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import Button from '../../../../UI/Button/Button';
 import styles from './AddVariety.module.css';
@@ -19,7 +19,6 @@ const NewProduct = ({ cancel, data, setReload, reload, setShowAddSubVariety }) =
 	const contextStore = useContext(Context);
 	const { setEndActionTitle } = contextStore;
 	const { subCategories, setSubCategories } = contextStore;
-
 	// upload new image
 	const [images, setImages] = useState([]);
 	const maxNumber = 2;
@@ -60,6 +59,7 @@ const NewProduct = ({ cancel, data, setReload, reload, setShowAddSubVariety }) =
 					setReload(!reload);
 				}
 			});
+		setSubCategories([]);
 	};
 
 	// to update category
@@ -74,7 +74,8 @@ const NewProduct = ({ cancel, data, setReload, reload, setShowAddSubVariety }) =
 
 		// to select all subcategories names
 		for (let i = 0; i < subCategories?.length; i++) {
-			formData.append([`data[${i}][name]`], subCategories[i]?.name || '');
+			formData.append([`data[${i}][name]`], subCategories[i]?.name);
+			formData.append([`data[${i}][id]`], subCategories[i]?.id || '');
 		}
 
 		axios
@@ -95,8 +96,29 @@ const NewProduct = ({ cancel, data, setReload, reload, setShowAddSubVariety }) =
 					setReload(!reload);
 				}
 			});
+		setSubCategories([]);
 	};
 
+	useEffect(()=>{
+		if(data){
+			for (let i = 0; i < data?.subcategory?.length; i++) {
+			setSubCategories((subCategories) => [...subCategories,{id:data?.subcategory[i]?.id,name:data?.subcategory[i]?.name}]);
+			}
+		}
+	},[]);
+
+	const updateSubCatChanged = (e,index) => {
+		const newArray = subCategories?.map((item,i)=>{
+			if(index === i){
+				return {...item, name: e.target.value};
+			}
+			else{
+				return item;
+			}
+		});
+		setSubCategories(newArray);
+    }
+		
 	return (
 		<>
 			<BackDrop onClick={cancel}></BackDrop>
@@ -224,12 +246,12 @@ const NewProduct = ({ cancel, data, setReload, reload, setShowAddSubVariety }) =
 								}}
 							/>
 						</div>
-						{data &&
-							subCategories.map((subCategory) => (
+						{subCategories &&
+							subCategories.map((subCategory, index) => (
 								<div className='flex md:flex-row flex-col md:items-center items-start gap-y-[10px]'>
 									<div className='flex flex-row items-center md:mr-10'>
 										<label style={{ color: '#1DBBBE' }} className='md:text-[20px] text-[18px] w-80 max-w-full font-medium whitespace-nowrap'>
-											فرعي رقم 1
+											فرعي رقم {index + 1}
 										</label>
 									</div>
 									<div className='w-full flex flex-row items-center gap-4'>
@@ -238,17 +260,17 @@ const NewProduct = ({ cancel, data, setReload, reload, setShowAddSubVariety }) =
 											className='w-full rounded-md px-5 py-4 outline-none'
 											style={{ color: '#1DBBBE', backgroundColor: '#02466A00', border: '1px solid #1DBBBE' }}
 											value={subCategory?.name}
-											onChange={(e) => {
-												setSubCategories([{ name: e.target.value }]);
-											}}
+											onChange={(e)=>updateSubCatChanged(e,index)}
 										/>
-								
-										<DeleteIcon fill='#FF3838' />
+
+										<DeleteIcon
+											onClick={() => {
+												setSubCategories((subCategories) => [...subCategories.filter((sub) => sub?.name !== subCategory?.name)]);
+											}}
+											className='cursor-pointer' fill='#FF3838' />
 									</div>
 								</div>
-							))
-						}
-
+						))}
 						<div className='flex flex-row items-center justify-end'>
 							<div
 								className='rounded-md px-5 py-4 outline-none flex flex-row items-center justify-center gap-4 cursor-pointer'
@@ -271,6 +293,10 @@ const NewProduct = ({ cancel, data, setReload, reload, setShowAddSubVariety }) =
 							</Button>
 						)}
 						<Button
+							onClick={() => {
+								cancel();
+								setSubCategories([]);
+							}}
 							style={{
 								borderColor: `rgba(2, 70, 106, 1)`,
 								width: '280px',
@@ -278,7 +304,6 @@ const NewProduct = ({ cancel, data, setReload, reload, setShowAddSubVariety }) =
 							}}
 							textStyle={{ color: 'rgba(2, 70, 106, 1)', fontSize: '20px' }}
 							type={'outline'}
-							onClick={cancel}
 						>
 							إلغاء
 						</Button>

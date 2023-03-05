@@ -10,9 +10,15 @@ const BackDrop = ({ onClick }) => {
 };
 
 const AddSubVariety = ({ cancel }) => {
-	const [subVariety, setSubVariety] = useState('');
 	const contextStore = useContext(Context);
-	const { subCategories, setSubCategories } = contextStore;
+	const { setSubCategories } = contextStore;
+	const [subcat, setSubCat] = useState("");
+	const addSubCat = () => {
+		setSubCategories((subCategories) => [...subCategories,{name:subcat}]);
+		setSubCat("");
+		cancel();
+	}
+
 	return (
 		<>
 			<BackDrop onClick={cancel} />
@@ -27,7 +33,7 @@ const AddSubVariety = ({ cancel }) => {
 					<div className='w-full flex flex-col items-center'>
 						<div className='md:w-fit w-full flex flex-col gap-3'>
 							<label className='md:text-[18px] text-[16px]' style={{ color: '#011723' }}>
-								اسم التصنيف الفرعي
+								التصنيف الفرعي
 							</label>
 							<input
 								className='md:w-[475px] w-full p-4 outline-none rounded-lg'
@@ -35,16 +41,14 @@ const AddSubVariety = ({ cancel }) => {
 								placeholder='ادخل اسم التصنيف الفرعي'
 								type='text'
 								name='name'
-								value={subCategories?.name}
-								onChange={(e) => {
-									setSubCategories([{ name: e.target.value }]);
-								}}
+								value={subcat}
+								onChange={(e) => setSubCat(e.target.value)}
 							/>
 						</div>
 						<div className='md:w-fit w-full flex flex-row items-center gap-5 mt-36'>
 							<Button
 								onClick={() => {
-									cancel();
+									addSubCat();
 								}}
 								type={'normal'}
 								className={'md:w-[227px] w-full md:h-[56px] h-[45px] md:text-[22px] text-[18px] text-center rounded-lg'}

@@ -4,11 +4,7 @@ import Context from './context';
 const ContextProvider = (props) => {
 	const [title, setEndActionTitle] = useState(null);
 	const [actionWarning, setActionWarning] = useState(false);
-	const [subCategories, setSubCategories] = useState([
-		{
-			name: '',
-		},
-	]);
+	const [subCategories, setSubCategories] = useState([]);
 
 	useEffect(() => {
 		if (title) {
