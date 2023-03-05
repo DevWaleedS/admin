@@ -30,7 +30,6 @@ const CurrencyPage = () => {
 					اضافة عملة
 				</Button>
 			</div>
-
 			{showAddCurrency && (
 				<AddNewCurrency
 					cancel={() => {

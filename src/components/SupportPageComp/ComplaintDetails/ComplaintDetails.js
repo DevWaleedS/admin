@@ -102,12 +102,12 @@ const AddCountry = ({ cancel, complaintDetails }) => {
                   />
                 </div>
 
-                <h2 className="md:text-[18px] text-[16px] ml-4" style={{ color: "#011723" }}> الدعم الفني </h2>
+                <h2 className="md:text-[18px] text-[16px] ml-4" style={{ color: "#011723",whiteSpace:'nowrap' }}> الدعم الفني </h2>
               </div>
 
-              <h2 className="md:text-[18px] text-[16px] ml-4" style={{ color: "#011723" }}> / جدول الشكاوى </h2>
+              <h2 className="md:text-[18px] text-[16px] ml-4" style={{ color: "#011723",whiteSpace:'nowrap' }}> / جدول الشكاوى </h2>
 
-              <h3 className="md:text-[18px] text-[16px]" style={{ color: "#7C7C7C" }}>
+              <h3 className="md:text-[18px] text-[16px]" style={{ color: "#7C7C7C",whiteSpace:'nowrap' }}>
                 / تفاصيل الشكوى
               </h3>
             </div>
@@ -124,8 +124,8 @@ const AddCountry = ({ cancel, complaintDetails }) => {
             )
             :
             (
-              <div>
-              <h2 style={{ fontSize: '16px', color: "#4D4F5C" }}>
+              <div className="w-full">
+              <h2 style={{ fontSize: '16px', color: "#4D4F5C",whiteSpace:'nowrap' }}>
                 رقم الشكوى
               </h2>
               <div
