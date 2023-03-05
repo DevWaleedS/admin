@@ -19,13 +19,11 @@ import { ReactComponent as BsFacebook } from '../../../../assets/Icons/icon-24-f
 import { ReactComponent as BsTwitter } from '../../../../assets/Icons/icon-24-twitter.svg';
 import { ReactComponent as BsInstagram } from '../../../../assets/Icons/icon-32-instagram.svg';
 
-const TabsComp = ({ handleMainInfo, mainInfo,images,onChange }) => {
-
+const TabsComp = ({ handleMainInfo, mainInfo, images, onChange }) => {
 	const activate = [
 		{ id: 1, name: 'نشط', name_en: 'active' },
 		{ id: 2, name: ' غير نشط', name_en: 'not_active' },
 	];
-
 
 	// to get selectors from api
 	const { fetchedData: countryList } = useFetch('https://backend.atlbha.com/api/Admin/selector/countries');
@@ -288,7 +286,6 @@ const TabsComp = ({ handleMainInfo, mainInfo,images,onChange }) => {
 									}}
 									className='bg-white outline-none w-full py-[14px] rounded-md'
 									sx={{
-										
 										height: '3.5rem',
 										pl: '1rem',
 										'& .MuiOutlinedInput-notchedOutline': {
@@ -447,7 +444,7 @@ const TabsComp = ({ handleMainInfo, mainInfo,images,onChange }) => {
 								inputProps={{ 'aria-label': 'Without label' }}
 								renderValue={(selected) => {
 									if (mainInfo?.status === '') {
-										return <h2> تفعيل</h2>;
+										return <h2>نشط</h2>;
 									}
 									const result = activate?.filter((item) => item?.name_en === selected);
 									return result[0]?.name;
@@ -487,8 +484,6 @@ const TabsComp = ({ handleMainInfo, mainInfo,images,onChange }) => {
 									);
 								})}
 							</Select>
-
-						
 						</div>
 					</TabPanel>
 				</Box>
