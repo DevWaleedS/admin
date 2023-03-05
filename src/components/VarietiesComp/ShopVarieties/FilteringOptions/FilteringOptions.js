@@ -17,8 +17,6 @@ const FilteringOptions = ({ showFilteringOptions, hideFilteringOptions }) => {
   const [personName, setPersonName] = React.useState([]);
 
   const [openSubCategory, setOpenSubCategory] = React.useState(false);
-
-  console.log(personName);
   const handleSubCategory = (event) => {
 			const {
 				target: { value },

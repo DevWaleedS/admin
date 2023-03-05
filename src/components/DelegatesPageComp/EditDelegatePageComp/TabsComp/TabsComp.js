@@ -152,6 +152,8 @@ const TabsComp = () => {
     formData.append('youtube', mainInfo?.youtube);
     formData.append('instegram', mainInfo?.instegram);
 
+    formData.append('status', mainInfo?.status);
+
     axios
       .post('https://backend.atlbha.com/api/Admin/marketer/7', formData, {
         headers: {

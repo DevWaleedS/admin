@@ -1,7 +1,4 @@
-import React, { useState, useContext } from 'react';
-import axios from 'axios';
-import Context from '../../../store/context';
-
+import React, { useState } from 'react';
 import useFetch from '../../../hooks/useFetch';
 import PageNavigate from '../../../components/PageNavigate/PageNavigate';
 import FilteringOptions from '../../../components/VarietiesComp/MarketVarieties/FilteringOptions/FilteringOptions';

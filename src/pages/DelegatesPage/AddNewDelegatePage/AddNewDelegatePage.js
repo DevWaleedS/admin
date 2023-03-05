@@ -90,6 +90,13 @@ const DelegatesTablePage = () => {
 
 		/** ------------------------------------------- */
 		formData.append('image', images[0]?.file || null);
+		/** ------------------------------------------- */
+		formData.append('snapchat', mainInfo?.snapchat);
+		formData.append('facebook', mainInfo?.facebook);
+		formData.append('twiter', mainInfo?.twiter);
+		formData.append('whatsapp', mainInfo?.whatsapp);
+		formData.append('youtube', mainInfo?.youtube);
+		formData.append('instegram', mainInfo?.instegram);
 
 		/** ------------------------------------------- */
 		formData.append('status', mainInfo?.status);

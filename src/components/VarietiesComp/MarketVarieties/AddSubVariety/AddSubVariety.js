@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment, useState, useContext } from 'react';
 import Context from '../../../../store/context';
 // icons
 import Button from '../../../../UI/Button/Button';
@@ -10,7 +10,13 @@ const BackDrop = ({ onClick }) => {
 
 const AddSubVariety = ({ cancel }) => {
 	const contextStore = useContext(Context);
-	const { subCategories, setSubCategories } = contextStore;
+	const { setSubCategories } = contextStore;
+	const [subcat, setSubCat] = useState("");
+	const addSubCat = () => {
+		setSubCategories((subCategories) => [...subCategories,{name:subcat}]);
+		setSubCat("");
+		cancel();
+	}
 
 	return (
 		<Fragment>
@@ -34,16 +40,14 @@ const AddSubVariety = ({ cancel }) => {
 								placeholder='ادخل اسم التصنيف الفرعي'
 								type='text'
 								name='name'
-								value={subCategories?.name}
-								onChange={(e) => {
-									setSubCategories([{ name: e.target.value }]);
-								}}
+								value={subcat}
+								onChange={(e) => setSubCat(e.target.value)}
 							/>
 						</div>
 						<div className='md:w-fit w-full flex flex-row items-center gap-5 mt-36'>
 							<Button
 								onClick={() => {
-									cancel();
+									addSubCat();
 								}}
 								type={'normal'}
 								className='md:w-[227px] w-full md:h-[56px] h-[45px] md:text-[22px] text-[18px] text-center rounded-lg'
