@@ -21,7 +21,7 @@ const AddSubVariety = ({ cancel }) => {
 	return (
 		<Fragment>
 			<BackDrop onClick={cancel} />
-			<div className='absolute flex flex-col top-5 translate-x-2/4  right-2/4 z-50 rounded-lg overflow-hidden' style={{ width: '60.25rem', maxWidth: '90%' }}>
+			<div className='fixed  flex flex-col top-14 md:top-32 translate-x-2/4  right-2/4 z-50 rounded-lg overflow-hidden' style={{ width: '60.25rem', maxWidth: '90%' }}>
 				<div className='h-16 w-full flex items-center justify-between py-4 px-4 trader_alert' style={{ backgroundColor: '#02466A' }}>
 					<h2 style={{ color: '#ECFEFF' }} className='md:text-[22px] text-[18px] font-medium text-center flex-1'>
 						اضف تصنيف فرعي
