@@ -26,7 +26,7 @@ import CircularLoading from '../../../../UI/CircularLoading/CircularLoading';
 
 const activate = [
 	{ id: 1, name: 'نشط', name_en: 'active' },
-	{ id: 2, name: ' غير نشط', name_en: 'not_active' },
+	{ id: 2, name: 'غير نشط', name_en: 'not_active' },
 ];
 
 const TabsComp = () => {
@@ -35,6 +35,7 @@ const TabsComp = () => {
 	const [loading, setLoading] = useState(false);
 	const contextStore = useContext(Context);
 	const { setEndActionTitle } = contextStore;
+
 	const [mainInfo, setMainInfo] = useState({
 		// personal info
 		name: '',
@@ -51,15 +52,15 @@ const TabsComp = () => {
 		whatsapp: '',
 		youtube: '',
 		instegram: '',
-		socialmediatext: '',
 
 		// city and country
 		city_id: '',
 		country_id: '',
 
 		// status
-		status: '',
+		status:  '' ,
 	});
+
 	const [images, setImages] = useState([]);
 	const [previewImage, setPreviewImage] = useState('');
 	const onChange = (imageList, addUpdateIndex) => {
@@ -84,6 +85,7 @@ const TabsComp = () => {
 
 	// to get selectors from api
 	const { fetchedData: countryList } = useFetch('https://backend.atlbha.com/api/Admin/selector/countries');
+
 	const { fetchedData: citiesList } = useFetch('https://backend.atlbha.com/api/Admin/selector/cities');
 	/** ---------------------------------------------------------------------------------------------- */
 
@@ -100,7 +102,6 @@ const TabsComp = () => {
 				.then((res) => {
 					if (res?.data?.success === true && res?.data?.data?.status === 200) {
 						setMainInfo({
-							...mainInfo,
 							name: res?.data?.data?.$marketers?.name || '',
 							user_name: res?.data?.data?.$marketers?.user_name,
 							email: res?.data?.data?.$marketers?.email,
@@ -115,6 +116,7 @@ const TabsComp = () => {
 							country_id: res?.data?.data?.$marketers?.country?.id,
 							status: res?.data?.data?.$marketers?.status,
 						});
+
 						setPreviewImage(res?.data?.data?.$marketers?.image);
 						setLoading(false);
 					} else {
@@ -124,7 +126,8 @@ const TabsComp = () => {
 				});
 		};
 		getMarketer();
-	}, []);
+	}, [id, token, setEndActionTitle]);
+
 	const updateMarkter = () => {
 		let formData = new FormData();
 		formData.append('_method', 'PUT');
@@ -151,7 +154,7 @@ const TabsComp = () => {
 		formData.append('status', mainInfo?.status);
 
 		axios
-			.post('https://backend.atlbha.com/api/Admin/marketer/7', formData, {
+			.post(`https://backend.atlbha.com/api/Admin/marketer/${id}`, formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data',
 					Authorization: `Bearer ${token}`,
@@ -372,10 +375,8 @@ const TabsComp = () => {
 										}}
 										inputProps={{ 'aria-label': 'Without label' }}
 										renderValue={(selected) => {
-											if (mainInfo?.country_id === '') {
-												return <h2>اختر الدولة</h2>;
-											}
 											const result = countryList?.data?.countries?.filter((item) => item?.id === parseInt(selected) || mainInfo?.country_id);
+
 											return result[0]?.name;
 										}}
 										className='bg-white outline-none w-full  py-[14px] rounded-md'
@@ -400,7 +401,7 @@ const TabsComp = () => {
 														backgroundColor: '#fff',
 														height: '3rem',
 													}}
-													value={`${item?.id}`}
+													value={item?.id}
 												>
 													{item?.name}
 												</MenuItem>
@@ -421,10 +422,8 @@ const TabsComp = () => {
 										}}
 										inputProps={{ 'aria-label': 'Without label' }}
 										renderValue={(selected) => {
-											if (mainInfo?.city_id === '') {
-												return <h2>اختر المدينة</h2>;
-											}
 											const result = citiesList?.data?.cities?.filter((item) => item?.id === parseInt(selected) || mainInfo?.city_id);
+
 											return result[0]?.name;
 										}}
 										className='bg-white outline-none w-full  py-[14px] rounded-md'
@@ -449,7 +448,7 @@ const TabsComp = () => {
 														backgroundColor: '#fff',
 														height: '3rem',
 													}}
-													value={`${item?.id}`}
+													value={item?.id}
 												>
 													{item?.name}
 												</MenuItem>
@@ -586,9 +585,6 @@ const TabsComp = () => {
 									displayEmpty
 									inputProps={{ 'aria-label': 'Without label' }}
 									renderValue={(selected) => {
-										if (mainInfo?.status === '') {
-											return <h2>نشط</h2>;
-										}
 										const result = activate?.filter((item) => item?.name_en === selected);
 										return result[0]?.name;
 									}}
@@ -606,10 +602,10 @@ const TabsComp = () => {
 										},
 									}}
 								>
-									{activate.map((item, idx) => {
+									{activate.map((item) => {
 										return (
 											<MenuItem
-												key={idx}
+												key={item?.id}
 												className=''
 												sx={{
 													backgroundColor: '#fff',
@@ -620,7 +616,7 @@ const TabsComp = () => {
 														padding: '0',
 													},
 												}}
-												value={`${item?.name_en}`}
+												value={item?.name_en}
 											>
 												{item?.name}
 											</MenuItem>

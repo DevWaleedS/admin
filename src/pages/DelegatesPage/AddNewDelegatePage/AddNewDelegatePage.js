@@ -46,7 +46,7 @@ const DelegatesTablePage = () => {
 		whatsapp: '',
 		youtube: '',
 		instegram: '',
-		socialmediatext: '',
+	
 
 		// city and country
 		city_id: '',
