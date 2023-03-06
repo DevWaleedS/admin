@@ -1,23 +1,17 @@
 import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import Button from "../../../../UI/Button/Button";
-import styles from "./AddVariety.module.css";
-import { AiFillStar } from "react-icons/ai";
-import ImageUploading from "react-images-uploading";
-import { IoMdCloudUpload } from "react-icons/io";
-import { ReactComponent as ActionAdd } from "../../../../assets/Icons/icon-24-action-add.svg";
-import { ReactComponent as DeleteIcon } from "../../../../assets/Icons/icon-24-delete.svg";
-import { ReactComponent as DeleteIconCircle } from "../../../../assets/Icons/icon-24-actions-delete.svg";
-import Context from "../../../../store/context";
+import Button from '../../../../UI/Button/Button';
+import styles from './AddVariety.module.css';
+import { AiFillStar } from 'react-icons/ai';
+import ImageUploading from 'react-images-uploading';
+import { IoMdCloudUpload } from 'react-icons/io';
+import { ReactComponent as ActionAdd } from '../../../../assets/Icons/icon-24-action-add.svg';
+import { ReactComponent as DeleteIcon } from '../../../../assets/Icons/icon-24-delete.svg';
+import { ReactComponent as DeleteIconCircle } from '../../../../assets/Icons/icon-24-actions-delete.svg';
+import Context from '../../../../store/context';
 
 const BackDrop = ({ onClick }) => {
-	return (
-		<div
-			onClick={onClick}
-			className={`fixed back_drop bottom-0 left-0  w-full bg-slate-900  z-10 ${styles.back_drop}`}
-			style={{ height: "calc(100% - 4rem)" }}
-		></div>
-	);
+	return <div onClick={onClick} className={`fixed back_drop bottom-0 left-0  w-full bg-slate-900  z-10 ${styles.back_drop}`} style={{ height: 'calc(100% - 4rem)' }}></div>;
 };
 
 const NewProduct = ({ cancel, data, setReload, reload, setShowAddSubVariety }) => {
@@ -117,13 +111,12 @@ const NewProduct = ({ cancel, data, setReload, reload, setShowAddSubVariety }) =
 		const newArray = subCategories?.map((item, i) => {
 			if (index === i) {
 				return { ...item, name: e.target.value };
-			}
-			else {
+			} else {
 				return item;
 			}
 		});
 		setSubCategories(newArray);
-	}
+	};
 
 	return (
 		<>
@@ -261,7 +254,7 @@ const NewProduct = ({ cancel, data, setReload, reload, setShowAddSubVariety }) =
 						</div>
 						{subCategories &&
 							subCategories.map((subCategory, index) => (
-								<div className='flex md:flex-row flex-col md:items-center items-start gap-y-[10px]'>
+								<div className='flex md:flex-row flex-col md:items-center items-start gap-y-[10px]' key={index}>
 									<div className='flex flex-row items-center md:mr-10'>
 										<label style={{ color: '#1DBBBE' }} className='md:text-[20px] text-[18px] w-80 max-w-full font-medium whitespace-nowrap'>
 											فرعي رقم {index + 1}
@@ -280,7 +273,9 @@ const NewProduct = ({ cancel, data, setReload, reload, setShowAddSubVariety }) =
 											onClick={() => {
 												setSubCategories((subCategories) => [...subCategories.filter((sub) => sub?.name !== subCategory?.name)]);
 											}}
-											className='cursor-pointer' fill='#FF3838' />
+											className='cursor-pointer'
+											fill='#FF3838'
+										/>
 									</div>
 								</div>
 							))}

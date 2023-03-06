@@ -99,26 +99,25 @@ const NewProduct = ({ cancel, data, setReload, reload, setShowAddSubVariety }) =
 		setSubCategories([]);
 	};
 
-	useEffect(()=>{
-		if(data){
+	useEffect(() => {
+		if (data) {
 			for (let i = 0; i < data?.subcategory?.length; i++) {
-			setSubCategories((subCategories) => [...subCategories,{id:data?.subcategory[i]?.id,name:data?.subcategory[i]?.name}]);
+				setSubCategories((subCategories) => [...subCategories, { id: data?.subcategory[i]?.id, name: data?.subcategory[i]?.name }]);
 			}
 		}
-	},[]);
+	}, []);
 
-	const updateSubCatChanged = (e,index) => {
-		const newArray = subCategories?.map((item,i)=>{
-			if(index === i){
-				return {...item, name: e.target.value};
-			}
-			else{
+	const updateSubCatChanged = (e, index) => {
+		const newArray = subCategories?.map((item, i) => {
+			if (index === i) {
+				return { ...item, name: e.target.value };
+			} else {
 				return item;
 			}
 		});
 		setSubCategories(newArray);
-    }
-		
+	};
+
 	return (
 		<>
 			<BackDrop onClick={cancel}></BackDrop>
@@ -248,7 +247,7 @@ const NewProduct = ({ cancel, data, setReload, reload, setShowAddSubVariety }) =
 						</div>
 						{subCategories &&
 							subCategories.map((subCategory, index) => (
-								<div className='flex md:flex-row flex-col md:items-center items-start gap-y-[10px]'>
+								<div className='flex md:flex-row flex-col md:items-center items-start gap-y-[10px]' key={index}>
 									<div className='flex flex-row items-center md:mr-10'>
 										<label style={{ color: '#1DBBBE' }} className='md:text-[20px] text-[18px] w-80 max-w-full font-medium whitespace-nowrap'>
 											فرعي رقم {index + 1}
@@ -260,17 +259,19 @@ const NewProduct = ({ cancel, data, setReload, reload, setShowAddSubVariety }) =
 											className='w-full rounded-md px-5 py-4 outline-none'
 											style={{ color: '#1DBBBE', backgroundColor: '#02466A00', border: '1px solid #1DBBBE' }}
 											value={subCategory?.name}
-											onChange={(e)=>updateSubCatChanged(e,index)}
+											onChange={(e) => updateSubCatChanged(e, index)}
 										/>
 
 										<DeleteIcon
 											onClick={() => {
 												setSubCategories((subCategories) => [...subCategories.filter((sub) => sub?.name !== subCategory?.name)]);
 											}}
-											className='cursor-pointer' fill='#FF3838' />
+											className='cursor-pointer'
+											fill='#FF3838'
+										/>
 									</div>
 								</div>
-						))}
+							))}
 						<div className='flex flex-row items-center justify-end'>
 							<div
 								className='rounded-md px-5 py-4 outline-none flex flex-row items-center justify-center gap-4 cursor-pointer'

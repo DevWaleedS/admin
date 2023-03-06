@@ -26,7 +26,7 @@ const ShopVarieties = () => {
 					هذه الواجهة خاصة بإعدادات الصفحة الرئيسية للموقع الإلكتروني
 				</div>
 				<div className='md:mt-6 mt-4 flex md:flex-row flex-col md:items-center items-start justify-between gap-4'>
-					<PageNavigate currentPage={'تصنيفات السوق'} />
+					<PageNavigate currentPage={'تصنيفات المتاجر'} />
 					<Button
 						className='md:w-[200px] w-full md:h-[56px] h-[45px] md:text-[20px] text-[18px] flex justify-center items-center'
 						type={'normal'}

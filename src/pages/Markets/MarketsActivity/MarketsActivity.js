@@ -11,6 +11,7 @@ import EditActivity from '../../../components/MarketsPagesComp/MarketsActivity/E
 import useFetch from '../../../hooks/useFetch';
 
 
+
 const MarketsActivity = () => {
 	const { fetchedData, loading, reload, setReload } = useFetch('https://backend.atlbha.com/api/Admin/activity');
 	const [showAddActivity, setShowAddActivity] = useState(false);

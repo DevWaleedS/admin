@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, Fragment } from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -17,7 +18,12 @@ import Checkbox from '@mui/material/Checkbox';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import styles from './TableComp.module.css';
-import { NotificationContext } from "../../../store/NotificationProvider";
+import { NotificationContext } from '../../../store/NotificationProvider';
+import Context from '../../../store/context';
+import getDate from '../../../helpers/getDate';
+
+// icons
+import CircularLoading from '../../../UI/CircularLoading/CircularLoading';
 import { visuallyHidden } from '@mui/utils';
 import { ReactComponent as SortIcon } from '../../../assets/Icons/icon-24-sort.svg';
 import { ReactComponent as NewIcon } from '../../../assets/Icons/new-svgrepo-com.svg';
@@ -28,377 +34,12 @@ import { ReactComponent as CheckedSquare } from '../../../assets/Icons/icon-24-s
 import { FaCheck } from 'react-icons/fa';
 import { BsClockHistory } from 'react-icons/bs';
 import { CgSandClock } from 'react-icons/cg';
-
 import { MdOutlineArrowBackIosNew, MdOutlineArrowForwardIos, MdOutlineKeyboardArrowDown } from 'react-icons/md';
 
-function createData(
-	id,
-	state,
-	orderNumber,
-	orderType,
-	variety,
-	marketLinkAddress,
-	packageType,
-	email,
-	marketType,
-	marketName,
-	phoneNumber,
-	deliveryAddress,
-	neighborHood,
-	mailAddress,
-	deliveryCompany,
-	serviceDate
-) {
-	return {
-		id,
-		state,
-		orderNumber,
-		orderType,
-		variety,
-		marketLinkAddress,
-		packageType,
-		email,
-		marketType,
-		marketName,
-		phoneNumber,
-		deliveryAddress,
-		neighborHood,
-		mailAddress,
-		deliveryCompany,
-		serviceDate,
-	};
-}
-
-const rows = [
-	createData(
-		1,
-		'منتهية',
-		'0021',
-		'متجر جديد',
-		'الكترونيات',
-		'www.amazon.utlopha.sa',
-		'الشاملة',
-		'info.amazon@gmail.com',
-		'شركة',
-		'أمازون',
-		'9663222335',
-		'جدة',
-		'حى الياسمين',
-		'9865',
-		'DHL',
-		'20/08/2022'
-	),
-	createData(
-		2,
-		'قيد المعالجة',
-		'0035',
-		'طلب خدمة',
-		'ادوات صحية',
-		'www.tarshoby.sa',
-		'الشاملة',
-		'info.tarshoby@gmail.com',
-		'متجر',
-		'طرشوبى',
-		'9663222335',
-		'جدة',
-		'حى الياسمين',
-		'9865',
-		'DHL',
-		'20/08/2022'
-	),
-	createData(
-		3,
-		'غير منتهية',
-		'0021',
-		'متجر جديد',
-		'الكترونيات',
-		'www.amazon.utlopha.sa',
-		'الشاملة',
-		'info.amazon@gmail.com',
-		'شركة',
-		'أمازون',
-		'9663222335',
-		'جدة',
-		'حى الياسمين',
-		'9865',
-		'DHL',
-		'20/08/2022'
-	),
-	createData(
-		4,
-		'منتهية',
-		'0021',
-		'متجر جديد',
-		'الكترونيات',
-		'www.amazon.utlopha.sa',
-		'الشاملة',
-		'info.amazon@gmail.com',
-		'شركة',
-		'أمازون',
-		'9663222335',
-		'جدة',
-		'حى الياسمين',
-		'9865',
-		'DHL',
-		'20/08/2022'
-	),
-	createData(
-		5,
-		'قيد المعالجة',
-		'0035',
-		'طلب خدمة',
-		'ادوات صحية',
-		'www.tarshoby.sa',
-		'الشاملة',
-		'info.tarshoby@gmail.com',
-		'متجر',
-		'طرشوبى',
-		'9663222335',
-		'جدة',
-		'حى الياسمين',
-		'9865',
-		'DHL',
-		'20/08/2022'
-	),
-	createData(
-		6,
-		'غير منتهية',
-		'0021',
-		'متجر جديد',
-		'الكترونيات',
-		'www.amazon.utlopha.sa',
-		'الشاملة',
-		'info.amazon@gmail.com',
-		'شركة',
-		'أمازون',
-		'9663222335',
-		'جدة',
-		'حى الياسمين',
-		'9865',
-		'DHL',
-		'20/08/2022'
-	),
-	createData(
-		7,
-		'منتهية',
-		'0021',
-		'متجر جديد',
-		'الكترونيات',
-		'www.amazon.utlopha.sa',
-		'الشاملة',
-		'info.amazon@gmail.com',
-		'شركة',
-		'أمازون',
-		'9663222335',
-		'جدة',
-		'حى الياسمين',
-		'9865',
-		'DHL',
-		'20/08/2022'
-	),
-	createData(
-		8,
-		'قيد المعالجة',
-		'0035',
-		'طلب خدمة',
-		'ادوات صحية',
-		'www.tarshoby.sa',
-		'الشاملة',
-		'info.tarshoby@gmail.com',
-		'متجر',
-		'طرشوبى',
-		'9663222335',
-		'جدة',
-		'حى الياسمين',
-		'9865',
-		'DHL',
-		'20/08/2022'
-	),
-	createData(
-		9,
-		'غير منتهية',
-		'0021',
-		'متجر جديد',
-		'الكترونيات',
-		'www.amazon.utlopha.sa',
-		'الشاملة',
-		'info.amazon@gmail.com',
-		'شركة',
-		'أمازون',
-		'9663222335',
-		'جدة',
-		'حى الياسمين',
-		'9865',
-		'DHL',
-		'20/08/2022'
-	),
-	createData(
-		10,
-		'منتهية',
-		'0021',
-		'متجر جديد',
-		'الكترونيات',
-		'www.amazon.utlopha.sa',
-		'الشاملة',
-		'info.amazon@gmail.com',
-		'شركة',
-		'أمازون',
-		'9663222335',
-		'جدة',
-		'حى الياسمين',
-		'9865',
-		'DHL',
-		'20/08/2022'
-	),
-	createData(
-		11,
-		'قيد المعالجة',
-		'0035',
-		'طلب خدمة',
-		'ادوات صحية',
-		'www.tarshoby.sa',
-		'الشاملة',
-		'info.tarshoby@gmail.com',
-		'متجر',
-		'طرشوبى',
-		'9663222335',
-		'جدة',
-		'حى الياسمين',
-		'9865',
-		'DHL',
-		'20/08/2022'
-	),
-	createData(
-		12,
-		'غير منتهية',
-		'0021',
-		'متجر جديد',
-		'الكترونيات',
-		'www.amazon.utlopha.sa',
-		'الشاملة',
-		'info.amazon@gmail.com',
-		'شركة',
-		'أمازون',
-		'9663222335',
-		'جدة',
-		'حى الياسمين',
-		'9865',
-		'DHL',
-		'20/08/2022'
-	),
-	createData(
-		13,
-		'منتهية',
-		'0021',
-		'متجر جديد',
-		'الكترونيات',
-		'www.amazon.utlopha.sa',
-		'الشاملة',
-		'info.amazon@gmail.com',
-		'شركة',
-		'أمازون',
-		'9663222335',
-		'جدة',
-		'حى الياسمين',
-		'9865',
-		'DHL',
-		'20/08/2022'
-	),
-	createData(
-		14,
-		'قيد المعالجة',
-		'0035',
-		'طلب خدمة',
-		'ادوات صحية',
-		'www.tarshoby.sa',
-		'الشاملة',
-		'info.tarshoby@gmail.com',
-		'متجر',
-		'طرشوبى',
-		'9663222335',
-		'جدة',
-		'حى الياسمين',
-		'9865',
-		'DHL',
-		'20/08/2022'
-	),
-	createData(
-		15,
-		'غير منتهية',
-		'0021',
-		'متجر جديد',
-		'الكترونيات',
-		'www.amazon.utlopha.sa',
-		'الشاملة',
-		'info.amazon@gmail.com',
-		'شركة',
-		'أمازون',
-		'9663222335',
-		'جدة',
-		'حى الياسمين',
-		'9865',
-		'DHL',
-		'20/08/2022'
-	),
-	createData(
-		16,
-		'منتهية',
-		'0021',
-		'متجر جديد',
-		'الكترونيات',
-		'www.amazon.utlopha.sa',
-		'الشاملة',
-		'info.amazon@gmail.com',
-		'شركة',
-		'أمازون',
-		'9663222335',
-		'جدة',
-		'حى الياسمين',
-		'9865',
-		'DHL',
-		'20/08/2022'
-	),
-	createData(
-		17,
-		'قيد المعالجة',
-		'0035',
-		'طلب خدمة',
-		'ادوات صحية',
-		'www.tarshoby.sa',
-		'الشاملة',
-		'info.tarshoby@gmail.com',
-		'متجر',
-		'طرشوبى',
-		'9663222335',
-		'جدة',
-		'حى الياسمين',
-		'9865',
-		'DHL',
-		'20/08/2022'
-	),
-	createData(
-		18,
-		'غير منتهية',
-		'0021',
-		'متجر جديد',
-		'الكترونيات',
-		'www.amazon.utlopha.sa',
-		'الشاملة',
-		'info.amazon@gmail.com',
-		'شركة',
-		'أمازون',
-		'9663222335',
-		'جدة',
-		'حى الياسمين',
-		'9865',
-		'DHL',
-		'20/08/2022'
-	),
-];
 const stateChanges = [
-	{ value: 'منتهية', color: '#3AE374', icon: <FaCheck fill='#fff' /> },
+	{ value: 'منتهي', color: '#3AE374', icon: <FaCheck fill='#fff' /> },
 	{
-		value: 'غير منتهية',
+		value: 'غير منتهي',
 		color: '#D3D3D3',
 		icon: <BsClockHistory fill='#fff' />,
 	},
@@ -424,15 +65,15 @@ function getComparator(order, orderBy) {
 }
 
 function stableSort(array, comparator) {
-	const stabilizedThis = array.map((el, index) => [el, index]);
-	stabilizedThis.sort((a, b) => {
+	const stabilizedThis = array?.map((el, index) => [el, index]);
+	stabilizedThis?.sort((a, b) => {
 		const order = comparator(a[0], b[0]);
 		if (order !== 0) {
 			return order;
 		}
 		return a[1] - b[1];
 	});
-	return stabilizedThis.map((el) => el[0]);
+	return stabilizedThis?.map((el) => el[0]);
 }
 
 const headCells = [
@@ -491,7 +132,7 @@ function EnhancedTableHead(props) {
 						sx={{
 							width: headCell.width ? headCell.width : 'auto',
 							color: '#EFF9FF',
-							whiteSpace:'nowrap',
+							whiteSpace: 'nowrap',
 						}}
 					>
 						{headCell.sort && (
@@ -527,13 +168,13 @@ EnhancedTableHead.propTypes = {
 	onSelectAllClick: PropTypes.func.isRequired,
 	order: PropTypes.oneOf(['asc', 'desc']).isRequired,
 	orderBy: PropTypes.string.isRequired,
-	rowCount: PropTypes.number.isRequired,
+	rowCount: PropTypes.number,
 };
 
 function EnhancedTableToolbar(props) {
-	const { numSelected, onClick, rowCount, onSelectAllClick } = props;
+	const { numSelected, rowCount, onSelectAllClick } = props;
 	const NotificationStore = useContext(NotificationContext);
-	const { setNotificationTitle,setActionTitle } = NotificationStore;
+	const { setNotificationTitle, setActionTitle } = NotificationStore;
 	return (
 		<Toolbar
 			className='md:gap-8 gap-4'
@@ -554,7 +195,7 @@ function EnhancedTableToolbar(props) {
 						style={{ backgroundColor: '#FF9F1A0A' }}
 						onClick={() => {
 							setNotificationTitle('سيتم تعطيل جميع الطلبات التي قمت بتحديدها');
-							setActionTitle('تم تعطيل الطلبات بنجاح');
+							setActionTitle('changeStatus');
 						}}
 					>
 						<h2 className={'font-medium md:text-[18px] text-[16px]'} style={{ color: '#FF9F1A' }}>
@@ -584,10 +225,9 @@ function EnhancedTableToolbar(props) {
 					<Tooltip
 						onClick={() => {
 							setNotificationTitle('سيتم حذف جميع الطلبات التي قمت بتحديدها');
-							setActionTitle('تم حذف الطلبات بنجاح');
-							onClick();
+							setActionTitle('Delete');
 						}}
-						title='Delete'>
+					>
 						<div className='md:w-[114px] w-[100px] fcc gap-2 md:px-4 px-2 rounded-full' style={{ backgroundColor: '#FF38381A' }}>
 							<h2 className={'font-medium md:text-[18px] text-[16px]'} style={{ color: '#FF3838' }}>
 								حذف
@@ -633,12 +273,17 @@ EnhancedTableToolbar.propTypes = {
 	numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable({ setUser }) {
+export default function EnhancedTable({ setUser, fetchedData, loading, reload, setReload }) {
+	const token = localStorage.getItem('token');
+	const contextStore = useContext(Context);
+	const { setEndActionTitle } = contextStore;
+	const NotificationStore = useContext(NotificationContext);
+	const { confirm, setConfirm, actionTitle, setActionTitle } = NotificationStore;
+
 	const [order, setOrder] = React.useState('asc');
 	const [orderBy, setOrderBy] = React.useState('calories');
 	const [selected, setSelected] = React.useState([]);
 	const [page, setPage] = React.useState(0);
-	const [data, setData] = React.useState(rows);
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [userMenuOpenedId, setUserMenuOpenedId] = React.useState(null);
@@ -668,21 +313,78 @@ export default function EnhancedTable({ setUser }) {
 
 	const handleSelectAllClick = (event) => {
 		if (event.target.checked) {
-			const newSelected = data.map((n) => n.id);
+			const newSelected = fetchedData?.data?.Websiteorder.map((n) => n.id);
 			setSelected(newSelected);
 			return;
 		}
 		setSelected([]);
 	};
-	const deleteItems = () => {
-		const array = [...data];
-		selected.forEach((item, idx) => {
-			const findIndex = array.findIndex((i) => item === i.id);
-			array.splice(findIndex, 1);
-		});
-		setData(array);
-		setSelected([]);
+
+	// delete single item
+	const deleteOrder = (id) => {
+		axios
+			.get(`https://backend.atlbha.com/api/Admin/websiteorderdeleteall?id[]=${id}`, {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+					setReload(!reload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+					setReload(!reload);
+				}
+			});
 	};
+
+	// delete all and change all status function
+	useEffect(() => {
+		if (confirm && actionTitle === 'ChangeStatus') {
+			const queryParams = selected.map((id) => `id[]=${id}`).join('&');
+			axios
+				.get(`https://backend.atlbha.com/api/Admin/websiteorderSatusall?${queryParams}`, {
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${token}`,
+					},
+				})
+				.then((res) => {
+					if (res?.data?.success === true && res?.data?.data?.status === 200) {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					} else {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					}
+				});
+			setConfirm(false);
+			setActionTitle(null);
+		}
+		if (confirm && actionTitle === 'Delete') {
+			const queryParams = selected.map((id) => `id[]=${id}`).join('&');
+			axios
+				.get(`https://backend.atlbha.com/api/Admin/websiteorderdeleteall?${queryParams}`, {
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${token}`,
+					},
+				})
+				.then((res) => {
+					if (res?.data?.success === true && res?.data?.data?.status === 200) {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					} else {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					}
+				});
+			setConfirm(false);
+			setActionTitle(null);
+		}
+	}, [confirm]);
 
 	const handleClick = (event, id) => {
 		const selectedIndex = selected.indexOf(id);
@@ -708,10 +410,10 @@ export default function EnhancedTable({ setUser }) {
 
 	const isSelected = (id) => selected.indexOf(id) !== -1;
 
-	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+	const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - fetchedData?.data?.Websiteorder.length) : 0;
 
 	const allRows = () => {
-		const num = Math.ceil(data.length / rowsPerPage);
+		const num = Math.ceil(fetchedData?.data?.Websiteorder.length / rowsPerPage);
 		const arr = [];
 		for (let index = 0; index < num; index++) {
 			arr.push(index + 1);
@@ -728,102 +430,116 @@ export default function EnhancedTable({ setUser }) {
 					boxShadow: 'none',
 				}}
 			>
-				<EnhancedTableToolbar onClick={deleteItems} numSelected={selected.length} rowCount={data.length} onSelectAllClick={handleSelectAllClick} />
+				<EnhancedTableToolbar numSelected={selected.length} rowCount={fetchedData?.data?.Websiteorder.length} onSelectAllClick={handleSelectAllClick} />
 				<TableContainer sx={{ backgroundColor: '#fff' }}>
 					<Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={'medium'}>
-						<EnhancedTableHead numSelected={selected.length} order={order} orderBy={orderBy} onSelectAllClick={handleSelectAllClick} onRequestSort={handleRequestSort} rowCount={data.length} />
+						<EnhancedTableHead
+							numSelected={selected.length}
+							order={order}
+							orderBy={orderBy}
+							onSelectAllClick={handleSelectAllClick}
+							onRequestSort={handleRequestSort}
+							rowCount={fetchedData?.data?.Websiteorder.length}
+						/>
 						<TableBody>
-							{stableSort(data, getComparator(order, orderBy))
-								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-								.map((row, index) => {
-									const isItemSelected = isSelected(row.id);
-									const labelId = `enhanced-table-checkbox-${index}`;
-									const findStateChanges = stateChanges.find((i) => row.state == i.value);
-									const newMarket = row.orderType === 'متجر جديد';
-									return (
-										<TableRow hover role='checkbox' aria-checked={isItemSelected} tabIndex={-1} key={row.id} selected={isItemSelected}>
-											<TableCell component='th' id={labelId} scope='row'>
-												<div className='flex items-center gap-2'>
-													<BsTrash
-														onClick={() => {
-															const findIndex = data.findIndex((item) => item.name === row.id);
-															const arr = [...data];
-															arr.splice(findIndex, 1);
-															setData(arr);
-														}}
-														style={{
-															cursor: 'pointer',
-															color: 'red',
-															fontSize: '1.2rem',
-														}}
-													></BsTrash>
-													<InfoIcon
-														onClick={() => {
-															setUser(row, newMarket);
-
-
-														}}
-														style={{
-															cursor: 'pointer',
-
-															fontSize: '1.2rem',
-														}}
-													/>
-												</div>
-											</TableCell>
-											<TableCell className='pr-0' align='right' sx={{ '& path': { fill: '#fff' } }}>
-												<div
-													className={'flex ml-auto gap-2 items-center justify-center rounded-full p-2'}
-													style={{
-														backgroundColor: findStateChanges?.color,
-														width: '131px',
-													}}
-												>
-													<h2 className='font-normal md:text-[18px] text-[14px] whitespace-nowrap text-slate-50'>{row.state}</h2>
-													<div className={`w-4 h-4 flex items-center justify-center ${styles.icons}`}>{findStateChanges?.icon}</div>
-												</div>
-											</TableCell>
-
-											<TableCell align='right' className='items-center' sx={{ display: 'flex', gap: '0.5rem', p: '24px 0' }}>
-												{newMarket && <NewIcon width='1.25rem'></NewIcon>}
-												<h2 className='font-normal md:text-[18px] text-[14px] whitespace-nowrap'>{row.orderType}</h2>
-											</TableCell>
-											<TableCell align='right'>
-												<h2 className='font-normal md:text-[18px] text-[14px] whitespace-nowrap'>{row.orderNumber}</h2>
-											</TableCell>
-
-											<TableCell align='right' className='font-normal md:text-[18px] text-[14px] whitespace-nowrap'>
-												{(index + 1).toLocaleString('en-US', {
-													minimumIntegerDigits: 2,
-													useGrouping: false,
-												})}
-											</TableCell>
-											<TableCell padding='none' align={'right'}>
-												<Checkbox
-													sx={{
-														color: '#1DBBBE',
-														'& .MuiSvgIcon-root': {
-															color: '#011723',
-														},
-													}}
-													checked={isItemSelected}
-													onClick={(event) => handleClick(event, row.id)}
-													inputProps={{
-														'aria-labelledby': labelId,
-													}}
-												/>
-											</TableCell>
-										</TableRow>
-									);
-								})}
-							{emptyRows > 0 && (
-								<TableRow
-									style={{
-										height: 53 * emptyRows,
-									}}
-								>
-									<TableCell colSpan={6} />
+							{loading ? (
+								<TableRow>
+									<TableCell colSpan={6}>
+										<CircularLoading />
+									</TableCell>
 								</TableRow>
+							) : (
+								<Fragment>
+									{stableSort(fetchedData?.data?.Websiteorder, getComparator(order, orderBy))
+										?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+										?.map((row, index) => {
+											const isItemSelected = isSelected(row?.id);
+											const labelId = `enhanced-table-checkbox-${index}`;
+											const findStateChanges = stateChanges.find((i) => row?.status === i.value);
+											const newMarket = row?.type === 'متجر جديد';
+											return (
+												<TableRow hover role='checkbox' aria-checked={isItemSelected} tabIndex={-1} key={row.id} selected={isItemSelected}>
+													<TableCell component='th' id={labelId} scope='row'>
+														<div className='flex items-center gap-2'>
+															<BsTrash
+																onClick={() => deleteOrder(row?.id)}
+																style={{
+																	cursor: 'pointer',
+																	color: 'red',
+																	fontSize: '1.2rem',
+																}}
+															></BsTrash>
+															<InfoIcon
+																onClick={() => {
+																	setUser(row, newMarket);
+																}}
+																style={{
+																	cursor: 'pointer',
+
+																	fontSize: '1.2rem',
+																}}
+															/>
+														</div>
+													</TableCell>
+
+													<TableCell className='pr-0' align='right' sx={{ '& path': { fill: '#fff' } }}>
+														<div
+															className={'flex ml-auto gap-2 items-center justify-center rounded-full p-2'}
+															style={{
+																backgroundColor: findStateChanges?.color,
+																width: '131px',
+															}}
+														>
+															<h2 className='font-normal md:text-[18px] text-[14px] whitespace-nowrap text-slate-50'>{row?.status}</h2>
+															<div className={`w-4 h-4 flex items-center justify-center ${styles.icons}`}>{findStateChanges?.icon}</div>
+														</div>
+													</TableCell>
+
+													<TableCell align='right' className='items-center' sx={{ display: 'flex', gap: '0.5rem', p: '24px 0' }}>
+														{newMarket && <NewIcon width='1.25rem' />}
+
+														<h2 className='font-normal md:text-[18px] text-[14px] whitespace-nowrap'>{row?.type}</h2>
+													</TableCell>
+
+													<TableCell align='right'>
+														<h2 className='font-normal md:text-[18px] text-[14px] whitespace-nowrap'>{row?.order_number}</h2>
+													</TableCell>
+
+													<TableCell align='right' className='font-normal md:text-[18px] text-[14px] whitespace-nowrap'>
+														{(index + 1).toLocaleString('en-US', {
+															minimumIntegerDigits: 2,
+															useGrouping: false,
+														})}
+													</TableCell>
+
+													<TableCell padding='none' align={'right'}>
+														<Checkbox
+															sx={{
+																color: '#1DBBBE',
+																'& .MuiSvgIcon-root': {
+																	color: '#011723',
+																},
+															}}
+															checked={isItemSelected}
+															onClick={(event) => handleClick(event, row?.id)}
+															inputProps={{
+																'aria-labelledby': labelId,
+															}}
+														/>
+													</TableCell>
+												</TableRow>
+											);
+										})}
+									{emptyRows > 0 && (
+										<TableRow
+											style={{
+												height: 53 * emptyRows,
+											}}
+										>
+											<TableCell colSpan={6} />
+										</TableRow>
+									)}
+								</Fragment>
 							)}
 						</TableBody>
 					</Table>
