@@ -6,10 +6,12 @@ import TableComp from "./TableComp/TableComp";
 import UserInfo from "./UserInfo/UserInfo";
 import { IoIosArrowDown } from "react-icons/io";
 import { AiOutlineSearch } from "react-icons/ai";
+import useFetch from '../../hooks/useFetch';
 
 const category = ["أدمن", "محرر", "إدارة", "دعم فنى"];
 
-const UsersTable = () => {
+const UsersTable = ({ users, loading, reload, setReload }) => {
+  const { fetchedData:roleList } = useFetch('https://backend.atlbha.com/api/Admin/selector/roles');
   const [age, setAge] = React.useState("");
   const [user, setUser] = useState([]);
   const [showUserInfo, setShowUserInfo] = useState(false);
@@ -25,7 +27,7 @@ const UsersTable = () => {
           <h2 className="md:text-[18px] text-[16px]">فرز حسب</h2>
           <FormControl
             className="flex flex-row gap-4"
-            sx={{ width:"100%",maxWidth: "100%", flex: "1" }}
+            sx={{ width: "100%", maxWidth: "100%", flex: "1" }}
           >
             <Select
               value={age}
@@ -47,7 +49,7 @@ const UsersTable = () => {
                 pl: "1rem",
                 border: "1px solid #A7A7A7",
                 borderRadius: '8px',
-                backgroundColor:'transparent',
+                backgroundColor: 'transparent',
                 "& .MuiOutlinedInput-notchedOutline": {
                   border: "none",
                 },
@@ -77,7 +79,7 @@ const UsersTable = () => {
         </div>
         <FormControl
           className="flex flex-row gap-4"
-          sx={{ width:"474px",maxWidth: "100%", flex: "1" }}
+          sx={{ width: "474px", maxWidth: "100%", flex: "1" }}
         >
           <label className={`flex-1 h-14 relative `}>
             <input
@@ -100,6 +102,9 @@ const UsersTable = () => {
         <UserInfo
           user={user}
           edit={editUser}
+          reload={reload}
+          setReload={setReload}
+          roleList={roleList?.data?.roles}
           cancel={() => {
             setShowUserInfo(false);
           }}
@@ -107,12 +112,16 @@ const UsersTable = () => {
       )}
       <div dir={"ltr"}>
         <TableComp
+          users={users}
+          loading={loading}
+          reload={reload}
+          setReload={setReload}
           setUser={(userDetected, edit) => {
             setUser(userDetected);
             setShowUserInfo(true);
             setEditUser(edit);
           }}
-        ></TableComp>
+        />
       </div>
     </div>
   );

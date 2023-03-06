@@ -7,8 +7,10 @@ import CreateRole from '../../components/UsersPageComp/CreateRole/CreateRole';
 import EditRole from '../../components/UsersPageComp/EditRole/EditRole';
 import { AiOutlinePlus } from 'react-icons/ai';
 import PageNavigate from "../../components/PageNavigate/PageNavigate";
+import useFetch from '../../hooks/useFetch';
 
 const Users = () => {
+	const { fetchedData, loading, reload, setReload } = useFetch('https://backend.atlbha.com/api/Admin/user');
 	const [showAddNewUser, setShowAddNewUser] = useState(false);
 	const [showFunctionalRoles, setShowFunctionalRoles] = useState(false);
 	const [showCreateRole, setShowCreateRole] = useState(false);
@@ -17,7 +19,7 @@ const Users = () => {
 	return (
 		<div className='relative md:pl-36 p-4 pt-0'>
 			<div className='flex md:flex-row flex-col md:items-center items-start justify-between gap-y-4'>
-				<PageNavigate currentPage={"جدول المستخدمين"}/>
+				<PageNavigate currentPage={"جدول المستخدمين"} />
 				<div className='md:w-auto w-full flex flex-row items-center gap-4'>
 					<Button
 						className='md:h-14 h-[45px] md:w-[198px] w-full text-lg whitespace-nowrap'
@@ -75,13 +77,20 @@ const Users = () => {
 
 			{showAddNewUser && (
 				<AddNewUser
+					reload={reload}
+					setReload={setReload}
 					cancel={() => {
 						setShowAddNewUser(false);
 					}}
 				></AddNewUser>
 			)}
 
-			<UsersTable></UsersTable>
+			<UsersTable
+				users={fetchedData?.data?.users}
+				loading={loading}
+				reload={reload}
+				setReload={setReload}
+			/>
 		</div>
 	);
 };

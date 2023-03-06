@@ -1,37 +1,74 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Button from '../../../UI/Button/Button';
 import styles from './UserInfo.module.css';
 import { HiOutlineMail } from 'react-icons/hi';
 import { IoIosCall } from 'react-icons/io';
 import Select from '@mui/material/Select';
-import Person from '../../../assets/Icons/Image Person.png';
 import MenuItem from '@mui/material/MenuItem';
 import ImageUploading from 'react-images-uploading';
 import { IoIosArrowDown } from 'react-icons/io';
 import { UploadOutlined } from '../../../assets/Icons/index';
-
-const packagesOptions = ['إدارة المنصة', 'المشرف العام', 'مسئول المتاجر والباقات', 'مسئول السوق والصفحات'];
+import Context from '../../../store/context';
+import axios from "axios";
 
 const BackDrop = ({ onClick }) => {
 	return <div onClick={onClick} className={`fixed back_drop bottom-0 left-0  w-full bg-slate-900  z-10 ${styles.back_drop}`} style={{ height: 'calc(100% - 4rem)' }}></div>;
 };
 
-//
-
-const UserInfo = ({ cancel, user, edit }) => {
+const UserInfo = ({ cancel, user, edit, reload, setReload, roleList }) => {
+	const token = localStorage.getItem('token');
+	const contextStore = useContext(Context);
+	const { setEndActionTitle } = contextStore;
+	const [userData, setUserData] = useState({
+		name: user?.name || '',
+		user_name: user?.user_name || '',
+		email: user?.email || '',
+		phonenumber: user?.phonenumber || '',
+		role: user?.role?.name || '',
+		password: '',
+		confirm_password: '',
+	});
 	const [images, setImages] = useState([]);
-	const [packageOption, setPackageOption] = useState('');
-	const [profileImage, setProfileImage] = useState(Person);
-	const handleCategory = (event) => {
-		setPackageOption(event.target.value);
+	const onChangeImage = (imageList, addUpdateIndex) => {
+		setImages(imageList);
 	};
 
-const onChangeImage = (imageList, addUpdateIndex) => {
+	const updateUser = () => {
+		const formData = new FormData();
+		formData.append('_method', 'PUT');
+		formData.append('name', userData?.name);
+		formData.append('user_name', userData?.user_name);
+		formData.append('email', userData?.email);
+		formData.append('phonenumber', userData?.phonenumber);
+		formData.append('role', userData?.role);
+		formData.append('confirm_password', userData?.confirm_password);
+		if (userData?.password !== '') {
+			formData.append('password', userData?.password);
+		}
+		if (images.length !== 0) {
+			formData.append('image', images[0]?.file || null);
+		}
+		axios
+			.post(`https://backend.atlbha.com/api/Admin/user/${user?.id}`, formData, {
+				headers: {
+					"Content-Type": "multipart/form-data",
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setReload(!reload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setReload(!reload);
+				}
+			});
+	}
 
-	setProfileImage(imageList[0].data_url);
-	// data for submit
-	setImages(imageList);
-};
+
 	return (
 		<>
 			<BackDrop onClick={cancel}></BackDrop>
@@ -57,7 +94,7 @@ const onChangeImage = (imageList, addUpdateIndex) => {
 						<div className='flex justify-between'>
 							<div className='flex gap-4 '>
 								<div className='h-44 w-44'>
-									<img className='h-full w-full' src={profileImage} alt='' />
+									<img className='h-full w-full' src={images[0]?.data_url || user?.image} alt='profile-img' />
 								</div>
 								<div>
 									<h2 className='text-xl font-medium mb-3'>{user.name}</h2>
@@ -79,7 +116,7 @@ const onChangeImage = (imageList, addUpdateIndex) => {
 												fontSize: '1.5rem',
 											}}
 										></IoIosCall>
-										{966123455}
+										{user?.phonenumber}
 									</h2>
 								</div>
 							</div>
@@ -92,7 +129,7 @@ const onChangeImage = (imageList, addUpdateIndex) => {
 									}}
 									type={'normal'}
 								>
-									{user.role}
+									{user?.role?.name}
 								</Button>
 							</div>
 						</div>
@@ -103,18 +140,19 @@ const onChangeImage = (imageList, addUpdateIndex) => {
 										<h2 className='font-normal text-lg mb-2'>الدور الوظيفى</h2>
 										<Select
 											className='w-full h-14  outline-none  rounded-lg'
-											value={packageOption}
-											onChange={handleCategory}
+											value={userData?.role}
+											onChange={(e) => setUserData({ ...userData, role: e.target.value })}
 											displayEmpty
 											inputProps={{ 'aria-label': 'Without label' }}
 											IconComponent={() => {
 												return <IoIosArrowDown size={'1rem'} />;
 											}}
 											renderValue={(selected) => {
-												if (packageOption === '') {
+												if (userData?.role === '') {
 													return <h2>اختر نوع الدور الوظيفي</h2>;
 												}
-												return selected;
+												const result = roleList?.filter((item) => item?.name === selected);
+												return result[0]?.name;
 											}}
 											sx={{
 												height: '3.5rem',
@@ -127,18 +165,19 @@ const onChangeImage = (imageList, addUpdateIndex) => {
 												},
 											}}
 										>
-											{packagesOptions.map((item) => {
+											{roleList?.map((item, index) => {
 												return (
 													<MenuItem
+														key={index}
 														className='souq_storge_category_filter_items'
 														sx={{
 															backgroundColor: 'rgba(211, 211, 211, 1)',
 															height: '3rem',
 															'&:hover': {},
 														}}
-														value={`${item}`}
+														value={`${item?.name}`}
 													>
-														{item}
+														{item?.name}
 													</MenuItem>
 												);
 											})}
@@ -148,6 +187,8 @@ const onChangeImage = (imageList, addUpdateIndex) => {
 										<h2 className='font-normal text-lg mb-2'>اسم المتسخدم</h2>
 										<label className='w-full ' htmlFor=''>
 											<input
+												value={userData?.user_name}
+												onChange={(e) => setUserData({ ...userData, user_name: e.target.value })}
 												className='w-full outline-none p-4 rounded-lg'
 												style={{
 													border: 'none',
@@ -162,6 +203,8 @@ const onChangeImage = (imageList, addUpdateIndex) => {
 										<h2 className='font-normal text-lg mb-2'>البريد الالكترونى</h2>
 										<label className='w-full ' htmlFor=''>
 											<input
+												value={userData?.email}
+												onChange={(e) => setUserData({ ...userData, email: e.target.value })}
 												className='w-full outline-none p-4 rounded-lg'
 												style={{
 													border: 'none',
@@ -219,6 +262,8 @@ const onChangeImage = (imageList, addUpdateIndex) => {
 										<h2 className='font-normal text-lg mb-2'>كلمة المرور</h2>
 										<label className='w-full font-normal text-lg' htmlFor=''>
 											<input
+												value={userData?.password}
+												onChange={(e) => setUserData({ ...userData, password: e.target.value })}
 												className='w-full outline-none p-4 rounded-lg'
 												style={{
 													border: 'none',
@@ -234,6 +279,8 @@ const onChangeImage = (imageList, addUpdateIndex) => {
 										<h2 className='font-normal text-lg mb-2'>تأكيد كلمة المرور</h2>
 										<label className='w-full' htmlFor=''>
 											<input
+												value={userData?.confirm_password}
+												onChange={(e) => setUserData({ ...userData, confirm_password: e.target.value })}
 												className='w-full outline-none p-4 rounded-lg'
 												style={{
 													border: 'none',
@@ -277,7 +324,7 @@ const onChangeImage = (imageList, addUpdateIndex) => {
 								textStyle={{ color: '#02466A' }}
 								className={'h-14 w-[181px] text-2xl '}
 								type={'outline'}
-								onClick={cancel}
+								onClick={() => { updateUser(); }}
 							>
 								حفظ وإغلاق
 							</Button>
