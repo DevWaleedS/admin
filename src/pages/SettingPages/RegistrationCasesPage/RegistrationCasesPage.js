@@ -104,6 +104,7 @@ const RegistrationCasesPage = () => {
 											opacity: 1,
 										},
 									}}
+									disabled
 									checked={status?.registration_status === 'registration_without_admin' ? !box?.active : box?.active}
 								/>
 							</div>
