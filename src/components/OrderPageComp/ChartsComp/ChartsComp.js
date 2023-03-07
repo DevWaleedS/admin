@@ -4,7 +4,7 @@ import GraphSec from "./GraphSec/GraphSec";
 
 
 
-const ChartsComp = () => {
+const ChartsComp = ({fetchedData}) => {
   return (
     <div className="md:h-[190px] h-fit flex md:flex-row flex-col gap-4">
       <div
@@ -13,17 +13,21 @@ const ChartsComp = () => {
       >
         <div>
           <h2 className="md:text-[28px] text-[24px] font-bold" style={{ color: "#02466A" }}>
-            76
+            {fetchedData?.count_of_store_order}
           </h2>
           <h3 className='text-base font-normal'>طلب متجر جديد</h3>
         </div>
-        <GraphSec></GraphSec>
+        <GraphSec fetchedData={fetchedData?.array_store}/>
       </div>
       <div
         className="flex-1 flex items-center rounded-lg shadow-lg py-10 px-5"
         style={{ backgroundColor: "#DDE199" }}
       >
-        <PieChartSec></PieChartSec>
+        <PieChartSec 
+        design={fetchedData?.count_of_Design} 
+        technicalSupport={fetchedData?.count_of_TechnicalSupport}
+        celebrities={fetchedData?.count_of_celebrities}
+        />
       </div>
     </div>
   );
