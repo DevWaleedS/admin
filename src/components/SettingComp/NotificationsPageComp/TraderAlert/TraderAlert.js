@@ -34,7 +34,6 @@ const TraderAlert = ({ cancel, traderPackageDetails, reload, setReload }) => {
 	};
 
 
-
 	// add email function
 	const addEmail = () => {
 		const data = {

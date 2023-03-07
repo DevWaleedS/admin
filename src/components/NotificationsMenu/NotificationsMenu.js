@@ -3,14 +3,19 @@ import axios from 'axios';
 import Context from '../../store/context';
 import { Notifications } from '../../assets/Icons/index';
 import styles from './NotificationsMenu.module.css';
-import CloseIcon from '@mui/icons-material/Close';
-import logo from '../../assets/images/amazon.png';
 import { Link } from 'react-router-dom';
 import useFetch from '../../hooks/useFetch';
 import getDate from '../../helpers/getDate';
+
+
+// icons
+import CloseIcon from '@mui/icons-material/Close';
+
+// 
 const BackDrop = ({ closeMenu }) => {
-	return <div onClick={closeMenu} className='fixed back_drop bottom-0 left-0 h-full w-full z-10'></div>;
+    return <div onClick={closeMenu} className='fixed back_drop bottom-0 left-0 h-full w-full z-10'></div>;
 };
+
 
 const NotificationsMenu = () => {
 	// get data from api

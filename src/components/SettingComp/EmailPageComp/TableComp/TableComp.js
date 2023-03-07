@@ -1,36 +1,29 @@
-import React, { useState, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
+import axios from 'axios';
+import Context from '../../../../store/context';
 import Checkbox from '@mui/material/Checkbox';
 
+// ICONS
 import { CommunicationSendOutlined, Delete, ShowStoreRequest } from '../../../../assets/Icons/index';
 import { NotificationContext } from '../../../../store/NotificationProvider';
 import { ReactComponent as CheckedSquare } from '../../../../assets/Icons/icon-24-square checkmark.svg';
+import CircularLoading from '../../../../UI/CircularLoading/CircularLoading';
 
-const cases = [
-	{ id: 1, name: 'معالجة مشكلة الدومين', store_name: 'متجر أمازون', time: 'اليوم 08:20 ص', type: 'enquiry' },
-	{ id: 2, name: ' تجديد باقة الاشتراك', store_name: 'متجر نون', time: 'اليوم 08:20 ص', type: 'enquiry' },
-	{ id: 3, name: 'معالجة مشكلة الدومين', store_name: 'متجر أمازون', time: 'اليوم 08:20 ص', type: 'enquiry' },
-	{ id: 4, name: ' تجديد باقة الاشتراك', store_name: 'متجر نون', time: 'اليوم 08:20 ص', type: 'enquiry' },
-	{ id: 5, name: 'معالجة مشكلة الدومين', store_name: 'متجر أمازون', time: 'اليوم 08:20 ص', type: 'enquiry' },
-	{ id: 6, name: ' تجديد باقة الاشتراك', store_name: 'متجر نون', time: 'اليوم 08:20 ص', type: 'enquiry' },
-	{ id: 7, name: 'معالجة مشكلة الدومين', store_name: 'متجر أمازون', time: 'اليوم 08:20 ص', type: 'enquiry' },
-	{ id: 8, name: ' تجديد باقة الاشتراك', store_name: 'متجر نون', time: 'اليوم 08:20 ص', type: 'enquiry' },
-	{ id: 9, name: 'معالجة مشكلة الدومين', store_name: 'متجر أمازون', time: 'اليوم 08:20 ص', type: 'enquiry' },
-	{ id: 10, name: ' تجديد باقة الاشتراك', store_name: 'متجر نون', time: 'اليوم 08:20 ص', type: 'enquiry' },
-];
-
-const EmailSettingPage = ({ openTraderAlert }) => {
-
+const EmailSettingPage = ({ openTraderAlert, fetchedData, reload, setReload, loading }) => {
+	const token = localStorage.getItem('token');
+	const contextStore = useContext(Context);
+	const { setEndActionTitle } = contextStore;
 	const NotificationStore = useContext(NotificationContext);
-	const { setNotificationTitle, setActionTitle } = NotificationStore;
+	const { confirm, setConfirm, actionTitle, setActionTitle, setNotificationTitle } = NotificationStore;
 	const [selected, setSelected] = React.useState([]);
-	const isSelected = (name) => selected.indexOf(name) !== -1;
+	const isSelected = (id) => selected.indexOf(id) !== -1;
 
-	const handleClick = (event, name) => {
-		const selectedIndex = selected.indexOf(name);
+	const handleClick = (event, id) => {
+		const selectedIndex = selected.indexOf(id);
 		let newSelected = [];
 
 		if (selectedIndex === -1) {
-			newSelected = newSelected.concat(selected, name);
+			newSelected = newSelected.concat(selected, id);
 		} else if (selectedIndex === 0) {
 			newSelected = newSelected.concat(selected.slice(1));
 		} else if (selectedIndex === selected.length - 1) {
@@ -44,13 +37,60 @@ const EmailSettingPage = ({ openTraderAlert }) => {
 
 	const handleSelectAllClick = (event) => {
 		if (event.target.checked) {
-			const newSelected = cases.map((n) => n.id);
+			const newSelected = fetchedData?.data?.emails.map((n) => n.id);
 			setSelected(newSelected);
 			return;
 		}
 		setSelected([]);
 	};
 
+	// delete single item
+	const deleteNotification = (id) => {
+		axios
+
+			.get(`https://backend.atlbha.com/api/Admin/EmailDeleteAll?id[]=${id}`, {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+					setReload(!reload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+					setReload(!reload);
+				}
+			});
+	};
+
+	// delete all message function
+	useEffect(() => {
+		
+		if (confirm && actionTitle === 'Delete') {
+			const queryParams = selected.map((id) => `id[]=${id}`).join('&');
+
+			axios
+				.get(`https://backend.atlbha.com/api/Admin/EmailDeleteAll?${queryParams}`, {
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${token}`,
+					},
+				})
+				.then((res) => {
+					if (res?.data?.success === true && res?.data?.data?.status === 200) {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					} else {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					}
+				});
+			setConfirm(false);
+			setActionTitle(null);
+		}
+	}, [confirm]);
 	return (
 		<div className={`relative md:py-10 md:pl-36 md:pr-24 p-4 pt-0`} style={{ backgroundColor: '#F7F7F7' }}>
 			<h3 style={{ color: '#011723' }} className='md:text-[24px] text-[20px] font-bold font-bold'>
@@ -68,8 +108,8 @@ const EmailSettingPage = ({ openTraderAlert }) => {
 									color: '#011723',
 								},
 							}}
-							indeterminate={selected.length > 0 && selected.length < cases.length}
-							checked={cases.length > 0 && selected.length === cases.length}
+							indeterminate={selected.length > 0 && selected.length < fetchedData?.data?.emails.length}
+							checked={fetchedData?.data?.emails.length > 0 && selected.length === fetchedData?.data?.emails.length}
 							onChange={handleSelectAllClick}
 							inputProps={{
 								'aria-label': 'select all desserts',
@@ -87,7 +127,7 @@ const EmailSettingPage = ({ openTraderAlert }) => {
 								style={{ width: '114px', height: '40px', backgroundColor: '#FF38381A', borderRadius: '20px' }}
 								onClick={() => {
 									setNotificationTitle('سيتم حذف جميع البريد التي قمت بتحديدها');
-									setActionTitle('تم حذف البريد بنجاح');
+									setActionTitle('Delete');
 								}}
 							>
 								<h6 className='md:text-[18px] text-[16px] font-medium' style={{ color: '#FF3838' }}>
@@ -99,39 +139,50 @@ const EmailSettingPage = ({ openTraderAlert }) => {
 					</div>
 				</div>
 				<div className='flex flex-col gap-4 flex-wrap mt-4'>
-					{cases.map((box, index) => {
-						const isItemSelected = isSelected(box.id);
-						return (
-							<div key={index} style={{ boxShadow: '3px 3px 6px #00000005' }} className='bg-white w-full flex md:flex-row flex-col md:items-center items-start justify-between gap-2 px-4 py-2'>
-								<div className='w-full flex flex-row items-center md:gap-8 gap-4'>
-									<Checkbox
-										checkedIcon={<CheckedSquare />}
-										sx={{
-											color: '#1DBBBE',
-											'& .MuiSvgIcon-root': {
-												color: '#ADB5B9',
-											},
-										}}
-										checked={isItemSelected}
-										onClick={(event) => handleClick(event, box.id)}
-									/>
-									<div className='w-full flex flex-row items-center justify-between md:pl-20'>
-										<div className='flex flex-col gap-1'>
-											<h2 style={{ color: '#011723' }} className='md:text-[20px] text-[18px] font-medium whitespace-nowrap'>
-												{box.name}
-											</h2>
-											{box.type === 'enquiry' ? <p className='md:text-[18px] text-[16px]' style={{ color: '#011723' }}>{box.store_name}</p> : <p className='md:text-[18px] text-[16px]' style={{ color: '#1DBBBE' }}>{box.store_name}</p>}
-										</div>
-										<div className='md:flex hidden'>
-											<p style={{ color: '#A7A7A7' }} className='md:text-[16px] text-[14px] font-light'>
-												{box.type === 'enquiry' ? box.time : ''}
-											</p>
+					{loading ? (
+						<CircularLoading />
+					) : (
+						fetchedData?.data?.emails.map((box, index) => {
+							const isItemSelected = isSelected(box?.id);
+
+							const timestamp = box?.created_at;
+							const date = new Date(timestamp);
+							const formattedTime = date.toLocaleString('ar', { hour: 'numeric', minute: 'numeric', hour12: true });
+
+							const today = date.toLocaleDateString('en-US');
+							const day = date.toISOString().slice(0, 10);
+							return (
+								<div key={box?.id} style={{ boxShadow: '3px 3px 6px #00000005' }} className='bg-white w-full flex md:flex-row flex-col md:items-center items-start justify-between gap-2 px-4 py-2'>
+									<div className='w-full flex flex-row items-center md:gap-8 gap-4'>
+										<Checkbox
+											checkedIcon={<CheckedSquare />}
+											sx={{
+												color: '#1DBBBE',
+												'& .MuiSvgIcon-root': {
+													color: '#ADB5B9',
+												},
+											}}
+											checked={isItemSelected}
+											onClick={(event) => handleClick(event, box?.id)}
+										/>
+										<div className='w-full flex flex-row items-center justify-between md:pl-20'>
+											<div className='flex flex-col gap-1'>
+												<h2 style={{ color: '#011723' }} className='md:text-[20px] text-[18px] font-medium whitespace-nowrap'>
+													{box?.subject}
+												</h2>
+												<p className='md:text-[18px] text-[16px]' style={{ color: '#011723' }}>
+													{box?.store?.store_name}
+												</p>
+											</div>
+											<div className='md:flex hidden'>
+												<p style={{ color: '#A7A7A7' }} className='md:text-[16px] text-[14px] font-light'>
+													{day === today ? 'اليوم' : day} {formattedTime}
+												</p>
+											</div>
 										</div>
 									</div>
-								</div>
-								<div className='md:w-auto w-full flex flex-row items-center justify-between'>
-									<div className='flex flex-row items-center gap-[26px] md:mr-0 mr-[3.5rem]'>
-										{box.type === 'enquiry' ? (
+									<div className='md:w-auto w-full flex flex-row items-center justify-between'>
+										<div className='flex flex-row items-center gap-[10px] md:mr-0 mr-[1rem]'>
 											<img
 												className='cursor-pointer'
 												src={CommunicationSendOutlined}
@@ -140,20 +191,22 @@ const EmailSettingPage = ({ openTraderAlert }) => {
 													openTraderAlert(box);
 												}}
 											/>
-										) : (
+
 											<img className='cursor-pointer' title='عرض الطلب' src={ShowStoreRequest} alt='show-store-request-icon' />
-										)}
-										<img className='cursor-pointer' src={Delete} alt='delete-icon' />
-									</div>
-									<div className='md:hidden flex'>
-										<p style={{ color: '#A7A7A7' }} className='md:text-[16px] text-[14px] font-light'>
-											{box.type === 'enquiry' ? box.time : ''}
-										</p>
+
+											<img className='cursor-pointer' src={Delete} alt='delete-icon'
+												onClick={() => deleteNotification(box?.id)} />
+										</div>
+										<div className='md:hidden flex'>
+											<p style={{ color: '#A7A7A7' }} className='md:text-[16px] text-[14px] font-light'>
+												{day === today ? 'اليوم' : day} {formattedTime}
+											</p>
+										</div>
 									</div>
 								</div>
-							</div>
-						);
-					})}
+							);
+						})
+					)}
 				</div>
 			</div>
 		</div>
