@@ -15,11 +15,10 @@ const OrdersPage = () => {
 	const [showNewMarketDetails, setShowNewMarketDetails] = useState(false);
 	const [showServiceOrderDetails, setShowServiceOrderDetails] = useState(false);
 	const [complaintDetails, setComplaintDetails] = useState(null);
-
 	return (
 		<div className='relative md:pt-10 md:pl-36 h-fit md:pr-8 p-4 pt-0' style={{ backgroundColor: '#F7F7F7' }}>
 			{/**  order charts  **/}
-			<ChartsComp />
+			<ChartsComp fetchedData={fetchedData?.data}/>
 
 			<div className={'mt-8'} style={{ backgroundColor: '#FFF' }}>
 				<div className='md:p-4 p-0'>

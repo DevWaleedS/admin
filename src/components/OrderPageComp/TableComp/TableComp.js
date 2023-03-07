@@ -471,11 +471,10 @@ export default function EnhancedTable({ setUser, fetchedData, loading, reload, s
 															></BsTrash>
 															<InfoIcon
 																onClick={() => {
-																	setUser(row, newMarket);
+																	setUser(row?.id, newMarket);
 																}}
 																style={{
 																	cursor: 'pointer',
-
 																	fontSize: '1.2rem',
 																}}
 															/>

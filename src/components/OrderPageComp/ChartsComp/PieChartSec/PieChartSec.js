@@ -1,20 +1,19 @@
 import { Pie } from '@ant-design/plots';
 
-const data = [
-	{ name: 'Group A', value: 80 },
-	{ name: 'Group B', value: 30 },
-	{ name: 'Group C', value: 10 },
-];
-const COLORS = ['#C0E9FF', '#5EBFF2', '#237EAE'];
-const TITLES = ['خدمات التصميم', 'خدمات إدارة المتجر', 'خدمات المشاهير'];
-const total = data.reduce((a, b) => {
-	if (b < 5) {
-		return;
-	}
-	return a + b.value;
-}, 0);
-
-const PieChartSec = () => {
+const PieChartSec = ({design,technicalSupport,celebrities}) => {
+	const data = [
+		{ name: 'Group A', value: design },
+		{ name: 'Group B', value: technicalSupport },
+		{ name: 'Group C', value: celebrities },
+	];
+	const COLORS = ['#C0E9FF', '#5EBFF2', '#237EAE'];
+	const TITLES = ['خدمات التصميم', 'خدمات إدارة المتجر', 'خدمات المشاهير'];
+	const total = data.reduce((a, b) => {
+		if (b < 5) {
+			return;
+		}
+		return a + b.value;
+	}, 0);
 	const config = {
 		appendPadding: 10,
 		data,
