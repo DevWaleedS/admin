@@ -16,7 +16,8 @@ const Navbar = ({openSidebar}) => {
           <img className="h-6" src={HomeIcon} alt="" />
           <h1 className="text-slate-50 font-medium text-base">الموقع</h1>
         </Link>
-        <div className="md:hidden flex flex-col items-center justify-center" onClick={() => {openSidebar();}}>
+        <div className="md:hidden flex flex-col items-center justify-center"
+          onClick={() => { openSidebar(); }}>
           <MenuIcon className={styles.menuIcon}/>
         </div>
         <div className={`flex items-center gap-10 md:px-8 px-0`}>
