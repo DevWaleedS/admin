@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import useFetch from '../../../hooks/useFetch';
 import Context from "../../../store/context";
 import Button from "../../../UI/Button/Button";
@@ -15,6 +15,8 @@ import { IoCalendar } from "react-icons/io5";
 import TabContext from "@mui/lab/TabContext";
 import Box from "@mui/material/Box";
 import moment from "moment/moment";
+import axios from "axios";
+import CircularProgress from '@mui/material/CircularProgress';
 
 const BackDrop = ({ onClick }) => {
   return (
@@ -28,20 +30,55 @@ const BackDrop = ({ onClick }) => {
 
 
 const AddCountry = ({ cancel, complaintDetails }) => {
+  const token = localStorage.getItem('token');
   const { fetchedData, loading, reload, setReload } = useFetch(`https://backend.atlbha.com/api/Admin/websiteorder/${complaintDetails}`);
-  const { fetchedData:ServiceList } = useFetch('https://backend.atlbha.com/api/Admin/service');
+  const { fetchedData: ServiceList } = useFetch('https://backend.atlbha.com/api/Admin/service');
   const contextStore = useContext(Context);
-  const { setEndActionTitle, setActionWarning } = contextStore;
+  const { setEndActionTitle } = contextStore;
   const [value, setValue] = React.useState("1");
-  // useEffect(() => {
-  //   if (data) {
-  //     setCountryNumber(data.CountryNumber);
-  //     setCityNumber(data.cityNumber);
-  //     setArabicCountryName(data.name);
-  //     setEnglishCountryName(data.nameEn);
-  //   }
-  // }, [data]);
-  const services = fetchedData?.data?.websiteorders?.services?.map((item)=>item?.name);
+
+  const acceptService = () => {
+    axios
+      .post(`http://127.0.0.1:8000/api/Admin/acceptService/${complaintDetails}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res?.data?.success === true && res?.data?.data?.status === 200) {
+          setEndActionTitle(res?.data?.message?.ar);
+          cancel();
+          setReload(!reload);
+        } else {
+          setEndActionTitle(res?.data?.message?.ar);
+          cancel();
+          setReload(!reload);
+        }
+      });
+  }
+
+  const rejectService = () => {
+    axios
+      .post(`http://127.0.0.1:8000/api/Admin/rejectService/${complaintDetails}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        if (res?.data?.success === true && res?.data?.data?.status === 200) {
+          setEndActionTitle(res?.data?.message?.ar);
+          cancel();
+          setReload(!reload);
+        } else {
+          setEndActionTitle(res?.data?.message?.ar);
+          cancel();
+          setReload(!reload);
+        }
+      });
+  }
+
   return (
     <>
       <BackDrop onClick={cancel}></BackDrop>
@@ -94,7 +131,7 @@ const AddCountry = ({ cancel, complaintDetails }) => {
                 style={{ backgroundColor: "#B6BE34" }}
               >
                 <h2 className="text-slate-50 text-2xl font-medium">
-                  {fetchedData?.data?.websiteorders?.order_number}
+                  {loading ? <CircularProgress color='inherit' size='16px' /> : fetchedData?.data?.websiteorders?.order_number}
                 </h2>
               </div>
             </div>
@@ -116,163 +153,176 @@ const AddCountry = ({ cancel, complaintDetails }) => {
                     className={"mt-8 gap-12 p-6 flex justify-between"}
                     style={{ width: "752px", backgroundColor: "#fff" }}
                   >
-                    <div className="flex-1">
-                      <div className="flex items-center gap-4 mb-5">
-                        <div className="flex gap-2" style={{ width: "136px" }}>
-                          <StoreIcon></StoreIcon>
-                          <h2>اسم المتجر</h2>
-                        </div>
-                        <div
-                          className={
-                            "flex items-center justify-center rounded-lg"
-                          }
-                          style={{
-                            backgroundColor: "#EFF9FF",
-                            height: "70px",
-                            width: "180px",
-                          }}
-                        >
-                          <h2
-                            className="font-medium"
-                            style={{ color: "#0077FF" }}
-                          >
-                            {fetchedData?.data?.websiteorders?.store?.store_name}
-                          </h2>
-                        </div>
-                      </div>
+                    {
+                      loading
+                        ?
+                        (
+                          <div className="w-full flex flex-row items-center justify-center gap-4">
+                            <CircularProgress size='24px' /> <span>جاري التحميل</span>
+                          </div>
+                        )
+                        :
+                        (
+                          <>
+                            <div className="flex-1">
+                              <div className="flex items-center gap-4 mb-5">
+                                <div className="flex gap-2" style={{ width: "136px" }}>
+                                  <StoreIcon></StoreIcon>
+                                  <h2>اسم المتجر</h2>
+                                </div>
+                                <div
+                                  className={
+                                    "flex items-center justify-center rounded-lg"
+                                  }
+                                  style={{
+                                    backgroundColor: "#EFF9FF",
+                                    height: "70px",
+                                    width: "180px",
+                                  }}
+                                >
+                                  <h2
+                                    className="font-medium"
+                                    style={{ color: "#0077FF" }}
+                                  >
+                                    {fetchedData?.data?.websiteorders?.store?.store_name}
+                                  </h2>
+                                </div>
+                              </div>
 
-                      <div className="flex items-center gap-4 mb-5">
-                        <div className="flex gap-2" style={{ width: "136px" }}>
-                          <Category></Category>
-                          <h2>التصنيف</h2>
-                        </div>
-                        <div
-                          className={
-                            "flex items-center justify-center rounded-lg"
-                          }
-                          style={{
-                            backgroundColor: "#EFF9FF",
-                            height: "70px",
-                            width: "180px",
-                          }}
-                        >
-                          <h2
-                            className="font-medium"
-                            style={{ color: "#0077FF" }}
-                          >
-                            {fetchedData?.data?.websiteorders?.store?.activity[0]?.name}
-                          </h2>
-                        </div>
-                      </div>
+                              <div className="flex items-center gap-4 mb-5">
+                                <div className="flex gap-2" style={{ width: "136px" }}>
+                                  <Category></Category>
+                                  <h2>التصنيف</h2>
+                                </div>
+                                <div
+                                  className={
+                                    "flex items-center justify-center rounded-lg"
+                                  }
+                                  style={{
+                                    backgroundColor: "#EFF9FF",
+                                    height: "70px",
+                                    width: "180px",
+                                  }}
+                                >
+                                  <h2
+                                    className="font-medium"
+                                    style={{ color: "#0077FF" }}
+                                  >
+                                    {fetchedData?.data?.websiteorders?.store?.activity[0]?.name}
+                                  </h2>
+                                </div>
+                              </div>
 
-                      <div className="flex items-center gap-4 mb-5">
-                        <div className="flex gap-2" style={{ width: "136px" }}>
-                          <CallIcon></CallIcon>
-                          <h2>الهاتف</h2>
-                        </div>
-                        <div
-                          className={
-                            "flex items-center justify-center rounded-lg"
-                          }
-                          style={{
-                            backgroundColor: "#EFF9FF",
-                            height: "70px",
-                            width: "180px",
-                          }}
-                        >
-                          <h2
-                            className="font-medium"
-                            style={{ color: "#0077FF" }}
-                          >
-                            {fetchedData?.data?.websiteorders?.store?.phonenumber}
-                          </h2>
-                        </div>
-                      </div>
-                    </div>
+                              <div className="flex items-center gap-4 mb-5">
+                                <div className="flex gap-2" style={{ width: "136px" }}>
+                                  <CallIcon></CallIcon>
+                                  <h2>الهاتف</h2>
+                                </div>
+                                <div
+                                  className={
+                                    "flex items-center justify-center rounded-lg"
+                                  }
+                                  style={{
+                                    backgroundColor: "#EFF9FF",
+                                    height: "70px",
+                                    width: "180px",
+                                  }}
+                                >
+                                  <h2
+                                    className="font-medium"
+                                    style={{ color: "#0077FF" }}
+                                  >
+                                    {fetchedData?.data?.websiteorders?.store?.phonenumber}
+                                  </h2>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="flex-1">
+                              <div className="flex items-center gap-4 mb-5">
+                                <div
+                                  className="flex gap-2 items-center"
+                                  style={{ width: "136px" }}
+                                >
+                                  <IoCalendar></IoCalendar>
+                                  <h2>تاريخ الطلب</h2>
+                                </div>
+                                <div
+                                  className={
+                                    "flex items-center justify-center rounded-lg"
+                                  }
+                                  style={{
+                                    backgroundColor: "#EFF9FF",
+                                    height: "70px",
+                                    width: "180px",
+                                  }}
+                                >
+                                  <h2
+                                    className="font-medium"
+                                    style={{ color: "#0077FF" }}
+                                  >
+                                    {moment(fetchedData?.data?.websiteorders?.created_at).format('DD/MM/YYYY')}
+                                  </h2>
+                                </div>
+                              </div>
+                              <div className="flex gap-4 mb-5">
+                                <div className="flex gap-2">
+                                  <CallIcon></CallIcon>
+                                </div>
+                                <div>
+                                  <h2 className="whitespace-nowrap">
+                                    نوع الخدمة المطلوبة
+                                  </h2>
+                                  <FormGroup
+                                    sx={{
+                                      "& .MuiFormControlLabel-root": {
+                                        gap: "0.5rem",
+                                      },
+                                      "& .MuiCheckbox-root": {
+                                        p: 0,
+                                      },
+                                      "& .MuiButtonBase-root svg path": {
+                                        fill: "#A7A7A7",
+                                      },
+                                      "& .MuiButtonBase-root.Mui-checked svg path": {
+                                        fill: "#7C7C7C",
+                                      },
 
-                    <div className="flex-1">
-                      <div className="flex items-center gap-4 mb-5">
-                        <div
-                          className="flex gap-2 items-center"
-                          style={{ width: "136px" }}
-                        >
-                          <IoCalendar></IoCalendar>
-                          <h2>تاريخ الطلب</h2>
-                        </div>
-                        <div
-                          className={
-                            "flex items-center justify-center rounded-lg"
-                          }
-                          style={{
-                            backgroundColor: "#EFF9FF",
-                            height: "70px",
-                            width: "180px",
-                          }}
-                        >
-                          <h2
-                            className="font-medium"
-                            style={{ color: "#0077FF" }}
-                          >
-                          {moment(fetchedData?.data?.websiteorders?.created_at).format('DD/MM/YYYY')}
-                          </h2>
-                        </div>
-                      </div>
-                      <div className="flex gap-4 mb-5">
-                        <div className="flex gap-2">
-                          <CallIcon></CallIcon>
-                        </div>
-                        <div>
-                          <h2 className="whitespace-nowrap">
-                            نوع الخدمة المطلوبة
-                          </h2>
-                          <FormGroup
-                            sx={{
-                              "& .MuiFormControlLabel-root": {
-                                gap: "0.5rem",
-                              },
-                              "& .MuiCheckbox-root": {
-                                p: 0,
-                              },
-                              "& .MuiButtonBase-root svg path": {
-                                fill: "#A7A7A7",
-                              },
-                              "& .MuiButtonBase-root.Mui-checked svg path": {
-                                fill: "#7C7C7C",
-                              },
-
-                              "& .MuiTypography-root": {
-                                fontSize: "18px",
-                                color: "#A7A7A7",
-                              },
-                              "& .MuiFormControlLabel-root:has(.Mui-checked) .MuiTypography-root":
-                              {
-                                fontSize: "18px",
-                                color: "#7C7C7C",
-                              },
-                            }}
-                          >
-                          {ServiceList?.data?.Services?.map((item,index)=>(
-                            <FormControlLabel
-                            key={index}
-                            sx={{
-                              py: 1,
-                              mr: 0,
-                              pr: 0,
-                              "& .MuiTypography-root": {
-                                fontSize: "18px",
-                                fontWeight: "500",
-                              },
-                            }}
-                            control={
-                              <Checkbox defaultChecked={services?.map(service=>service?.name === item?.name)} checkedIcon={<CheckedSquare />} />
-                            }
-                            label={item?.name}
-                          />
-                          ))}
-                          </FormGroup>
-                        </div>
-                      </div>
-                    </div>
+                                      "& .MuiTypography-root": {
+                                        fontSize: "18px",
+                                        color: "#A7A7A7",
+                                      },
+                                      "& .MuiFormControlLabel-root:has(.Mui-checked) .MuiTypography-root":
+                                      {
+                                        fontSize: "18px",
+                                        color: "#7C7C7C",
+                                      },
+                                    }}
+                                  >
+                                    {ServiceList?.data?.Services?.map((item, index) => (
+                                      <FormControlLabel
+                                        key={index}
+                                        sx={{
+                                          py: 1,
+                                          mr: 0,
+                                          pr: 0,
+                                          "& .MuiTypography-root": {
+                                            fontSize: "18px",
+                                            fontWeight: "500",
+                                          },
+                                        }}
+                                        control={
+                                          <Checkbox defaultChecked={ServiceList?.data?.Services?.map(service => service?.id === item?.id )} checkedIcon={<CheckedSquare />} />
+                                        }
+                                        label={item?.name}
+                                      />
+                                    ))}
+                                  </FormGroup>
+                                </div>
+                              </div>
+                            </div>
+                          </>
+                        )
+                    }
                   </div>
                 </Box>
               </TabContext>
@@ -289,10 +339,7 @@ const AddCountry = ({ cancel, complaintDetails }) => {
               className={"h-14 w-44"}
               style={{ backgroundColor: `#3AE374` }}
               type={"normal"}
-              onClick={() => {
-                setEndActionTitle("تم قبول طلب خدمة جديدة بنجاح");
-                cancel();
-              }}
+              onClick={() => { acceptService() }}
             >
               قبول الخدمة
             </Button>
@@ -301,11 +348,7 @@ const AddCountry = ({ cancel, complaintDetails }) => {
               style={{ borderColor: `#FF3838` }}
               textStyle={{ color: "#FF3838" }}
               type={"outline"}
-              onClick={() => {
-                setEndActionTitle("تم رفض طلب خدمة جديدة بنجاح");
-                setActionWarning(true);
-                cancel();
-              }}
+              onClick={() => { rejectService() }}
             >
               رفض الخدمة
             </Button>
