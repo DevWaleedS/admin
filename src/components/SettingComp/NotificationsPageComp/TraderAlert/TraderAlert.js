@@ -12,8 +12,7 @@ const BackDrop = ({ onClick }) => {
 	return <div onClick={onClick} className='fixed back_drop top-0 left-0 h-full w-full bg-slate-900 opacity-50 z-10'></div>;
 };
 
-const TraderAlert = ({ cancel, traderPackageDetails, reload, setReload }) => {
-
+const TraderAlert = ({ cancel, traderPackageDetails, showNotificationInfo, reload, setReload }) => {
 	const userEmail = traderPackageDetails?.user.map((user) => user?.email);
 	const token = localStorage.getItem('token');
 	const contextStore = useContext(Context);
@@ -32,7 +31,6 @@ const TraderAlert = ({ cancel, traderPackageDetails, reload, setReload }) => {
 			editorState: editorValue,
 		});
 	};
-
 
 	// add email function
 	const addEmail = () => {
@@ -70,7 +68,7 @@ const TraderAlert = ({ cancel, traderPackageDetails, reload, setReload }) => {
 			>
 				<div className='h-16 w-full flex items-center justify-center py-4 px-4 trader_alert' style={{ backgroundColor: '#1DBBBE' }}>
 					<h2 style={{ color: '#ECFEFF' }} className='md:text-[22px] text-[18px] font-medium text-center'>
-						ارسال بريد رد
+						{showNotificationInfo ? 'تفاصيل الرد المرسل' : 'ارسال بريد رد'}
 					</h2>
 				</div>
 				<div className='flex-1 pb-4' style={{ backgroundColor: '#FAFAFA' }}>
@@ -82,9 +80,10 @@ const TraderAlert = ({ cancel, traderPackageDetails, reload, setReload }) => {
 							{userEmail}
 						</span>
 					</div>
+
 					<textarea
 						style={{ color: '#67747B' }}
-						className='w-full p-4 md:text-[18px] text-[16px] text-md font-medium outline-none'
+						className={` ${showNotificationInfo === true ? 'hidden' : 'w-full p-4 md:text-[18px] text-[16px] text-md font-medium outline-none'}`}
 						value={subject}
 						onChange={(e) => setSubject(e.target.value)}
 						placeholder='الموضوع'
@@ -96,48 +95,86 @@ const TraderAlert = ({ cancel, traderPackageDetails, reload, setReload }) => {
 						</h2>
 					</div>
 					<div className={styles.editor}>
-						<Editor
-							className='text-black text-xl'
-							toolbarHidden={false}
-							editorState={description.editorState}
-							onEditorStateChange={onEditorStateChange}
-							inDropdown={true}
-							placeholder={
-								<div className='flex flex-col'>
-									<div className='flex flex-row'>
-										<p className='md:text-[20px] text-[16px]' style={{ fontWeight: '500', color: '#011723' }}>
-											صديقنا التاجر،
-										</p>
-										<span className='md:text-[20px] text-[16px]' style={{ fontWeight: '500', color: '#FF9F1A' }}>
-											{' '}
-											باقي 20يوم على انتهاء اشتراكك{' '}
-										</span>
+						{showNotificationInfo ? (
+							<Editor
+								readOnly
+								className='text-black text-xl'
+								toolbarHidden={false}
+								editorState={description.editorState}
+								onEditorStateChange={onEditorStateChange}
+								inDropdown={true}
+								placeholder={
+									<div className='flex flex-col'>
+										<div className='flex flex-row'>
+											<p className='md:text-[20px] text-[16px]' style={{ fontWeight: '500', color: '#011723' }}>
+												{traderPackageDetails?.message}
+											</p>
+										</div>
 									</div>
-									<p className='md:text-[20px] text-[16px]' style={{ fontWeight: '500', color: '#011723' }}>
-										تواصل مع الدعم الفني للحصول على كود خصم لتجديد اشتراكك
-									</p>
-								</div>
-							}
-							editorClassName='demo-editor'
-							toolbar={{
-								options: ['inline', 'textAlign', 'image', 'list'],
-								inline: {
-									options: ['bold'],
-								},
-								list: {
-									options: ['unordered', 'ordered'],
-								},
-							}}
-						/>
+								}
+								editorClassName='demo-editor'
+								toolbar={{
+									options: ['inline', 'textAlign', 'image', 'list'],
+									inline: {
+										options: ['bold'],
+									},
+									list: {
+										options: ['unordered', 'ordered'],
+									},
+								}}
+							/>
+						) : (
+							<Editor
+								className='text-black text-xl'
+								toolbarHidden={false}
+								editorState={description.editorState}
+								onEditorStateChange={onEditorStateChange}
+								inDropdown={true}
+								placeholder={
+									<div className='flex flex-col'>
+										<div className='flex flex-row'>
+											<p className='md:text-[20px] text-[16px]' style={{ fontWeight: '500', color: '#011723' }}>
+												صديقنا التاجر،
+											</p>
+											<span className='md:text-[20px] text-[16px]' style={{ fontWeight: '500', color: '#FF9F1A' }}>
+												{' '}
+												باقي 20يوم على انتهاء اشتراكك{' '}
+											</span>
+										</div>
+										<p className='md:text-[20px] text-[16px]' style={{ fontWeight: '500', color: '#011723' }}>
+											تواصل مع الدعم الفني للحصول على كود خصم لتجديد اشتراكك
+										</p>
+									</div>
+								}
+								editorClassName='demo-editor'
+								toolbar={{
+									options: ['inline', 'textAlign', 'image', 'list'],
+									inline: {
+										options: ['bold'],
+									},
+									list: {
+										options: ['unordered', 'ordered'],
+									},
+								}}
+							/>
+						)}
 					</div>
-					<div className='flex gap-5 justify-center'>
-						<Button onClick={addEmail} type={'normal'} className={'md:text-[20px] text-[16px] text-center mt-12'} style={{ backgroundColor: '#02466A' }} svg={<FiSend color={'#fff'} />}>
-							ارسال
-						</Button>
-						<Button type={'outline'} className={'md:text-[20px] text-[16px] text-center  mt-12'} style={{ borderColor: '#02466A' }} textStyle={{ color: '#02466A' }} onClick={cancel}>
-							الغاء
-						</Button>
-					</div>
+					{showNotificationInfo ? (
+						<div className='flex gap-5 justify-center'>
+							<Button type={'outline'} className={'md:text-[20px] text-[16px] text-center  mt-12'} style={{ borderColor: '#02466A' }} textStyle={{ color: '#02466A' }} onClick={cancel}>
+								إغلاق
+							</Button>
+						</div>
+					) : (
+						<div className='flex gap-5 justify-center'>
+							<Button onClick={addEmail} type={'normal'} className={'md:text-[20px] text-[16px] text-center mt-12'} style={{ backgroundColor: '#02466A' }} svg={<FiSend color={'#fff'} />}>
+								ارسال
+							</Button>
+							<Button type={'outline'} className={'md:text-[20px] text-[16px] text-center  mt-12'} style={{ borderColor: '#02466A' }} textStyle={{ color: '#02466A' }} onClick={cancel}>
+								الغاء
+							</Button>
+						</div>
+					)}
 				</div>
 			</div>
 		</>

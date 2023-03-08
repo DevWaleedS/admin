@@ -9,7 +9,7 @@ import { NotificationContext } from '../../../../store/NotificationProvider';
 import { ReactComponent as CheckedSquare } from '../../../../assets/Icons/icon-24-square checkmark.svg';
 import CircularLoading from '../../../../UI/CircularLoading/CircularLoading';
 
-const EmailSettingPage = ({ openTraderAlert, fetchedData, reload, setReload, loading }) => {
+const EmailSettingPage = ({ openTraderAlert, setShowEmailInfo, fetchedData, reload, setReload, loading }) => {
 	const token = localStorage.getItem('token');
 	const contextStore = useContext(Context);
 	const { setEndActionTitle } = contextStore;
@@ -17,6 +17,25 @@ const EmailSettingPage = ({ openTraderAlert, fetchedData, reload, setReload, loa
 	const { confirm, setConfirm, actionTitle, setActionTitle, setNotificationTitle } = NotificationStore;
 	const [selected, setSelected] = React.useState([]);
 	const isSelected = (id) => selected.indexOf(id) !== -1;
+
+	// This Function to get current day
+	const [isToday, setIsToday] = React.useState(false);
+
+	useEffect(() => {
+		// Create a Date object for the current date and time
+		let today = new Date();
+
+		// Parse the string into a Date object
+		let dateStr = fetchedData?.data?.emails.map((item) => item?.created_at);
+		let date = new Date(Date.parse(dateStr));
+
+		// Compare the year, month, and day of the two Date objects
+		if (today.getFullYear() === date.getFullYear() && today.getMonth() === date.getMonth() && today.getDate() === date.getDate()) {
+			setIsToday(true);
+		} else {
+			setIsToday(false);
+		}
+	}, []);
 
 	const handleClick = (event, id) => {
 		const selectedIndex = selected.indexOf(id);
@@ -67,7 +86,6 @@ const EmailSettingPage = ({ openTraderAlert, fetchedData, reload, setReload, loa
 
 	// delete all message function
 	useEffect(() => {
-		
 		if (confirm && actionTitle === 'Delete') {
 			const queryParams = selected.map((id) => `id[]=${id}`).join('&');
 
@@ -149,7 +167,6 @@ const EmailSettingPage = ({ openTraderAlert, fetchedData, reload, setReload, loa
 							const date = new Date(timestamp);
 							const formattedTime = date.toLocaleString('ar', { hour: 'numeric', minute: 'numeric', hour12: true });
 
-							const today = date.toLocaleDateString('en-US');
 							const day = date.toISOString().slice(0, 10);
 							return (
 								<div key={box?.id} style={{ boxShadow: '3px 3px 6px #00000005' }} className='bg-white w-full flex md:flex-row flex-col md:items-center items-start justify-between gap-2 px-4 py-2'>
@@ -176,7 +193,7 @@ const EmailSettingPage = ({ openTraderAlert, fetchedData, reload, setReload, loa
 											</div>
 											<div className='md:flex hidden'>
 												<p style={{ color: '#A7A7A7' }} className='md:text-[16px] text-[14px] font-light'>
-													{day === today ? 'اليوم' : day} {formattedTime}
+													{isToday ? 'اليوم' : day} {formattedTime}
 												</p>
 											</div>
 										</div>
@@ -189,17 +206,26 @@ const EmailSettingPage = ({ openTraderAlert, fetchedData, reload, setReload, loa
 												alt='communication-send-outlined-icon'
 												onClick={() => {
 													openTraderAlert(box);
+													setShowEmailInfo(false);
 												}}
 											/>
 
-											<img className='cursor-pointer' title='عرض الطلب' src={ShowStoreRequest} alt='show-store-request-icon' />
+											<img
+												className='cursor-pointer'
+												title='عرض الطلب'
+												src={ShowStoreRequest}
+												alt='show-store-request-icon'
+												onClick={() => {
+													openTraderAlert(box);
+													setShowEmailInfo(true);
+												}}
+											/>
 
-											<img className='cursor-pointer' src={Delete} alt='delete-icon'
-												onClick={() => deleteNotification(box?.id)} />
+											<img className='cursor-pointer' src={Delete} alt='delete-icon' onClick={() => deleteNotification(box?.id)} />
 										</div>
 										<div className='md:hidden flex'>
 											<p style={{ color: '#A7A7A7' }} className='md:text-[16px] text-[14px] font-light'>
-												{day === today ? 'اليوم' : day} {formattedTime}
+												{isToday ? 'اليوم' : day} {formattedTime}
 											</p>
 										</div>
 									</div>

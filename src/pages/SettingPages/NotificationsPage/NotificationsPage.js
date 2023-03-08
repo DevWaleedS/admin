@@ -14,14 +14,33 @@ import CircularLoading from '../../../UI/CircularLoading/CircularLoading';
 const NotificationsPage = () => {
 	// get data from api
 	const { fetchedData, reload, setReload, loading } = useFetch('https://backend.atlbha.com/api/Admin/NotificationIndex');
-
 	
+	// This Function to get current day
+	const [isToday, setIsToday] = useState(false);
+	
+	useEffect(() => {
+		// Create a Date object for the current date and time
+		let today = new Date();
+
+		// Parse the string into a Date object
+		let dateStr = fetchedData?.data?.notifications.map((item) => item?.created_at);
+		let date = new Date(Date.parse(dateStr));
+
+		// Compare the year, month, and day of the two Date objects
+		if (today.getFullYear() === date.getFullYear() && today.getMonth() === date.getMonth() && today.getDate() === date.getDate()) {
+			setIsToday(true);
+		} else {
+			setIsToday(false);
+		}
+	}, []);
+
 	const token = localStorage.getItem('token');
 	const contextStore = useContext(Context);
 	const { setEndActionTitle } = contextStore;
 	const NotificationStore = useContext(NotificationContext);
 	const { confirm, setConfirm, actionTitle, setActionTitle, setNotificationTitle } = NotificationStore;
 	const [traderAlert, setTraderAlert] = useState(false);
+	const [showNotificationInfo, setShowNotificationInfo] = useState(false);
 	const [traderPackageDetails, setTraderPackageDetails] = useState([]);
 
 	const [selected, setSelected] = React.useState([]);
@@ -127,6 +146,7 @@ const NotificationsPage = () => {
 						setTraderAlert(false);
 					}}
 					traderPackageDetails={traderPackageDetails}
+					showNotificationInfo={showNotificationInfo}
 					reload={reload}
 					setReload={setReload}
 				/>
@@ -187,8 +207,6 @@ const NotificationsPage = () => {
 								const timestamp = box?.created_at;
 								const date = new Date(timestamp);
 								const formattedTime = date.toLocaleString('ar', { hour: 'numeric', minute: 'numeric', hour12: true });
-
-								const today = date.toLocaleDateString('en-US');
 								const day = date.toISOString().slice(0, 10);
 
 								return (
@@ -216,7 +234,7 @@ const NotificationsPage = () => {
 												</div>
 												<div className='md:flex hidden'>
 													<p style={{ color: '#A7A7A7' }} className='md:text-[16px] text-[14px] font-light'>
-														{day === today ? 'اليوم' : day} {formattedTime}
+														{isToday ? 'اليوم' : day} {formattedTime}
 													</p>
 												</div>
 											</div>
@@ -230,6 +248,8 @@ const NotificationsPage = () => {
 													alt='show-store-request-icon'
 													onClick={() => {
 														setTraderAlert(true);
+														setShowNotificationInfo(true);
+
 														setTraderPackageDetails(box);
 													}}
 												/>
@@ -240,7 +260,7 @@ const NotificationsPage = () => {
 													alt='communication-send-outlined-icon'
 													onClick={() => {
 														setTraderAlert(true);
-														setTraderPackageDetails(box);
+														setShowNotificationInfo(false);
 													}}
 												/>
 
@@ -248,7 +268,7 @@ const NotificationsPage = () => {
 											</div>
 											<div className='md:hidden flex'>
 												<p style={{ color: '#A7A7A7' }} className='md:text-[16px] text-[14px] font-light'>
-													{formattedTime}
+													{isToday ? 'اليوم' : day} {formattedTime}
 												</p>
 											</div>
 										</div>
