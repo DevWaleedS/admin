@@ -72,33 +72,32 @@ const UserInfo = ({ cancel, user, edit, reload, setReload, roleList }) => {
 	return (
 		<>
 			<BackDrop onClick={cancel}></BackDrop>
-			<div className={`fixed bottom-0 left-0 bg-slate-50 z-20 otlobha_new_product ${styles.container}`} style={{ width: '1104px', height: 'calc(100% - 4rem)' }}>
+			<div className={`fixed bottom-0 left-0 bg-slate-50 z-20 otlobha_new_product ${styles.container}`} style={{ width: '1104px',maxWidth:'100%', height: 'calc(100% - 4rem)' }}>
 				<div className='flex h-full flex-col justify-between'>
 					<div
-						className='p-8'
+						className='md:p-8 p-5 md:h-[135px] h-[100px]'
 						style={{
-							height: '135px',
 							backgroundColor: 'rgba(235, 235, 235, 1)',
 						}}
 					>
-						<h2 className='font-bold text-2xl  mb-3'>{edit ? 'تعديل بيانات المستخدم' : 'تفاصيل المستخدم'} </h2>
+						<h2 className='font-bold md:text-2xl text-[18px] mb-3'>{edit ? 'تعديل بيانات المستخدم' : 'تفاصيل المستخدم'} </h2>
 						<div className='flex'>
-							<h2 className='font-medium text-lg ml-4'> جدول المستخدمين </h2>
+							<h2 className='font-medium md:text-lg text-[14px] md:ml-4 ml-1'> جدول المستخدمين </h2>
 
-							<h3 className='font-medium text-lg' style={{ color: '#7C7C7C' }}>
+							<h3 className='font-medium md:text-lg text-[14px]' style={{ color: '#7C7C7C' }}>
 								/{edit ? 'تعديل بيانات المستخدم' : 'تفاصيل مستخدم موظف في النظام'}
 							</h3>
 						</div>
 					</div>
-					<div className={`flex-1 px-20 overflow-y-scroll py-12  ${styles.content}`}>
-						<div className='flex justify-between'>
-							<div className='flex gap-4 '>
-								<div className='h-44 w-44'>
+					<div className={`flex-1 md:px-20 px-5 overflow-y-scroll md:py-12 py-5  ${styles.content}`}>
+						<div className='flex md:flex-row flex-col-reverse justify-between'>
+							<div className='flex md:flex-row flex-col md:items-start items-center gap-4'>
+								<div className='md:h-44 h-20 md:w-44 w-20'>
 									<img className='h-full w-full' src={images[0]?.data_url || user?.image} alt='profile-img' />
 								</div>
 								<div>
-									<h2 className='text-xl font-medium mb-3'>{user.name}</h2>
-									<h2 className='text-lg font-normal mb-3 text-[#67747B] flex gap-2 items-center'>
+									<h2 className='md:text-xl text-[18px] font-medium mb-3 md:text-right text-center'>{user.name}</h2>
+									<h2 className='md:text-lg text-[16px] font-normal mb-3 text-[#67747B] flex gap-2 items-center'>
 										<HiOutlineMail
 											style={{
 												cursor: 'pointer',
@@ -108,7 +107,7 @@ const UserInfo = ({ cancel, user, edit, reload, setReload, roleList }) => {
 										></HiOutlineMail>
 										{user.email}
 									</h2>
-									<h2 className='text-lg font-normal mb-3 flex gap-2 items-center'>
+									<h2 className='md:text-lg text-[16px] font-normal mb-3 flex gap-2 items-center'>
 										<IoIosCall
 											style={{
 												cursor: 'pointer',
@@ -122,9 +121,8 @@ const UserInfo = ({ cancel, user, edit, reload, setReload, roleList }) => {
 							</div>
 							<div>
 								<Button
-									className='h-14 cursor-auto text-xl font-normal'
+									className='md:h-14 h-[45px] md:w-[278px] w-full cursor-auto md:text-xl text-[18px] font-normal md:mb-0 mb-4'
 									style={{
-										width: '278px',
 										backgroundColor: 'rgba(2, 70, 106, 1)',
 									}}
 									type={'normal'}
@@ -134,12 +132,12 @@ const UserInfo = ({ cancel, user, edit, reload, setReload, roleList }) => {
 							</div>
 						</div>
 						{edit && (
-							<div className='flex mt-12 gap-48'>
-								<div className='flex-1 '>
-									<div className='mt-6  '>
-										<h2 className='font-normal text-lg mb-2'>الدور الوظيفى</h2>
+							<div className='flex md:flex-row flex-col md:mt-12 mt-4 md:gap-48 gap-4'>
+								<div className='flex-1'>
+									<div className='md:mt-6 mt-4'>
+										<h2 className='font-normal md:text-lg text-[16px] mb-2'>الدور الوظيفى</h2>
 										<Select
-											className='w-full h-14  outline-none  rounded-lg'
+											className='w-full md:h-14 h-[45px] outline-none rounded-lg'
 											value={userData?.role}
 											onChange={(e) => setUserData({ ...userData, role: e.target.value })}
 											displayEmpty
@@ -183,13 +181,13 @@ const UserInfo = ({ cancel, user, edit, reload, setReload, roleList }) => {
 											})}
 										</Select>
 									</div>
-									<div className='mt-6  '>
-										<h2 className='font-normal text-lg mb-2'>اسم المتسخدم</h2>
+									<div className='md:mt-6 mt-4'>
+										<h2 className='font-normal md:text-lg text-[16px] mb-2'>اسم المتسخدم</h2>
 										<label className='w-full ' htmlFor=''>
 											<input
 												value={userData?.user_name}
 												onChange={(e) => setUserData({ ...userData, user_name: e.target.value })}
-												className='w-full outline-none p-4 rounded-lg'
+												className='w-full md:h-14 h-[45px] outline-none p-4 rounded-lg'
 												style={{
 													border: 'none',
 													backgroundColor: '#EBEBEB',
@@ -199,13 +197,13 @@ const UserInfo = ({ cancel, user, edit, reload, setReload, roleList }) => {
 											/>
 										</label>
 									</div>
-									<div className='mt-6  '>
-										<h2 className='font-normal text-lg mb-2'>البريد الالكترونى</h2>
+									<div className='md:mt-6 mt-4'>
+										<h2 className='font-normal md:text-lg text-[16px] mb-2'>البريد الالكترونى</h2>
 										<label className='w-full ' htmlFor=''>
 											<input
 												value={userData?.email}
 												onChange={(e) => setUserData({ ...userData, email: e.target.value })}
-												className='w-full outline-none p-4 rounded-lg'
+												className='w-full md:h-14 h-[45px] outline-none p-4 rounded-lg'
 												style={{
 													border: 'none',
 													backgroundColor: '#EBEBEB',
@@ -216,15 +214,15 @@ const UserInfo = ({ cancel, user, edit, reload, setReload, roleList }) => {
 										</label>
 									</div>
 
-									<div className='mt-6'>
-										<label className='font-normal' style={{ fontSize: '18px', color: '#011723' }}>
+									<div className='md:mt-6 mt-4'>
+										<label className='font-normal md:text-lg text-[16px] mb-2' style={{ fontSize: '18px', color: '#011723' }}>
 											الصورة الشخصية
 										</label>
 										<ImageUploading value={images} onChange={onChangeImage} maxNumber={2} dataURLKey='data_url' acceptType={['jpg', 'png', 'jpeg']}>
 											{({ onImageUpload, dragProps }) => (
 												// write your building UI
 												<div
-													className='upload__image-wrapper relative h-14 flex items-center overflow-hidden rounded-lg'
+													className='upload__image-wrapper relative md:h-14 h-[45px] flex items-center overflow-hidden rounded-lg'
 													style={{
 														border: 'none',
 														backgroundColor: '#EBEBEB',
@@ -257,14 +255,14 @@ const UserInfo = ({ cancel, user, edit, reload, setReload, roleList }) => {
 										</ImageUploading>
 									</div>
 								</div>
-								<div className='flex-1 '>
-									<div className='mt-6  '>
-										<h2 className='font-normal text-lg mb-2'>كلمة المرور</h2>
+								<div className='flex-1'>
+									<div className='md:mt-6 mt-0'>
+										<h2 className='font-normal md:text-lg text-[16px] mb-2'>كلمة المرور</h2>
 										<label className='w-full font-normal text-lg' htmlFor=''>
 											<input
 												value={userData?.password}
 												onChange={(e) => setUserData({ ...userData, password: e.target.value })}
-												className='w-full outline-none p-4 rounded-lg'
+												className='w-full md:h-14 h-[45px] outline-none p-4 rounded-lg'
 												style={{
 													border: 'none',
 													backgroundColor: '#EBEBEB',
@@ -272,16 +270,16 @@ const UserInfo = ({ cancel, user, edit, reload, setReload, roleList }) => {
 												type='password'
 												placeholder='00000000'
 											/>
-											<p className='text-base font-normal text-[#ADB5B9]'>أدخل أرقام وحروف ورموز</p>
+											<p className='md:text-base text-[14px] font-normal text-[#ADB5B9]'>أدخل أرقام وحروف ورموز</p>
 										</label>
 									</div>
-									<div className='mt-6  '>
-										<h2 className='font-normal text-lg mb-2'>تأكيد كلمة المرور</h2>
+									<div className='md:mt-6 mt-4'>
+										<h2 className='font-normal md:text-lg text-[16px] mb-2'>تأكيد كلمة المرور</h2>
 										<label className='w-full' htmlFor=''>
 											<input
 												value={userData?.confirm_password}
 												onChange={(e) => setUserData({ ...userData, confirm_password: e.target.value })}
-												className='w-full outline-none p-4 rounded-lg'
+												className='w-full md:h-14 h-[45px] outline-none p-4 rounded-lg'
 												style={{
 													border: 'none',
 													backgroundColor: '#EBEBEB',
@@ -289,7 +287,7 @@ const UserInfo = ({ cancel, user, edit, reload, setReload, roleList }) => {
 												type='password'
 												placeholder='00000000'
 											/>
-											<p className='text-base font-normal text-[#ADB5B9]'>أدخل أرقام وحروف ورموز</p>
+											<p className='md:text-base text-[14px] font-normal text-[#ADB5B9]'>أدخل أرقام وحروف ورموز</p>
 										</label>
 									</div>
 								</div>
@@ -297,9 +295,8 @@ const UserInfo = ({ cancel, user, edit, reload, setReload, roleList }) => {
 						)}
 					</div>
 					<div
-						className='p-8 flex justify-center gap-4'
+						className='md:h-[135px] h-[100px] p-8 flex justify-center gap-4'
 						style={{
-							height: '135px',
 							backgroundColor: 'rgba(235, 235, 235, 1)',
 						}}
 					>
@@ -309,7 +306,7 @@ const UserInfo = ({ cancel, user, edit, reload, setReload, roleList }) => {
 									borderColor: `#02466A`,
 								}}
 								textStyle={{ color: '#02466A' }}
-								className={'h-14 w-44'}
+								className={'md:h-14 h-[45px] w-44'}
 								type={'outline'}
 								onClick={cancel}
 							>
@@ -322,7 +319,7 @@ const UserInfo = ({ cancel, user, edit, reload, setReload, roleList }) => {
 									borderColor: `#02466A`,
 								}}
 								textStyle={{ color: '#02466A' }}
-								className={'h-14 w-[181px] text-2xl '}
+								className={'md:h-14 h-[45px] w-[181px] md:text-2xl text-[18px]'}
 								type={'outline'}
 								onClick={() => { updateUser(); }}
 							>
