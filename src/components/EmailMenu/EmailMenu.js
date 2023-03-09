@@ -19,6 +19,8 @@ const EmailMenu = () => {
 
 
 
+
+
 	// This Function to get current day
 	const [isToday, setIsToday] = React.useState(false);
 
@@ -31,10 +33,11 @@ const EmailMenu = () => {
 		// Parse the string into a Date object
 		let dateStr = fetchedData?.data?.emails.map((item) => item?.created_at);
 		let date = new Date(Date.parse(dateStr));
-
+		
 		// to get AM , PM in arabic
 		const formattedTime = date.toLocaleString('ar', { hour: 'numeric', minute: 'numeric', hour12: true });
 		setMorningOrNight(formattedTime);
+
 
 		// Compare the year, month, and day of the two Date objects
 		if (today.getFullYear() === date.getFullYear() && today.getMonth() === date.getMonth() && today.getDate() === date.getDate()) {

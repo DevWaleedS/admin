@@ -15,7 +15,8 @@ const TotalMarkets = ({marketsInfo}) => {
 					<div className='flex flex-1 h-full flex-col justify-between pt-4'>
 						<h2 className='text-slate-50 font-medium text-lg'>اجمالي المتاجر</h2>
 						<div className='flex flex-col md:items-start items-center'>
-							<h2 className='text-slate-50 font-semibold md:text-[18px] text-[20px]'>{marketsInfo?.countStore}</h2>
+            <h2 className='text-slate-50 font-semibold md:text-[18px] text-[20px]'>
+              {marketsInfo?.countStore}</h2>
             <h6 className='text-slate-50  text-xs mt-3 text-center'>
               % {marketsInfo?.averageStore}   + خلال هذا الشهر</h6>
 						</div>
