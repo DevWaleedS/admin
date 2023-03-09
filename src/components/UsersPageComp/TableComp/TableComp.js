@@ -1,4 +1,4 @@
-import React, { useEffect,useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -18,7 +18,7 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { NotificationContext } from "../../../store/NotificationProvider";
+import { NotificationContext } from '../../../store/NotificationProvider';
 import { visuallyHidden } from '@mui/utils';
 import { ReactComponent as SortIcon } from '../../../assets/Icons/icon-24-sort.svg';
 import { ReactComponent as DocumentIcon } from '../../../assets/Icons/document_text_outlined.svg';
@@ -29,7 +29,7 @@ import { ReactComponent as DeleteIcon } from '../../../assets/Icons/icon-24-dele
 import { MdOutlineKeyboardArrowDown, MdOutlineArrowBackIosNew, MdOutlineArrowForwardIos } from 'react-icons/md';
 import Context from '../../../store/context';
 import CircularLoading from '../../../UI/CircularLoading/CircularLoading';
-import axios from "axios";
+import axios from 'axios';
 import styles from './TableComp.module.css';
 
 function descendingComparator(a, b, orderBy) {
@@ -114,13 +114,13 @@ function EnhancedTableHead(props) {
 				{headCells.map((headCell) => (
 					<TableCell
 						className='font-medium text-lg'
-						key={headCell.id}
+						key={headCell?.label}
 						align={headCell.numeric ? 'right' : 'center'}
 						padding={headCell.disablePadding ? 'none' : 'normal'}
 						sortDirection={orderBy === headCell.id ? order : false}
 						sx={{
 							width: headCell.width ? headCell.width : 'auto',
-							whiteSpace: 'nowrap'
+							whiteSpace: 'nowrap',
 						}}
 					>
 						{headCell.sort && (
@@ -155,7 +155,7 @@ EnhancedTableHead.propTypes = {
 	onSelectAllClick: PropTypes.func.isRequired,
 	order: PropTypes.oneOf(['asc', 'desc']).isRequired,
 	orderBy: PropTypes.string.isRequired,
-	rowCount: PropTypes.number.isRequired,
+	rowCount: PropTypes.number,
 };
 
 function EnhancedTableToolbar(props) {
@@ -164,7 +164,7 @@ function EnhancedTableToolbar(props) {
 	const { setNotificationTitle, setActionTitle } = NotificationStore;
 	return (
 		<Toolbar
-			className="md:gap-8 gap-4"
+			className='md:gap-8 gap-4'
 			sx={{
 				pl: { sm: 2 },
 				pr: { xs: 1, sm: 1 },
@@ -324,7 +324,6 @@ export default function EnhancedTable({ users, loading, reload, setReload, setUs
 		setSelected([]);
 	};
 
-
 	const handleChangeRowsPerPage = (event) => {
 		setRowsPerPage(parseInt(event.target.value, 10));
 		setPage(0);
@@ -342,15 +341,13 @@ export default function EnhancedTable({ users, loading, reload, setReload, setUs
 		}
 		return arr;
 	};
-	const deleteItems = () => {
-
-	};
+	const deleteItems = () => {};
 
 	const deleteUser = (id) => {
 		axios
 			.get(`https://backend.atlbha.com/api/Admin/userdeleteall?id[]=${id}`, {
 				headers: {
-					"Content-Type": "application/json",
+					'Content-Type': 'application/json',
 					Authorization: `Bearer ${token}`,
 				},
 			})
@@ -363,13 +360,13 @@ export default function EnhancedTable({ users, loading, reload, setReload, setUs
 					setReload(!reload);
 				}
 			});
-	}
+	};
 
 	const changeUserStatus = (id) => {
 		axios
 			.get(`https://backend.atlbha.com/api/Admin/userchangeSatusall?id[]=${id}`, {
 				headers: {
-					"Content-Type": "application/json",
+					'Content-Type': 'application/json',
 					Authorization: `Bearer ${token}`,
 				},
 			})
@@ -382,7 +379,7 @@ export default function EnhancedTable({ users, loading, reload, setReload, setUs
 					setReload(!reload);
 				}
 			});
-	}
+	};
 
 	useEffect(() => {
 		if (confirm && actionTitle === 'ChangeUsersStatus') {
@@ -437,164 +434,150 @@ export default function EnhancedTable({ users, loading, reload, setReload, setUs
 					<Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={'medium'}>
 						<EnhancedTableHead numSelected={selected.length} order={order} orderBy={orderBy} onSelectAllClick={handleSelectAllClick} onRequestSort={handleRequestSort} rowCount={users?.length} />
 						<TableBody>
-							{loading ?
-								(
-									<TableRow>
-										<TableCell colSpan={6}>
-											<CircularLoading />
-										</TableCell>
-									</TableRow>
-								)
-								:
-								(
-									<>
-										{stableSort(users, getComparator(order, orderBy))
-											?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-											?.map((row, index) => {
-												const isItemSelected = isSelected(row.id);
-												const labelId = `enhanced-table-checkbox-${index}`;
-												return (
-													<TableRow
-														hover
-														role='checkbox'
-														aria-checked={isItemSelected}
-														tabIndex={-1}
-														key={row.id}
-														selected={isItemSelected}
-													>
-														<TableCell component='th' id={labelId} scope='row'>
-															<Button id={index} aria-controls={userMenuOpenedId ? 'basic-menu' : undefined} aria-haspopup='true' aria-expanded={userMenuOpenedId ? 'true' : undefined} onClick={handleOptionsClick}>
-																<BsThreeDotsVertical
-																	onClick={() => { }}
-																	style={{
-																		cursor: 'pointer',
-																		color: '#000000',
-																		fontSize: '1.3rem',
-																	}}
-																></BsThreeDotsVertical>
-															</Button>
-															<Menu
-																id='basic-menu'
-																anchorEl={anchorEl}
-																open={userMenuOpenedId == index}
-																onClose={handleClose}
-																MenuListProps={{
-																	'aria-labelledby': 'basic-button',
+							{loading ? (
+								<TableRow>
+									<TableCell colSpan={6}>
+										<CircularLoading />
+									</TableCell>
+								</TableRow>
+							) : (
+								<>
+									{stableSort(users, getComparator(order, orderBy))
+										?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+										?.map((row, index) => {
+											const isItemSelected = isSelected(row?.id);
+											const labelId = `enhanced-table-checkbox-${index}`;
+											return (
+												<TableRow hover role='checkbox' aria-checked={isItemSelected} tabIndex={-1} key={row?.user_id} selected={isItemSelected}>
+													<TableCell component='th' id={labelId} scope='row'>
+														<Button id={index} aria-controls={userMenuOpenedId ? 'basic-menu' : undefined} aria-haspopup='true' aria-expanded={userMenuOpenedId ? 'true' : undefined} onClick={handleOptionsClick}>
+															<BsThreeDotsVertical
+																onClick={() => {}}
+																style={{
+																	cursor: 'pointer',
+																	color: '#000000',
+																	fontSize: '1.3rem',
+																}}
+															></BsThreeDotsVertical>
+														</Button>
+														<Menu
+															id='basic-menu'
+															anchorEl={anchorEl}
+															open={userMenuOpenedId == index}
+															onClose={handleClose}
+															MenuListProps={{
+																'aria-labelledby': 'basic-button',
+															}}
+														>
+															<MenuItem
+																className='text-lg font-normal '
+																onClick={() => {
+																	setUser(row, false);
+																	handleClose();
 																}}
 															>
-																<MenuItem
-																	className='text-lg font-normal '
-																	onClick={() => {
-																		setUser(row, false);
-																		handleClose();
-																	}}
-																>
-																	<Box
-																		sx={{
-																			cursor: 'pointer',
-																			'& svg': {
-																				fill: '#67747B',
-																			},
-																		}}
-																	>
-																		<DocumentIcon className={` w-5 h-5 ml-2 ${styles.detailIcon}`} />
-																	</Box>
-																	التفاصيل
-																</MenuItem>
-
-																<MenuItem
-																	className='text-lg font-normal '
-																	onClick={() => {
-																		setUser(row, true);
-																		handleClose();
-																	}}
-																>
-																	<EditIcon
-																		className={` w-5 h-5 ml-2 ${styles.editIcon}`}
-
-																	/>
-																	تعديل
-																</MenuItem>
-																<MenuItem onClick={() => deleteUser(row?.id)} className='text-lg font-normal '>
-																	<DeleteIcon className={` w-5 h-5 ml-2 ${styles.deleteIcon}`} />
-																	حذف
-																</MenuItem>
-															</Menu>
-														</TableCell>
-														<TableCell align='right'>
-															<div className=''>
-																<Switch
-																	onChange={() => changeUserStatus(row?.id)}
+																<Box
 																	sx={{
-																		width: '50px',
-																		'& .MuiSwitch-thumb': {
-																			width: '11px',
-																			height: '11px',
-																		},
-																		'& .MuiSwitch-switchBase': {
-																			padding: '6px',
-																			top: '9px',
-																			left: '9px',
-																		},
-																		'& .MuiSwitch-switchBase.Mui-checked': {
-																			left: '-1px',
-																		},
-																		'& .Mui-checked .MuiSwitch-thumb': {
-																			backgroundColor: '#FFFFFF',
-																		},
-																		'& .MuiSwitch-track': {
-																			height: '16px',
-																			borderRadius: '20px',
-																		},
-																		'&.MuiSwitch-root .Mui-checked+.MuiSwitch-track': {
-																			backgroundColor: '#3AE374',
-
-																			opacity: 1,
+																		cursor: 'pointer',
+																		'& svg': {
+																			fill: '#67747B',
 																		},
 																	}}
-																	checked={row?.status === 'نشط' ? true : false}
-																/>
-															</div>
-														</TableCell>
-														<TableCell align='right'>
-															<h2 className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>{row?.role?.name}</h2>
-														</TableCell>
+																>
+																	<DocumentIcon className={` w-5 h-5 ml-2 ${styles.detailIcon}`} />
+																</Box>
+																التفاصيل
+															</MenuItem>
 
-														<TableCell align='right'>
-															<h2 className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>{row?.email}</h2>
-														</TableCell>
-														<TableCell align='right'>
-															<h2 className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>{row?.user_name}</h2>
-														</TableCell>
-
-
-														<TableCell align='right' className='font-normal text-lg'>
-															{(index + 1).toLocaleString('en-US', {
-																minimumIntegerDigits: 2,
-																useGrouping: false,
-															})}
-														</TableCell>
-														<TableCell padding='none' align={'right'}>
-															<Checkbox
-																checkedIcon={<CheckedSquare />}
+															<MenuItem
+																className='text-lg font-normal '
+																onClick={() => {
+																	setUser(row, true);
+																	handleClose();
+																}}
+															>
+																<EditIcon className={` w-5 h-5 ml-2 ${styles.editIcon}`} />
+																تعديل
+															</MenuItem>
+															<MenuItem onClick={() => deleteUser(row?.id)} className='text-lg font-normal '>
+																<DeleteIcon className={` w-5 h-5 ml-2 ${styles.deleteIcon}`} />
+																حذف
+															</MenuItem>
+														</Menu>
+													</TableCell>
+													<TableCell align='right'>
+														<div className=''>
+															<Switch
+																onChange={() => changeUserStatus(row?.id)}
 																sx={{
-																	color: '#011723',
-																	'& .MuiSvgIcon-root': {
-																		color: '#011723',
+																	width: '50px',
+																	'& .MuiSwitch-thumb': {
+																		width: '11px',
+																		height: '11px',
+																	},
+																	'& .MuiSwitch-switchBase': {
+																		padding: '6px',
+																		top: '9px',
+																		left: '9px',
+																	},
+																	'& .MuiSwitch-switchBase.Mui-checked': {
+																		left: '-1px',
+																	},
+																	'& .Mui-checked .MuiSwitch-thumb': {
+																		backgroundColor: '#FFFFFF',
+																	},
+																	'& .MuiSwitch-track': {
+																		height: '16px',
+																		borderRadius: '20px',
+																	},
+																	'&.MuiSwitch-root .Mui-checked+.MuiSwitch-track': {
+																		backgroundColor: '#3AE374',
+
+																		opacity: 1,
 																	},
 																}}
-																checked={isItemSelected}
-																onClick={(event) => handleClick(event, row.id)}
-																inputProps={{
-																	'aria-labelledby': labelId,
-																}}
+																checked={row?.status === 'نشط' ? true : false}
 															/>
-														</TableCell>
-													</TableRow>
-												);
-											})}
-									</>
-								)}
+														</div>
+													</TableCell>
+													<TableCell align='right'>
+														<h2 className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>{row?.role?.name}</h2>
+													</TableCell>
+
+													<TableCell align='right'>
+														<h2 className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>{row?.email}</h2>
+													</TableCell>
+													<TableCell align='right'>
+														<h2 className='font-normal md:text-[18px] text-[16px] whitespace-nowrap'>{row?.user_name}</h2>
+													</TableCell>
+
+													<TableCell align='right' className='font-normal text-lg'>
+														{(index + 1).toLocaleString('en-US', {
+															minimumIntegerDigits: 2,
+															useGrouping: false,
+														})}
+													</TableCell>
+													<TableCell padding='none' align={'right'}>
+														<Checkbox
+															checkedIcon={<CheckedSquare />}
+															sx={{
+																color: '#011723',
+																'& .MuiSvgIcon-root': {
+																	color: '#011723',
+																},
+															}}
+															checked={isItemSelected}
+															onClick={(event) => handleClick(event, row.id)}
+															inputProps={{
+																'aria-labelledby': labelId,
+															}}
+														/>
+													</TableCell>
+												</TableRow>
+											);
+										})}
+								</>
+							)}
 						</TableBody>
 					</Table>
 				</TableContainer>

@@ -27,7 +27,7 @@ const conditions = [
 	{ id: 2, name: 'غير مفعل', name_en: 'not_active' }
 ];
 
-const AddNewMarket = ({ cancel,reload,setReload }) => {
+const AddNewMarket = ({ cancel, reload, setReload }) => {
 	const token = localStorage.getItem('token');
 	const contextStore = useContext(Context);
 	const { setEndActionTitle } = contextStore;
@@ -56,8 +56,12 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 		user_country_id: '',
 		user_city_id: '',
 		status: '',
-		image: '',
+
 	});
+
+
+	
+
 	/** --------------------------------------------- */
 
 	// to get selectors from api
@@ -106,7 +110,6 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 		formData.append('user_city_id', personInfo?.user_city_id);
 
 		// here we tell formData if images[0].file its has been file got it if not just put empty stings
-		
 		formData.append('image', images[0]?.file || null);
 		formData.append('status', personInfo?.status);
 

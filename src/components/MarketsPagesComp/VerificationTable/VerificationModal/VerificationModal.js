@@ -9,7 +9,7 @@ const VerificationModal = ({ cancel, title, type }) => {
 	return (
 		<>
 			<BackDrop onClick={cancel} />
-			<div className='fixed flex flex-col top-50 translate-x-2/4 translate-y-1/4 right-2/4 z-20 rounded-lg overflow-hidden' style={{ width: '650px', maxWidth: '90%' }}>
+			<div className='fixed flex flex-col top-50 translate-x-2/4 translate-y-1/4 right-2/4 z-20 rounded-lg overflow-hidden pb-52' style={{ width: '650px', maxWidth: '90%' }}>
 				<div className='flex-1 flex flex-col md:py-[100px] md:px-[60px] py-[40px] px-[20px] gap-4 bg-white'>
 					<div className='flex flex-col items-center gap-4'>
 						<h6 style={{ color: type === 'edit' ? '#FF9F1A' : type === 'accepted' ? '#3AE374' : '#FF3838' }} className='md:text-[24px] text-[18px] font-medium text-center'>

@@ -243,6 +243,7 @@ const SideBar = ({openSidebar,closeSidebar}) => {
 
 				<Link to={'/المتاجر'}>
 					<StyledTreeItem
+						
 						onClick={handleExpanding('4')}
 						sx={{
 							'& .MuiCollapse-root': {
