@@ -1,17 +1,12 @@
 import { useState, useEffect, useContext } from 'react';
 import Checkbox from '@mui/material/Checkbox';
-import Box from '@mui/material/Box';
 import Switch from '@mui/material/Switch';
-import IconButton from '@mui/material/IconButton';
-
 import { Currency } from '../../../assets/Icons/index';
 import { ReactComponent as StaticsIcon } from '../../../assets/Icons/icon-24-static.svg';
 import { ReactComponent as TrashICon } from '../../../assets/Icons/icon-24-delete.svg';
 import { ReactComponent as CheckedSquare } from '../../../assets/Icons/icon-24-square checkmark.svg';
-import { ReactComponent as SwitchIcon } from '../../../assets/Icons/icon-38-switch.svg';
 import { ReactComponent as MoreIcon } from '../../../assets/Icons/icon-24- more_vertical.svg';
 import { ReactComponent as StarIcon } from '../../../assets/Icons/stare.svg';
-
 import Button from '../../../UI/Button/Button';
 import ProductDetails from './ProductDetails/ProductDetails';
 import { Button as MenuButton } from '@mui/material';
@@ -22,8 +17,15 @@ import { BiLinkAlt } from 'react-icons/bi';
 import { HiOutlineDocumentDuplicate } from 'react-icons/hi';
 import { NotificationContext } from "../../../store/NotificationProvider";
 import { Delete } from "../../../assets/Icons/index";
+import Context from '../../../store/context';
+import CircularLoading from '../../../UI/CircularLoading/CircularLoading';
+import axios from "axios";
+
 
 const ItemCategory = (props) => {
+	const token = localStorage.getItem('token');
+	const contextStore = useContext(Context);
+	const { setEndActionTitle } = contextStore;
 	const [menuButton, setMenuButton] = useState(null);
 	const open = Boolean(menuButton);
 
@@ -53,28 +55,61 @@ const ItemCategory = (props) => {
 	//
 	const [showSpecial, setShowSpecial] = useState(props.isSpecial);
 
-	const onChangeHandler = (event) => {
-		setShowSpecial(!showSpecial);
+	const onChangeHandler = (id) => {
+		axios
+			.get(`https://backend.atlbha.com/api/Admin/etlobhachangeSpecial/${id}`, {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+					setReload(!props?.reload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+					setReload(!props?.reload);
+				}
+			});
 	};
 
-	const { title, id, img, price, inStore, checkedList, handleCheckboxClick, category, section, handleProductDetails } = props;
-	const item = props.item;
+	const deleteProduct = (id) => {
+		axios
+			.get(`https://backend.atlbha.com/api/Admin/etlobhadeleteall?id[]=${id}`, {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+					setReload(!props?.reload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+					setReload(!props?.reload);
+				}
+			});
+	}
 
+	const { id, name, cover, purchasing_price, stock, special, category, subcategory, handleProductDetails, setReload } = props;
+	const item = props.item;
 	return (
 		<li className='mb-6 flex md:flex-row flex-col justify-between gap-y-4 rounded-md' style={{ backgroundColor: '#fff', padding: '1rem 0.5rem', border: '1px solid #ECECEC' }}>
 			<div className='flex'>
 				<div className='flex md:flex-row flex-col gap-y-2'>
 					<div className='flex md:flex-col flex-row gap-8 px-3 items-center'>
-						<Checkbox checkedIcon={<CheckedSquare />} sx={{ display: 'inline', padding: '0' }} className='' item={id} value={id} checked={checkedList.includes(id)} onChange={handleCheckboxClick} />
-						<StarIcon className={`${showSpecial ? 'opacity-100' : 'opacity-0'}`} />
+						<Checkbox checkedIcon={<CheckedSquare />} sx={{ display: 'inline', padding: '0' }} className='' item={id} value={id} />
+						<StarIcon className={`${special === 'مميز' ? 'opacity-100' : 'opacity-0'}`} />
 					</div>
-					<div className=''>
-						<img className='h-36 w-36 object-cover' src={img} alt='product-img' />
+					<div>
+						<img className='h-36 w-36 object-cover' src={cover} alt='product-img' />
 					</div>
 				</div>
 				<div className='flex flex-col justify-between mr-4 md:w-[356px] w-full'>
 					<div className='h-11 flex items-center md:mb-0 mb-2' style={{ border: '1px solid #ccc', padding: '0.25rem 0.75rem' }}>
-						<h2>{title}</h2>
+						<h2>{name}</h2>
 					</div>
 					<div className='flex md:flex-row flex-col md:gap-4 gap-2'>
 						<div className='flex-1'>
@@ -82,7 +117,7 @@ const ItemCategory = (props) => {
 							<div className='h-11 flex items-center mt-2' style={{ border: '1px solid #ccc' }}>
 								<div className='flex-1 flex items-center py-1 px-3'>
 									<img className='ml-2 opacity-50' src={Currency} alt='' />
-									<h2>{price}</h2>
+									<h2>{purchasing_price}</h2>
 								</div>
 
 								<div className='w-12 h-full flex items-center justify-center' style={{ backgroundColor: '#FAFAFA' }}>
@@ -94,7 +129,7 @@ const ItemCategory = (props) => {
 							<h2>الكمية في المخزن</h2>
 							<div className='h-11 flex items-center mt-2' style={{ border: '1px solid #ccc' }}>
 								<div className='flex-1 flex items-center justify-center py-1 px-3'>
-									<h2>{inStore}</h2>
+									<h2>{stock}</h2>
 								</div>
 							</div>
 						</div>
@@ -104,10 +139,10 @@ const ItemCategory = (props) => {
 			<div className='md:w-80 w-full md:gap-12 gap-6 flex flex-col justify-between'>
 				<div className='flex gap-4 flex-1'>
 					<div className='flex font-medium flex-1 justify-center items-center rounded-sm min-h-[30px]' style={{ backgroundColor: '#FFEEEE', border: '1px solid #ECECEC' }}>
-						{category}
+						{category?.name}
 					</div>
 					<div className='flex font-medium flex-1 justify-center items-center rounded-sm min-h-[30px]' style={{ backgroundColor: '#F4F5F7 ', border: '1px solid #ECECEC' }}>
-						{section}
+						{subcategory[0]?.name}
 					</div>
 					<div className='flex justify-center items-center'>
 						<MoreIcon onClick={handleOpenMoreMun} className='cursor-pointer' />
@@ -210,8 +245,8 @@ const ItemCategory = (props) => {
 							<MenuItem>
 								<div className=' w-11 m-[-10px]'>
 									<Switch
-										checked={showSpecial}
-										onChange={onChangeHandler}
+										checked={special === 'مميز' ? true : false}
+										onChange={() => { onChangeHandler(id) }}
 										sx={{
 											width: '100%',
 											'& .MuiSwitch-track': {
@@ -248,10 +283,9 @@ const ItemCategory = (props) => {
 										}}
 									/>
 								</div>
-
 								<div className='flex-1 mr-[-6px]'> منتج مميز</div>
 							</MenuItem>
-							<MenuItem onClick={handleClose}>
+							<MenuItem onClick={() => { deleteProduct(id) }}>
 								<TrashICon></TrashICon>
 								حذف المنتج
 							</MenuItem>
@@ -266,69 +300,61 @@ const ItemCategory = (props) => {
 	);
 };
 
-const ProductsTable = ({ editProduct }) => {
+const ProductsTable = ({ data, loading, reload, setReload, editProduct }) => {
+	const token = localStorage.getItem('token');
 	const [categories, setCategories] = useState([]);
 	const [checkedList, setCheckedList] = useState([]);
 	const [itemsChecked, setItemsChecked] = useState(false);
 	const [showProductDetails, setShowProductDetails] = useState(false);
 	const [productDetails, setProductDetails] = useState(null);
+	const contextStore = useContext(Context);
+	const { setEndActionTitle } = contextStore;
 	const NotificationStore = useContext(NotificationContext);
-	const { setNotificationTitle, setActionTitle } = NotificationStore;
-
+	const { confirm, setConfirm, actionTitle, setActionTitle, setNotificationTitle } = NotificationStore;
 	useEffect(() => {
-		const initialCategories = [
-			{
-				id: 251,
-				isSpecial: true,
-				title: 'سماعة هيدفون أصلية',
-				sellPrice: 30,
-				price: 40,
-				inStore: 500,
-				category: 'الكترونيات',
-				section: 'سماعات',
-				info: 'سماعة هيدفدون أصلية سماعة هيدفدون أصلية سماعة سماعة هيدفدون أصلية سماعة هيدفدون أصلية سماعة',
-				img: 'https://i.pcmag.com/imagery/reviews/07t6yzTnRvFvs8uD2xeYsB0-1.fit_lim.size_320x180.v1639090940.jpg',
-			},
-			{
-				id: 40,
-				isSpecial: false,
-				title: 'عطر خليجى فخم',
-				sellPrice: 30,
-				price: 40,
-				inStore: 400,
-				category: 'تجميل',
-				section: 'عطور',
-				info: 'سماعة هيدفدون أصلية سماعة هيدفدون أصلية سماعة سماعة هيدفدون أصلية سماعة هيدفدون أصلية سماعة',
-				img: 'https://cdn.shopify.com/s/files/1/0024/0196/0036/products/c78ef2ef-2808-4506-8a2e-513758223f2d_600x.jpg?v=1617071592',
-			},
-			{
-				id: 60,
-				isSpecial: false,
-				title: 'عطر ماكس',
-				sellPrice: 55,
-				price: 62,
-				inStore: 150,
-				category: 'تجميل',
-				section: 'عطور',
-				info: 'سماعة هيدفدون أصلية سماعة هيدفدون أصلية سماعة سماعة هيدفدون أصلية سماعة هيدفدون أصلية سماعة',
-				img: 'https://img.freepik.com/free-photo/front-view-fragrance-bottle-transparent-white-floor_140725-11635.jpg?w=360&t=st=1667826920~exp=1667827520~hmac=6c7de9e656a11083057ebf29cf242e9db41e0952ab03d89090ea8a0cb24975b5',
-			},
-			{
-				id: 456,
-				isSpecial: false,
-				title: 'عطر ماكس',
-				sellPrice: 95,
-				price: 120,
-				inStore: 232,
-				category: 'تجميل',
-				section: 'عطور',
-				info: 'سماعة هيدفدون أصلية سماعة هيدفدون أصلية سماعة سماعة هيدفدون أصلية سماعة هيدفدون أصلية سماعة',
-				img: 'https://img.freepik.com/free-photo/front-view-fragrance-bottle-transparent-white-floor_140725-11635.jpg?w=360&t=st=1667826920~exp=1667827520~hmac=6c7de9e656a11083057ebf29cf242e9db41e0952ab03d89090ea8a0cb24975b5',
-			},
-		];
-
-		setCategories(initialCategories);
-	}, []);
+		if (confirm && actionTitle === 'ChangeStatus') {
+			//const queryParams = selected.map((id) => `id[]=${id}`).join('&');
+			axios
+				.get(`https://backend.atlbha.com/api/Admin/productchangeSatusall?${''}`, {
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${token}`,
+					},
+				})
+				.then((res) => {
+					if (res?.data?.success === true && res?.data?.data?.status === 200) {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					} else {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					}
+				});
+			setConfirm(false);
+			setActionTitle(null);
+		}
+		if (confirm && actionTitle === 'Delete') {
+			//const queryParams = selected.map((id) => `id[]=${id}`).join('&');
+			axios
+				.get(`https://backend.atlbha.com/api/Admin/productdeleteall?${''}`, {
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${token}`,
+					},
+				})
+				.then((res) => {
+					if (res?.data?.success === true && res?.data?.data?.status === 200) {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					} else {
+						setEndActionTitle(res?.data?.message?.ar);
+						setReload(!reload);
+					}
+				});
+			setConfirm(false);
+			setActionTitle(null);
+		}
+	}, [confirm]);
 
 	const handleCheckboxClick = (e) => {
 		const { value, checked } = e.target;
@@ -388,7 +414,7 @@ const ProductsTable = ({ editProduct }) => {
 						style={{ width: '114px', height: '40px', backgroundColor: '#FF38381A', borderRadius: '20px' }}
 						onClick={() => {
 							setNotificationTitle('سيتم حذف جميع المنتجات التي قمت بتحديدها');
-							setActionTitle('تم حذف المنتجات بنجاح');
+							setActionTitle('Delete');
 						}}
 					>
 						<h6 style={{ color: '#FF3838' }} className="md:text-[18px] text-[16px] font-medium">حذف</h6>
@@ -404,7 +430,7 @@ const ProductsTable = ({ editProduct }) => {
 						style={{ width: '126px', height: '40px', backgroundColor: '#FF9F1A0A', borderRadius: '20px' }}
 						onClick={() => {
 							setNotificationTitle('سيتم تعطيل جميع المنتجات التي قمت بتحديدها');
-							setActionTitle('تم تعطيل المنتجات بنجاح');
+							setActionTitle('ChangeStatus');
 						}}
 					>
 						<h6 style={{ color: '#FF9F1A' }} className="md:text-[18px] text-[16px] font-medium">تعطيل</h6>
@@ -444,24 +470,35 @@ const ProductsTable = ({ editProduct }) => {
 					</div>
 				)}
 			</header>
-			<ul className=''>
-				{categories.map((category, menuItem) => {
-					return (
-						<ItemCategory
-							{...category}
-							item={category}
-							key={category.id}
-							isSpecial={category.isSpecial}
-							handleCheckboxClick={handleCheckboxClick}
-							checkedList={checkedList}
-							handleProductDetails={handleProductDetails}
-							editProduct={(item) => {
-								editProduct(item);
-							}}
-						/>
-					);
-				})}
-			</ul>
+			{
+				loading ?
+					(
+						<CircularLoading />
+					)
+					:
+					(
+						<ul>
+							{data?.map((item, key) => {
+								return (
+									<ItemCategory
+										{...item}
+										item={item}
+										key={key}
+										reload={reload}
+										setReload={setReload}
+										//isSpecial={item.isSpecial}
+										//handleCheckboxClick={handleCheckboxClick}
+										//checkedList={checkedList}
+										handleProductDetails={handleProductDetails}
+										editProduct={(item) => {
+											editProduct(item);
+										}}
+									/>
+								);
+							})}
+						</ul>
+					)
+			}
 		</div>
 	);
 };

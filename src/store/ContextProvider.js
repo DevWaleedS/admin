@@ -9,6 +9,7 @@ const ContextProvider = (props) => {
 	const [title, setEndActionTitle] = useState(null);
 	const [actionWarning, setActionWarning] = useState(false);
 	const [subCategories, setSubCategories] = useState([]);
+	const [productOptions, setProductOptions] = useState([]);
 
 	useEffect(() => {
 		if (title) {
@@ -26,6 +27,8 @@ const ContextProvider = (props) => {
 		setActionWarning,
 		subCategories,
 		setSubCategories,
+		productOptions,
+		setProductOptions
 	};
 
 	return <Context.Provider value={context}>{props.children}</Context.Provider>;

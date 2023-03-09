@@ -10,17 +10,17 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import ImageUploading from 'react-images-uploading';
 import { IoMdCloudUpload } from 'react-icons/io';
-import { GrAddCircle } from 'react-icons/gr';
 import { TiDeleteOutline } from 'react-icons/ti';
 import Context from '../../../store/context';
 import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
 import { ReactComponent as Arrow } from '../../../assets/Icons/icon-24-chevron_down.svg';
+import useFetch from '../../../hooks/useFetch';
+import axios from "axios";
 
 const BackDrop = ({ onClick }) => {
 	return <div onClick={onClick} className={`fixed back_drop bottom-0 left-0  w-full bg-slate-900  z-10 ${styles.back_drop}`} style={{ height: 'calc(100% - 4rem)' }}></div>;
 };
-const category = ['الكترونيات', 'ألعاب وهدايا', 'مستلزمات طبية', 'مواد غذائية'];
 const subCategories = ['جوالات', 'شاشات', 'بطاريات', 'اكسسوارات'];
 
 //
@@ -33,45 +33,28 @@ const formInputStyle = {
 	color: '#ADB5B9',
 	backgroundColor: '#f6f6f6',
 };
-const NewProduct = ({ cancel, editProduct }) => {
+const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
+	const { fetchedData: category } = useFetch('https://backend.atlbha.com/api/Admin/storecategory');
+	const token = localStorage.getItem('token');
 	const contextStore = useContext(Context);
-	const { setEndActionTitle } = contextStore;
-	const [age, setAge] = useState('');
-	const [subCategory, setSubCategory] = useState('');
+	const { setEndActionTitle, productOptions } = contextStore;
+	const [productData, setProductData] = useState({
+		name: editProduct?.name || '',
+		description: editProduct?.description || '',
+		purchasing_price: editProduct?.purchasing_price || '',
+		selling_price: editProduct?.selling_price || '',
+		sku: editProduct?.sku || '',
+		category_id: editProduct?.category?.id || '',
+		stock: editProduct?.stock || '',
+		quantity: editProduct?.quantity || '',
+		less_qty: editProduct?.less_qty || '',
+		subcategory_id: [],
+	});
 	const [images, setImages] = useState([]);
 	const [multiImages, setMultiImages] = useState([]);
 	const [showAddProductOptions, setShowAddProductOptions] = useState(false);
-	const [productName, setProductName] = useState('');
-	const [productInfo, setProductInfo] = useState('');
-	const [buyPrice, setBuyPrice] = useState('');
-	const [sellPrice, setSellPrice] = useState('');
-	const [productCode, setProductCode] = useState('');
-	const [inStore, setInStore] = useState('');
 	const [subCategoriesSelected, setSubCategoriesSelected] = React.useState([]);
 	const [openSubCategory, setOpenSubCategory] = useState(false);
-
-	const handleSubCategory = (event) => {
-		const {
-			target: { value },
-		} = event;
-		setSubCategoriesSelected(
-			// On autofill we get a stringified value.
-			typeof value === 'string' ? value.split(',') : value
-		);
-	};
-
-	useEffect(() => {
-		if (editProduct) {
-			setProductName(editProduct.name);
-			setProductInfo('سماعة هيدفدون أصلية سماعة هيدفدون أصلية سماعة هيدفدون أصلية سماعة هيدفدون أصلية سماعة هيدفدون أصلية سماعة هيدفدون أصلية');
-			setBuyPrice(editProduct.price);
-			setSellPrice('350');
-			setProductCode(editProduct.sku);
-			setInStore(editProduct.quantity);
-			setAge(editProduct.activity);
-			setSubCategory('جوالات');
-		}
-	}, [editProduct]);
 
 	const emptyMultiImages = [];
 	for (let index = 0; index < 5 - multiImages.length; index++) {
@@ -80,17 +63,56 @@ const NewProduct = ({ cancel, editProduct }) => {
 
 	const maxNumber = 2;
 	const onChange = (imageList, addUpdateIndex) => {
-		// data for submit
 		setImages(imageList);
 	};
 	const onChangeMultiImages = (imageList, addUpdateIndex) => {
-		// data for submit
 		setMultiImages(imageList);
 	};
-	const handleCategory = (event) => {
-		setAge(event.target.value);
-	};
 
+	console.log(productOptions)
+	const addProductData = () => {
+		let formData = new FormData();
+		formData.append('name', productData?.name);
+		formData.append('description', productData?.description);
+		formData.append('purchasing_price', productData?.purchasing_price);
+		formData.append('selling_price', productData?.selling_price);
+		formData.append('sku', productData?.sku);
+		formData.append('stock', productData?.stock);
+		formData.append('category_id', productData?.category_id);
+		formData.append('quantity', productData?.quantity);
+		formData.append('less_qty', productData?.less_qty);
+
+		// create looping to get all ids for activity_ids and assign it
+		for (let i = 0; i < productData?.subcategory_id?.length; i++) {
+			formData.append([`subcategory_id[${i}]`], productData?.subcategory_id[i]);
+		}
+
+		formData.append('cover', images[0]?.file || null);
+		for (let i = 0; i < multiImages?.length; i++) {
+			formData.append([`images[${i}]`], multiImages[i]?.file);
+		}
+
+		axios
+			.post('https://backend.atlbha.com/api/Admin/stock', formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setReload(!reload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setReload(!reload);
+				}
+			});
+	}
+
+	const subcategory = category?.data?.categories?.filter(sub=>sub?.id === parseInt(productData?.category_id)) || '';
 	return (
 		<>
 			<BackDrop onClick={cancel}></BackDrop>
@@ -101,9 +123,15 @@ const NewProduct = ({ cancel, editProduct }) => {
 						setShowAddProductOptions(false);
 					}}
 					editProduct={editProduct}
+					setQuantity={(data) => {
+						setProductData({ ...productData, quantity: data });
+					}}
+					setLessQuantity={(data) => {
+						setProductData({ ...productData, less_qty: data });
+					}}
 				></AddProductOptions>
 			)}
-			<div className={`fixed bottom-0 left-0 bg-slate-50 z-30 otlobha_new_product ${styles.add_new_product}`} style={{ width: '1104px',maxWidth:'100%', height: 'calc(100% - 4rem)' }}>
+			<div className={`fixed bottom-0 left-0 bg-slate-50 z-30 otlobha_new_product ${styles.add_new_product}`} style={{ width: '1104px', maxWidth: '100%', height: 'calc(100% - 4rem)' }}>
 				<div className='flex h-full flex-col justify-between'>
 					<div
 						className='md:h-[135px] h-[110px] md:p-[30px] p-4 flex flex-col gap-[10px]'
@@ -124,9 +152,9 @@ const NewProduct = ({ cancel, editProduct }) => {
 								اسم المنتج
 							</label>
 							<input
-								value={productName}
+								value={productData?.name}
 								onChange={(e) => {
-									setProductName(e.target.value);
+									setProductData({ ...productData, name: e.target.value });
 								}}
 								className={formInputClasses}
 								style={{ backgroundColor: '#02466A00', border: '1px solid #A7A7A780' }}
@@ -139,9 +167,9 @@ const NewProduct = ({ cancel, editProduct }) => {
 								وصف المنتج
 							</label>
 							<textarea
-								value={productInfo}
+								value={productData?.description}
 								onChange={(e) => {
-									setProductInfo(e.target.value);
+									setProductData({ ...productData, description: e.target.value });
 								}}
 								className="md:w-[555px] w-full p-4 outline-0 rounded-md text-lg font-normal"
 								style={{ backgroundColor: '#02466A00', border: '1px solid #A7A7A780', resize: 'none' }}
@@ -156,11 +184,11 @@ const NewProduct = ({ cancel, editProduct }) => {
 							</label>
 							<div className='flex rounded-md overflow-hidden max-w-full md:h-[56px] h-[45px]' style={formInputStyle}>
 								<div className='p-4 flex flex-1'>
-									<img className='ml-2 opacity-50' src={Currency} alt='' />
+									<img className='ml-2 opacity-50' src={Currency} alt='currency-img' />
 									<input
-										value={buyPrice}
+										value={productData?.purchasing_price}
 										onChange={(e) => {
-											setBuyPrice(e.target.value);
+											setProductData({ ...productData, purchasing_price: e.target.value });
 										}}
 										className='flex-1 border-none outline-none bg-transparent'
 										placeholder='0'
@@ -181,16 +209,16 @@ const NewProduct = ({ cancel, editProduct }) => {
 							</div>
 						</div>
 						<div className='flex md:flex-row flex-col gap-y-2'>
-							<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723'}}>
+							<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
 								سعر البيع (مقترح)
 							</label>
 							<div className='flex rounded-md overflow-hidden max-w-full md:h-[56px] h-[45px]' style={formInputStyle}>
 								<div className='p-4 flex flex-1'>
 									<img className='ml-2 opacity-50' src={Currency} alt='' />
 									<input
-										value={sellPrice}
+										value={productData?.selling_price}
 										onChange={(e) => {
-											setSellPrice(e.target.value);
+											setProductData({ ...productData, selling_price: e.target.value });
 										}}
 										className='flex-1 border-none outline-none bg-transparent'
 										placeholder='0'
@@ -215,9 +243,9 @@ const NewProduct = ({ cancel, editProduct }) => {
 								كود المنتج (SKU)
 							</label>
 							<input
-								value={productCode}
+								value={productData?.sku}
 								onChange={(e) => {
-									setProductCode(e.target.value);
+									setProductData({ ...productData, sku: e.target.value });
 								}}
 								className={formInputClasses}
 								style={{ width: '555px', backgroundColor: '#02466A00', border: '1px solid #A7A7A780' }}
@@ -233,16 +261,19 @@ const NewProduct = ({ cancel, editProduct }) => {
 							<FormControl className='md:w-[555px] w-full md:h-[56px] h-[45px]'>
 								<Select
 									className={`text-lg font-normal rounded-lg ${styles.select}`}
-									value={age}
-									onChange={handleCategory}
+									value={productData?.category_id}
+									onChange={(e) => {
+										setProductData({ ...productData, category_id: e.target.value });
+									}}
 									displayEmpty
 									IconComponent={(props) => <Arrow fill='#242424' {...props} />}
 									inputProps={{ 'aria-label': 'Without label' }}
 									renderValue={(selected) => {
-										if (age === '') {
+										if (productData?.category_id === '') {
 											return <h2 className='text-[#ADB5B9]'>اختر التصنيف</h2>;
 										}
-										return selected;
+										const result = category?.data?.categories?.filter((item) => item?.id === parseInt(selected));
+										return result[0]?.name;
 									}}
 									sx={{
 										height: '100%',
@@ -252,7 +283,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 										},
 									}}
 								>
-									{category.map((item, idx) => {
+									{category?.data?.categories?.map((item, idx) => {
 										return (
 											<MenuItem
 												key={idx}
@@ -262,9 +293,9 @@ const NewProduct = ({ cancel, editProduct }) => {
 													height: '3rem',
 													'&:hover': {},
 												}}
-												value={`${item}`}
+												value={`${item?.id}`}
 											>
-												{item}
+												{item?.name}
 											</MenuItem>
 										);
 									})}
@@ -272,7 +303,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 							</FormControl>
 						</div>
 						<div className='flex md:flex-row flex-col gap-y-2'>
-							<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723'}}>
+							<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
 								التصنيف الفرعي
 							</label>
 							<FormControl className='md:w-[555px] w-full md:h-[56px] h-[45px]'>
@@ -281,13 +312,23 @@ const NewProduct = ({ cancel, editProduct }) => {
 									IconComponent={(props) => <Arrow fill='#242424' {...props} />}
 									multiple
 									displayEmpty
-									value={subCategoriesSelected}
+									value={productData?.subcategory_id}
+									onChange={(e) => {
+										setProductData({ ...productData, subcategory_id: e.target.value });
+									}}
 									open={openSubCategory}
 									onClick={() => {
 										setOpenSubCategory(true);
 									}}
-									onChange={handleSubCategory}
-									renderValue={(selected) => (subCategoriesSelected.length === 0 ? <h2 className='text-[#ADB5B9]'>الكل</h2> : selected.join(' , '))}
+									renderValue={(selected) => {
+										if (productData?.subcategory_id.length === 0) {
+											return 'التصنيف الفرعي';
+										}
+										return selected.map((item) => {
+											const result = subcategory[0]?.subcategory?.filter((sub) => sub?.id === parseInt(item));
+											return `${result[0]?.name} , `;
+										});
+									}}
 									sx={{
 										height: '3.5rem',
 										border: '1px solid #A7A7A780',
@@ -297,10 +338,10 @@ const NewProduct = ({ cancel, editProduct }) => {
 										},
 									}}
 								>
-									{subCategories.map((name) => (
-										<MenuItem className='souq_storge_category_filter_items multiple_select' key={name} value={name}>
-											<Checkbox checked={subCategoriesSelected.indexOf(name) > -1} />
-											<ListItemText primary={name} />
+									{subcategory[0]?.subcategory?.map((sub,index) => (
+										<MenuItem className='souq_storge_category_filter_items multiple_select' key={index} value={sub?.id}>
+											<Checkbox checked={productData?.subcategory_id?.indexOf(sub?.id) > -1} />
+											<ListItemText primary={sub?.name} />
 										</MenuItem>
 									))}
 									<button
@@ -401,9 +442,9 @@ const NewProduct = ({ cancel, editProduct }) => {
 								المخزون
 							</label>
 							<input
-								value={inStore}
+								value={productData?.stock}
 								onChange={(e) => {
-									setInStore(e.target.value);
+									setProductData({ ...productData, stock: e.target.value });
 								}}
 								className={formInputClasses}
 								style={{ width: '555px', backgroundColor: '#02466A00', border: '1px solid #A7A7A780' }}
@@ -413,7 +454,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 							/>
 						</div>
 						<div className='flex md:flex-row flex-col gap-y-2 mb-8'>
-							<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723',}}>
+							<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723', }}>
 								اضافة خيارات المنتج
 							</label>
 							<div
@@ -441,10 +482,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 							style={{ backgroundColor: `#02466A` }}
 							textStyle={{ color: '#EFF9FF' }}
 							type={'normal'}
-							onClick={() => {
-								cancel();
-								setEndActionTitle('تم اضافة منتج جديد بنجاح');
-							}}
+							onClick={() => editProduct ? '' : addProductData()}
 						>
 							حفظ
 						</Button>

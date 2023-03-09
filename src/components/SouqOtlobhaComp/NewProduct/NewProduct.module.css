@@ -6,6 +6,26 @@
 .back_drop{
   opacity: 0.5;
 }
+.content::-webkit-scrollbar {
+  display: none;
+}
+
+.back_drop {
+  opacity: 0.5;
+}
+
+.select :global(.MuiSelect-icon) {
+  top: 15px;
+  left: 7px;
+  right: unset;
+}
+
+.select :global(.MuiSelect-icon path) {
+  fill: #242424;
+}
+.add_new_product :global(.MuiPopover-paper){
+  background-color: #D3D3D3;
+}
 @media(max-width:768px){
   .container{
     height: 100% !important;

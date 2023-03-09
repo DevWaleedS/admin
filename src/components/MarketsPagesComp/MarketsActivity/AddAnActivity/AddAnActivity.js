@@ -29,7 +29,6 @@ const AddAnActivity = ({ cancel, reload, setReload }) => {
 		let formData = new FormData();
 		formData.append('icon', images[0]?.file || null);
 		formData.append('name', activiyName);
-
 		axios
 			.post('https://backend.atlbha.com/api/Admin/activity', formData, {
 				headers: {

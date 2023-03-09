@@ -1,45 +1,44 @@
 import React from 'react';
 import styles from './StorageStatus.module.css';
-
 import { ReactComponent as Product } from '../../../assets/Icons/product 24.svg';
 
-const INITIAL_DATA = [
-	{
-		id: 5,
-		title: 'اجمالي منتجات المخزون',
-		amount: 1150,
-		icon: (
-			<Product
-				fill='red'
-				style={{
-					filter: 'invert(56%) sepia(81%) saturate(437%) hue-rotate(132deg) brightness(93%) contrast(88%);',
-				}}
-			/>
-		),
-	},
-	{
-		id: 1,
-		title: 'منتجات منتهية',
-		amount: 40,
-	},
-	{
-		id: 2,
-		title: 'منتجات تنتهي قريباً',
-		amount: 32,
-	},
-	{
-		id: 3,
-		title: 'أحدث المنتجات',
-		amount: 28,
-	},
-	{
-		id: 4,
-		title: 'أكثر المنتجات طلباً',
-		amount: 110,
-	},
-];
-
-const StorageStatus = () => {
+const StorageStatus = ({fetchedData}) => {
+	const INITIAL_DATA = [
+		{
+			id: 5,
+			title: 'اجمالي منتجات المخزون',
+			amount: fetchedData?.total_stock,
+			icon: (
+				<Product
+					fill='red'
+					style={{
+						filter: 'invert(56%) sepia(81%) saturate(437%) hue-rotate(132deg) brightness(93%) contrast(88%);',
+					}}
+				/>
+			),
+		},
+		{
+			id: 1,
+			title: 'منتجات منتهية',
+			amount: fetchedData?.finished_products,
+		},
+		{
+			id: 2,
+			title: 'منتجات تنتهي قريباً',
+			amount: fetchedData?.finished_soon,
+		},
+		{
+			id: 3,
+			title: 'أحدث المنتجات',
+			amount: fetchedData?.last_week_product_added,
+		},
+		{
+			id: 4,
+			title: 'أكثر المنتجات طلباً',
+			amount: fetchedData?.most_order,
+		},
+	];
+	
 	return (
 		<div className='flex flex-row items-center flex-wrap gap-4'>
 			{INITIAL_DATA.map((item) => {

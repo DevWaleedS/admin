@@ -4,7 +4,7 @@ import { Store } from '../../../../assets/Icons/index';
 
 const TotalMarkets = ({marketsInfo}) => {
   return (
-    <div className="flex md:flex-col flex-row gap-4">
+    <div className="flex lg:flex-col flex-row gap-4">
       <div
         className="flex-1 w-64 rounded-lg flex md:flex-row flex-col items-center p-4"
         style={{ backgroundColor: "#B6BE34" }}
