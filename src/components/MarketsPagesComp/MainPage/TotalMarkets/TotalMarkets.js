@@ -4,14 +4,19 @@ import { Store } from '../../../../assets/Icons/index';
 
 const TotalMarkets = ({marketsInfo}) => {
   return (
-			<div className='flex md:flex-col flex-row gap-4'>
-				<div className='flex-1 w-64 rounded-lg flex md:flex-row flex-col items-center p-4' style={{ backgroundColor: '#B6BE34' }}>
-					<div className='w-16 ml-2'>
-						<div className='h-12 w-12 flex justify-center items-center rounded-lg md:mx-0 mx-auto' style={{ backgroundColor: 'rgba(193,200,86,0.5)' }}>
-							<img className={`brightness-[200]`} src={Store} alt='' />
-						</div>
-					</div>
-
+    <div className="flex lg:flex-col flex-row gap-4">
+      <div
+        className="flex-1 w-64 rounded-lg flex md:flex-row flex-col items-center p-4"
+        style={{ backgroundColor: "#B6BE34" }}
+      >
+        <div className="w-16 ml-2">
+          <div
+            className="h-12 w-12 flex justify-center items-center rounded-lg md:mx-0 mx-auto"
+            style={{ backgroundColor: "rgba(193,200,86,0.5)" }}
+          >
+            <img className={`brightness-[200]`} src={Store} alt="" />
+          </div>
+        </div>
 					<div className='flex flex-1 h-full flex-col justify-between pt-4'>
 						<h2 className='text-slate-50 font-medium text-lg'>اجمالي المتاجر</h2>
 						<div className='flex flex-col md:items-start items-center'>

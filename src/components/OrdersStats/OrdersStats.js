@@ -6,34 +6,33 @@ import { ReactComponent as BestSeller } from '../../assets/Icons/best-seller.svg
 import { ReactComponent as NotActivated } from '../../assets/Icons/Not-activated.svg';
 import { ReactComponent as RunOut } from '../../assets/Icons/Package.svg';
 
-const OrdersStatsData = [
-	{
-		id: 1,
-		title: 'الجديدة',
-		icon: <NewIcon />,
-		num: 10,
-	},
-	{
-		id: 2,
-		title: 'الأكثر مبيعاً',
-		icon: <BestSeller />,
-		num: 10,
-	},
-	{
-		id: 3,
-		title: 'الغير مفعلة',
-		icon: <NotActivated />,
-		num: 10,
-	},
-	{
-		id: 4,
-		title: 'على وشك النفاذ',
-		icon: <RunOut />,
-		num: 10,
-	},
-];
-
-const OrdersStats = () => {
+const OrdersStats = ({fetchedData}) => {
+	const OrdersStatsData = [
+		{
+			id: 1,
+			title: 'الجديدة',
+			icon: <NewIcon />,
+			num: fetchedData?.newProducts,
+		},
+		{
+			id: 2,
+			title: 'الأكثر مبيعاً',
+			icon: <BestSeller />,
+			num: 100,
+		},
+		{
+			id: 3,
+			title: 'الغير مفعلة',
+			icon: <NotActivated />,
+			num: fetchedData?.not_active_products,
+		},
+		{
+			id: 4,
+			title: 'على وشك النفاذ',
+			icon: <RunOut />,
+			num: fetchedData?.about_to_finish_products,
+		},
+	];
 	return (
 		<div className = 'grid gap-4 lg:grid-cols-4 grid-cols-2 mb-6 '>
 			{OrdersStatsData.map((item) => (

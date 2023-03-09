@@ -35,21 +35,25 @@ const BackDrop = ({ onClick }) => {
 const productOptions = [
   {
     name: "اللون",
+    title:'',
     placeHolder1: "أزرق",
     placeHolder2: " القيمة ( أحمر، أصفر )",
   },
   {
     name: "ماركة",
+    title:'',
     placeHolder1: "علامة تجارية",
     placeHolder2: "القيمة (اديداس)",
   },
   {
     name: "الوزن",
+    title:'',
     placeHolder1: "وزن الوحدة",
     placeHolder2: "القيمة (0 كم )",
   },
   {
     name: "المقاس",
+    title:'',
     placeHolder1: "مقاس الوحدة",
     placeHolder2: "القيمة (xl, m, s)",
   },
@@ -57,6 +61,7 @@ const productOptions = [
 const initialValue = [
   {
     name: "ماركة",
+    title: '',
     values: [{ value: "", id: 0 }],
   },
 ];
@@ -133,12 +138,20 @@ function reducer(state, action) {
     });
     return newState;
   }
+  if(action.type === 'CHANGE_TITLE'){
+    const newState = [...state];
+    newState[action.idx].title = action.title;
+    return newState;
+  }
 }
 
-const AddProductOptions = ({ closeDetails, editProduct }) => {
+const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuantity }) => {
+  const [brandTitle, setBrandTitle] = useState("");
+  const [colorTitle, setColorTitle] = useState("");
+  const [sizeTitle, setSizeTitle] = useState("");
+  const [weightTitle, setWeightTitle] = useState("");
   const contextStore = useContext(Context);
-  const { setEndActionTitle } = contextStore;
-
+  const { setEndActionTitle, setProductOptions } = contextStore;
   const [state, dispatch] = useReducer(reducer, initialValue);
   const [showColorPicker, setShowColorPicker] = useState(null);
   const [option, setOption] = useState("ماركة");
@@ -148,8 +161,11 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
   const [age, setAge] = React.useState("");
   const [productStored, setProductStored] = useState(0);
   const [actionClicked, setActionClicked] = useState(false);
-  const saveActions = () => {};
+  const saveActions = () => { };
 
+  const handleTitleOption = (e,item,idx)=>{
+    dispatch({ type: "CHANGE_TITLE", title: e.target.value, item, idx });
+  }
   const handleOption = (e, item, idx) => {
     setOption(item.name);
     dispatch({ type: "CHANGE_SELECTING", option: e.target.value, item, idx });
@@ -161,6 +177,13 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
       }, 3000);
     }
   }, [actionClicked]);
+
+  const addOptions = () => {
+    console.log(state);
+    setProductOptions(state);
+    closeDetails();
+    setEndActionTitle("تم اضافة خيارات المنتج بنجاح");
+  }
 
   return (
     <>
@@ -182,7 +205,7 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
           style={{ backgroundColor: "#1DBBBE" }}
         >
           <h2 className="text-slate-50">
-            اضافة خيارات للمنتج - {editProduct?.title}
+            اضافة خيارات للمنتج - {editProduct?.name}
           </h2>
           <IoMdCloseCircleOutline
             color={"#fff"}
@@ -205,16 +228,15 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
               }}
             >
               <div
-                className={`w-3 h-3 rounded-full absolute bg-slate-50 top-1  duration-100 ${
-                  activeProductOption ? "left-4" : "left-1"
-                }`}
+                className={`w-3 h-3 rounded-full absolute bg-slate-50 top-1  duration-100 ${activeProductOption ? "left-4" : "left-1"
+                  }`}
               ></div>
             </div>
             <h2 className="font-semibold">تفعيل خيارات المنتج </h2>
           </div>
           {state.map((item, idx) => {
             const findOptionLabels = productOptions.find(
-              (option) => option.name == item.name
+              (option) => option.name === item.name
             );
             return (
               <div
@@ -235,11 +257,14 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
                     >
                       <WriteIcon fill="#ADB5B9"></WriteIcon>
                       <input
+                        value={findOptionLabels.title}
+                        onChange={(e) => {
+                          handleTitleOption(e, item, idx);
+                        }}
                         style={{ backgroundColor: "transparent" }}
                         className=" flex-1   outline-none"
                         placeholder={findOptionLabels.placeHolder1}
                         type="text"
-                        name="name"
                       />
                     </div>
                     <div
@@ -326,7 +351,6 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 
                 {item.values.map(({ value, id }) => {
                   const color = item.name == "اللون";
-                  console.log(value == "");
                   return (
                     <div className="flex gap-5 mb-5">
                       <div
@@ -435,7 +459,7 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
           <div className="flex items-center  gap-2 mt-10 ">
             <Checkbox sx={{ p: 0, "& svg": { fill: "#1DBBBE" } }}></Checkbox>
             <h2 className="font-semibold" style={{ color: "#011723" }}>
-              كميات غير محدودة{" "}
+              كميات غير محدودة
             </h2>
           </div>
           <div
@@ -572,6 +596,9 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
                   </Box>
 
                   <input
+                    onChange={(e) => {
+                      setLessQuantity(e.target.value);
+                    }}
                     style={{ backgroundColor: "transparent" }}
                     className=" flex-1   outline-none"
                     placeholder={"أقل كمية للتنبيه"}
@@ -597,6 +624,7 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
                         }
                         return e.target.value;
                       });
+                      setQuantity(e.target.value || 0)
                     }}
                     style={{ backgroundColor: "transparent" }}
                     className=" flex-1   outline-none"
@@ -644,10 +672,7 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
             </div>
           </div>
           <Button
-            onClick={() => {
-              closeDetails();
-              setEndActionTitle("تم اضافة خيارات المنتج بنجاح");
-            }}
+            onClick={() => { addOptions(); }}
             type={"normal"}
             className={"w-full mt-5"}
           >

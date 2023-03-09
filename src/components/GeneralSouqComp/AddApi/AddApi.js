@@ -5,30 +5,81 @@ import ImageUploading from 'react-images-uploading';
 import { IoMdCloudUpload } from 'react-icons/io';
 import styles from './AddApi.module.css';
 import Context from '../../../store/context';
+import axios from 'axios';
+
 
 const BackDrop = ({ onClick }) => {
 	return <div onClick={onClick} className='fixed back_drop top-0 left-0 h-full w-full bg-slate-900 opacity-50 z-10'></div>;
 };
 
-const AddApi = ({ cancel, editDetails }) => {
+const AddApi = ({ cancel, editDetails,reload,setReload }) => {
+	const token = localStorage.getItem('token');
 	const contextStore = useContext(Context);
 	const { setEndActionTitle } = contextStore;
+	const [apiData,setApiData] = useState({
+		name: editDetails?.name || '',
+		link: editDetails?.link || '',
+	});
 	const [images, setImages] = useState([]);
-	const [marketTitle, setMarketTitle] = useState('');
-	const [marketUrl, setMarketUrl] = useState('');
-
 	const onChange = (imageList, addUpdateIndex) => {
 		// data for submit
 		setImages(imageList);
 	};
-	useEffect(() => {
-		if (editDetails) {
-			setMarketTitle(editDetails.marketTitle);
-			setMarketUrl(editDetails.url);
-		}
-	}, [editDetails]);
-
 	
+	const addApiData = () => {
+		let formData = new FormData();
+		formData.append('name', apiData?.name);
+		formData.append('link', apiData?.link);
+		formData.append('logo', images[0]?.file || null);
+		axios
+			.post('https://backend.atlbha.com/api/Admin/platform', formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setReload(!reload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setReload(!reload);
+				}
+			});
+	};
+
+	const updateApiData = () => {
+		const formData = new FormData();
+		formData.append('_method', 'PUT');
+		formData.append('name', apiData?.name);
+		formData.append('link', apiData?.link);
+		if(images.length !==0){
+			formData.append('logo',images[0]?.file || null);
+		}
+
+		axios
+			.post(`https://backend.atlbha.com/api/Admin/platform/${editDetails?.id}`, formData, {
+				headers: {
+					"Content-Type": "multipart/form-data",
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setReload(!reload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setReload(!reload);
+				}
+			});
+	}
+
 	return (
 		<>
 			
@@ -64,8 +115,8 @@ const AddApi = ({ cancel, editDetails }) => {
 												<h2>(سيتم قبول الصور png & jpg)</h2>
 											</div>
 										)}
-										{editDetails && <img src={editDetails.logo} alt='' className='w-full h-full object-contain' />}
 										{images[0] && <img src={images[0]?.data_url} alt='' className='w-full h-full object-cover' />}
+										{editDetails && <img src={editDetails.logo} alt='' className='w-full h-full object-contain' />}
 									</div>
 								</div>
 							)}
@@ -79,9 +130,9 @@ const AddApi = ({ cancel, editDetails }) => {
 								placeholder={'اسم المنصة'}
 								type='text'
 								name='name'
-								value={marketTitle}
+								value={apiData?.name}
 								onChange={(e) => {
-									setMarketTitle(e.target.value);
+									setApiData({...apiData,name:e.target.value});
 								}}
 							/>
 						</label>
@@ -92,17 +143,14 @@ const AddApi = ({ cancel, editDetails }) => {
 								placeholder={'لصق رابط Api'}
 								type='text'
 								name='name'
-								value={marketUrl}
+								value={apiData?.link}
 								onChange={(e) => {
-									setMarketUrl(e.target.value);
+									setApiData({...apiData,link:e.target.value});
 								}}
 							/>
 						</label>
 						<Button
-							onClick={() => {
-								setEndActionTitle('تم اضافة API جديد بنجاح');
-								cancel();
-							}}
+							onClick={() => editDetails ? updateApiData() : addApiData()}
 							type={'normal'}
 							className={'text-center w-full mt-10 md:h-14 h-[45px]'}
 						>

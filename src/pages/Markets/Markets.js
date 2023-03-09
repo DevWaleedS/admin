@@ -23,7 +23,7 @@ const Markets = () => {
     lastMonthOfCompleteOrders:fetchedData?.data?.last_month_of_complete_orders,
   }
   return (
-    <div className="p-4 md:pl-36 md:bg-[#fafafa] bg-white flex flex-col">
+    <div className="p-4 lg:pl-36 lg:bg-[#fafafa] bg-white flex flex-col">
       <MarketsStatus marketsInfo={marketsInfo} chartInfo ={fetchedData?.data?.array_store} getYear={getYear}/>
       <QuickMarketsInfo latestStores={fetchedData?.data?.latest_stores} quickInfo={quickInfo}/>
     </div>

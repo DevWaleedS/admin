@@ -12,10 +12,11 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import ImageUploading from 'react-images-uploading';
-
+import useFetch from '../../../hooks/useFetch';
 // Icons
 import { ReactComponent as AddIcon } from '../../../assets/Icons/icon-34-add.svg';
 import { ReactComponent as CopyIcon } from '../../../assets/Icons/copy icon.svg';
+import { ReactComponent as Arrow } from '../../../assets/Icons/icon-24-chevron_down.svg';
 import { IoIosArrowDown } from 'react-icons/io';
 import { IoMdCloudUpload } from 'react-icons/io';
 import { TiDeleteOutline } from 'react-icons/ti';
@@ -33,22 +34,33 @@ const formTitleStyle = { width: '315px' };
 const formInputClasses = 'p-4 outline-0 rounded-md text-lg font-normal';
 const formInputStyle = {
 	width: '555px',
-	maxWidth:'100%',
+	maxWidth: '100%',
 	border: '1px solid rgba(167, 167, 167, 0.5)',
 	backgroundColor: '#f6f6f6',
 	fontWight: '400',
 	color: '#ADB5B9',
 };
 const NewProduct = ({ cancel, editProduct }) => {
+	const { fetchedData: category } = useFetch('https://backend.atlbha.com/api/Admin/storecategory');
+	const token = localStorage.getItem('token');
 	const contextStore = useContext(Context);
-	const { setEndActionTitle } = contextStore;
-
+	const { setEndActionTitle, productOptions } = contextStore;
+	const [productData, setProductData] = useState({
+		name: editProduct?.name || '',
+		description: editProduct?.description || '',
+		purchasing_price: editProduct?.purchasing_price || '',
+		selling_price: editProduct?.selling_price || '',
+		sku: editProduct?.sku || '',
+		category_id: editProduct?.category?.id || '',
+		stock: editProduct?.stock || '',
+		quantity: editProduct?.quantity || '',
+		less_qty: editProduct?.less_qty || '',
+		subcategory_id: [],
+	});
 	const [age, setAge] = useState('');
-
 	const [images, setImages] = useState([]);
 	const [multiImages, setMultiImages] = useState([]);
 	const [showAddProductOptions, setShowAddProductOptions] = useState(false);
-
 	const [subCategoriesSelected, setSubCategoriesSelected] = React.useState([]);
 	const [productName, setProductName] = useState('');
 	const [productInfo, setProductInfo] = useState('');
@@ -108,6 +120,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 	const handleCategory = (event) => {
 		setAge(event.target.value);
 	};
+	const subcategory = category?.data?.categories?.filter(sub=>sub?.id === parseInt(productData?.category_id)) || '';
 	return (
 		<>
 			<BackDrop onClick={cancel}></BackDrop>
@@ -120,7 +133,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 					editProduct={editProduct}
 				></AddProductOptions>
 			)}
-			<div className={`fixed bottom-0 left-0 bg-slate-50 z-30  otlobha_new_product ${styles.container}`} style={{ width: '1104px',maxWidth:'100%', height: 'calc(100% - 4rem)' }}>
+			<div className={`fixed bottom-0 left-0 bg-slate-50 z-30  otlobha_new_product ${styles.container}`} style={{ width: '1104px', maxWidth: '100%', height: 'calc(100% - 4rem)' }}>
 				<div className='flex h-full flex-col justify-between'>
 					<div
 						className='md:p-8 p-4'
@@ -138,26 +151,26 @@ const NewProduct = ({ cancel, editProduct }) => {
 								<h2 className={formTitleClasses} style={formTitleStyle}>
 									اسم المنتج
 								</h2>
-									<input
-										value={productName}
-										onChange={(e) => {
-											setProductName(e.target.value);
-										}}
-										className={`${formInputClasses} md:h-14 h-[45px]`}
-										style={formInputStyle}
-										placeholder='اسم المنتج'
-										type='text'
-										name='name'
-									/>
+								<input
+									value={productData?.name}
+									onChange={(e) => {
+										setProductData({ ...productData, name: e.target.value });
+									}}
+									className={`${formInputClasses} md:h-14 h-[45px]`}
+									style={formInputStyle}
+									placeholder='اسم المنتج'
+									type='text'
+									name='name'
+								/>
 							</div>
 							<div className='flex md:flex-row flex-col gap-y-2 md:mb-8 mb-4'>
 								<h2 className={formTitleClasses} style={formTitleStyle}>
 									وصف المنتج
 								</h2>
 								<textarea
-									value={productInfo}
+									value={productData?.description}
 									onChange={(e) => {
-										setProductInfo(e.target.value);
+										setProductData({ ...productData, description: e.target.value });
 									}}
 									className={formInputClasses}
 									style={{ ...formInputStyle, resize: 'false' }}
@@ -176,9 +189,9 @@ const NewProduct = ({ cancel, editProduct }) => {
 									<div className='p-4 flex flex-1'>
 										<img className='ml-2 opacity-50' src={Currency} alt='' />
 										<input
-											value={buyPrice}
+											value={productData?.purchasing_price}
 											onChange={(e) => {
-												setBuyPrice(e.target.value);
+												setProductData({ ...productData, purchasing_price: e.target.value });
 											}}
 											className='flex-1 border-none outline-none bg-[#f6f6f6]'
 											placeholder='0'
@@ -205,9 +218,9 @@ const NewProduct = ({ cancel, editProduct }) => {
 									<div className='p-4 flex flex-1'>
 										<img className='ml-2 opacity-50' src={Currency} alt='' />
 										<input
-											value={sellPrice}
+											value={productData?.selling_price}
 											onChange={(e) => {
-												setSellPrice(e.target.value);
+												setProductData({ ...productData, selling_price: e.target.value });
 											}}
 											className='flex-1 border-none outline-none bg-[#f6f6f6]'
 											placeholder='0'
@@ -232,9 +245,9 @@ const NewProduct = ({ cancel, editProduct }) => {
 								</h2>
 								<label>
 									<input
-										value={productCode}
+										value={productData?.sku}
 										onChange={(e) => {
-											setProductCode(e.target.value);
+											setProductData({ ...productData, sku: e.target.value });
 										}}
 										className={`${formInputClasses} md:h-14 h-[45px]`}
 										style={formInputStyle}
@@ -251,18 +264,19 @@ const NewProduct = ({ cancel, editProduct }) => {
 								<FormControl className='md:h-14 h-[45px] md:w-[555px] w-full'>
 									<Select
 										className={`text-lg font-normal rounded-lg ${styles.select}`}
-										value={age}
-										onChange={handleCategory}
-										IconComponent={() => {
-											return <IoIosArrowDown size={'1rem'} className='absolute left-2' />;
+										value={productData?.category_id}
+										onChange={(e) => {
+											setProductData({ ...productData, category_id: e.target.value });
 										}}
 										displayEmpty
+										IconComponent={(props) => <Arrow fill='#242424' {...props} />}
 										inputProps={{ 'aria-label': 'Without label' }}
 										renderValue={(selected) => {
-											if (age === '') {
+											if (productData?.category_id === '') {
 												return <h2 className='text-[#ADB5B9]'>اختر التصنيف</h2>;
 											}
-											return selected;
+											const result = category?.data?.categories?.filter((item) => item?.id === parseInt(selected)) || '';
+											return result[0]?.name;
 										}}
 										sx={{
 											height: '100%',
@@ -272,7 +286,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 											},
 										}}
 									>
-										{category.map((item, idx) => {
+										{category?.data?.categories?.map((item, idx) => {
 											return (
 												<MenuItem
 													key={idx}
@@ -282,9 +296,9 @@ const NewProduct = ({ cancel, editProduct }) => {
 														height: '3rem',
 														'&:hover': {},
 													}}
-													value={`${item}`}
+													value={`${item?.id}`}
 												>
-													{item}
+													{item?.name}
 												</MenuItem>
 											);
 										})}
@@ -298,10 +312,10 @@ const NewProduct = ({ cancel, editProduct }) => {
 										رابط المنتج
 									</h2>
 									<div
-										className={`md:h-14 h-[45px] flex flex-row items-center justify-between ${formInputClasses}`} 
-									style={formInputStyle}
+										className={`md:h-14 h-[45px] flex flex-row items-center justify-between ${formInputClasses}`}
+										style={formInputStyle}
 									>
-										<h6 style={{ color: '#02466A', fontSize: '16px',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap' }}>https://www.cat.com/en_US/products/new/technology/equipm</h6>
+										<h6 style={{ color: '#02466A', fontSize: '16px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>https://www.cat.com/en_US/products/new/technology/equipm</h6>
 
 										{copy ? <h6 style={{ color: '#02466A', fontSize: '16px' }}>Copied</h6> : <CopyIcon className='cursor-pointer mr-2' fill='#02466A' onClick={() => handelCopy()} />}
 									</div>
@@ -320,13 +334,23 @@ const NewProduct = ({ cancel, editProduct }) => {
 											}}
 											multiple
 											displayEmpty
-											value={subCategoriesSelected}
+											value={productData?.subcategory_id}
+											onChange={(e) => {
+												setProductData({ ...productData, subcategory_id: e.target.value });
+											}}
 											open={openSubCategory}
 											onClick={() => {
 												setOpenSubCategory(true);
 											}}
-											onChange={handleSubCategory}
-											renderValue={(selected) => (subCategoriesSelected.length === 0 ? <h2 className='text-[#ADB5B9]'>الكل</h2> : selected.join(' , '))}
+											renderValue={(selected) => {
+												if (productData?.subcategory_id.length === 0) {
+													return 'التصنيف الفرعي';
+												}
+												return selected.map((item) => {
+													const result = subcategory[0]?.subcategory?.filter((sub) => sub?.id === parseInt(item));
+													return `${result[0]?.name} , `;
+												});
+											}}
 											sx={{
 												height: '3.5rem',
 												border: '1px solid #A7A7A780',
@@ -336,10 +360,10 @@ const NewProduct = ({ cancel, editProduct }) => {
 												},
 											}}
 										>
-											{subCategories.map((name) => (
-												<MenuItem className='souq_storge_category_filter_items multiple_select' key={name} value={name}>
-													<Checkbox checked={subCategoriesSelected.indexOf(name) > -1} />
-													<ListItemText primary={name} />
+											{subcategory[0]?.subcategory?.map((sub, index) => (
+												<MenuItem className='souq_storge_category_filter_items multiple_select' key={index} value={sub?.id}>
+													<Checkbox checked={productData?.subcategory_id?.indexOf(sub?.id) > -1} />
+													<ListItemText primary={sub?.name} />
 												</MenuItem>
 											))}
 											<button
@@ -390,7 +414,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 											</div>
 											{editProduct && (
 												<div className='md:w-28 w-[60px] md:h-28 h-[58px] mt-4'>
-													<img className='object-cover w-full h-full' src={editProduct.img} alt='' />
+													<img className='object-cover w-full h-full' src={editProduct?.cover} alt='preview-img' />
 												</div>
 											)}
 										</div>
@@ -443,9 +467,9 @@ const NewProduct = ({ cancel, editProduct }) => {
 								</h2>
 								<label>
 									<input
-										value={inStore}
+										value={productData?.stock}
 										onChange={(e) => {
-											setInStore(e.target.value);
+											setProductData({ ...productData, stock: e.target.value });
 										}}
 										className={`${formInputClasses} md:h-14 h-[45px]`}
 										style={formInputStyle}

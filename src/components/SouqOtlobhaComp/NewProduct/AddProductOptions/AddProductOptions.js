@@ -57,6 +57,7 @@ const productOptions = [
 const initialValue = [
 	{
 		name: 'ماركة',
+		title:'',
 		values: [{ value: '', id: 0 }],
 	},
 ];
@@ -65,6 +66,7 @@ function reducer(state, action) {
 	if (action.type === 'CHANGE_SELECTING') {
 		const newState = [...state];
 		newState[action.idx].name = action.option;
+		newState[action.idx].title = action.title;
 		newState[action.idx].values = [{ value: '', id: 0 }];
 		return newState;
 	}
@@ -130,22 +132,20 @@ function reducer(state, action) {
 }
 
 const AddProductOptions = ({ closeDetails, editProduct }) => {
+	const [brandTitle,setBrandTitle] = useState("");
 	const contextStore = useContext(Context);
 	const { setEndActionTitle } = contextStore;
-
 	const [state, dispatch] = useReducer(reducer, initialValue);
 	const [showColorPicker, setShowColorPicker] = useState(null);
 	const [option, setOption] = useState('ماركة');
 	const [activeProductOption, setActiveProductOption] = useState(false);
-	
-	
 	const [productStored, setProductStored] = useState(0);
 	const [actionClicked, setActionClicked] = useState(false);
 	const saveActions = () => {};
 
-	const handleOption = (e, item, idx) => {
+	const handleOption = (e, item, idx,brandTitle) => {
 		setOption(item.name);
-		dispatch({ type: 'CHANGE_SELECTING', option: e.target.value, item, idx });
+		dispatch({ type: 'CHANGE_SELECTING', option: e.target.value, item, idx,title:brandTitle });
 	};
 	useEffect(() => {
 		if (actionClicked) {
@@ -168,7 +168,7 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 			)}
 			<div className='fixed flex flex-col top-10 translate-x-2/4 right-2/4 z-50 rounded-md overflow-hidden' style={{ height: '40rem', width: '60.25rem', maxHeight: '80%',maxWidth:'90%' }}>
 				<div className='h-16 w-full flex items-center justify-between px-4' style={{ backgroundColor: '#1DBBBE' }}>
-					<h2 className='text-slate-50 md:text-lg text-[15px]'>اضافة خيارات للمنتج - {editProduct.title}</h2>
+					<h2 className='text-slate-50 md:text-lg text-[15px]'>اضافة خيارات للمنتج - {editProduct?.name}</h2>
 					<IoMdCloseCircleOutline color={'#fff'} className={'cursor-pointer w-5 h-5'} onClick={closeDetails}></IoMdCloseCircleOutline>
 				</div>
 				<div className='flex-1 overflow-scroll hide_scrollbar px-4 pt-6 pb-2' style={{ backgroundColor: '#F6F6F6' }}>
@@ -206,7 +206,14 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 											}}
 										>
 											<WriteIcon fill='#ADB5B9'></WriteIcon>
-											<input style={{ backgroundColor: 'transparent' }} className=' flex-1   outline-none' placeholder={findOptionLabels.placeHolder1} type='text' name='name' />
+											<input 
+												value={brandTitle}
+												onChange={(e)=>{setBrandTitle(e.target.value)}}
+												style={{ backgroundColor: 'transparent' }} 
+												className='flex-1 outline-none' 
+												placeholder={findOptionLabels.placeHolder1} 
+												type='text'
+											/>
 										</div>
 										<div
 											className='md:h-12 min-h-[45px] flex flex-1 gap-4 px-2 items-center'
@@ -222,7 +229,7 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 													return <IoIosArrowDown size={'1rem'} />;
 												}}
 												onChange={(e) => {
-													handleOption(e, item, idx);
+													handleOption(e, item, idx,brandTitle);
 												}}
 												displayEmpty
 												inputProps={{ 'aria-label': 'Without label' }}
