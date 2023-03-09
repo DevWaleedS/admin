@@ -27,8 +27,7 @@ import Context from '../../../../store/context';
 import CircularLoading from '../../../../UI/CircularLoading/CircularLoading';
 import axios from "axios";
 import {
-	ListMoreCategory,
-	Stationery
+	ListMoreCategory
 } from "../../../../assets/Icons/index";
 
 function descendingComparator(a, b, orderBy) {

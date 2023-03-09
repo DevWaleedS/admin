@@ -27,7 +27,7 @@ const conditions = [
 	{ id: 2, name: 'غير مفعل', name_en: 'not_active' }
 ];
 
-const AddNewMarket = ({ cancel,reload,setReload }) => {
+const AddNewMarket = ({ cancel, reload, setReload }) => {
 	const token = localStorage.getItem('token');
 	const contextStore = useContext(Context);
 	const { setEndActionTitle } = contextStore;
@@ -56,8 +56,12 @@ const AddNewMarket = ({ cancel,reload,setReload }) => {
 		user_country_id: '',
 		user_city_id: '',
 		status: '',
-		image: '',
+
 	});
+
+
+	console.log(storeInfo);
+	console.log(personInfo);
 	/** --------------------------------------------- */
 
 	// to get selectors from api
