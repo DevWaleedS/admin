@@ -125,7 +125,7 @@ const VerificationData = ({ reload, setReload, cancel, verificationInfo, editVer
     <>
       <BackDrop onClick={cancel} />
       <div
-        className="absolute flex flex-col top-5 translate-x-2/4  right-2/4 z-20 rounded-lg overflow-hidden"
+        className="absolute flex flex-col top-5 translate-x-2/4  right-2/4 z-20 rounded-lg overflow-hidden pb-52"
         style={{ width: "60.25rem", maxWidth: "90%" }}
       >
         <div

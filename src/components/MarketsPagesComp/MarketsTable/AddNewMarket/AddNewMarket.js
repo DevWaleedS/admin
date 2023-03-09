@@ -60,8 +60,8 @@ const AddNewMarket = ({ cancel, reload, setReload }) => {
 	});
 
 
-	console.log(storeInfo);
-	console.log(personInfo);
+	
+
 	/** --------------------------------------------- */
 
 	// to get selectors from api
@@ -110,7 +110,6 @@ const AddNewMarket = ({ cancel, reload, setReload }) => {
 		formData.append('user_city_id', personInfo?.user_city_id);
 
 		// here we tell formData if images[0].file its has been file got it if not just put empty stings
-		
 		formData.append('image', images[0]?.file || null);
 		formData.append('status', personInfo?.status);
 

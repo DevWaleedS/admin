@@ -12,7 +12,7 @@ const INITIAL_DATA = [
 			<Product
 				fill='red'
 				style={{
-					filter: 'invert(56%) sepia(81%) saturate(437%) hue-rotate(132deg) brightness(93%) contrast(88%);',
+					filter: 'invert(56%) sepia(81%) saturate(437%) hue-rotate(132deg) brightness(93%) contrast(88%)'
 				}}
 			/>
 		),
