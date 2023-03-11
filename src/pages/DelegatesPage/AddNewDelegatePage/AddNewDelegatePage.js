@@ -47,7 +47,6 @@ const DelegatesTablePage = () => {
 		youtube: '',
 		instegram: '',
 	
-
 		// city and country
 		city_id: '',
 		country_id: '',

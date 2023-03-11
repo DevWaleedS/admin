@@ -10,10 +10,11 @@ import useFetch from '../../../hooks/useFetch';
 
 const SouqOtlobha = () => {
 	const { fetchedData, loading, reload, setReload } = useFetch('https://backend.atlbha.com/api/Admin/etlobha');
+
 	const [showFilteringOptions, setShowFilteringOptions] = useState(false);
 	const [showNewProductInfo, setShowNewProductInfo] = useState(false);
 	const [editProduct, setEditProduct] = useState(null);
-	console.log(editProduct);
+	
 	return (
 		<div className={`p-4 md:pl-36 pt-0`} style={{ backgroundColor: '#fafafa' }}>
 			<div className='flex md:flex-row flex-col md:items-center items-start justify-between gap-y-4 mb-5'>
