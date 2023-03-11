@@ -63,7 +63,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 	// handle onChange function to get all values from inputs
 	const handleProductData = (e) => {
 		const { name, value } = e.target;
-		console.log(name, value);
+
 		setProductData((prevState) => {
 			return { ...prevState, [name]: value };
 		});
@@ -82,18 +82,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 		}, 5000);
 	};
 
-	// useEffect(() => {
-	// 	if (editProduct) {
-	// 		productData?.name(editProduct.title);
-	// 		productData?.description(editProduct.info);
-	// 			productData?.description(editProduct.price);
-	// 			productData?.description(editProduct.sellPrice);
-	// 			productData?.description(editProduct.id);
-	// 			productData?.description(editProduct.inStore);
-	// 			productData?.description(editProduct.category);
-	// 			productData?.description(editProduct.section);
-	// 	}
-	// }, [editProduct]);
+	
 
 	// to get multi images
 	const [multiImages, setMultiImages] = useState([]);
@@ -114,7 +103,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 		// data for submit
 		setImages(imageList);
 	};
-
+const subcategory = category?.data?.categories?.filter((sub) => sub?.id === parseInt(productData?.category_id)) || '';
 	return (
 		<>
 			<BackDrop onClick={cancel}></BackDrop>
@@ -296,7 +285,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 												return 'التصنيف الفرعي';
 											}
 											return selected.map((item) => {
-												const result = category?.data?.categories?.filter((sub) => sub?.id === parseInt(item));
+												const result = subcategory[0]?.subcategory?.filter((sub) => sub?.id === parseInt(item));
 												return `${result[0]?.name} , `;
 											});
 										}}
@@ -309,7 +298,7 @@ const NewProduct = ({ cancel, editProduct }) => {
 											},
 										}}
 									>
-										{category?.data?.categories?.map((sub, index) => (
+										{subcategory[0]?.subcategory?.map((sub, index) => (
 											<MenuItem className='souq_storge_category_filter_items multiple_select' key={index} value={sub?.id}>
 												<Checkbox checked={productData?.subcategory_id?.indexOf(sub?.id) > -1} />
 												<ListItemText primary={sub?.name} />

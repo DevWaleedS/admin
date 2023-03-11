@@ -53,7 +53,6 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 	const [images, setImages] = useState([]);
 	const [multiImages, setMultiImages] = useState([]);
 	const [showAddProductOptions, setShowAddProductOptions] = useState(false);
-	const [subCategoriesSelected, setSubCategoriesSelected] = React.useState([]);
 	const [openSubCategory, setOpenSubCategory] = useState(false);
 
 	const emptyMultiImages = [];

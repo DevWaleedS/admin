@@ -141,22 +141,22 @@ function reducer(state, action) {
 }
 
 const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuantity }) => {
-	const [brandTitle, setBrandTitle] = useState("");
+	const [brandTitle, setBrandTitle] = useState('');
 	const contextStore = useContext(Context);
 	const { setEndActionTitle } = contextStore;
 	const [state, dispatch] = useReducer(reducer, initialValue);
 	const [showColorPicker, setShowColorPicker] = useState(null);
 	const [option, setOption] = useState('ماركة');
-	const [title, setTitle] = useState("");
+	const [title, setTitle] = useState('');
 	const [activeProductOption, setActiveProductOption] = useState(false);
 	const [productStored, setProductStored] = useState(0);
 	const [actionClicked, setActionClicked] = useState(false);
-	const saveActions = () => { };
+	const saveActions = () => {};
 
 	const handleTitleOption = (e, item, idx) => {
 		setTitle(e.target.value);
-		dispatch({ type: "CHANGE_TITLE", title: e.target.value, item, idx });
-	}
+		dispatch({ type: 'CHANGE_TITLE', title: e.target.value, item, idx });
+	};
 
 	const handleOption = (e, item, idx, brandTitle) => {
 		setOption(item.name);
@@ -223,7 +223,9 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 											<WriteIcon fill='#ADB5B9'></WriteIcon>
 											<input
 												value={brandTitle}
-												onChange={(e) => { setBrandTitle(e.target.value) }}
+												onChange={(e) => {
+													setBrandTitle(e.target.value);
+												}}
 												style={{ backgroundColor: 'transparent' }}
 												className='flex-1 outline-none'
 												placeholder={findOptionLabels.placeHolder1}
@@ -539,16 +541,16 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 									<input style={{ backgroundColor: 'transparent' }} className=' flex-1   outline-none' placeholder={'أقل كمية للتنبيه'} type='number' name='name' />
 								</div>
 							</div>
-							<div className="flex-1">
+							<div className='flex-1 relative'>
 								<div
-									className="flex h-full flex-1 gap-4 pr-2 items-center"
+									className='flex h-full flex-1 gap-4 pr-2 items-center'
 									style={{
-										backgroundColor: "#FAFAFA",
-										border: "1px solid #D3D3D3",
+										backgroundColor: '#FAFAFA',
+										border: '1px solid #D3D3D3',
 									}}
 								>
 									<input
-										value={productStored === 0 ? "" : productStored}
+										value={productStored === 0 ? '' : productStored}
 										onChange={(e) => {
 											setProductStored(() => {
 												if (e.target.value <= 0) {
@@ -556,24 +558,24 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 												}
 												return e.target.value;
 											});
-											setQuantity(e.target.value || 0)
+											setQuantity(e.target.value || 0);
 										}}
-										style={{ backgroundColor: "transparent" }}
-										className=" flex-1 md:h-14 h-[45px] outline-none"
-										placeholder={"الكمية المتوفرة"}
-										type="number"
-										name="name"
+										style={{ backgroundColor: 'transparent' }}
+										className=' flex-1 md:h-14 h-[45px] outline-none'
+										placeholder={'الكمية المتوفرة'}
+										type='number'
+										name='name'
 									/>
 									<Box
-										className="flex h-full"
+										className='flex h-full sm:relative sm:left-0 sm:top-0  absolute right-0 top-12'
 										sx={{
-											"& div": {
-												width: "56px",
-												height: "100%",
-												border: "1px solid #ADB5B966",
+											'& div': {
+												width: '56px',
+												height: '100%',
+												border: '1px solid #ADB5B966',
 												'@media(max-width:992px)': {
-													height: "45px",
-												}
+													height: '45px',
+												},
 											},
 										}}
 									>
@@ -583,11 +585,11 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 													return prev + 1;
 												});
 											}}
-											className="fcc cursor-pointer"
+											className='fcc cursor-pointer'
 										>
 											<AiOutlinePlus></AiOutlinePlus>
 										</div>
-										<div className="fcc">{productStored}</div>
+										<div className='fcc'>{productStored}</div>
 										<div
 											onClick={() => {
 												setProductStored((prev) => {
@@ -597,7 +599,7 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 													return prev - 1;
 												});
 											}}
-											className="fcc cursor-pointer"
+											className='fcc cursor-pointer'
 										>
 											<AiOutlineMinus></AiOutlineMinus>
 										</div>
