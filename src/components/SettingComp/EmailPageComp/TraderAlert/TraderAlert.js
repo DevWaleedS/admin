@@ -1,29 +1,19 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import Context from '../../../../store/context';
-import Button from "../../../../UI/Button/Button";
+import Button from '../../../../UI/Button/Button';
 import styles from './TraderAlert.module.css';
-import { Editor } from "react-draft-wysiwyg";
-import { EditorState, convertToRaw } from "draft-js";
-import draftToHtml from "draftjs-to-html";
-import { FiSend } from "react-icons/fi";
-
-
-
+import { Editor } from 'react-draft-wysiwyg';
+import { EditorState, convertToRaw } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import { FiSend } from 'react-icons/fi';
 
 const BackDrop = ({ onClick }) => {
-  return (
-    <div
-      onClick={onClick}
-      className="fixed back_drop top-0 left-0 h-full w-full bg-slate-900 opacity-50 z-10"
-    ></div>
-  );
+	return <div onClick={onClick} className='fixed back_drop top-0 left-0 h-full w-full bg-slate-900 opacity-50 z-10'></div>;
 };
 
-const TraderAlert = ({ cancel, traderPackageDetails, reload, setReload }) => {
-
+const TraderAlert = ({ cancel, traderPackageDetails, showEmailInfo, reload, setReload }) => {
 	const userEmail = traderPackageDetails?.store?.user?.email;
-	console.log(userEmail);
 
 	const token = localStorage.getItem('token');
 	const contextStore = useContext(Context);
@@ -34,7 +24,6 @@ const TraderAlert = ({ cancel, traderPackageDetails, reload, setReload }) => {
 		editorState: EditorState.createEmpty(),
 	});
 
-
 	const onEditorStateChange = (editorValue) => {
 		const editorStateInHtml = draftToHtml(convertToRaw(editorValue.getCurrentContent()));
 		setDescription({
@@ -42,7 +31,6 @@ const TraderAlert = ({ cancel, traderPackageDetails, reload, setReload }) => {
 			editorState: editorValue,
 		});
 	};
-
 
 	// add email function
 	const addEmail = () => {
@@ -79,7 +67,7 @@ const TraderAlert = ({ cancel, traderPackageDetails, reload, setReload }) => {
 			>
 				<div className='h-16 w-full flex items-center justify-center py-4 px-4 trader_alert' style={{ backgroundColor: '#1DBBBE' }}>
 					<h2 style={{ color: '#ECFEFF' }} className='md:text-[22px] text-[18px] font-medium text-center'>
-						ارسال تنبيه للتاجر
+						{showEmailInfo ? 'تفاصيل الرسالة ' : 'ارسال تنبيه للتاجر'}
 					</h2>
 				</div>
 				<div className='flex-1 pb-4' style={{ backgroundColor: '#FAFAFA' }}>
@@ -92,9 +80,10 @@ const TraderAlert = ({ cancel, traderPackageDetails, reload, setReload }) => {
 						</span>
 					</div>
 					<textarea
+						disabled={showEmailInfo && true}
 						style={{ color: '#67747B' }}
 						className='w-full md:text-[18px] text-[16px] p-4 text-md font-medium outline-none'
-						value={subject}
+						value={showEmailInfo ? traderPackageDetails?.subject : subject}
 						onChange={(e) => setSubject(e.target.value)}
 						placeholder='الموضوع'
 						rows={3}
@@ -103,33 +92,86 @@ const TraderAlert = ({ cancel, traderPackageDetails, reload, setReload }) => {
 						<h2 className='md:text-[20px] text-[16px] font-medium'>نص الرسالة</h2>
 					</div>
 					<div className={styles.editor}>
-						<Editor
-							className='text-black text-xl'
-							toolbarHidden={false}
-							editorState={description.editorState}
-							onEditorStateChange={onEditorStateChange}
-							inDropdown={true}
-							placeholder=' صديقنا التاجر، باقي  20يوم على انتهاء اشتراكك تواصل مع الدعم الفني للحصول على كود خصم لتجديد اشتراكك'
-							editorClassName='demo-editor'
-							toolbar={{
-								options: ['inline', 'textAlign', 'image', 'list'],
-								inline: {
-									options: ['bold'],
-								},
-								list: {
-									options: ['unordered', 'ordered'],
-								},
-							}}
-						/>
+						{showEmailInfo ? (
+							<Editor
+								readOnly
+								className='text-black text-xl'
+								toolbarHidden={false}
+								editorState={description.editorState}
+								onEditorStateChange={onEditorStateChange}
+								inDropdown={true}
+								placeholder={
+									<div className='flex flex-col'>
+										<div className='flex flex-row'>
+											<p className='md:text-[20px] text-[16px]' style={{ fontWeight: '500', color: '#011723' }}>
+												{traderPackageDetails?.message}
+											</p>
+										</div>
+									</div>
+								}
+								editorClassName='demo-editor'
+								toolbar={{
+									options: ['inline', 'textAlign', 'image', 'list'],
+									inline: {
+										options: ['bold'],
+									},
+									list: {
+										options: ['unordered', 'ordered'],
+									},
+								}}
+							/>
+						) : (
+							<Editor
+								className='text-black text-xl'
+								toolbarHidden={false}
+								editorState={description.editorState}
+								onEditorStateChange={onEditorStateChange}
+								inDropdown={true}
+								placeholder={
+									<div className='flex flex-col'>
+										<div className='flex flex-row'>
+											<p className='md:text-[20px] text-[16px]' style={{ fontWeight: '500', color: '#011723' }}>
+												صديقنا التاجر،
+											</p>
+											<span className='md:text-[20px] text-[16px]' style={{ fontWeight: '500', color: '#FF9F1A' }}>
+												{' '}
+												باقي 20يوم على انتهاء اشتراكك{' '}
+											</span>
+										</div>
+										<p className='md:text-[20px] text-[16px]' style={{ fontWeight: '500', color: '#011723' }}>
+											تواصل مع الدعم الفني للحصول على كود خصم لتجديد اشتراكك
+										</p>
+									</div>
+								}
+								editorClassName='demo-editor'
+								toolbar={{
+									options: ['inline', 'textAlign', 'image', 'list'],
+									inline: {
+										options: ['bold'],
+									},
+									list: {
+										options: ['unordered', 'ordered'],
+									},
+								}}
+							/>
+						)}
 					</div>
-					<div className='flex gap-5 justify-center'>
-						<Button onClick={addEmail} type={'normal'} className={'md:text-[20px] text-[16px] text-center mt-12'} style={{ backgroundColor: '#02466A' }} svg={<FiSend color={'#fff'} />}>
-							ارسال
-						</Button>
-						<Button type={'outline'} className={'md:text-[20px] text-[16px] text-center  mt-12'} style={{ borderColor: '#02466A' }} textStyle={{ color: '#02466A' }} onClick={cancel}>
-							الغاء
-						</Button>
-					</div>
+					{showEmailInfo ? (
+						<div className='flex gap-5 justify-center'>
+							<Button type={'outline'} className={'md:text-[20px] text-[16px] text-center  mt-12'} style={{ borderColor: '#02466A' }} textStyle={{ color: '#02466A' }} onClick={cancel}>
+								إغلاق
+							</Button>
+						</div>
+					) : (
+						<div className='flex gap-5 justify-center'>
+							<Button onClick={addEmail} type={'normal'} className={'md:text-[20px] text-[16px] text-center mt-12'} style={{ backgroundColor: '#02466A' }} svg={<FiSend color={'#fff'} />}>
+								ارسال
+							</Button>
+							<Button type={'outline'} className={'md:text-[20px] text-[16px] text-center  mt-12'} style={{ borderColor: '#02466A' }} textStyle={{ color: '#02466A' }} onClick={cancel}>
+								الغاء
+							</Button>
+						</div>
+					)}
 				</div>
 			</div>
 		</>
@@ -137,9 +179,3 @@ const TraderAlert = ({ cancel, traderPackageDetails, reload, setReload }) => {
 };
 
 export default TraderAlert;
-
-
-
-
-
-

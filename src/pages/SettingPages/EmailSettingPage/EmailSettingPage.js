@@ -11,6 +11,8 @@ const EmailSettingPage = () => {
 
 	const [traderAlert, setTraderAlert] = useState(false);
 	const [traderPackageDetails, setTraderPackageDetails] = useState([]);
+	const [showEmailInfo, setShowEmailInfo] = useState(false);
+
 
 	return (
 		<div>
@@ -20,6 +22,7 @@ const EmailSettingPage = () => {
 						setTraderAlert(false);
 					}}
 					traderPackageDetails={traderPackageDetails}
+					showEmailInfo={showEmailInfo}
 					reload={reload}
 					setReload={setReload}
 				/>
@@ -30,6 +33,7 @@ const EmailSettingPage = () => {
 					loading={loading}
 					setReload={setReload}
 					fetchedData={fetchedData}
+					setShowEmailInfo={setShowEmailInfo}
 					openTraderAlert={(row) => {
 						setTraderAlert(true);
 						setTraderPackageDetails(row);

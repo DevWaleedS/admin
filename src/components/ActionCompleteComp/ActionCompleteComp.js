@@ -50,7 +50,8 @@ const ActionComplete = ({ cancelEarly }) => {
             {actionWarning ? <Rejected></Rejected> : <CheckMark></CheckMark>}
           </Box>
 
-          <h2 className="font-medium md:text-[24px] text-[18px] whitespace-nowrap" style={{ color: "#011723" }}>
+          <h2 className="font-medium md:text-[24px] text-[18px] whitespace-nowrap"
+            style={{ color: "#011723" }}>
             {title}
           </h2>
         </div>

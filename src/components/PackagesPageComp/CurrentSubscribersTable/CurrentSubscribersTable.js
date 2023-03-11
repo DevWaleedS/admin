@@ -110,9 +110,9 @@ function EnhancedTableHead(props) {
 	return (
 		<TableHead sx={{ backgroundColor: 'rgba(182, 190, 52, 0.2)' }}>
 			<TableRow>
-				{headCells.map((headCell,index) => (
+				{headCells.map((headCell, index) => (
 					<TableCell
-						key={index}
+						key={headCell?.label}
 						className='text-lg font-medium '
 						align={headCell.numeric ? 'right' : 'center'}
 						padding={headCell.disablePadding ? 'none' : 'normal'}
@@ -270,7 +270,6 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
 	const [order, setOrder] = React.useState('asc');
 	const [orderBy, setOrderBy] = React.useState('calories');
 	const [selected, setSelected] = React.useState([]);
-	console.log(selected);
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
 	const [anchorEl, setAnchorEl] = React.useState(null);
@@ -410,7 +409,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
 										{stableSort(fetchedData?.data?.stores, getComparator(order, orderBy))
 											?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 											?.map((row, index) => {
-												const isItemSelected = isSelected(row.name);
+												const isItemSelected = isSelected(row?.id);
 												const labelId = `enhanced-table-checkbox-${index}`;
 
 												return (
@@ -420,7 +419,7 @@ export default function EnhancedTable({ fetchedData, loading, reload, setReload,
 														role='checkbox'
 														aria-checked={isItemSelected}
 														tabIndex={-1}
-														key={row.name}
+														key={row?.id}
 														selected={isItemSelected}
 													>
 														<TableCell component='th' id={labelId} scope='row'>

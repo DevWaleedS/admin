@@ -9,10 +9,12 @@ const Markets = () => {
   const { fetchedData } = useFetch(`https://backend.atlbha.com/api/Admin/storeReport?year=${year}`);
   const marketsInfo = {
     countStore:fetchedData?.data?.count_of_stores,
-    averageStore:fetchedData?.data?.average_of_stores,
+    averageStore: parseFloat(fetchedData?.data?.average_of_stores.replace('%', '')).toFixed(0),
     activeStore:fetchedData?.data?.active_of_stores,
     notActiveStore:fetchedData?.data?.not_active_of_stores,
   }
+
+  console.log(marketsInfo.averageStore);
   const quickInfo = {
     last24HoursOfStores:fetchedData?.data?.last_24_hours_of_stores,
     last24HoursOfPendingOrders:fetchedData?.data?.last_24_hours_of_pending_orders,

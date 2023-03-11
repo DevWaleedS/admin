@@ -7,19 +7,18 @@ import { Link } from 'react-router-dom';
 import useFetch from '../../hooks/useFetch';
 import getDate from '../../helpers/getDate';
 
-
 // icons
 import CloseIcon from '@mui/icons-material/Close';
 
-// 
+//
 const BackDrop = ({ closeMenu }) => {
-    return <div onClick={closeMenu} className='fixed back_drop bottom-0 left-0 h-full w-full z-10'></div>;
+	return <div onClick={closeMenu} className='fixed back_drop bottom-0 left-0 h-full w-full z-10'></div>;
 };
-
 
 const NotificationsMenu = () => {
 	// get data from api
 	const { fetchedData, reload, setReload } = useFetch('https://backend.atlbha.com/api/Admin/NotificationIndex');
+	
 	const token = localStorage.getItem('token');
 	const [open, setOpen] = React.useState(false);
 	const contextStore = useContext(Context);
@@ -46,7 +45,9 @@ const NotificationsMenu = () => {
 	};
 	return (
 		<div className='relative'>
+		
 			<img onClick={() => setOpen(!open)} className='h-6 cursor-pointer' src={Notifications} alt='notification-icon' />
+
 			<div className={`${open ? 'flex' : 'hidden'}`}>
 				<BackDrop
 					closeMenu={() => {

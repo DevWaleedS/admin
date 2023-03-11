@@ -1,7 +1,7 @@
 import React from 'react';
 import { Store, CountDown } from '../../../../assets/Icons/index';
 
-const QuickDetails = ({quickInfo}) => {
+const QuickDetails = ({ quickInfo }) => {
 	const INITIAL_DETAILS = [
 		{
 			id: 1,
@@ -10,7 +10,7 @@ const QuickDetails = ({quickInfo}) => {
 			iconColor: 'invert(40%) sepia(12%) saturate(2446%) hue-rotate(85deg) brightness(98%) contrast(90%)',
 			title: ' متجر جديد ',
 			num: quickInfo?.last24HoursOfStores,
-			time:'Last 24 Hours'
+			time: 'Last 24 Hours',
 		},
 		{
 			id: 2,
@@ -19,7 +19,7 @@ const QuickDetails = ({quickInfo}) => {
 			iconColor: '',
 			title: ' طلب في الانتظار ',
 			num: quickInfo?.last24HoursOfPendingOrders,
-			time:'Last 24 Hours'
+			time: 'Last 24 Hours',
 		},
 		{
 			id: 3,
@@ -28,7 +28,7 @@ const QuickDetails = ({quickInfo}) => {
 			iconColor: 'invert(40%) sepia(12%) saturate(2446%) hue-rotate(85deg) brightness(98%) contrast(0%)',
 			title: ' طلب مكتمل ',
 			num: quickInfo?.last24HoursOfCompleteOrders,
-			time:'Last 24 Hours'
+			time: 'Last 24 Hours',
 		},
 		{
 			id: 4,
@@ -37,7 +37,7 @@ const QuickDetails = ({quickInfo}) => {
 			iconColor: 'invert(40%) sepia(12%) saturate(2446%) hue-rotate(85deg) brightness(98%) contrast(90%)',
 			title: ' تاجر جديد ',
 			num: quickInfo?.lastMonthOfStores,
-			time:'Last Month'
+			time: 'Last Month',
 		},
 		{
 			id: 5,
@@ -46,18 +46,25 @@ const QuickDetails = ({quickInfo}) => {
 			iconColor: 'invert(40%) sepia(12%) saturate(2446%) hue-rotate(85deg) brightness(98%) contrast(0%)',
 			title: ' طلب مكتمل ',
 			num: quickInfo?.lastMonthOfCompleteOrders,
-			time:'Last Month'
+			time: 'Last Month',
 		},
 	];
 	return (
 		<div className='flex-1 shadow-lg rounded-lg'>
-			<div className='h-12 flex items-center pr-4' style={{ backgroundColor: '#02466A33' }}>
+			<div className='h-12 flex items-center pr-4 rounded-tl-lg rounded-tr-lg' style={{ backgroundColor: '#02466A33' }}>
 				<h2 className='font-medium text-[#02466A] md:text-[18px] text-[16px]'>تفاصيل سريعة</h2>
 			</div>
-			<div className='bg-white'>
-				{INITIAL_DETAILS.map((item) => {
+			<div className='bg-white rounded-bl-lg rounded-br-lg'>
+				{INITIAL_DETAILS.map((item, index) => {
 					return (
-						<div key={item.id} className={' flex justify-between md:h-24 h-16 items-center p-4 shadow-[0px_3px_6px_#02466A0F] bg-[#F7FCFF] mb-2 '}>
+						<div
+							key={item.id}
+							className={`${
+								index === INITIAL_DETAILS.length - 1
+									? 'flex justify-between md:h-24 h-16 items-center p-4 rounded-bl-lg rounded-br-lg  bg-[#F7FCFF] '
+									: 'flex justify-between md:h-24 h-16 items-center p-4 shadow-[0px_3px_6px_#02466A0F] bg-[#F7FCFF] mb-2 '
+							}`}
+						>
 							<div className='flex'>
 								<div className='rounded-full p-1 w-10 h-10 ml-3 flex justify-center items-center' style={{ backgroundColor: `${item?.bgColor}` }}>
 									<img className='h-6 w-6 object-cover ' style={{ filter: `${item.iconColor}` }} src={item?.icon} alt={item?.id} />

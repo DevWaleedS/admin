@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './StorageStatus.module.css';
 import { ReactComponent as Product } from '../../../assets/Icons/product 24.svg';
-
 const StorageStatus = ({fetchedData}) => {
 	const INITIAL_DATA = [
 		{

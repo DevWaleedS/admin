@@ -1,7 +1,4 @@
-import React, { useContext } from 'react';
-import axios from 'axios';
-import Context from '../../store/context';
-import { Notifications } from '../../assets/Icons/index';
+import React, { useEffect } from 'react';
 
 import { Link } from 'react-router-dom';
 import useFetch from '../../hooks/useFetch';
@@ -17,9 +14,39 @@ const BackDrop = ({ closeMenu }) => {
 
 const EmailMenu = () => {
 	// get data from api
-	const { fetchedData, reload, setReload, loading } = useFetch('https://backend.atlbha.com/api/Admin/EmailIndex');
-
+	const { fetchedData } = useFetch('https://backend.atlbha.com/api/Admin/EmailIndex');
 	const [open, setOpen] = React.useState(false);
+
+
+
+
+
+	// This Function to get current day
+	const [isToday, setIsToday] = React.useState(false);
+
+	const [morningOrNight, setMorningOrNight] = React.useState('');
+
+	useEffect(() => {
+		// Create a Date object for the current date and time
+		let today = new Date();
+
+		// Parse the string into a Date object
+		let dateStr = fetchedData?.data?.emails.map((item) => item?.created_at);
+		let date = new Date(Date.parse(dateStr));
+		
+		// to get AM , PM in arabic
+		const formattedTime = date.toLocaleString('ar', { hour: 'numeric', minute: 'numeric', hour12: true });
+		setMorningOrNight(formattedTime);
+
+
+		// Compare the year, month, and day of the two Date objects
+		if (today.getFullYear() === date.getFullYear() && today.getMonth() === date.getMonth() && today.getDate() === date.getDate()) {
+			setIsToday(true);
+		} else {
+			setIsToday(false);
+		}
+	}, [fetchedData?.data?.emails]);
+
 	return (
 		<div className='relative'>
 			<img onClick={() => setOpen(!open)} className='h-6 cursor-pointer' src={Email} alt='email-icon' />
@@ -50,8 +77,9 @@ const EmailMenu = () => {
 							</div>
 							<div className='flex flex-row items-center justify-between gap-4'>
 								<div className='flex-1 flex flex-col'>
-									<h6 className='md:text-[16px] text-[12px] font-light text-gray-400'>اليوم</h6>
-									<span className='md:text-[16px] text-[12px] font-light text-gray-400'>{getDate(item?.created_at)}</span>
+									<h6 className='md:text-[16px] text-[12px] font-light text-gray-400'>
+										{isToday ? 'اليوم' : getDate(item?.created_at)}</h6>
+									<span className='md:text-[16px] text-[12px] font-light text-gray-400'>{morningOrNight}</span>
 								</div>
 								<StarBorderIcon className='cursor-pointer text-gray-500 md:text-[24px] text-[18px]' />
 							</div>
