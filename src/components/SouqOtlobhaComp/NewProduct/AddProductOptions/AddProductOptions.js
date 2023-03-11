@@ -31,28 +31,28 @@ const productOptions = [
 	{
 		id: 1,
 		name: 'اللون',
-		title:'',
+		title: '',
 		placeHolder1: 'أزرق',
 		placeHolder2: ' القيمة ( أحمر، أصفر )',
 	},
 	{
 		id: 2,
 		name: 'ماركة',
-		title:'',
+		title: '',
 		placeHolder1: 'علامة تجارية',
 		placeHolder2: 'القيمة (اديداس)',
 	},
 	{
 		id: 3,
 		name: 'الوزن',
-		title:'',
+		title: '',
 		placeHolder1: 'وزن الوحدة',
 		placeHolder2: 'القيمة (0 كم )',
 	},
 	{
 		id: 4,
 		name: 'المقاس',
-		title:'',
+		title: '',
 		placeHolder1: 'مقاس الوحدة',
 		placeHolder2: 'القيمة (xl, m, s)',
 	},
@@ -61,7 +61,7 @@ const productOptions = [
 const initialValue = [
 	{
 		name: 'ماركة',
-		title:'',
+		title: '',
 		values: [{ value: '', id: 0 }],
 	},
 ];
@@ -71,7 +71,7 @@ function reducer(state, action) {
 		const newState = [...state];
 		newState[action.idx].title = action.title;
 		return newState;
-	  }
+	}
 	if (action.type === 'CHANGE_SELECTING') {
 		const newState = [...state];
 		newState[action.idx].name = action.option;
@@ -140,8 +140,8 @@ function reducer(state, action) {
 	}
 }
 
-const AddProductOptions = ({ closeDetails, editProduct }) => {
-	const [brandTitle,setBrandTitle] = useState("");
+const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuantity }) => {
+	const [brandTitle, setBrandTitle] = useState("");
 	const contextStore = useContext(Context);
 	const { setEndActionTitle } = contextStore;
 	const [state, dispatch] = useReducer(reducer, initialValue);
@@ -151,16 +151,16 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 	const [activeProductOption, setActiveProductOption] = useState(false);
 	const [productStored, setProductStored] = useState(0);
 	const [actionClicked, setActionClicked] = useState(false);
-	const saveActions = () => {};
+	const saveActions = () => { };
 
 	const handleTitleOption = (e, item, idx) => {
 		setTitle(e.target.value);
 		dispatch({ type: "CHANGE_TITLE", title: e.target.value, item, idx });
-	  }
+	}
 
-	const handleOption = (e, item, idx,brandTitle) => {
+	const handleOption = (e, item, idx, brandTitle) => {
 		setOption(item.name);
-		dispatch({ type: 'CHANGE_SELECTING', option: e.target.value, item, idx,title:brandTitle });
+		dispatch({ type: 'CHANGE_SELECTING', option: e.target.value, item, idx, title: brandTitle });
 	};
 	useEffect(() => {
 		if (actionClicked) {
@@ -181,7 +181,7 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 					}}
 				></ActionCompleteComp>
 			)}
-			<div className='fixed flex flex-col top-10 translate-x-2/4 right-2/4 z-50 rounded-md overflow-hidden' style={{ height: '40rem', width: '60.25rem', maxHeight: '80%',maxWidth:'90%' }}>
+			<div className='fixed flex flex-col top-10 translate-x-2/4 right-2/4 z-50 rounded-md overflow-hidden' style={{ height: '40rem', width: '60.25rem', maxHeight: '80%', maxWidth: '90%' }}>
 				<div className='h-16 w-full flex items-center justify-between px-4' style={{ backgroundColor: '#1DBBBE' }}>
 					<h2 className='text-slate-50 md:text-lg text-[15px]'>اضافة خيارات للمنتج - {editProduct?.name}</h2>
 					<IoMdCloseCircleOutline color={'#fff'} className={'cursor-pointer w-5 h-5'} onClick={closeDetails}></IoMdCloseCircleOutline>
@@ -221,12 +221,12 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 											}}
 										>
 											<WriteIcon fill='#ADB5B9'></WriteIcon>
-											<input 
+											<input
 												value={brandTitle}
-												onChange={(e)=>{setBrandTitle(e.target.value)}}
-												style={{ backgroundColor: 'transparent' }} 
-												className='flex-1 outline-none' 
-												placeholder={findOptionLabels.placeHolder1} 
+												onChange={(e) => { setBrandTitle(e.target.value) }}
+												style={{ backgroundColor: 'transparent' }}
+												className='flex-1 outline-none'
+												placeholder={findOptionLabels.placeHolder1}
 												type='text'
 											/>
 										</div>
@@ -244,7 +244,7 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 													return <IoIosArrowDown size={'1rem'} />;
 												}}
 												onChange={(e) => {
-													handleOption(e, item, idx,brandTitle);
+													handleOption(e, item, idx, brandTitle);
 												}}
 												displayEmpty
 												inputProps={{ 'aria-label': 'Without label' }}
@@ -539,16 +539,16 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 									<input style={{ backgroundColor: 'transparent' }} className=' flex-1   outline-none' placeholder={'أقل كمية للتنبيه'} type='number' name='name' />
 								</div>
 							</div>
-							<div className='flex-1'>
+							<div className="flex-1">
 								<div
-									className='md:h-12 flex md:flex-row flex-col flex-1 gap-4 md:pr-2 items-center'
+									className="flex h-full flex-1 gap-4 pr-2 items-center"
 									style={{
-										backgroundColor: '#FAFAFA',
-										border: '1px solid #D3D3D3',
+										backgroundColor: "#FAFAFA",
+										border: "1px solid #D3D3D3",
 									}}
 								>
 									<input
-										value={productStored === 0 ? '' : productStored}
+										value={productStored === 0 ? "" : productStored}
 										onChange={(e) => {
 											setProductStored(() => {
 												if (e.target.value <= 0) {
@@ -556,20 +556,24 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 												}
 												return e.target.value;
 											});
+											setQuantity(e.target.value || 0)
 										}}
-										style={{ backgroundColor: 'transparent' }}
-										className='flex-1 outline-none md:text-right text-center'
-										placeholder={'الكمية المتوفرة'}
-										type='number'
-										name='name'
+										style={{ backgroundColor: "transparent" }}
+										className=" flex-1 md:h-14 h-[45px] outline-none"
+										placeholder={"الكمية المتوفرة"}
+										type="number"
+										name="name"
 									/>
 									<Box
-										className='flex h-full'
+										className="flex h-full"
 										sx={{
-											'& div': {
-												width: '56px',
-												height: '100%',
-												border: '1px solid #ADB5B966',
+											"& div": {
+												width: "56px",
+												height: "100%",
+												border: "1px solid #ADB5B966",
+												'@media(max-width:992px)': {
+													height: "45px",
+												}
 											},
 										}}
 									>
@@ -579,11 +583,11 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 													return prev + 1;
 												});
 											}}
-											className='fcc min-h-[45px] cursor-pointer'
+											className="fcc cursor-pointer"
 										>
 											<AiOutlinePlus></AiOutlinePlus>
 										</div>
-										<div className='fcc min-h-[45px]'>{productStored}</div>
+										<div className="fcc">{productStored}</div>
 										<div
 											onClick={() => {
 												setProductStored((prev) => {
@@ -593,7 +597,7 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 													return prev - 1;
 												});
 											}}
-											className='fcc min-h-[45px] cursor-pointer'
+											className="fcc cursor-pointer"
 										>
 											<AiOutlineMinus></AiOutlineMinus>
 										</div>
