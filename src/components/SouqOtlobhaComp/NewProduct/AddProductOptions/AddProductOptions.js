@@ -31,24 +31,28 @@ const productOptions = [
 	{
 		id: 1,
 		name: 'اللون',
+		title:'',
 		placeHolder1: 'أزرق',
 		placeHolder2: ' القيمة ( أحمر، أصفر )',
 	},
 	{
 		id: 2,
 		name: 'ماركة',
+		title:'',
 		placeHolder1: 'علامة تجارية',
 		placeHolder2: 'القيمة (اديداس)',
 	},
 	{
 		id: 3,
 		name: 'الوزن',
+		title:'',
 		placeHolder1: 'وزن الوحدة',
 		placeHolder2: 'القيمة (0 كم )',
 	},
 	{
 		id: 4,
 		name: 'المقاس',
+		title:'',
 		placeHolder1: 'مقاس الوحدة',
 		placeHolder2: 'القيمة (xl, m, s)',
 	},
@@ -63,6 +67,11 @@ const initialValue = [
 ];
 
 function reducer(state, action) {
+	if (action.type === 'CHANGE_TITLE') {
+		const newState = [...state];
+		newState[action.idx].title = action.title;
+		return newState;
+	  }
 	if (action.type === 'CHANGE_SELECTING') {
 		const newState = [...state];
 		newState[action.idx].name = action.option;
@@ -138,10 +147,16 @@ const AddProductOptions = ({ closeDetails, editProduct }) => {
 	const [state, dispatch] = useReducer(reducer, initialValue);
 	const [showColorPicker, setShowColorPicker] = useState(null);
 	const [option, setOption] = useState('ماركة');
+	const [title, setTitle] = useState("");
 	const [activeProductOption, setActiveProductOption] = useState(false);
 	const [productStored, setProductStored] = useState(0);
 	const [actionClicked, setActionClicked] = useState(false);
 	const saveActions = () => {};
+
+	const handleTitleOption = (e, item, idx) => {
+		setTitle(e.target.value);
+		dispatch({ type: "CHANGE_TITLE", title: e.target.value, item, idx });
+	  }
 
 	const handleOption = (e, item, idx,brandTitle) => {
 		setOption(item.name);
