@@ -21,7 +21,7 @@ import axios from "axios";
 const BackDrop = ({ onClick }) => {
 	return <div onClick={onClick} className={`fixed back_drop bottom-0 left-0  w-full bg-slate-900  z-10 ${styles.back_drop}`} style={{ height: 'calc(100% - 4rem)' }}></div>;
 };
-const subCategories = ['جوالات', 'شاشات', 'بطاريات', 'اكسسوارات'];
+
 
 //
 const formInputClasses = 'md:w-[555px] w-full md:h-[56px] h-[45px] p-4 outline-0 rounded-md text-lg font-normal';
@@ -69,7 +69,7 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 		setMultiImages(imageList);
 	};
 
-	console.log(productOptions)
+	
 	const addProductData = () => {
 		let formData = new FormData();
 		formData.append('name', productData?.name);
