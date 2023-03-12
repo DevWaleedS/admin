@@ -78,7 +78,6 @@ const EmailSettingPage = ({ openTraderAlert }) => {
 							تحديد الكل
 						</label>
 					</div>
-
 					<div className='flex flex-row justify-center items-center gap-2'>
 						{selected.length > 0 && (
 							<div

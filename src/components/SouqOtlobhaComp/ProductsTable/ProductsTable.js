@@ -93,14 +93,14 @@ const ItemCategory = (props) => {
 			});
 	}
 
-	const { id, name, cover, purchasing_price, stock, special, category, subcategory, handleProductDetails, setReload } = props;
+	const { id, name, cover, purchasing_price, stock, special, category, subcategory, handleProductDetails, setReload,handleSelect } = props;
 	const item = props.item;
 	return (
 		<li className='mb-6 flex md:flex-row flex-col justify-between gap-y-4 rounded-md' style={{ backgroundColor: '#fff', padding: '1rem 0.5rem', border: '1px solid #ECECEC' }}>
 			<div className='flex'>
 				<div className='flex md:flex-row flex-col gap-y-2'>
 					<div className='flex md:flex-col flex-row gap-8 px-3 items-center'>
-						<Checkbox checkedIcon={<CheckedSquare />} sx={{ display: 'inline', padding: '0' }} className='' item={id} value={id} />
+						<Checkbox checked={props.isItemSelected} checkedIcon={<CheckedSquare />} sx={{ display: 'inline', padding: '0' }} onClick={(event) => handleSelect(event,id)} />
 						<StarIcon className={`${special === 'مميز' ? 'opacity-100' : 'opacity-0'}`} />
 					</div>
 					<div>
@@ -311,11 +311,37 @@ const ProductsTable = ({ data, loading, reload, setReload, editProduct }) => {
 	const { setEndActionTitle } = contextStore;
 	const NotificationStore = useContext(NotificationContext);
 	const { confirm, setConfirm, actionTitle, setActionTitle, setNotificationTitle } = NotificationStore;
+	const [selected, setSelected] = useState([]);
+	const isSelected = (name) => selected.indexOf(name) !== -1;
+	const handleSelect = (event, name) => {
+		const selectedIndex = selected.indexOf(name);
+		let newSelected = [];
+
+		if (selectedIndex === -1) {
+			newSelected = newSelected.concat(selected, name);
+		} else if (selectedIndex === 0) {
+			newSelected = newSelected.concat(selected.slice(1));
+		} else if (selectedIndex === selected.length - 1) {
+			newSelected = newSelected.concat(selected.slice(0, -1));
+		} else if (selectedIndex > 0) {
+			newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
+		}
+
+		setSelected(newSelected);
+	};
+	const handleSelectAllClick = (event) => {
+		if (event.target.checked) {
+			const newSelected = data.map((n) => n.id);
+			setSelected(newSelected);
+			return;
+		}
+		setSelected([]);
+	};
 	useEffect(() => {
 		if (confirm && actionTitle === 'ChangeStatus') {
-			//const queryParams = selected.map((id) => `id[]=${id}`).join('&');
+			const queryParams = selected.map((id) => `id[]=${id}`).join('&');
 			axios
-				.get(`https://backend.atlbha.com/api/Admin/productchangeSatusall?${''}`, {
+				.get(`https://backend.atlbha.com/api/Admin/productchangeSatusall?${queryParams}`, {
 					headers: {
 						'Content-Type': 'application/json',
 						Authorization: `Bearer ${token}`,
@@ -334,9 +360,9 @@ const ProductsTable = ({ data, loading, reload, setReload, editProduct }) => {
 			setActionTitle(null);
 		}
 		if (confirm && actionTitle === 'Delete') {
-			//const queryParams = selected.map((id) => `id[]=${id}`).join('&');
+			const queryParams = selected.map((id) => `id[]=${id}`).join('&');
 			axios
-				.get(`https://backend.atlbha.com/api/Admin/productdeleteall?${''}`, {
+				.get(`https://backend.atlbha.com/api/Admin/productdeleteall?${queryParams}`, {
 					headers: {
 						'Content-Type': 'application/json',
 						Authorization: `Bearer ${token}`,
@@ -356,41 +382,9 @@ const ProductsTable = ({ data, loading, reload, setReload, editProduct }) => {
 		}
 	}, [confirm]);
 
-	const handleCheckboxClick = (e) => {
-		const { value, checked } = e.target;
-		let arr = [...checkedList];
-		if (checked) {
-			setCheckedList([...checkedList, value * 1]);
-			arr.push(value);
-		} else {
-			setCheckedList(checkedList.filter((item) => item !== value));
-			arr.pop();
-		}
-		if (arr.length === categories.length) {
-			setItemsChecked(true);
-		} else {
-			setItemsChecked(false);
-		}
-	};
-
 	const handleProductDetails = (item) => {
 		setShowProductDetails(true);
 		setProductDetails(item);
-	};
-
-	const selectItem = (e) => {
-		const { checked } = e.target;
-
-		const collection = [];
-
-		if (checked) {
-			for (const category of categories) {
-				collection.push(category.id);
-			}
-		}
-
-		setCheckedList(collection);
-		setItemsChecked(checked);
 	};
 
 	return (
@@ -403,72 +397,89 @@ const ProductsTable = ({ data, loading, reload, setReload, editProduct }) => {
 					}}
 				/>
 			)}
-			<header className='flex gap-4 items-center'>
-				<label className="md:text-[18px] text-[16px] font-medium whitespace-nowrap">
-					<Checkbox checkedIcon={<CheckedSquare />} checked={itemsChecked} onClick={selectItem.bind(this)} />
+			<header className='flex gap-4 items-center mb-2'>
+				<Checkbox
+					checkedIcon={<CheckedSquare />}
+					sx={{
+						pr: '0',
+						color: '#011723',
+						'& .MuiSvgIcon-root': {
+							color: '#011723',
+						},
+					}}
+					indeterminate={selected.length > 0 && selected.length < data?.length}
+					checked={data?.length > 0 && selected.length === data?.length}
+					onChange={handleSelectAllClick}
+					inputProps={{
+						'aria-label': 'select all desserts',
+					}}
+				/>
+				<label style={{ color: '#011723', fontSize: '18px' }} htmlFor='all'>
 					تحديد الكل
 				</label>
-				{itemsChecked && (
-					<div
-						className="flex flex-row items-center justify-center gap-4 cursor-pointer"
-						style={{ width: '114px', height: '40px', backgroundColor: '#FF38381A', borderRadius: '20px' }}
-						onClick={() => {
-							setNotificationTitle('سيتم حذف جميع المنتجات التي قمت بتحديدها');
-							setActionTitle('Delete');
-						}}
-					>
-						<h6 style={{ color: '#FF3838' }} className="md:text-[18px] text-[16px] font-medium">حذف</h6>
-						<img
-							src={Delete}
-							alt='delete-icon'
-						/>
-					</div>
-				)}
-				{itemsChecked && (
-					<div
-						className="flex flex-row items-center justify-center gap-3 cursor-pointer"
-						style={{ width: '126px', height: '40px', backgroundColor: '#FF9F1A0A', borderRadius: '20px' }}
-						onClick={() => {
-							setNotificationTitle('سيتم تعطيل جميع المنتجات التي قمت بتحديدها');
-							setActionTitle('ChangeStatus');
-						}}
-					>
-						<h6 style={{ color: '#FF9F1A' }} className="md:text-[18px] text-[16px] font-medium">تعطيل</h6>
-						<Switch
-							onChange={() => {
-							}}
-							className=''
-							sx={{
-								width: '50px',
-								'& .MuiSwitch-thumb': {
-									width: '11px',
-									height: '11px',
-								},
-								'& .MuiSwitch-switchBase': {
-									padding: '6px',
-									top: '9px',
-									left: '9px',
-								},
-								'& .MuiSwitch-switchBase.Mui-checked': {
-									left: '-1px',
-								},
-								'& .Mui-checked .MuiSwitch-thumb': {
-									backgroundColor: '#FFFFFF',
-								},
-								'& .MuiSwitch-track': {
-									height: '16px',
-									borderRadius: '20px',
-								},
-								'&.MuiSwitch-root .Mui-checked+.MuiSwitch-track': {
-									backgroundColor: '#FF9F1A',
+				<div className='flex flex-row justify-center items-center gap-2'>
+					{selected.length > 0 && (
+						<>
+							<div
+								className='flex flex-row items-center justify-center gap-4 cursor-pointer'
+								style={{ width: '114px', height: '40px', backgroundColor: '#FF38381A', borderRadius: '20px' }}
+								onClick={() => {
+									setNotificationTitle('سيتم حذف جميع البريد التي قمت بتحديده');
+									setActionTitle('Delete');
+								}}
+							>
+								<h6 style={{ fontSize: '18px', color: '#FF3838' }} className='font-medium'>
+									حذف
+								</h6>
+								<img src={Delete} alt='delete-icon' />
+							</div>
+							<div
+								className='md:w-[126px] w-[100px] md:h-[40px] h-[30px] flex flex-row items-center justify-center md:gap-3 gap-1 cursor-pointer'
+								style={{ backgroundColor: '#FF9F1A0A', borderRadius: '20px' }}
+								onClick={() => {
+									setNotificationTitle('سيتم تعطيل جميع المنتجات التي قمت بتحديدها');
+									setActionTitle('ChangeStatus');
+								}}
+							>
+								<h6 style={{ color: '#FF9F1A' }} className='font-medium md:text-[18px] text-[15px]'>
+									تعطيل
+								</h6>
+								<Switch
+									onChange={() => { }}
+									className=''
+									sx={{
+										width: '50px',
+										'& .MuiSwitch-thumb': {
+											width: '11px',
+											height: '11px',
+										},
+										'& .MuiSwitch-switchBase': {
+											padding: '6px',
+											top: '9px',
+											left: '9px',
+										},
+										'& .MuiSwitch-switchBase.Mui-checked': {
+											left: '-1px',
+										},
+										'& .Mui-checked .MuiSwitch-thumb': {
+											backgroundColor: '#FFFFFF',
+										},
+										'& .MuiSwitch-track': {
+											height: '16px',
+											borderRadius: '20px',
+										},
+										'&.MuiSwitch-root .Mui-checked+.MuiSwitch-track': {
+											backgroundColor: '#FF9F1A',
 
-									opacity: 1,
-								},
-							}}
-							checked={itemsChecked}
-						/>
-					</div>
-				)}
+											opacity: 1,
+										},
+									}}
+									checked={true}
+								/>
+							</div>
+						</>
+					)}
+				</div>
 			</header>
 			{
 				loading ?
@@ -479,6 +490,7 @@ const ProductsTable = ({ data, loading, reload, setReload, editProduct }) => {
 					(
 						<ul>
 							{data?.map((item, key) => {
+								const isItemSelected = isSelected(item.id);
 								return (
 									<ItemCategory
 										{...item}
@@ -486,7 +498,8 @@ const ProductsTable = ({ data, loading, reload, setReload, editProduct }) => {
 										key={key}
 										reload={reload}
 										setReload={setReload}
-										//isSpecial={item.isSpecial}
+										isItemSelected={isItemSelected}
+										handleSelect={handleSelect}
 										//handleCheckboxClick={handleCheckboxClick}
 										//checkedList={checkedList}
 										handleProductDetails={handleProductDetails}
