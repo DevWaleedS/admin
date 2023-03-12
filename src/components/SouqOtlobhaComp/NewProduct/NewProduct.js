@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Context from '../../../store/context';
-import axios from 'axios';
-
 import { Currency } from '../../../assets/Icons/index';
 import Box from '@mui/material/Box';
 import AddProductOptions from './AddProductOptions/AddProductOptions';
@@ -14,12 +12,11 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import ImageUploading from 'react-images-uploading';
 import useFetch from '../../../hooks/useFetch';
+import axios from "axios";
 // Icons
 import { ReactComponent as AddIcon } from '../../../assets/Icons/icon-34-add.svg';
 import { ReactComponent as CopyIcon } from '../../../assets/Icons/copy icon.svg';
 import { ReactComponent as Arrow } from '../../../assets/Icons/icon-24-chevron_down.svg';
-import { ReactComponent as NotificationIcon } from '../../../assets/Icons/icon-24-notificatioins.svg';
-
 import { IoIosArrowDown } from 'react-icons/io';
 import { IoMdCloudUpload } from 'react-icons/io';
 import { TiDeleteOutline } from 'react-icons/ti';
@@ -41,16 +38,11 @@ const formInputStyle = {
 	color: '#ADB5B9',
 };
 const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
-	// to get main category
 	const { fetchedData: category } = useFetch('https://backend.atlbha.com/api/Admin/storecategory');
 	const token = localStorage.getItem('token');
 	const contextStore = useContext(Context);
-	const { setEndActionTitle, productOptions } = contextStore;
-	const [productsOptionsDetails, setProductsOptionsDetails] = useState({
-		type: '',
-		title: '',
-		value: [],
-	});
+	const { setEndActionTitle, productOptions, setProductOptions } = contextStore;
+
 	// to store all data on state
 	const [productData, setProductData] = useState({
 		name: editProduct?.name || '',
@@ -65,66 +57,9 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 		subcategory_id: [],
 	});
 
-	const addProductData = () => {
-		let formData = new FormData();
-		formData.append('name', productData?.name);
-		formData.append('description', productData?.description);
-		formData.append('purchasing_price', productData?.purchasing_price);
-		formData.append('selling_price', productData?.selling_price);
-		formData.append('sku', productData?.sku);
-		formData.append('stock', productData?.stock);
-		formData.append('category_id', productData?.category_id);
-		formData.append('quantity', productData?.quantity);
-		formData.append('less_qty', productData?.less_qty);
-
-		// create looping to get all ids for activity_ids and assign it
-		for (let i = 0; i < productData?.subcategory_id?.length; i++) {
-			formData.append([`subcategory_id[${i}]`], productData?.subcategory_id[i]);
-		}
-
-		formData.append('cover', images[0]?.file || null);
-
-		// to s
-		for (let i = 0; i < multiImages?.length; i++) {
-			formData.append([`images[${i}]`], multiImages[i]?.file);
-		}
-
-		for (let i = 0; i < productsOptionsDetails?.length; i++) {
-			formData.append([`data[${i}][type]`], productsOptionsDetails[i]?.type);
-		}
-
-		for (let i = 0; i < productsOptionsDetails?.length; i++) {
-			formData.append([`data[${i}][title]`], productsOptionsDetails[i]?.title);
-		}
-
-		for (let i = 0; i < productsOptionsDetails[i]?.value?.length; i++) {
-			formData.append([`data[${i}][value][${i}]`], productsOptionsDetails[i]?.value[i]);
-		}
-
-		axios
-			.post('https://backend.atlbha.com/api/Admin/etlobha', formData, {
-				headers: {
-					'Content-Type': 'multipart/form-data',
-					Authorization: `Bearer ${token}`,
-				},
-			})
-			.then((res) => {
-				if (res?.data?.success === true && res?.data?.data?.status === 200) {
-					setEndActionTitle(res?.data?.message?.ar);
-					cancel();
-					setReload(!reload);
-				} else {
-					setEndActionTitle(res?.data?.message?.ar);
-					cancel();
-					setReload(!reload);
-				}
-			});
-	};
-
 	// handle onChange function to get all values from inputs
 	const handleProductData = (e) => {
 		const { name, value } = e.target;
-
 		setProductData((prevState) => {
 			return { ...prevState, [name]: value };
 		});
@@ -162,7 +97,111 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 		// data for submit
 		setImages(imageList);
 	};
-	const subcategory = category?.data?.categories?.filter((sub) => sub?.id === parseInt(productData?.category_id)) || '';
+
+	const addProductData = () => {
+		let formData = new FormData();
+		formData.append('name', productData?.name);
+		formData.append('description', productData?.description);
+		formData.append('purchasing_price', productData?.purchasing_price);
+		formData.append('selling_price', productData?.selling_price);
+		formData.append('sku', productData?.sku);
+		formData.append('stock', productData?.stock);
+		formData.append('category_id', productData?.category_id);
+		formData.append('quantity', productData?.quantity);
+		formData.append('less_qty', productData?.less_qty);
+
+		// create looping to get all ids for activity_ids and assign it
+		for (let i = 0; i < productData?.subcategory_id?.length; i++) {
+			formData.append([`subcategory_id[${i}]`], productData?.subcategory_id[i]);
+		}
+
+		formData.append('cover', images[0]?.file || null);
+		for (let i = 0; i < multiImages?.length; i++) {
+			formData.append([`images[${i}]`], multiImages[i]?.file);
+		}
+
+		// to add all product options
+		for (let i = 0; i < productOptions?.length; i++) {
+			formData.append([`data[${i}][type]`], productOptions[i]?.name);
+			formData.append([`data[${i}][title]`], productOptions[i]?.title);
+			formData.append([`data[${i}][value][${i}]`], productOptions[i]?.values[i]?.value);
+		}
+
+		axios
+			.post('https://backend.atlbha.com/api/Admin/stock', formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setReload(!reload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setReload(!reload);
+				}
+			});
+	}
+
+	const updateProductData = () => {
+		let formData = new FormData();
+		formData.append('_method', 'PUT');
+		formData.append('name', productData?.name);
+		formData.append('description', productData?.description);
+		formData.append('purchasing_price', productData?.purchasing_price);
+		formData.append('selling_price', productData?.selling_price);
+		formData.append('sku', productData?.sku);
+		formData.append('stock', productData?.stock);
+		formData.append('category_id', productData?.category_id);
+		formData.append('quantity', productData?.quantity);
+		formData.append('less_qty', productData?.less_qty);
+
+		// create looping to get all ids for activity_ids and assign it
+		for (let i = 0; i < productData?.subcategory_id?.length; i++) {
+			formData.append([`subcategory_id[${i}]`], productData?.subcategory_id[i]);
+		}
+
+		if (images.length !== 0) {
+			formData.append('cover', images[0]?.file || null);
+		}
+		if (multiImages.length !== 0) {
+			for (let i = 0; i < multiImages?.length; i++) {
+				formData.append([`images[${i}]`], multiImages[i]?.file);
+			}
+		}
+
+		// to add all product options
+		for (let i = 0; i < productOptions?.length; i++) {
+			formData.append([`data[${i}][type]`], productOptions[i]?.name);
+			formData.append([`data[${i}][title]`], productOptions[i]?.title);
+			formData.append([`data[${i}][value][${i}]`], productOptions[i]?.values[i]?.value);
+		}
+
+		axios
+			.post(`https://backend.atlbha.com/api/Admin/etlobha/${editProduct?.id}`, formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setReload(!reload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setReload(!reload);
+				}
+			});
+	}
+
+	const subcategory = category?.data?.categories?.filter(sub=>sub?.id === parseInt(productData?.category_id)) || '';
 	return (
 		<>
 			<BackDrop onClick={cancel}></BackDrop>
@@ -173,17 +212,7 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 						setShowAddProductOptions(false);
 					}}
 					editProduct={editProduct}
-					setQuantity={(data) => {
-						setProductData({ ...productData, quantity: data });
-					}}
-					quantity={productData?.quantity}
-					setLessQuantity={(data) => {
-						setProductData({ ...productData, less_qty: data });
-					}}
-					less_qty={productData?.less_qty}
-					setProductsOptionsDetails={setProductsOptionsDetails}
-					productsOptionsDetails={productsOptionsDetails}
-				/>
+				></AddProductOptions>
 			)}
 			<div className={`fixed bottom-0 left-0 bg-slate-50 z-30  otlobha_new_product ${styles.container}`} style={{ width: '1104px', maxWidth: '100%', height: 'calc(100% - 4rem)' }}>
 				<div className='flex h-full flex-col justify-between'>
@@ -329,22 +358,20 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 									</div>
 								</div>
 							)}
-
 							<div className='flex md:flex-row flex-col gap-y-2 md:mb-8 mb-4'>
-								<h2 className={formTitleClasses} style={formTitleStyle}>
+								<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
 									التصنيف الفرعي
-								</h2>
-								<FormControl className='md:h-14 h-[45px] md:w-[555px] w-full'>
+								</label>
+								<FormControl className='md:w-[555px] w-full md:h-[56px] h-[45px]'>
 									<Select
 										className={`text-lg font-normal rounded-lg ${styles.select}`}
-										IconComponent={() => {
-											return <IoIosArrowDown size={'1rem'} className='absolute left-2' />;
-										}}
+										IconComponent={(props) => <Arrow fill='#242424' {...props} />}
 										multiple
 										displayEmpty
-										name='subcategory_id'
 										value={productData?.subcategory_id}
-										onChange={handleProductData}
+										onChange={(e) => {
+											setProductData({ ...productData, subcategory_id: e.target.value });
+										}}
 										open={openSubCategory}
 										onClick={() => {
 											setOpenSubCategory(true);
@@ -387,7 +414,6 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 									</Select>
 								</FormControl>
 							</div>
-
 							<div className='flex md:flex-row flex-col gap-y-2 md:mb-8 mb-4'>
 								<h2 className={formTitleClasses} style={formTitleStyle}>
 									صور المنتج الرئيسية
@@ -415,12 +441,12 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 															<h2>(سيتم قبول الصور png & jpg)</h2>
 														</div>
 													)}
-													{images[0] && <img src={images[0]?.data_url} alt='' className='w-full h-full object-contain' />}
+													{images[0] && <img src={images[0]?.data_url} alt='' className='w-full h-full object-cover' />}
 												</div>
 											</div>
 											{editProduct && (
 												<div className='md:w-28 w-[60px] md:h-28 h-[58px] mt-4'>
-													<img className='object-contain w-full h-full' src={editProduct?.cover} alt='preview-img' />
+													<img className='object-cover w-full h-full' src={editProduct?.cover} alt='preview-img' />
 												</div>
 											)}
 										</div>
@@ -473,51 +499,6 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 									<input value={productData?.stock} onChange={handleProductData} className={`${formInputClasses} md:h-14 h-[45px]`} style={formInputStyle} placeholder='0' type='text' name='stock' />
 								</label>
 							</div>
-
-							{productOptions &&
-								productOptions.map((item) => (
-									<div className='flex md:flex-row flex-col gap-y-2 mb-4' key={item?.id}>
-										<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
-											{item?.type}
-										</label>
-										<input value={item?.title} onChange={console.log('')} className={formInputClasses} style={{ width: '555px', backgroundColor: '#02466A00', border: '1px solid #A7A7A780' }} placeholder='320' type='text' name='name' />
-									</div>
-								))}
-
-							{productOptions && productData?.quantity && productData?.less_qty ? (
-								<>
-									<div className='flex md:flex-row flex-col gap-y-2 mb-4'>
-										<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
-											الكمية المتوفرة
-										</label>
-										<input
-											value={productData?.quantity}
-											onChange={console.log('')}
-											className={formInputClasses}
-											style={{ width: '555px', backgroundColor: '#02466A00', border: '1px solid #A7A7A780' }}
-											placeholder='320'
-											type='text'
-											name='name'
-										/>
-									</div>
-
-									<div className='flex md:flex-row flex-col gap-y-2 mb-4'>
-										<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
-											أقل كمية للتنبيه
-										</label>
-										<div
-											className='flex   gap-4 px-2 items-center md:w-[555px] w-full md:h-[56px] h-[45px] p-4 outline-0 rounded-md text-lg font-normal'
-											style={{ width: '555px', backgroundColor: '#02466A00', border: '1px solid #A7A7A780' }}
-										>
-											<Box sx={{ '& path': { fill: '#ADB5B9' } }}>
-												<NotificationIcon></NotificationIcon>
-											</Box>
-
-											<input style={{ width: '555px', backgroundColor: '#02466A00', border: 'none' }} value={productData?.less_qty} onChange={console.log('')} placeholder='320' type='number' name='name' />
-										</div>
-									</div>
-								</>
-							) : null}
 							<div className='flex md:flex-row flex-col gap-y-2 md:mb-8 mb-4'>
 								<h2 className={formTitleClasses} style={formTitleStyle}>
 									اضافة خيارات المنتج
@@ -549,7 +530,7 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 								backgroundColor: '#02466A',
 							}}
 							type={'normal'}
-							onClick={() => (editProduct ? '' : addProductData())}
+							onClick={() => editProduct ? updateProductData() : addProductData()}
 						>
 							حفظ
 						</Button>
@@ -560,7 +541,7 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 							}}
 							textStyle={{ color: 'rgba(2, 70, 106, 1)' }}
 							type={'outline'}
-							onClick={cancel}
+							onClick={() => { cancel(); setProductOptions([]) }}
 						>
 							إلغاء
 						</Button>
