@@ -30,28 +30,28 @@ const BackDrop = ({ onClick }) => {
 const productOptions = [
 	{
 		id: 1,
-		name: 'اللون',
+		type: 'اللون',
 		title: '',
 		placeHolder1: 'أزرق',
 		placeHolder2: ' القيمة ( أحمر، أصفر )',
 	},
 	{
 		id: 2,
-		name: 'ماركة',
+		type: 'ماركة',
 		title: '',
 		placeHolder1: 'علامة تجارية',
 		placeHolder2: 'القيمة (اديداس)',
 	},
 	{
 		id: 3,
-		name: 'الوزن',
+		type: 'الوزن',
 		title: '',
 		placeHolder1: 'وزن الوحدة',
 		placeHolder2: 'القيمة (0 كم )',
 	},
 	{
 		id: 4,
-		name: 'المقاس',
+		type: 'المقاس',
 		title: '',
 		placeHolder1: 'مقاس الوحدة',
 		placeHolder2: 'القيمة (xl, m, s)',
@@ -60,7 +60,7 @@ const productOptions = [
 
 const initialValue = [
 	{
-		name: 'ماركة',
+		type: 'ماركة',
 		title: '',
 		values: [{ value: '', id: 0 }],
 	},
@@ -74,17 +74,16 @@ function reducer(state, action) {
 	}
 	if (action.type === 'CHANGE_SELECTING') {
 		const newState = [...state];
-		newState[action.idx].name = action.option;
-		newState[action.idx].title = action.title;
-		newState[action.idx].values = [{ value: '', id: 0 }];
+		newState[action.idx].type = action.value;
+		newState[action.idx].values = [{ value: action?.value, id: 0 }];
 		return newState;
 	}
 	if (action.type === 'ADD_TO_SAME') {
 		const newState = state.map((item) => {
-			if (item.name === action.name) {
+			if (item?.type === action?.name) {
 				return {
 					...item,
-					values: [...item.values, { value: '', id: Math.ceil(Math.random() * 10000000) }],
+					values: [...item?.values, { value: '', id: Math.ceil(Math.random() * 10000000) }],
 				};
 			}
 			return item;
@@ -93,7 +92,7 @@ function reducer(state, action) {
 	}
 	if (action.type === 'DELETE_TO_SOME') {
 		const newState = state.map((item) => {
-			if (item.name === action.name) {
+			if (item?.type === action?.name) {
 				const newValues = item.values.filter((i) => i.id !== action.id);
 				return {
 					...item,
@@ -107,23 +106,24 @@ function reducer(state, action) {
 	if (action.type === 'ADD_NEW_OPTION') {
 		const restOptions = [];
 		productOptions.forEach((item) => {
-			const existed = state.some((i) => i.name === item.name);
+			const existed = state?.some((i) => i.type === item.type);
+
 			if (existed) {
 				return;
 			}
 			restOptions.push(item);
 		});
-		const newState = [...state, { name: restOptions[0].name, values: [{ value: '', id: 0 }] }];
+		const newState = [...state, { type: restOptions[0].type, values: [{ value: '', id: 0 }] }];
 		return newState;
 	}
 	if (action.type === 'DELETE_OPTION') {
-		const newState = state.filter((item) => item.name !== action.item.name);
+		const newState = state.filter((item) => item?.type !== action?.item?.type);
 		return newState;
 	}
 	if (action.type === 'CHANGE_COLOR') {
 		const newState = [];
 		state.forEach((item, index) => {
-			if (item.name !== 'اللون') {
+			if (item?.type !== 'اللون') {
 				return newState.push(item);
 			}
 			const newItem = { ...item };
@@ -140,28 +140,34 @@ function reducer(state, action) {
 	}
 }
 
-const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuantity }) => {
-	const [brandTitle, setBrandTitle] = useState('');
+const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuantity, setProductsOptionsDetails, productsOptionsDetails, quantity, less_qty }) => {
 	const contextStore = useContext(Context);
-	const { setEndActionTitle } = contextStore;
+	const [activeProductOption, setActiveProductOption] = useState(false);
+	const { setEndActionTitle, setProductOptions } = contextStore;
 	const [state, dispatch] = useReducer(reducer, initialValue);
 	const [showColorPicker, setShowColorPicker] = useState(null);
-	const [option, setOption] = useState('ماركة');
-	const [title, setTitle] = useState('');
-	const [activeProductOption, setActiveProductOption] = useState(false);
-	const [productStored, setProductStored] = useState(0);
 	const [actionClicked, setActionClicked] = useState(false);
-	const saveActions = () => {};
+	const [productStored, setProductStored] = useState(quantity);
 
-	const handleTitleOption = (e, item, idx) => {
-		setTitle(e.target.value);
+	// to set the title and type
+	const handOption = (e, item, idx) => {
+		const { name, value } = e.target;
+		setProductsOptionsDetails((prevState) => {
+			return { ...prevState, [name]: value };
+		});
+
 		dispatch({ type: 'CHANGE_TITLE', title: e.target.value, item, idx });
 	};
 
-	const handleOption = (e, item, idx, brandTitle) => {
-		setOption(item.name);
-		dispatch({ type: 'CHANGE_SELECTING', option: e.target.value, item, idx, title: brandTitle });
+	// to set the values
+	const handleSelectOption = (e, item, idx) => {
+		setProductsOptionsDetails((prevState) => {
+			return { ...prevState, value: e.target.value };
+		});
+
+		dispatch({ type: 'CHANGE_SELECTING', value: e.target.value, item, idx });
 	};
+
 	useEffect(() => {
 		if (actionClicked) {
 			setTimeout(() => {
@@ -169,6 +175,13 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 			}, 3000);
 		}
 	}, [actionClicked]);
+	
+const addOptions = () => {
+	setProductOptions(state, quantity, less_qty);
+
+	closeDetails();
+	setEndActionTitle('تم اضافة خيارات المنتج بنجاح');
+};
 
 	return (
 		<>
@@ -181,13 +194,13 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 					}}
 				></ActionCompleteComp>
 			)}
-			<div className='fixed flex flex-col top-28 translate-x-2/4 right-2/4 z-50 rounded-md overflow-hidden' style={{ height: '40rem', width: '60.25rem', maxHeight: '80%', maxWidth: '90%' }}>
+			<div className='fixed flex flex-col top-24 translate-x-2/4 right-2/4 z-40 rounded-md overflow-hidden' style={{ height: '36rem', width: '60.25rem', maxHeight: '80%', maxWidth: '90%' }}>
 				<div className='h-16 w-full flex items-center justify-between px-4' style={{ backgroundColor: '#1DBBBE' }}>
-					<h2 className='text-slate-50 md:text-lg text-[15px]'>اضافة خيارات للمنتج - {editProduct?.name}</h2>
-					<IoMdCloseCircleOutline color={'#fff'} className={'cursor-pointer w-5 h-5'} onClick={closeDetails}></IoMdCloseCircleOutline>
+					<h2 className='text-slate-50'>اضافة خيارات للمنتج - {editProduct?.name}</h2>
+					<IoMdCloseCircleOutline color={'#fff'} className={'cursor-pointer'} onClick={closeDetails}></IoMdCloseCircleOutline>
 				</div>
 				<div className='flex-1 overflow-scroll hide_scrollbar px-4 pt-6 pb-2' style={{ backgroundColor: '#F6F6F6' }}>
-					<div className='flex  gap-4 '>
+					<div className='flex gap-4'>
 						<div
 							className={`w-8 h-5 relative rounded-xl cursor-pointer shadow-inner duration-500 ${''}`}
 							style={{
@@ -202,19 +215,20 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 						<h2 className='font-semibold'>تفعيل خيارات المنتج </h2>
 					</div>
 					{state.map((item, idx) => {
-						const findOptionLabels = productOptions.find((option) => option.name === item.name);
+						const findOptionLabels = productOptions.find((option) => option?.type === item?.type);
 						return (
 							<div
-								className='md:py-7 md:px-5 mt-6 p-4'
+								key={idx}
+								className='py-7 px-5 mt-6'
 								style={{
 									backgroundColor: '#EDEDEF',
 									border: '1px solid #E4E4E4',
 								}}
 							>
-								<div className='flex md:flex-row flex-col md:gap-5 gap-3 mb-7' style={{}}>
-									<div className='flex-1 md:h-12 flex md:flex-row flex-col md:gap-5 gap-3'>
+								<div className='flex md:flex-row flex-col gap-5 mb-7' style={{}}>
+									<div className='flex-1 h-12 flex md:flex-row flex-col gap-5' style={{}}>
 										<div
-											className='md:h-12 min-h-[45px] flex flex-1 gap-4 px-2 items-center'
+											className='flex flex-1 gap-4 px-2 items-center'
 											style={{
 												backgroundColor: '#FAFAFA',
 												border: '1px solid #D3D3D3',
@@ -222,18 +236,19 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 										>
 											<WriteIcon fill='#ADB5B9'></WriteIcon>
 											<input
-												value={brandTitle}
+												name='title'
+												value={productsOptionsDetails?.title}
 												onChange={(e) => {
-													setBrandTitle(e.target.value);
+													handOption(e, item, idx);
 												}}
 												style={{ backgroundColor: 'transparent' }}
-												className='flex-1 outline-none'
-												placeholder={findOptionLabels.placeHolder1}
+												className=' flex-1 outline-none md:h-14 h-[45px]'
+												placeholder={findOptionLabels?.placeHolder1}
 												type='text'
 											/>
 										</div>
 										<div
-											className='md:h-12 min-h-[45px] flex flex-1 gap-4 px-2 items-center'
+											className='flex flex-1 gap-4 px-2  items-center'
 											style={{
 												backgroundColor: '#FAFAFA',
 												border: '1px solid #D3D3D3',
@@ -241,21 +256,25 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 										>
 											<ChoiceIcon fill='#ADB5B9'></ChoiceIcon>
 											<Select
-												value={findOptionLabels.name}
+												name='value'
+												value={productsOptionsDetails?.value}
+												onChange={(e) => {
+													handleSelectOption(e, item, idx);
+												}}
 												IconComponent={() => {
 													return <IoIosArrowDown size={'1rem'} />;
-												}}
-												onChange={(e) => {
-													handleOption(e, item, idx, brandTitle);
 												}}
 												displayEmpty
 												inputProps={{ 'aria-label': 'Without label' }}
 												renderValue={(selected) => {
+													if (productsOptionsDetails?.value.length === 0) {
+														return <h2>ماركة</h2>;
+													}
 													return selected;
 												}}
 												className={'font-medium'}
 												sx={{
-													height: '100%',
+													height: '3.5rem',
 													pl: '1rem',
 													width: '100%',
 
@@ -268,18 +287,18 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 														border: 'none',
 													},
 													'&  svg': {
-														display: state.length === productOptions.length ? 'none' : 'block',
+														display: state?.length === productOptions?.length ? 'none' : 'block',
 													},
 												}}
 											>
-												{productOptions.map(({ name }) => {
-													const exist = state.some((i) => i.name === name);
+												{productOptions.map(({ type }) => {
+													const exist = state.some((i) => i.type === type);
 													if (exist) {
 														return;
 													}
 													return (
 														<MenuItem
-															key={name.id}
+															key={type}
 															className='souq_storge_category_filter_items '
 															sx={{
 																backgroundColor: '#FAFAFA',
@@ -290,9 +309,9 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 																height: '3rem',
 																'&:hover': {},
 															}}
-															value={`${name}`}
+															value={`${type}`}
 														>
-															{name}
+															{type}
 														</MenuItem>
 													);
 												})}
@@ -311,11 +330,12 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 										</Box>
 									</div>
 								</div>
+
 								{item.values.map(({ value, id }) => {
-									const color = item.name === 'اللون';
+									const color = item?.type === 'اللون';
 									return (
-										<div className='flex mb-5 md:flex-row flex-col md:gap-5 gap-2'>
-											<div className='flex-1 relative h-12 min-h-[45px] flex gap-5'>
+										<div className='flex gap-5 mb-5' key={id}>
+											<div className='flex-1 relative h-12 flex gap-5' style={{}}>
 												<div
 													className='flex relative flex-1 gap-4 px-2 items-center'
 													style={{
@@ -325,11 +345,15 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 												>
 													<WriteIcon fill='#ADB5B9'></WriteIcon>
 													<input
+														name='type'
+														value={productsOptionsDetails?.type}
+														onChange={(e) => {
+															handOption(e, item, idx);
+														}}
 														style={{ backgroundColor: 'transparent' }}
 														className=' flex-1   outline-none'
-														placeholder={findOptionLabels.placeHolder2}
-														type={item.name === 'الوزن' || item.name === 'المقاس' ? 'number' : 'text'}
-														name='name'
+														placeholder={findOptionLabels?.placeHolder2}
+														type={item?.type === 'الوزن' || item?.type === 'المقاس' ? 'number' : 'text'}
 													/>
 													{color && (
 														<div
@@ -373,7 +397,7 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 													dispatch({
 														type: 'DELETE_TO_SOME',
 														id,
-														name: item.name,
+														name: item?.type,
 													});
 												}}
 											>
@@ -386,10 +410,10 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 								})}
 
 								<div
-									className='md:w-[376px] w-full flex items-center justify-center py-3 gap-3 mx-auto cursor-pointer'
-									style={{ border: '1px dashed #1DBBBE' }}
+									className='fcc py-3 gap-3 mx-auto cursor-pointer'
+									style={{ width: '376px', maxWidth: '100%', border: '1px dashed #1DBBBE' }}
 									onClick={() => {
-										dispatch({ type: 'ADD_TO_SAME', name: item.name });
+										dispatch({ type: 'ADD_TO_SAME', name: item?.type });
 									}}
 								>
 									<IoMdAdd fill='#1DBBBE'></IoMdAdd>
@@ -398,7 +422,7 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 							</div>
 						);
 					})}
-					{state.length === productOptions.length || (
+					{state?.length === productOptions?.length || (
 						<div
 							className='fcc py-3 gap-3 mt-16 cursor-pointer'
 							style={{ width: '100%', border: '1px dashed #1DBBBE' }}
@@ -425,7 +449,7 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 					>
 						<div className='flex mb-5 '>
 							<label
-								className='flex rounded-md w-full overflow-hidden md:h-12 h-[50px]'
+								className='flex rounded-md w-full overflow-hidden'
 								style={{
 									backgroundColor: '#FAFAFA',
 									border: '1px solid #ADB5B9B3',
@@ -448,7 +472,7 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 						</div>
 						<div className='flex mb-5 '>
 							<label
-								className='flex rounded-md w-full overflow-hidden md:h-12 h-[50px]'
+								className='flex rounded-md w-full overflow-hidden'
 								style={{
 									backgroundColor: '#FAFAFA',
 									border: '1px solid #ADB5B9B3',
@@ -456,16 +480,7 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 							>
 								<div className='p-4 flex flex-1'>
 									<img className='ml-2 opacity-50' src={Currency} alt='' />
-									<input
-										// value={buyPrice}
-										// onChange={(e) => {
-										//   setBuyPrice(e.target.value);
-										// }}
-										className='flex-1 border-none outline-none bg-transparent'
-										placeholder='سعر التكلفة'
-										type='number'
-										name='name'
-									/>
+									<input className='flex-1 border-none outline-none bg-transparent' placeholder='سعر التكلفة' type='number' name='name' />
 								</div>
 								<div
 									className='h-full w-16 flex justify-center items-center text-lg'
@@ -481,7 +496,7 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 						<div className='flex md:flex-row flex-col mb-5 gap-4'>
 							<div className='flex-1'>
 								<label
-									className='flex rounded-md w-full overflow-hidden md:h-12 h-[50px]'
+									className='flex rounded-md w-full overflow-hidden'
 									style={{
 										backgroundColor: '#FAFAFA',
 										border: '1px solid #ADB5B9B3',
@@ -490,16 +505,7 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 									<div className='p-4 flex flex-1'>
 										<WriteIcon fill='#ADB5B9'></WriteIcon>
 
-										<input
-											// value={buyPrice}
-											// onChange={(e) => {
-											//   setBuyPrice(e.target.value);
-											// }}
-											className='flex-1 border-none outline-none bg-transparent'
-											placeholder='الوزن'
-											type='number'
-											name='name'
-										/>
+										<input className='flex-1 border-none outline-none bg-transparent' placeholder='الوزن' type='number' name='name' />
 									</div>
 									<div
 										className=' w-16 flex justify-center items-center text-lg'
@@ -514,21 +520,21 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 							</div>
 							<div className='flex-1'>
 								<div
-									className='flex md:h-12 h-[50px] flex-1 gap-4 px-2 items-center'
+									className='flex h-full flex-1 gap-4 px-2 items-center'
 									style={{
 										backgroundColor: '#FAFAFA',
 										border: '1px solid #D3D3D3',
 									}}
 								>
 									<WriteIcon fill='#ADB5B9'></WriteIcon>
-									<input style={{ backgroundColor: 'transparent' }} className=' flex-1   outline-none' placeholder={'كود المنتج (SKU)'} type='text' name='name' />
+									<input style={{ backgroundColor: 'transparent' }} className=' flex-1 md:h-14 h-[45px] outline-none' placeholder={'كود المنتج (SKU)'} type='text' name='name' />
 								</div>
 							</div>
 						</div>
 						<div className='flex md:flex-row flex-col mb-5 gap-4'>
-							<div className='flex-1'>
+							<div className='flex-1 h-14'>
 								<div
-									className='md:h-12 h-[50px] flex flex-1 gap-4 px-2 items-center'
+									className='flex h-full flex-1 gap-4 px-2 items-center'
 									style={{
 										backgroundColor: '#FAFAFA',
 										border: '1px solid #D3D3D3',
@@ -538,7 +544,17 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 										<NotificationIcon></NotificationIcon>
 									</Box>
 
-									<input style={{ backgroundColor: 'transparent' }} className=' flex-1   outline-none' placeholder={'أقل كمية للتنبيه'} type='number' name='name' />
+									<input
+										name='less_qty'
+										value={less_qty}
+										onChange={(e) => {
+											setLessQuantity(e.target.value);
+										}}
+										style={{ backgroundColor: 'transparent' }}
+										className=' flex-1 md:h-14 h-[45px] outline-none'
+										placeholder={'أقل كمية للتنبيه'}
+										type='number'
+									/>
 								</div>
 							</div>
 							<div className='flex-1 relative'>
@@ -551,6 +567,7 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 								>
 									<input
 										value={productStored === 0 ? '' : productStored}
+										name='quantity'
 										onChange={(e) => {
 											setProductStored(() => {
 												if (e.target.value <= 0) {
@@ -564,7 +581,6 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 										className=' flex-1 md:h-14 h-[45px] outline-none'
 										placeholder={'الكمية المتوفرة'}
 										type='number'
-										name='name'
 									/>
 									<Box
 										className='flex h-full sm:relative sm:left-0 sm:top-0  absolute right-0 top-12'
@@ -610,8 +626,7 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 					</div>
 					<Button
 						onClick={() => {
-							closeDetails();
-							setEndActionTitle('تم اضافة خيارات المنتج بنجاح');
+							addOptions();
 						}}
 						type={'normal'}
 						className={'w-full mt-5'}

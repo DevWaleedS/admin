@@ -14,7 +14,11 @@ export default function DashboardLayout() {
     const { notificationTitle } = NotificationStore;
     return (
         <>
-            <Navbar openSidebar={() => { setOpenSidebar(!openSidebar); }}></Navbar>
+            <Navbar
+                openSidebar={() => { setOpenSidebar(!openSidebar) }}
+            >
+            </Navbar>
+
             {title && <ActionCompleteComp></ActionCompleteComp>}
             {notificationTitle && <DeleteModal></DeleteModal>}
             <div className='flex mx-auto mt-20 ' style={{ maxWidth: '1920px' }}>

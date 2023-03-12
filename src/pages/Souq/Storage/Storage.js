@@ -44,6 +44,7 @@ const Storage = () => {
 					setReload={setReload}
 				/>
 			)}
+			
 			<div className={'md:pl-[124px] p-0 mt-4'}>
 				<StorageStatus fetchedData={fetchedData?.data} />
 				<StorageFilter />

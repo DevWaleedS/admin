@@ -243,6 +243,7 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function EnhancedTable({ data, loading, reload, setReload, editProduct }) {
+
 	const token = localStorage.getItem('token');
 	const contextStore = useContext(Context);
 	const { setEndActionTitle } = contextStore;
@@ -396,7 +397,7 @@ export default function EnhancedTable({ data, loading, reload, setReload, editPr
 													<TableCell component='th' id={labelId} scope='row'>
 														<div className='flex items-center gap-2'>
 															<TrashICon
-																onClick={() => { deleteProduct() }}
+																onClick={() => { deleteProduct(row?.id) }}
 																style={{
 																	cursor: 'pointer',
 																	color: 'red',

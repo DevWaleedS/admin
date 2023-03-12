@@ -4,6 +4,7 @@
 .line_anim
 {
     animation: anim 3s ease-out;
+    -webkit-animation: anim 3s ease-out;
 }
 @keyframes anim {
     from{
