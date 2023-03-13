@@ -22,7 +22,7 @@ function PrivateRoutes() {
                     {title && <ActionCompleteComp></ActionCompleteComp>}
                     {notificationTitle && <DeleteModal></DeleteModal>}
                     <div className='flex mx-auto mt-20 ' style={{ maxWidth: '1920px' }}>
-                        <SideBar openSidebar={openSidebar} closeSidebar={() => setOpenSidebar(!openSidebar)} />
+                        <SideBar openSidebar={openSidebar} closeSidebar={() => setOpenSidebar(!openSidebar)} closeSidebarOnly={() => setOpenSidebar(false)} />
                         <div className='p-4 flex-1 app-page'>
                             <div className="md:hidden flex relative h-12 max-w-[90%] mx-auto mb-4 mt-2">
                                 <SearchInput />
