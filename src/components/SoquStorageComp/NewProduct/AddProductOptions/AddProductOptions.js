@@ -34,6 +34,7 @@ const BackDrop = ({ onClick }) => {
 
 const productOptions = [
   {
+    id: 1,
     name: "color",
     name_ar: "اللون",
     title: '',
@@ -42,6 +43,7 @@ const productOptions = [
     value: '',
   },
   {
+    id: 2,
     name: "brand",
     name_ar: "الماركة",
     title: '',
@@ -50,6 +52,7 @@ const productOptions = [
     value: '',
   },
   {
+    id: 3,
     name: "weight",
     name_ar: "الحجم",
     title: '',
@@ -58,6 +61,7 @@ const productOptions = [
     value: '',
   },
   {
+    id: 4,
     name: "size",
     name_ar: "المقاس",
     title: '',
@@ -77,9 +81,8 @@ const initialValue = [
 function reducer(state, action) {
   if (action.type === "CHANGE_SELECTING") {
     const newState = [...state];
-    newState[action.idx].name = action.option;
-    newState[action.idx].values = [{ value: "", id: 0 }];
-    return newState;
+		newState[action.idx].name = action.option;
+		return newState;
   }
   if (action.type === "ADD_TO_SAME") {
     const newState = state.map((item) => {
@@ -120,7 +123,7 @@ function reducer(state, action) {
     });
     const newState = [
       ...state,
-      { name: restOptions[0].name, values: [{ value: "", id: 0 }] },
+      { name: restOptions[0].name, values: [{ value: "", id: Math.ceil(Math.random() * 10000000) }] },
     ];
     return newState;
   }
@@ -152,9 +155,19 @@ function reducer(state, action) {
     return newState;
   }
   if (action.type === 'CHANGE_VALUE') {
-    const newState = [...state];
-    newState[action.idx].values[action.idx].value = action.value;
-    return newState;
+    const newState = [];
+		state.forEach((item) => {
+			const newItem = { ...item };
+			const newValues = newItem.values.map((v) => {
+				if (v.id !== action.id) {
+					return v;
+				}
+				return { id: action.id, value: action.value };
+			});
+			newItem.values = newValues;
+			newState.push(newItem);
+		});
+		return newState;
   }
 }
 
@@ -253,6 +266,7 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
             );
             return (
               <div
+                key={idx}
                 className="py-7 px-5 mt-6"
                 style={{
                   backgroundColor: "#EDEDEF",
@@ -324,13 +338,14 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
                           },
                         }}
                       >
-                        {productOptions.map(({ name, name_ar }) => {
+                        {productOptions.map(({ id, name, name_ar }) => {
                           const exist = state.some((i) => i.name === name);
                           if (exist) {
                             return exist;
                           }
                           return (
                             <MenuItem
+                              key={id}
                               className="souq_storge_category_filter_items "
                               sx={{
                                 backgroundColor: "#FAFAFA",
@@ -366,7 +381,7 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
                 {item.values.map(({ value, id }) => {
                   const color = item.name === "color";
                   return (
-                    <div className="flex gap-5 mb-5">
+                    <div key={id} className="flex gap-5 mb-5">
                       <div
                         className="flex-1 relative h-12 flex gap-5"
                         style={{}}
