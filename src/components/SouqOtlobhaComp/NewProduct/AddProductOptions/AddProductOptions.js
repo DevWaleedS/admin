@@ -215,7 +215,7 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 					<IoMdCloseCircleOutline color={'#fff'} className={'cursor-pointer w-5 h-5'} onClick={closeDetails}></IoMdCloseCircleOutline>
 				</div>
 				<div className='flex-1 overflow-scroll hide_scrollbar px-4 pt-6 pb-2' style={{ backgroundColor: '#F6F6F6' }}>
-					<div className='flex  gap-4 '>
+					<div className='flex gap-4'>
 						<div
 							className={`w-8 h-5 relative rounded-xl cursor-pointer shadow-inner duration-500 ${''}`}
 							style={{
@@ -240,7 +240,7 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 									border: '1px solid #E4E4E4',
 								}}
 							>
-								<div className='flex md:flex-row flex-col md:gap-5 gap-3 mb-7' style={{}}>
+								<div className='flex md:flex-row flex-col md:gap-5 gap-3 mb-7'>
 									<div className='flex-1 md:h-12 flex md:flex-row flex-col md:gap-5 gap-3'>
 										<div
 											className='md:h-12 min-h-[45px] flex flex-1 gap-4 px-2 items-center'
@@ -441,7 +441,7 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 							<h2 style={{ color: '#1DBBBE' }}>اضافة خيار جديد</h2>
 						</div>
 					)}
-					<div className='flex items-center  gap-2 mt-10 '>
+					<div className='flex items-center gap-2 mt-10'>
 						<Checkbox sx={{ p: 0, '& svg': { fill: '#1DBBBE' } }}></Checkbox>
 						<h2 className='font-semibold' style={{ color: '#011723' }}>
 							كميات غير محدودة
@@ -454,7 +454,7 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 							border: '1px solid #E4E4E4',
 						}}
 					>
-						<div className='flex mb-5 '>
+						<div className='flex mb-5'>
 							<label
 								className='flex rounded-md w-full overflow-hidden md:h-12 h-[50px]'
 								style={{
@@ -477,7 +477,7 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 								</div>
 							</label>
 						</div>
-						<div className='flex mb-5 '>
+						<div className='flex mb-5'>
 							<label
 								className='flex rounded-md w-full overflow-hidden md:h-12 h-[50px]'
 								style={{
@@ -533,7 +533,7 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 										/>
 									</div>
 									<div
-										className=' w-16 flex justify-center items-center text-lg'
+										className='w-16 flex justify-center items-center text-lg'
 										style={{
 											borderRight: '1px solid #ccc',
 											backgroundColor: '#fafafa',
