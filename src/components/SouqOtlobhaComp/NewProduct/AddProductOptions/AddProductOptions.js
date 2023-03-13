@@ -78,8 +78,6 @@ function reducer(state, action) {
 	if (action.type === 'CHANGE_SELECTING') {
 		const newState = [...state];
 		newState[action.idx].name = action.option;
-		newState[action.idx].title = action.title;
-		newState[action.idx].values = [{ value: '', id: 0 }];
 		return newState;
 	}
 	if (action.type === 'ADD_TO_SAME') {
@@ -116,7 +114,7 @@ function reducer(state, action) {
 			}
 			restOptions.push(item);
 		});
-		const newState = [...state, { name: restOptions[0].name, values: [{ value: '', id: 0 }] }];
+		const newState = [...state, { name: restOptions[0].name, values: [{ value: '', id: Math.ceil(Math.random() * 10000000) }] }];
 		return newState;
 	}
 	if (action.type === 'DELETE_OPTION') {
@@ -126,7 +124,7 @@ function reducer(state, action) {
 	if (action.type === 'CHANGE_COLOR') {
 		const newState = [];
 		state.forEach((item) => {
-			if (item.name !== 'اللون') {
+			if (item.name !== 'color') {
 				return newState.push(item);
 			}
 			const newItem = { ...item };
@@ -147,8 +145,18 @@ function reducer(state, action) {
 		return newState;
 	}
 	if (action.type === 'CHANGE_VALUE') {
-		const newState = [...state];
-		newState[action.idx].values[action.idx].value = action.value;
+		const newState = [];
+		state.forEach((item) => {
+			const newItem = { ...item };
+			const newValues = newItem.values.map((v) => {
+				if (v.id !== action.id) {
+					return v;
+				}
+				return { id: action.id, value: action.value };
+			});
+			newItem.values = newValues;
+			newState.push(newItem);
+		});
 		return newState;
 	}
 }
@@ -172,8 +180,8 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 		dispatch({ type: "CHANGE_SELECTING", option: e.target.value, item, idx });
 	};
 
-	const handleValueOption = (e, item, idx) => {
-		dispatch({ type: "CHANGE_VALUE", value: e.target.value, item, idx });
+	const handleValueOption = (e, item, idx,id) => {
+		dispatch({ type: "CHANGE_VALUE", value: e.target.value, item, idx,id });
 	};
 
 	useEffect(() => {
@@ -188,8 +196,8 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 		setProductOptions(state);
 		closeDetails();
 		setEndActionTitle("تم اضافة خيارات المنتج بنجاح");
-	}
-
+	  }
+	  
 	return (
 		<>
 			<BackDrop onClick={closeDetails} />
@@ -207,7 +215,7 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 					<IoMdCloseCircleOutline color={'#fff'} className={'cursor-pointer w-5 h-5'} onClick={closeDetails}></IoMdCloseCircleOutline>
 				</div>
 				<div className='flex-1 overflow-scroll hide_scrollbar px-4 pt-6 pb-2' style={{ backgroundColor: '#F6F6F6' }}>
-					<div className='flex  gap-4 '>
+					<div className='flex gap-4'>
 						<div
 							className={`w-8 h-5 relative rounded-xl cursor-pointer shadow-inner duration-500 ${''}`}
 							style={{
@@ -225,13 +233,14 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 						const findOptionLabels = productOptions.find((option) => option.name === item.name);
 						return (
 							<div
+								key={idx}
 								className='md:py-7 md:px-5 mt-6 p-4'
 								style={{
 									backgroundColor: '#EDEDEF',
 									border: '1px solid #E4E4E4',
 								}}
 							>
-								<div className='flex md:flex-row flex-col md:gap-5 gap-3 mb-7' style={{}}>
+								<div className='flex md:flex-row flex-col md:gap-5 gap-3 mb-7'>
 									<div className='flex-1 md:h-12 flex md:flex-row flex-col md:gap-5 gap-3'>
 										<div
 											className='md:h-12 min-h-[45px] flex flex-1 gap-4 px-2 items-center'
@@ -293,14 +302,14 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 													},
 												}}
 											>
-												{productOptions.map(({ name,name_ar }) => {
+												{productOptions.map(({ id, name, name_ar }) => {
 													const exist = state.some((i) => i.name === name);
 													if (exist) {
 														return exist;
 													}
 													return (
 														<MenuItem
-															key={name.id}
+															key={id}
 															className='souq_storge_category_filter_items '
 															sx={{
 																backgroundColor: '#FAFAFA',
@@ -333,9 +342,9 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 									</div>
 								</div>
 								{item.values.map(({ value, id }) => {
-									const color = item.name === 'اللون';
+									const color = item.name === 'color';
 									return (
-										<div className='flex mb-5 md:flex-row flex-col md:gap-5 gap-2'>
+										<div key={id} className='flex mb-5 md:flex-row flex-col md:gap-5 gap-2'>
 											<div className='flex-1 relative h-12 min-h-[45px] flex gap-5'>
 												<div
 													className='flex relative flex-1 gap-4 px-2 items-center'
@@ -347,11 +356,11 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 													<WriteIcon fill='#ADB5B9'></WriteIcon>
 													<input
 														defaultValue={findOptionLabels.value}
-														onChange={(e) => handleValueOption(e, item, idx)}
+														onChange={(e) => handleValueOption(e, item, idx,id)}
 														style={{ backgroundColor: 'transparent' }}
 														className=' flex-1   outline-none'
 														placeholder={findOptionLabels.placeHolder2}
-														type={item.name === 'الوزن' || item.name === 'المقاس' ? 'number' : 'text'}
+														type={item.name === 'weight' || item.name === 'size' ? 'number' : 'text'}
 													/>
 													{color && (
 														<div
@@ -432,7 +441,7 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 							<h2 style={{ color: '#1DBBBE' }}>اضافة خيار جديد</h2>
 						</div>
 					)}
-					<div className='flex items-center  gap-2 mt-10 '>
+					<div className='flex items-center gap-2 mt-10'>
 						<Checkbox sx={{ p: 0, '& svg': { fill: '#1DBBBE' } }}></Checkbox>
 						<h2 className='font-semibold' style={{ color: '#011723' }}>
 							كميات غير محدودة
@@ -445,7 +454,7 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 							border: '1px solid #E4E4E4',
 						}}
 					>
-						<div className='flex mb-5 '>
+						<div className='flex mb-5'>
 							<label
 								className='flex rounded-md w-full overflow-hidden md:h-12 h-[50px]'
 								style={{
@@ -468,7 +477,7 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 								</div>
 							</label>
 						</div>
-						<div className='flex mb-5 '>
+						<div className='flex mb-5'>
 							<label
 								className='flex rounded-md w-full overflow-hidden md:h-12 h-[50px]'
 								style={{
@@ -524,7 +533,7 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 										/>
 									</div>
 									<div
-										className=' w-16 flex justify-center items-center text-lg'
+										className='w-16 flex justify-center items-center text-lg'
 										style={{
 											borderRight: '1px solid #ccc',
 											backgroundColor: '#fafafa',
@@ -636,8 +645,7 @@ const AddProductOptions = ({ closeDetails, editProduct, setQuantity, setLessQuan
 					</div>
 					<Button
 						onClick={() => {
-							closeDetails();
-							setEndActionTitle('تم اضافة خيارات المنتج بنجاح');
+							addOptions();
 						}}
 						type={'normal'}
 						className={'w-full mt-5'}

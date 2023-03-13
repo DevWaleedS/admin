@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import Context from '../../../store/context';
 import { Currency } from '../../../assets/Icons/index';
 import Box from '@mui/material/Box';
@@ -17,7 +17,7 @@ import axios from "axios";
 import { ReactComponent as AddIcon } from '../../../assets/Icons/icon-34-add.svg';
 import { ReactComponent as CopyIcon } from '../../../assets/Icons/copy icon.svg';
 import { ReactComponent as Arrow } from '../../../assets/Icons/icon-24-chevron_down.svg';
-import { IoIosArrowDown } from 'react-icons/io';
+import { ReactComponent as NotificationIcon } from "../../../assets/Icons/icon-24-notificatioins.svg";
 import { IoMdCloudUpload } from 'react-icons/io';
 import { TiDeleteOutline } from 'react-icons/ti';
 
@@ -35,7 +35,7 @@ const formInputStyle = {
 	border: '1px solid rgba(167, 167, 167, 0.5)',
 	backgroundColor: '#f6f6f6',
 	fontWight: '400',
-	color: '#ADB5B9',
+	color: '#000000',
 };
 const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 	const { fetchedData: category } = useFetch('https://backend.atlbha.com/api/Admin/storecategory');
@@ -124,7 +124,9 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 		for (let i = 0; i < productOptions?.length; i++) {
 			formData.append([`data[${i}][type]`], productOptions[i]?.name);
 			formData.append([`data[${i}][title]`], productOptions[i]?.title);
-			formData.append([`data[${i}][value][${i}]`], productOptions[i]?.values[i]?.value);
+			for (let v = 0; v < productOptions[i]?.values?.length; v++) {
+				formData.append([`data[${i}][value][${v}]`], productOptions[i]?.values[v]?.value);
+			}
 		}
 
 		axios
@@ -145,6 +147,7 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 					setReload(!reload);
 				}
 			});
+		setProductOptions([]);
 	}
 
 	const updateProductData = () => {
@@ -178,7 +181,9 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 		for (let i = 0; i < productOptions?.length; i++) {
 			formData.append([`data[${i}][type]`], productOptions[i]?.name);
 			formData.append([`data[${i}][title]`], productOptions[i]?.title);
-			formData.append([`data[${i}][value][${i}]`], productOptions[i]?.values[i]?.value);
+			for (let v = 0; v < productOptions[i]?.values?.length; v++) {
+				formData.append([`data[${i}][value][${v}]`], productOptions[i]?.values[v]?.value);
+			}
 		}
 
 		axios
@@ -199,9 +204,10 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 					setReload(!reload);
 				}
 			});
+		setProductOptions([]);
 	}
 
-	const subcategory = category?.data?.categories?.filter(sub=>sub?.id === parseInt(productData?.category_id)) || '';
+	const subcategory = category?.data?.categories?.filter(sub => sub?.id === parseInt(productData?.category_id)) || '';
 	return (
 		<>
 			<BackDrop onClick={cancel}></BackDrop>
@@ -212,6 +218,12 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 						setShowAddProductOptions(false);
 					}}
 					editProduct={editProduct}
+					setQuantity={(data) => {
+						setProductData({ ...productData, quantity: data });
+					}}
+					setLessQuantity={(data) => {
+						setProductData({ ...productData, less_qty: data });
+					}}
 				></AddProductOptions>
 			)}
 			<div className={`fixed bottom-0 left-0 bg-slate-50 z-30  otlobha_new_product ${styles.container}`} style={{ width: '1104px', maxWidth: '100%', height: 'calc(100% - 4rem)' }}>
@@ -499,6 +511,131 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 									<input value={productData?.stock} onChange={handleProductData} className={`${formInputClasses} md:h-14 h-[45px]`} style={formInputStyle} placeholder='0' type='text' name='stock' />
 								</label>
 							</div>
+							{productData?.less_qty &&
+								<div className='flex md:flex-row flex-col gap-y-2 md:mb-8 mb-4'>
+									<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
+										اقل كمية للتنبية
+									</label>
+									<label className='md:h-14 h-[45px] flex rounded-md overflow-hidden' style={formInputStyle}>
+										<div className='p-4 flex flex-1'>
+											<NotificationIcon className='ml-2 opacity-50' />
+											<input value={productData?.less_qty} disabled onChange={(e) => setProductData({ ...productData, less_qty: e.target.value })} className='flex-1 border-none outline-none bg-[#f6f6f6]' type='text' />
+										</div>
+									</label>
+								</div>
+							}
+							{productData?.quantity &&
+								<div className='flex md:flex-row flex-col gap-y-2 md:mb-8 mb-4'>
+									<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
+										الكمية المتوفرة
+									</label>
+									<label className='md:h-14 h-[45px] flex rounded-md overflow-hidden' style={formInputStyle}>
+										<div className='p-4 flex flex-1'>
+											<input value={productData?.quantity} disabled onChange={(e) => setProductData({ ...productData, quantity: e.target.value })} className='flex-1 border-none outline-none bg-[#f6f6f6]' type='text' />
+										</div>
+									</label>
+								</div>
+							}
+							{productOptions.length !== 0 &&
+								productOptions.map((option, index) => {
+									if (option.name === 'brand') {
+										return (
+											<div className='flex md:flex-row flex-col gap-y-2 md:mb-8 mb-4'>
+												<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
+													الماركة
+												</label>
+												<div className='flex flex-col gap-2 border-none' style={formInputStyle}>
+													{option.values.map(val =>
+
+														<label className='md:h-14 h-[45px] flex rounded-md overflow-hidden' style={formInputStyle}>
+															<div className='p-4 flex flex-1'>
+																<span className='ml-2 opacity-50'>{option?.title}</span>
+																<input value={val?.value} disabled className='flex-1 border-none outline-none bg-[#f6f6f6]' type='text' />
+															</div>
+														</label>
+													)}
+												</div>
+											</div>
+										)
+									}
+									else if (option.name === 'color') {
+										return (
+											<div className='flex md:flex-row flex-col gap-y-2 md:mb-8 mb-4'>
+												<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
+													اللون
+												</label>
+												<div className='flex flex-col gap-2 border-none' style={formInputStyle}>
+													{option.values.map(val =>
+														<label className='md:h-14 h-[45px] flex rounded-md overflow-hidden' style={formInputStyle}>
+															<div className='p-4 flex flex-1'>
+																<span style={{
+																	backgroundColor: val.value
+																}}
+																	className={`w-[25px] h-[25px] rounded-full ml-2`}></span>
+																<input value={option?.title} disabled className='flex-1 border-none outline-none bg-[#f6f6f6]' type='text' />
+															</div>
+														</label>
+													)}
+												</div>
+											</div>
+										)
+									}
+									else if (option.name === 'weight') {
+										return (
+											<div className='flex md:flex-row flex-col gap-y-2 md:mb-8 mb-4'>
+												<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
+													الحجم ({option.title})
+												</label>
+												<div className='flex flex-col gap-2 border-none' style={formInputStyle}>
+													{option.values.map(val =>
+														<label className='md:h-14 h-[45px] flex rounded-md overflow-hidden' style={formInputStyle}>
+															<div className='p-4 flex flex-1'>
+																<input value={val.value} disabled className='flex-1 border-none outline-none bg-[#f6f6f6]' placeholder='0' type='text' name='selling_price' />
+															</div>
+															<div
+																className='h-full w-16 flex justify-center items-center text-lg'
+																style={{
+																	borderRight: '1px solid #ccc',
+																	backgroundColor: '#fafafa',
+																}}
+															>
+																{option.title}
+															</div>
+														</label>
+													)}
+												</div>
+											</div>
+										)
+									}
+									else {
+										return (
+											<div className='flex md:flex-row flex-col gap-y-2 md:mb-8 mb-4'>
+												<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
+													المقاس ({option.title})
+												</label>
+												<div className='flex flex-col gap-2 border-none' style={formInputStyle}>
+													{option.values.map(val =>
+														<label className='md:h-14 h-[45px] flex rounded-md overflow-hidden' style={formInputStyle}>
+															<div className='p-4 flex flex-1'>
+																<input value={val.value} disabled className='flex-1 border-none outline-none bg-[#f6f6f6]' placeholder='0' type='text' name='selling_price' />
+															</div>
+															<div
+																className='h-full w-16 flex justify-center items-center text-lg'
+																style={{
+																	borderRight: '1px solid #ccc',
+																	backgroundColor: '#fafafa',
+																}}
+															>
+																{option.title}
+															</div>
+														</label>
+													)}
+												</div>
+											</div>
+										)
+									}
+								})
+							}
 							<div className='flex md:flex-row flex-col gap-y-2 md:mb-8 mb-4'>
 								<h2 className={formTitleClasses} style={formTitleStyle}>
 									اضافة خيارات المنتج
@@ -547,7 +684,7 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 						</Button>
 					</div>
 				</div>
-			</div>
+			</div >
 		</>
 	);
 };
