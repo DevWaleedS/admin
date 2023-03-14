@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Currency } from '../../../assets/Icons/index';
 import { ReactComponent as AddIcon } from '../../../assets/Icons/icon-34-add.svg';
 import Box from '@mui/material/Box';
@@ -15,10 +15,9 @@ import Context from '../../../store/context';
 import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
 import { ReactComponent as Arrow } from '../../../assets/Icons/icon-24-chevron_down.svg';
-import { ReactComponent as NotificationIcon } from '../../../assets/Icons/icon-24-notificatioins.svg';
-
+import { ReactComponent as NotificationIcon } from "../../../assets/Icons/icon-24-notificatioins.svg";
 import useFetch from '../../../hooks/useFetch';
-import axios from 'axios';
+import axios from "axios";
 
 const BackDrop = ({ onClick }) => {
 	return <div onClick={onClick} className={`fixed back_drop bottom-0 left-0  w-full bg-slate-900  z-10 ${styles.back_drop}`} style={{ height: 'calc(100% - 4rem)' }}></div>;
@@ -31,15 +30,14 @@ const formInputStyle = {
 	border: '1px solid rgba(167, 167, 167, 0.5)',
 	fontSize: '20px',
 	fontWight: '400',
-	color: '#ADB5B9',
+	color: '#000000',
 	backgroundColor: '#f6f6f6',
 };
 const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 	const { fetchedData: category } = useFetch('https://backend.atlbha.com/api/Admin/storecategory');
 	const token = localStorage.getItem('token');
 	const contextStore = useContext(Context);
-	const { setEndActionTitle, productOptions } = contextStore;
-
+	const { setEndActionTitle, productOptions, setProductOptions } = contextStore;
 	const [productData, setProductData] = useState({
 		name: editProduct?.name || '',
 		description: editProduct?.description || '',
@@ -50,15 +48,9 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 		stock: editProduct?.stock || '',
 		quantity: editProduct?.quantity || '',
 		less_qty: editProduct?.less_qty || '',
-		subcategory_id: [],
+		subcategory_id: editProduct?.subcategory?.map(sub => sub?.id) || [],
 	});
 	const [images, setImages] = useState([]);
-	const [productsOptionsDetails, setProductsOptionsDetails] = useState({
-		type: '',
-		title: '',
-		value: [],
-	});
-
 	const [multiImages, setMultiImages] = useState([]);
 	const [showAddProductOptions, setShowAddProductOptions] = useState(false);
 	const [openSubCategory, setOpenSubCategory] = useState(false);
@@ -68,7 +60,6 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 		emptyMultiImages.push(index);
 	}
 
-	//
 	const maxNumber = 2;
 	const onChange = (imageList, addUpdateIndex) => {
 		setImages(imageList);
@@ -95,22 +86,17 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 		}
 
 		formData.append('cover', images[0]?.file || null);
-
-		// to s
 		for (let i = 0; i < multiImages?.length; i++) {
 			formData.append([`images[${i}]`], multiImages[i]?.file);
 		}
 
-		for (let i = 0; i < productsOptionsDetails?.length; i++) {
-			formData.append([`data[${i}][type]`], productsOptionsDetails[i]?.type);
-		}
-
-		for (let i = 0; i < productsOptionsDetails?.length; i++) {
-			formData.append([`data[${i}][title]`], productsOptionsDetails[i]?.title);
-		}
-
-		for (let i = 0; i < productsOptionsDetails[i]?.value?.length; i++) {
-			formData.append([`data[${i}][value][${i}]`], productsOptionsDetails[i]?.value[i]);
+		// to add all product options
+		for (let i = 0; i < productOptions?.length; i++) {
+			formData.append([`data[${i}][type]`], productOptions[i]?.name);
+			formData.append([`data[${i}][title]`], productOptions[i]?.title);
+			for (let v = 0; v < productOptions[i]?.values?.length; v++) {
+				formData.append([`data[${i}][value][${v}]`], productOptions[i]?.values[v]?.value);
+			}
 		}
 
 		axios
@@ -131,10 +117,67 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 					setReload(!reload);
 				}
 			});
-	};
+		setProductOptions([]);
+	}
 
-	const subcategory = category?.data?.categories?.filter((sub) => sub?.id === parseInt(productData?.category_id)) || '';
+	const updateProductData = () => {
+		let formData = new FormData();
+		formData.append('_method', 'PUT');
+		formData.append('name', productData?.name);
+		formData.append('description', productData?.description);
+		formData.append('purchasing_price', productData?.purchasing_price);
+		formData.append('selling_price', productData?.selling_price);
+		formData.append('sku', productData?.sku);
+		formData.append('stock', productData?.stock);
+		formData.append('category_id', productData?.category_id);
+		formData.append('quantity', productData?.quantity);
+		formData.append('less_qty', productData?.less_qty);
 
+		// create looping to get all ids for activity_ids and assign it
+		for (let i = 0; i < productData?.subcategory_id?.length; i++) {
+			formData.append([`subcategory_id[${i}]`], productData?.subcategory_id[i]);
+		}
+
+		if (images.length !== 0) {
+			formData.append('cover', images[0]?.file || null);
+		}
+		if (multiImages.length !== 0) {
+			for (let i = 0; i < multiImages?.length; i++) {
+				formData.append([`images[${i}]`], multiImages[i]?.file);
+			}
+		}
+
+		// to add all product options
+		for (let i = 0; i < productOptions?.length; i++) {
+			formData.append([`data[${i}][type]`], productOptions[i]?.name);
+			formData.append([`data[${i}][title]`], productOptions[i]?.title);
+			for (let v = 0; v < productOptions[i]?.values?.length; v++) {
+				formData.append([`data[${i}][value][${v}]`], productOptions[i]?.values[v]?.value);
+			}
+		}
+
+		axios
+			.post(`https://backend.atlbha.com/api/Admin/stock/${editProduct?.id}`, formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.then((res) => {
+				if (res?.data?.success === true && res?.data?.data?.status === 200) {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setReload(!reload);
+				} else {
+					setEndActionTitle(res?.data?.message?.ar);
+					cancel();
+					setReload(!reload);
+				}
+			});
+		setProductOptions([]);
+	}
+
+	const subcategory = category?.data?.categories?.filter(sub => sub?.id === parseInt(productData?.category_id)) || '';
 	return (
 		<>
 			<BackDrop onClick={cancel}></BackDrop>
@@ -148,14 +191,10 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 					setQuantity={(data) => {
 						setProductData({ ...productData, quantity: data });
 					}}
-					quantity={productData?.quantity}
 					setLessQuantity={(data) => {
 						setProductData({ ...productData, less_qty: data });
 					}}
-					less_qty={productData?.less_qty}
-					setProductsOptionsDetails={setProductsOptionsDetails}
-					productsOptionsDetails={productsOptionsDetails}
-				/>
+				></AddProductOptions>
 			)}
 			<div className={`fixed bottom-0 left-0 bg-slate-50 z-30 otlobha_new_product ${styles.add_new_product}`} style={{ width: '1104px', maxWidth: '100%', height: 'calc(100% - 4rem)' }}>
 				<div className='flex h-full flex-col justify-between'>
@@ -197,9 +236,9 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 								onChange={(e) => {
 									setProductData({ ...productData, description: e.target.value });
 								}}
-								className='md:w-[555px] w-full p-4 outline-0 rounded-md text-lg font-normal'
+								className="md:w-[555px] w-full p-4 outline-0 rounded-md text-lg font-normal"
 								style={{ backgroundColor: '#02466A00', border: '1px solid #A7A7A780', resize: 'none' }}
-								resize='false'
+								resize={false}
 								placeholder='وصف تفاصيل المنتج'
 								rows='4'
 							></textarea>
@@ -328,7 +367,6 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 								</Select>
 							</FormControl>
 						</div>
-
 						<div className='flex md:flex-row flex-col gap-y-2'>
 							<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
 								التصنيف الفرعي
@@ -352,8 +390,7 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 											return 'التصنيف الفرعي';
 										}
 										return selected.map((item) => {
-											const result = subcategory[0]?.subcategory?.filter((sub) => sub?.id === parseInt(item));
-
+											const result = subcategory[0]?.subcategory?.filter((sub) => sub?.id === parseInt(item)) || productData?.subcategory_id;
 											return `${result[0]?.name} , `;
 										});
 									}}
@@ -386,7 +423,6 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 								</Select>
 							</FormControl>
 						</div>
-
 						<div className='flex md:flex-row flex-col gap-y-2'>
 							<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
 								صور المنتج الرئيسية
@@ -414,12 +450,12 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 														<h2>(سيتم قبول الصور png & jpg)</h2>
 													</div>
 												)}
-												{images[0] && <img src={images[0]?.data_url} alt='' className='w-full h-full object-contain' />}
+												{images[0] && <img src={images[0]?.data_url} alt='' className='w-full h-full object-cover' />}
 											</div>
 										</div>
 										{editProduct && (
 											<div className='w-28 h-28 mt-4'>
-												<img className='object-contain w-full h-full' src='https://i.pcmag.com/imagery/reviews/07t6yzTnRvFvs8uD2xeYsB0-1.fit_lim.size_320x180.v1639090940.jpg' alt='product-img' />
+												<img className='object-cover w-full h-full' src={editProduct?.cover} alt='product-img' />
 											</div>
 										)}
 									</div>
@@ -433,7 +469,9 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 							<ImageUploading value={multiImages} onChange={onChangeMultiImages} multiple maxNumber={5} dataURLKey='data_url' acceptType={['jpg']}>
 								{({ imageList, onImageUpload, onImageRemoveAll, onImageUpdate, onImageRemove, isDragging, dragProps }) => (
 									// write your building UI
-									<div className='md:w-[555px] w-full upload__image-wrapper relative flex justify-between gap-6'>
+									<div
+										className='md:w-[555px] w-full upload__image-wrapper relative flex justify-between gap-6'
+									>
 										{imageList.map((image, index) => {
 											return (
 												<div key={index} className='relative md:h-24 h-[50px] md:w-24 w-[60px] flex justify-center items-center cursor-pointer'>
@@ -480,61 +518,133 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 								name='name'
 							/>
 						</div>
-
-						{productOptions &&
-							productOptions.map((item) => (
-								<div className='flex md:flex-row flex-col gap-y-2' key={item?.id}>
-									<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
-										{item?.type}
-									</label>
-									<input
-										value={item?.title}
-										onChange={console.log('')}
-										className={formInputClasses}
-										style={{ width: '555px', backgroundColor: '#02466A00', border: '1px solid #A7A7A780' }}
-										placeholder='320'
-										type='text'
-										name='name'
-									/>
-								</div>
-							))}
-
-						{productOptions && productData?.quantity && productData?.less_qty ? (
-							<>
-								<div className='flex md:flex-row flex-col gap-y-2'>
-									<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
-										الكمية المتوفرة
-									</label>
-									<input
-										value={productData?.quantity}
-										onChange={console.log('')}
-										className={formInputClasses}
-										style={{ width: '555px', backgroundColor: '#02466A00', border: '1px solid #A7A7A780' }}
-										placeholder='320'
-										type='text'
-										name='name'
-									/>
-								</div>
-
-								<div className='flex md:flex-row flex-col gap-y-2 '>
-									<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
-										أقل كمية للتنبيه
-									</label>
-									<div
-										className='flex   gap-4 px-2 items-center md:w-[555px] w-full md:h-[56px] h-[45px] p-4 outline-0 rounded-md text-lg font-normal'
-										style={{ width: '555px', backgroundColor: '#02466A00', border: '1px solid #A7A7A780' }}
-									>
-										<Box sx={{ '& path': { fill: '#ADB5B9' } }}>
-											<NotificationIcon></NotificationIcon>
-										</Box>
-
-										<input style={{ width: '555px', backgroundColor: '#02466A00', border: 'none' }} value={productData?.less_qty} onChange={console.log('')} placeholder='320' type='number' name='name' />
+						{productData?.less_qty &&
+							<div className='flex md:flex-row flex-col gap-y-2 md:mb-8 mb-4'>
+								<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
+									اقل كمية للتنبية
+								</label>
+								<label className='md:h-14 h-[45px] flex rounded-md overflow-hidden' style={formInputStyle}>
+									<div className='p-4 flex flex-1'>
+										<NotificationIcon className='ml-2 opacity-50' />
+										<input value={productData?.less_qty} disabled onChange={(e) => setProductData({ ...productData, less_qty: e.target.value })} className='flex-1 border-none outline-none bg-[#f6f6f6]' type='text' />
 									</div>
-								</div>
-							</>
-						) : null}
+								</label>
+							</div>
+						}
+						{productData?.quantity &&
+							<div className='flex md:flex-row flex-col gap-y-2 md:mb-8 mb-4'>
+								<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
+									الكمية المتوفرة
+								</label>
+								<label className='md:h-14 h-[45px] flex rounded-md overflow-hidden' style={formInputStyle}>
+									<div className='p-4 flex flex-1'>
+										<input value={productData?.quantity} disabled onChange={(e) => setProductData({ ...productData, quantity: e.target.value })} className='flex-1 border-none outline-none bg-[#f6f6f6]' type='text' />
+									</div>
+								</label>
+							</div>
+						}
+						{productOptions.length !== 0 &&
+							productOptions.map((option, index) => {
+								if (option.name === 'brand') {
+									return (
+										<div className='flex md:flex-row flex-col gap-y-2 md:mb-8 mb-4'>
+											<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
+												الماركة
+											</label>
+											<div className='flex flex-col gap-2 border-none' style={formInputStyle}>
+												{option.values.map(val =>
+
+													<label className='md:h-14 h-[45px] flex rounded-md overflow-hidden' style={formInputStyle}>
+														<div className='p-4 flex flex-1'>
+															<span className='ml-2 opacity-50'>{option?.title}</span>
+															<input value={val?.value} disabled className='flex-1 border-none outline-none bg-[#f6f6f6]' type='text' />
+														</div>
+													</label>
+												)}
+											</div>
+										</div>
+									)
+								}
+								else if (option.name === 'color') {
+									return (
+										<div className='flex md:flex-row flex-col gap-y-2 md:mb-8 mb-4'>
+											<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
+												اللون
+											</label>
+											<div className='flex flex-col gap-2 border-none' style={formInputStyle}>
+												{option.values.map(val =>
+													<label className='md:h-14 h-[45px] flex rounded-md overflow-hidden' style={formInputStyle}>
+														<div className='p-4 flex flex-1'>
+															<span style={{
+																backgroundColor: val.value
+															}}
+																className={`w-[25px] h-[25px] rounded-full ml-2`}></span>
+															<input value={option?.title} disabled className='flex-1 border-none outline-none bg-[#f6f6f6]' type='text' />
+														</div>
+													</label>
+												)}
+											</div>
+										</div>
+									)
+								}
+								else if (option.name === 'weight') {
+									return (
+										<div className='flex md:flex-row flex-col gap-y-2 md:mb-8 mb-4'>
+											<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
+												الحجم ({option.title})
+											</label>
+											<div className='flex flex-col gap-2 border-none' style={formInputStyle}>
+												{option.values.map(val =>
+													<label className='md:h-14 h-[45px] flex rounded-md overflow-hidden' style={formInputStyle}>
+														<div className='p-4 flex flex-1'>
+															<input value={val.value} disabled className='flex-1 border-none outline-none bg-[#f6f6f6]' placeholder='0' type='text' name='selling_price' />
+														</div>
+														<div
+															className='h-full w-16 flex justify-center items-center text-lg'
+															style={{
+																borderRight: '1px solid #ccc',
+																backgroundColor: '#fafafa',
+															}}
+														>
+															{option.title}
+														</div>
+													</label>
+												)}
+											</div>
+										</div>
+									)
+								}
+								else {
+									return (
+										<div className='flex md:flex-row flex-col gap-y-2 md:mb-8 mb-4'>
+											<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
+												المقاس ({option.title})
+											</label>
+											<div className='flex flex-col gap-2 border-none' style={formInputStyle}>
+												{option.values.map(val =>
+													<label className='md:h-14 h-[45px] flex rounded-md overflow-hidden' style={formInputStyle}>
+														<div className='p-4 flex flex-1'>
+															<input value={val.value} disabled className='flex-1 border-none outline-none bg-[#f6f6f6]' placeholder='0' type='text' name='selling_price' />
+														</div>
+														<div
+															className='h-full w-16 flex justify-center items-center text-lg'
+															style={{
+																borderRight: '1px solid #ccc',
+																backgroundColor: '#fafafa',
+															}}
+														>
+															{option.title}
+														</div>
+													</label>
+												)}
+											</div>
+										</div>
+									)
+								}
+							})
+						}
 						<div className='flex md:flex-row flex-col gap-y-2 mb-8'>
-							<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723' }}>
+							<label className='font-medium md:text-[20px] text-[16px] md:w-[315px] w-full' style={{ color: '#011723', }}>
 								اضافة خيارات المنتج
 							</label>
 							<div
@@ -562,7 +672,7 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 							style={{ backgroundColor: `#02466A` }}
 							textStyle={{ color: '#EFF9FF' }}
 							type={'normal'}
-							onClick={() => (editProduct ? '' : addProductData())}
+							onClick={() => editProduct ? updateProductData() : addProductData()}
 						>
 							حفظ
 						</Button>
@@ -573,7 +683,7 @@ const NewProduct = ({ cancel, editProduct, reload, setReload }) => {
 							}}
 							textStyle={{ color: 'rgba(2, 70, 106, 1)' }}
 							type={'outline'}
-							onClick={cancel}
+							onClick={() => { cancel(); setProductOptions([]) }}
 						>
 							إلغاء
 						</Button>
