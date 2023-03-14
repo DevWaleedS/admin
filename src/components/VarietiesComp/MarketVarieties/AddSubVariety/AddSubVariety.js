@@ -12,11 +12,13 @@ const AddSubVariety = ({ cancel }) => {
 	const contextStore = useContext(Context);
 	const { setSubCategories } = contextStore;
 	const [subcat, setSubCat] = useState("");
+	
 	const addSubCat = () => {
 		setSubCategories((subCategories) => [...subCategories,{name:subcat}]);
 		setSubCat("");
 		cancel();
 	}
+	
 
 	return (
 		<Fragment>

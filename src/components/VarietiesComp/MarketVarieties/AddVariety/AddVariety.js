@@ -30,6 +30,7 @@ const NewProduct = ({ cancel, data, setReload, reload, setShowAddSubVariety }) =
 	const [mainCategory, setMainCategory] = useState({
 		name: data?.name || '',
 	});
+	
 
 	// to add new category
 	const addNewCategory = () => {

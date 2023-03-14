@@ -17,10 +17,6 @@ const EmailMenu = () => {
 	const { fetchedData } = useFetch('https://backend.atlbha.com/api/Admin/EmailIndex');
 	const [open, setOpen] = React.useState(false);
 
-
-
-
-
 	// This Function to get current day
 	const [isToday, setIsToday] = React.useState(false);
 
@@ -33,11 +29,10 @@ const EmailMenu = () => {
 		// Parse the string into a Date object
 		let dateStr = fetchedData?.data?.emails.map((item) => item?.created_at);
 		let date = new Date(Date.parse(dateStr));
-		
+
 		// to get AM , PM in arabic
 		const formattedTime = date.toLocaleString('ar', { hour: 'numeric', minute: 'numeric', hour12: true });
 		setMorningOrNight(formattedTime);
-
 
 		// Compare the year, month, and day of the two Date objects
 		if (today.getFullYear() === date.getFullYear() && today.getMonth() === date.getMonth() && today.getDate() === date.getDate()) {
@@ -57,34 +52,37 @@ const EmailMenu = () => {
 					}}
 				></BackDrop>
 				<div className={`${styles.EmailMenu} z-20`}>
-					{fetchedData?.data?.emails.map((item) => (
-						<div key={item?.id} className={`${styles.email_box} w-full flex flex-row items-center justify-between gap-4`}>
-							<div className='flex flex-row items-center justify-between gap-4'>
-								<div
-									style={{
-										borderRadius: '50%',
-									}}
-									className='md:w-[35px] w-[30px] md:h-[35px] h-[30px] flex flex-col items-center justify-center bg-purple-500 text-white font-medium'
-								>
-									<img src={item?.store?.user?.image} alt={item?.store?.user?.name} className='md:w-[35px] w-[30px] md:h-[35px] h-[30px]' style={{ borderRadius: '50%' }} />
-								</div>
-								<Link to='/البريد' onClick={() => setOpen(!open)}>
-									<div className='flex flex-col'>
-										<h6 className='md:text-[18px] text-[14px] font-medium text-black'>{item?.store?.user?.name}</h6>
-										<p className='md:text-[16px] text-[12px] font-normal text-black'>{item?.subject}</p>
+					{fetchedData?.data?.emails.length === 0 ? (
+						<div className='flex items-center h-full justify-center text-gray-600 text-xl'>لا يوجد رسائل حتي هذة اللحظة!</div>
+					) : (
+						fetchedData?.data?.emails.map((item) => (
+							<div key={item?.id} className={`${styles.email_box} w-full flex flex-row items-center justify-between gap-4`}>
+								<div className='flex flex-row items-center justify-between gap-4'>
+									<div
+										style={{
+											borderRadius: '50%',
+										}}
+										className='md:w-[35px] w-[30px] md:h-[35px] h-[30px] flex flex-col items-center justify-center bg-purple-500 text-white font-medium'
+									>
+										<img src={item?.store?.user?.image} alt={item?.store?.user?.name} className='md:w-[35px] w-[30px] md:h-[35px] h-[30px]' style={{ borderRadius: '50%' }} />
 									</div>
-								</Link>
-							</div>
-							<div className='flex flex-row items-center justify-between gap-4'>
-								<div className='flex-1 flex flex-col'>
-									<h6 className='md:text-[16px] text-[12px] font-light text-gray-400'>
-										{isToday ? 'اليوم' : getDate(item?.created_at)}</h6>
-									<span className='md:text-[16px] text-[12px] font-light text-gray-400'>{morningOrNight}</span>
+									<Link to='/البريد' onClick={() => setOpen(!open)}>
+										<div className='flex flex-col'>
+											<h6 className='md:text-[18px] text-[14px] font-medium text-black'>{item?.store?.user?.name}</h6>
+											<p className='md:text-[16px] text-[12px] font-normal text-black'>{item?.subject}</p>
+										</div>
+									</Link>
 								</div>
-								<StarBorderIcon className='cursor-pointer text-gray-500 md:text-[24px] text-[18px]' />
+								<div className='flex flex-row items-center justify-between gap-4'>
+									<div className='flex-1 flex flex-col'>
+										<h6 className='md:text-[16px] text-[12px] font-light text-gray-400'>{isToday ? 'اليوم' : getDate(item?.created_at)}</h6>
+										<span className='md:text-[16px] text-[12px] font-light text-gray-400'>{morningOrNight}</span>
+									</div>
+									<StarBorderIcon className='cursor-pointer text-gray-500 md:text-[24px] text-[18px]' />
+								</div>
 							</div>
-						</div>
-					))}
+						))
+					)}
 				</div>
 			</div>
 		</div>
